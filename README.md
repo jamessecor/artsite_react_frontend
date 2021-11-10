@@ -1,3 +1,11 @@
+# TODO
+* use production mode of react
+* show/hide all artwork info button
+* add recaptcha to contact form
+* finish and format CV
+* add other effects for images: sepia, b&w, etc.
+* test and fix artwork submit form
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
