@@ -49,12 +49,16 @@ class Navigation extends React.Component {
     }
 
     // If login is successful, persist the jwt in navigation state
+    // TODO: decide if storing in localStorage is the way to go
     unmountLoginForm(result) {
         this.setState({
             isShowingLoginForm: false,
             isLoggedIn: result["user"]["admin"],
             token: result["jwt"]
         })
+        localStorage["token"] = result["jwt"];
+        localStorage["user_id"] = result["user"]["id"];
+        localStorage["email"] = result["user"]["email"];
     }
 
     currentPageContent() {

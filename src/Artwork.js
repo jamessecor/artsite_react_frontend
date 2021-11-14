@@ -67,6 +67,7 @@ class Artwork extends React.Component {
                 }
             }
         }
+        formData.append("token", localStorage.token)
         const postUrl = this.state.isNew ? `${config.host}api/artworks` : `${config.host}api/artworks/` + this.state.id;
         const method = this.state.isNew ? 'POST' : 'PUT';
         const requestMetadata = {
