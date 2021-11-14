@@ -13,10 +13,13 @@ class Artworks extends React.Component {
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (this.props.artworks !== prevProps.artworks) {
-            this.setState({
-                artworks: this.props.artworks,
-                isRotating: this.props.isRotating
-            });
+            this.setState({artworks: this.props.artworks});
+        }
+        if (this.props.isLoggedIn !== prevProps.isLoggedIn) {
+            this.setState({isLoggedIn: this.props.isLoggedIn});
+        }
+        if (this.props.isRotating !== prevProps.isRotating) {
+            this.setState({isRotating: this.props.isRotating});
         }
     }
 

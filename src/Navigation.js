@@ -2,6 +2,8 @@ import React from 'react'
 import Cv from "./Cv"
 import Artworks from "./Artworks"
 import ContactForm from "./ContactForm"
+import LoginForm from "./LoginForm"
+import config from "./config.json"
 
 class Navigation extends React.Component {
     constructor(props) {
@@ -9,7 +11,8 @@ class Navigation extends React.Component {
 
         this.state = {
             currentPage: 'home',
-            isLoggedIn: props.isLoggedIn,
+            isLoggedIn: false,
+            isShowingLoginForm: false,
             filter: props.filter === undefined ? "" : props.filter,
             searchTerm: props.searchTerm === undefined ? "" : props.searchTerm,
             artworks: [],
@@ -25,6 +28,10 @@ class Navigation extends React.Component {
         this.toggleArtworkDropdown = this.toggleArtworkDropdown.bind(this)
 
         this.formWillUnmount = this.formWillUnmount.bind(this);
+
+        this.handleSignOut = this.handleSignOut.bind(this);
+        this.handleSignIn = this.handleSignIn.bind(this);
+        this.unmountLoginForm = this.unmountLoginForm.bind(this);
     }
 
     componentDidMount() {
@@ -35,6 +42,20 @@ class Navigation extends React.Component {
         this.setState({contactFormInputs: formInputs});
     }
 
+    loginForm() {
+        if(this.state.isShowingLoginForm) {
+            return <LoginForm unmount={this.unmountLoginForm}/>
+        }
+    }
+
+    // If login is successful, persist the jwt in navigation state
+    unmountLoginForm(result) {
+        this.setState({
+            isShowingLoginForm: false,
+            isLoggedIn: result["user"]["admin"],
+            token: result["jwt"]
+        })
+    }
 
     currentPageContent() {
         switch (this.state.currentPage) {
@@ -51,6 +72,21 @@ class Navigation extends React.Component {
             default:
                 return <Artworks isRotating={false} artworks={this.state.artworks} isLoggedIn={this.state.isLoggedIn}/>
         }
+    }
+
+    handleSignOut(e) {
+        e.preventDefault();
+        this.setState({
+            isLoggedIn: false,
+            token: ""
+        })
+    }
+
+    handleSignIn() {
+        console.log("signing in")
+        this.setState({
+            isShowingLoginForm: true
+        })
     }
 
     handleClick(e) {
@@ -92,12 +128,11 @@ class Navigation extends React.Component {
         if (this.state.filter !== undefined) {
             params.push(`year_filter=${this.state.filter}`);
         }
-        fetch(`http://localhost:3001/api/artworks?${params.join('&')}`,
-            {
+        fetch(`${config.host}api/artworks?${params.join('&')}`,
+        {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
                 method: "GET"
-
             }
         )
             .then(res => res.json())
@@ -114,12 +149,12 @@ class Navigation extends React.Component {
 
     render() {
         const currentYear = new Date().getFullYear();
-        const firstArtworkYear = 2012;
         return (
             <div>
                 <nav className="navbar navbar-expand-lg py-3 navbar-light">
                     <div className="container-fluid">
-                        <button data-page-id="home" className="navbar-brand btn btn-link" onClick={this.handleClick}>James
+                        <button data-page-id="home" className="navbar-brand btn btn-link"
+                                onClick={this.handleClick}>James
                             Secor
                         </button>
                         <button className="navbar-toggler" data-bs-toggle="collapse"
@@ -140,7 +175,7 @@ class Navigation extends React.Component {
                                     </button>
                                     <ul className={`dropdown-menu ${this.state.isArtworkDropdownOpen ? 'show' : ''}`}
                                         aria-labelledby="artworkDropdownMenuLink">
-                                        {[...Array(currentYear - firstArtworkYear + 1).keys()].map((i) => {
+                                        {[...Array(currentYear - config.firstArtworkYear + 1).keys()].map((i) => {
                                             return (
                                                 <li key={currentYear - i}>
                                                     <button data-page-id="artwork"
@@ -154,13 +189,15 @@ class Navigation extends React.Component {
                                 </li>
                                 <li className="nav-item">
                                     <button data-page-id="cv"
-                                       className={this.state.currentPage === "cv" ? "nav-link btn btn-link active" : "nav-link btn btn-link"}
-                                       onClick={this.handleClick}>cv</button>
+                                            className={this.state.currentPage === "cv" ? "nav-link btn btn-link active" : "nav-link btn btn-link"}
+                                            onClick={this.handleClick}>cv
+                                    </button>
                                 </li>
                                 <li className="nav-item">
                                     <button data-page-id="contact"
-                                       className={this.state.currentPage === "contact" ? "nav-link btn btn-link active" : "nav-link btn btn-link"}
-                                       onClick={this.handleClick}>contact</button>
+                                            className={this.state.currentPage === "contact" ? "nav-link btn btn-link active" : "nav-link btn btn-link"}
+                                            onClick={this.handleClick}>contact
+                                    </button>
                                 </li>
                             </ul>
                             <ul className="nav navbar-nav navbar-right ms-auto d-flex align-items-center">
@@ -178,9 +215,12 @@ class Navigation extends React.Component {
                                     </a>
                                 </li>
                                 <li className="nav-item">
-                                    <a className={this.props.isLoggedIn ? "nav-link" : "nav-link d-none"} rel="nofollow"
-                                       data-method="delete"
-                                       href="/users/sign_out">Logout</a>
+                                    <button onClick={this.handleSignOut}
+                                            className={this.state.isLoggedIn ? "nav-link btn btn-link" : "d-none"}>Log out
+                                    </button>
+                                    <button onClick={this.handleSignIn}
+                                            className={this.state.isLoggedIn ? "d-none" : "nav-link btn btn-link"}>Log in
+                                    </button>
                                 </li>
                                 <li>
                                     <form onSubmit={this.handleSearchSubmit} className="d-flex">
@@ -195,6 +235,7 @@ class Navigation extends React.Component {
                     </div>
                 </nav>
                 {this.currentPageContent()}
+                {this.loginForm()}
             </div>
         )
     }

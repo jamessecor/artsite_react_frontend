@@ -1,4 +1,6 @@
 import React from "react";
+import config from './config.json'
+import SubmitButton from "./SubmitButton";
 
 class ContactForm extends React.Component {
     constructor(props) {
@@ -44,13 +46,12 @@ class ContactForm extends React.Component {
         const requestMetadata = {
             method: 'POST',
             body: JSON.stringify(this.state.inputs),
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*'
         };
 
-        fetch('http://localhost:3001/api/new_contact', requestMetadata)
+        fetch(`${config.host}api/new_contact`, requestMetadata)
             .then(res => res.json())
             .then(
                 (result) => {
@@ -107,11 +108,7 @@ class ContactForm extends React.Component {
                         <textarea className="form-control" rows="3" name="message" value={this.state.inputs.message}
                                   onChange={this.handleChange} />
                     </div>
-                    <div className="mb-3">
-                        <button className="btn btn-primary" onClick={(e) => this.handleSubmit(e)} type="submit"
-                                name="submitContact">Submit
-                        </button>
-                    </div>
+                    <SubmitButton/>
                 </form>
             )
         }

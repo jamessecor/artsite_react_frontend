@@ -5,6 +5,7 @@ import MovingColorImg from "./MovingColorImg";
 import PriceFormatter from "./PriceFormatter";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons'
+import config from './config.json'
 
 class Artwork extends React.Component {
     constructor(props) {
@@ -35,6 +36,12 @@ class Artwork extends React.Component {
         this.toggleShowInfo = this.toggleShowInfo.bind(this);
     }
 
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (this.props.isEditable !== prevProps.isEditable) {
+            this.setState({isEditable: this.props.isEditable});
+        }
+    }
+
     togglePreview() {
         this.setState(prevState => ({
             isPreview: !prevState.isPreview
@@ -60,13 +67,13 @@ class Artwork extends React.Component {
                 }
             }
         }
-        const postUrl = this.state.isNew ? 'http://localhost:3001/api/artworks' : 'http://localhost:3001/api/artworks/' + this.state.id;
+        const postUrl = this.state.isNew ? `${config.host}api/artworks` : `${config.host}api/artworks/` + this.state.id;
         const method = this.state.isNew ? 'POST' : 'PUT';
         const requestMetadata = {
+            body: formData,
             method: method,
-            body: formData
-        };
 
+        };
         fetch(postUrl, requestMetadata)
             .then(res => res.json())
             .then(
@@ -101,7 +108,7 @@ class Artwork extends React.Component {
                     }
                     // Re-enable the submit button
                     document.getElementById(this.state.submitButtonId).disabled = false;
-                    console.log(this.state);
+                    console.log(this.state.submitButtonId);
                 }
             )
     }
