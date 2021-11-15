@@ -10,7 +10,3 @@ body, #root-container {
   opacity: 100%;
   transition: all ease-out 1s;
 }
-
-img {
-  /*border-radius: 2%;*/
-}
