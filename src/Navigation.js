@@ -4,14 +4,13 @@ import Artworks from "./Artworks"
 import ContactForm from "./ContactForm"
 import LoginForm from "./LoginForm"
 import config from "./config.json"
-import Artwork from "./Artwork";
 
 class Navigation extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            currentPage: 'artworks',
+            currentPage: 'artwork',
             isLoggedIn: false,
             isShowingLoginForm: false,
             filter: props.filter === undefined ? "" : props.filter,
@@ -162,7 +161,7 @@ class Navigation extends React.Component {
                                 onClick={this.props.returnHome}>James
                             Secor
                         </button>
-                        <button className="navbar-toggler" data-bs-toggle="collapse"
+                        <button className="navbar-toggler collapsed" data-bs-toggle="collapse"
                                 data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown"
                                 aria-expanded="false"
                                 aria-label="Toggle navigation">
@@ -171,13 +170,18 @@ class Navigation extends React.Component {
                         <div className="collapse navbar-collapse" id="navbarNavDropdown">
                             <ul className="navbar-nav">
                                 <li className="nav-item dropdown">
-                                    <button
-                                        className={this.state.currentPage === "artwork" ? "nav-link btn btn-link dropdown-toggle active" : "nav-link btn btn-link dropdown-toggle"}
-                                        id="artworkDropdownMenuLink"
-                                        onClick={this.toggleArtworkDropdown}
-                                        data-bs-toggle="dropdown" aria-expanded="false">
-                                        artwork
-                                    </button>
+                                    <div>
+                                        <button
+                                            className={this.state.currentPage === "artwork" ? "nav-link btn btn-link dropdown-toggle active" : "nav-link btn btn-link dropdown-toggle"}
+                                            id="artworkDropdownMenuLink"
+                                            onClick={this.toggleArtworkDropdown}
+                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                            artwork
+                                        </button>
+                                        <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">
+                                            {this.state.currentPage === "artwork" ? this.state.filter : ""}
+                                        </span>
+                                    </div>
                                     <ul className={`dropdown-menu ${this.state.isArtworkDropdownOpen ? 'show' : ''}`}
                                         aria-labelledby="artworkDropdownMenuLink">
                                         {[...Array(currentYear - config.firstArtworkYear + 1).keys()].map((i) => {
