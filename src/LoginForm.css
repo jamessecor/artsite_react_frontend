@@ -1,6 +1,7 @@
 .loginForm {
-    background: gray;
-    border: 12px solid black;
+    background: darkslateblue;
+    color: lightblue;
+    border: 5px solid lightblue;
     border-radius: 2%;
-    padding: 50px;
+    padding: 50px 200px;
 }

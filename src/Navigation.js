@@ -4,13 +4,14 @@ import Artworks from "./Artworks"
 import ContactForm from "./ContactForm"
 import LoginForm from "./LoginForm"
 import config from "./config.json"
+import Artwork from "./Artwork";
 
 class Navigation extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            currentPage: 'home',
+            currentPage: 'artworks',
             isLoggedIn: false,
             isShowingLoginForm: false,
             filter: props.filter === undefined ? "" : props.filter,
@@ -63,8 +64,6 @@ class Navigation extends React.Component {
 
     currentPageContent() {
         switch (this.state.currentPage) {
-            case "home":
-                return <Artworks isRotating={true} artworks={this.state.artworks} isLoggedIn={this.state.isLoggedIn}/>
             case "artwork":
                 return <Artworks isRotating={false} artworks={this.state.artworks} isLoggedIn={this.state.isLoggedIn}/>
             case "search":
@@ -87,7 +86,6 @@ class Navigation extends React.Component {
     }
 
     handleSignIn() {
-        console.log("signing in")
         this.setState({
             isShowingLoginForm: true
         })
@@ -132,6 +130,9 @@ class Navigation extends React.Component {
         if (this.state.filter !== undefined) {
             params.push(`year_filter=${this.state.filter}`);
         }
+        if (this.state.currentPage === "home") {
+            params.push("limit=1");
+        }
         fetch(`${config.host}api/artworks?${params.join('&')}`,
         {
                 'Content-Type': 'application/json',
@@ -158,7 +159,7 @@ class Navigation extends React.Component {
                 <nav className="navbar navbar-expand-lg py-3 navbar-light">
                     <div className="container-fluid">
                         <button data-page-id="home" className="navbar-brand btn btn-link"
-                                onClick={this.handleClick}>James
+                                onClick={this.props.returnHome}>James
                             Secor
                         </button>
                         <button className="navbar-toggler" data-bs-toggle="collapse"

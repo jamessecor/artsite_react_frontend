@@ -13,18 +13,21 @@ class FadeOut extends React.Component {
         }
     }
 
-    setShowingAlert() {
+    setShowingAlert(e) {
         if(this.state.isShown) {
             this.setState({
                 isShown: false
             })
+        } else {
+            e.target.classList.add("d-none");
         }
     }
 
     render() {
         return (
-            <div className={`alert alert-success ${this.state.isShown ? 'alert-shown' : 'alert-hidden'}`}
+            <div className={`d-flex position-fixed bottom-2 end-2 alert alert-success ${this.state.isShown ? 'alert-shown' : 'alert-hidden'}`}
                  onTransitionEnd={this.setShowingAlert}>{this.props.message}</div>
+
         );
 
     }

@@ -6,7 +6,8 @@ class MovingColorImg extends React.Component {
         this.state = {
             intervalId: null,
             rotationAmount: props.isRotating === undefined || !props.isRotating ? 0 : Math.random() * 360,
-            isRotating: props.isRotating
+            isRotating: props.isRotating,
+            imgClass: props.imgClass === undefined ? "w-100" : props.imgClass
         };
         this.setInterval = this.setInterval.bind(this);
         this.clearInterval = this.clearInterval.bind(this);
@@ -24,7 +25,6 @@ class MovingColorImg extends React.Component {
     }
 
     toggleInterval() {
-        console.log(this.state);
         if (this.state.isRotating) {
             this.clearInterval();
         } else {
@@ -59,7 +59,7 @@ class MovingColorImg extends React.Component {
 
     render() {
         return (
-            <img alt="not found" onClick={this.toggleInterval} className="w-100"
+            <img alt="not found" onClick={this.toggleInterval} className={this.state.imgClass}
                  style={{filter: 'hue-rotate(' + this.state.rotationAmount + 'deg)'}} src={this.props.src}/>
         )
     }

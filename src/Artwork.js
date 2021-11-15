@@ -79,7 +79,6 @@ class Artwork extends React.Component {
             .then(res => res.json())
             .then(
                 (result) => {
-                    console.log(result);
                     if (result["status"] === "ok") {
                         this.setState({
                             isNew: false,
@@ -166,20 +165,20 @@ class Artwork extends React.Component {
                 <div className="row justify-content-center">
                     <div className="col-lg-11 col-11 pe-1">
                         <MovingColorImg isRotating={this.state.isRotating} src={this.state.image}/>
-                        <div className={this.state.isShowingInfo ? "" : "d-none"}>
-                            <div className="d-flex flex-column ms-2">
-                                <button className={this.state.isEditable ? 'btn btn-primary' : 'btn btn-primary d-none'}
-                                        type="button" onClick={this.togglePreview}>edit
-                                </button>
-                                <div className="fw-bold">{this.state.title}</div>
-                                <div>{this.state.year}</div>
-                                <div>{this.state.medium}</div>
-                                <PriceFormatter value={this.state.price} saleDate={this.state.saleDate}/>
-                            </div>
-                        </div>
                     </div>
                     <div className="align-self-end ps-0 col-lg-1 col-1">
-                        <FontAwesomeIcon icon={faInfoCircle} onClick={this.toggleShowInfo}/>
+                        <FontAwesomeIcon icon={faInfoCircle} onMouseOver={this.toggleShowInfo} onClick={this.toggleShowInfo}/>
+                    </div>
+                    <div className={this.state.isShowingInfo ? "" : "d-none"}>
+                        <div className="d-flex flex-column ms-2">
+                            <button className={this.state.isEditable ? 'btn btn-primary' : 'btn btn-primary d-none'}
+                                    type="button" onClick={this.togglePreview}>edit
+                            </button>
+                            <div className="fw-bold">{this.state.title}</div>
+                            <div>{this.state.year}</div>
+                            <div>{this.state.medium}</div>
+                            <PriceFormatter value={this.state.price} saleDate={this.state.saleDate}/>
+                        </div>
                     </div>
                 </div>
             );

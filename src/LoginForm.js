@@ -7,6 +7,7 @@ class LoginForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            errors: [],
             inputs: {
                 user: {
                     email: "",
@@ -24,7 +25,6 @@ class LoginForm extends React.Component {
         submitButton.disabled = true;
 
         let formData = new FormData();
-        // formData.append("user", this.state.inputs.user);
         for (const property in this.state.inputs.user) {
             if (this.state.inputs.user[property] !== undefined) {
                 formData.append(`user[${property}]`, this.state.inputs.user[property]);
@@ -39,11 +39,11 @@ class LoginForm extends React.Component {
             .then(res => res.json())
             .then(
                 (result) => {
-                    if (result["status"] === "ok") {
+                    if (result.status === "ok") {
                         this.props.unmount(result);
-                    } else if (result["status"] === "failure") {
+                    } else if (result.status === "unauthorized") {
                         this.setState({
-                            errors: result["errors"],
+                            errors: [result["errors"]],
                         })
                     }
                     // Re-enable the submit button
@@ -68,7 +68,7 @@ class LoginForm extends React.Component {
     render() {
         return (
             <div className="position-relative">
-                <form className="loginForm position-fixed top-50 start-50 translate-middle" onSubmit={this.handleSubmit}>
+                <form className="needs-validation loginForm position-fixed top-50 start-50 translate-middle" onSubmit={this.handleSubmit}>
                     <div className="mb-3">
                         <label className="form-label" htmlFor="email">email</label>
                         <input onChange={this.handleChange} className="form-control" type="text" name="email"/>
@@ -77,7 +77,11 @@ class LoginForm extends React.Component {
                         <label className="form-label" htmlFor="password">Password</label>
                         <input onChange={this.handleChange} className="form-control" type="password" name="password"/>
                     </div>
-                    <SubmitButton />
+                    <div className="d-flex">
+                        <SubmitButton />
+                        <div className="text-warning ps-3">{this.state.errors}</div>
+
+                    </div>
                 </form>
             </div>
         )

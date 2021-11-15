@@ -1,12 +1,5 @@
 body, #root-container {
-  background: lightgray;
-}
-
-.alert {
-  position: fixed;
-  top: 8px;
-  left: 50%;
-//margin-left: - calc(width / 2)px;
+  background: #bdd5e3;
 }
 
 .alert-hidden {
@@ -19,5 +12,5 @@ body, #root-container {
 }
 
 img {
-  border-radius: 2%;
+  /*border-radius: 2%;*/
 }
