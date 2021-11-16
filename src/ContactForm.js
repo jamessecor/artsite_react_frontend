@@ -87,6 +87,7 @@ class ContactForm extends React.Component {
         } else {
             return (
                 <form className={this.state.isSubmitted ? 'was-validated col-lg-6 offset-lg-3': 'needs-validation col-lg-6 offset-lg-3'} onSubmit={this.handleSubmit}>
+                    <h5>join email list / leave a message</h5>
                     <div className="mb-3">
                         <label className="form-label" htmlFor="firstname">First Name</label>
                         <input className="form-control" type="text" name="firstname" value={this.state.inputs.firstname}

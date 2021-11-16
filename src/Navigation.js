@@ -71,15 +71,15 @@ class Navigation extends React.Component {
     currentPageContent() {
         switch (this.state.currentPage) {
             case "artwork":
-                return <Artworks isRotating={false} artworks={this.state.artworks} isLoggedIn={this.state.isLoggedIn}/>
+                return <Artworks artworks={this.state.artworks} isLoggedIn={this.state.isLoggedIn}/>
             case "search":
-                return <Artworks isRotating={false} artworks={this.state.artworks} isLoggedIn={this.state.isLoggedIn}/>
+                return <Artworks artworks={this.state.artworks} isLoggedIn={this.state.isLoggedIn}/>
             case "cv":
                 return <Cv isLoggedIn={this.state.isLoggedIn}/>
             case "contact":
                 return <ContactForm formWillUnmount={this.formWillUnmount} inputs={this.state.contactFormInputs}/>
             default:
-                return <Artworks isRotating={false} artworks={this.state.artworks} isLoggedIn={this.state.isLoggedIn}/>
+                return <Artworks artworks={this.state.artworks} isLoggedIn={this.state.isLoggedIn}/>
         }
     }
 
@@ -164,7 +164,7 @@ class Navigation extends React.Component {
             <div>
                 <Navbar expand="lg">
                     <Container>
-                        <Navbar.Brand onClick={this.props.returnHome} data-page-id="home" href="#home">James
+                        <Navbar.Brand onClick={this.props.returnHome} data-page-id="home" href="#">James
                             Secor</Navbar.Brand>
                         <Navbar.Toggle aria-controls="basic-navbar-nav"/>
                         <Navbar.Collapse id="basic-navbar-nav">
@@ -176,7 +176,7 @@ class Navigation extends React.Component {
                                     </span>
                                     {[...Array(currentYear - config.firstArtworkYear + 1).keys()].map((i) => {
                                         return (
-                                            <NavDropdown.Item onClick={this.handleClick} data-filter={currentYear - i}
+                                            <NavDropdown.Item key={i} onClick={this.handleClick} data-filter={currentYear - i}
                                                               data-page-id="artwork">{currentYear - i}</NavDropdown.Item>
                                         );
                                     })}

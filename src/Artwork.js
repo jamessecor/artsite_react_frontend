@@ -4,7 +4,7 @@ import ArtworkForm from "./ArtworkForm"
 import MovingColorImg from "./MovingColorImg";
 import PriceFormatter from "./PriceFormatter";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faInfoCircle } from '@fortawesome/free-solid-svg-icons'
+import {faInfoCircle, faTimesCircle} from '@fortawesome/free-solid-svg-icons'
 import config from './config.json'
 
 class Artwork extends React.Component {
@@ -39,6 +39,12 @@ class Artwork extends React.Component {
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (this.props.isEditable !== prevProps.isEditable) {
             this.setState({isEditable: this.props.isEditable});
+        }
+        if (this.props.isRotating !== prevProps.isRotating) {
+            this.setState({isRotating: this.props.isRotating});
+        }
+        if (this.props.isShowingInfo !== prevProps.isShowingInfo) {
+            this.setState({isShowingInfo: this.props.isShowingInfo});
         }
     }
 
@@ -167,7 +173,7 @@ class Artwork extends React.Component {
                         <MovingColorImg isRotating={this.state.isRotating} src={this.state.image}/>
                     </div>
                     <div className="align-self-end ps-0 col-lg-1 col-1">
-                        <FontAwesomeIcon icon={faInfoCircle} onMouseOver={this.toggleShowInfo} onClick={this.toggleShowInfo}/>
+                        <FontAwesomeIcon icon={this.state.isShowingInfo ? faTimesCircle : faInfoCircle} onClick={this.toggleShowInfo}/>
                     </div>
                     <div className={this.state.isShowingInfo ? "" : "d-none"}>
                         <div className="d-flex flex-column ms-2">

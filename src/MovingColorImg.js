@@ -14,8 +14,14 @@ class MovingColorImg extends React.Component {
         this.toggleInterval = this.toggleInterval.bind(this);
     }
 
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevProps.isRotating !== this.props.isRotating) {
+            this.toggleInterval();
+        }
+    }
+
     componentDidMount() {
-        if(this.state.isRotating) {
+        if (this.state.isRotating) {
             this.setInterval();
         }
     }

@@ -16,7 +16,6 @@ class App extends React.Component {
     }
 
     enterSite() {
-        console.log("trying to enter")
         this.setState({
             currentPage: ""
         })
