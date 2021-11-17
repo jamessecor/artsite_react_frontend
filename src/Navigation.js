@@ -1,5 +1,6 @@
 import React from 'react'
 import Cv from "./Cv"
+import Artwork from "./Artwork"
 import Artworks from "./Artworks"
 import ContactForm from "./ContactForm"
 import LoginForm from "./LoginForm"
@@ -19,6 +20,7 @@ class Navigation extends React.Component {
         this.state = {
             currentPage: 'artwork',
             isLoggedIn: false,
+            token: localStorage.token,
             isShowingLoginForm: false,
             filter: props.filter === undefined ? "" : props.filter,
             searchTerm: props.searchTerm,
@@ -38,10 +40,12 @@ class Navigation extends React.Component {
 
         this.handleSignOut = this.handleSignOut.bind(this);
         this.handleSignIn = this.handleSignIn.bind(this);
+        this.loginWithToken = this.loginWithToken.bind(this);
         this.unmountLoginForm = this.unmountLoginForm.bind(this);
     }
 
     componentDidMount() {
+        this.loginWithToken();
         this.fetchArtworks();
     }
 
@@ -49,9 +53,36 @@ class Navigation extends React.Component {
         this.setState({contactFormInputs: formInputs});
     }
 
+    newArtworkForm() {
+        if (this.state.isLoggedIn && this.state.currentPage === "artwork") {
+            return <Artwork isEditable={true} isNew={true}/>
+        }
+    }
+
     loginForm() {
         if (this.state.isShowingLoginForm) {
             return <LoginForm unmount={this.unmountLoginForm}/>
+        }
+    }
+
+    loginWithToken() {
+        if (this.state.token !== undefined) {
+            fetch(`${config.host}api/users/auto_login?token=${this.state.token}`,
+                {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    method: "GET"
+                }
+            )
+                .then(res => res.json())
+                .then(
+                    (result) => {
+                        console.log(result);
+                        if (result["status"] === "ok") {
+                            this.setState({isLoggedIn: true})
+                        }
+                    }
+                )
         }
     }
 
@@ -89,6 +120,7 @@ class Navigation extends React.Component {
             isLoggedIn: false,
             token: ""
         })
+        localStorage.removeItem("token")
     }
 
     handleSignIn() {
@@ -134,7 +166,6 @@ class Navigation extends React.Component {
 
     fetchArtworks() {
         let params = [];
-        console.log(this.state);
         if (this.state.searchTerm !== undefined) {
             params.push(`search=${this.state.searchTerm}`);
         } else {
@@ -228,6 +259,7 @@ class Navigation extends React.Component {
                         </Navbar.Collapse>
                     </Container>
                 </Navbar>
+                {this.newArtworkForm()}
                 {this.currentPageContent()}
                 {this.loginForm()}
             </div>

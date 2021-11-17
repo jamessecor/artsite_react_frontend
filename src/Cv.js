@@ -15,6 +15,7 @@ class Cv extends React.Component {
                         {soloShows.map(function (show) {
                             return (
                                 <div key={show.name} className="mb-2">
+                                     {/*TODO: change separators */}
                                     <strong>{show.name}</strong> | <a target="_blank" rel="noopener noreferrer" href={show.url}>{show.location}</a> - {show.address} {show.dates}
                                 </div>
                             )

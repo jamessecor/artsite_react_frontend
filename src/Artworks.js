@@ -1,7 +1,7 @@
 import React from 'react'
 import Artwork from "./Artwork";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faTeeth, faTeethOpen, faInfoCircle, faTimesCircle} from '@fortawesome/free-solid-svg-icons'
+import {faToggleOn, faToggleOff, faTeeth, faTeethOpen, faInfoCircle, faTimesCircle} from '@fortawesome/free-solid-svg-icons'
 
 class Artworks extends React.Component {
     constructor(props) {
@@ -38,7 +38,8 @@ class Artworks extends React.Component {
         return (
             <div>
                 <span onClick={(e) => this.toggleAttribute("isRotating", e)}>
-                    <FontAwesomeIcon icon={this.state.isRotating ? faTeeth : faTeethOpen}/>
+                    <FontAwesomeIcon icon={this.state.isRotating ? faToggleOn : faToggleOff}/>
+                    {/*<FontAwesomeIcon icon={this.state.isRotating ? faTeeth : faTeethOpen}/>*/}
                     <span className="ms-1">{this.state.isRotating ? "normal, please" : "rainbow time!"}</span>
                 </span>
                 <span className="ps-3" onClick={(e) => this.toggleAttribute("isShowingInfo", e)}>

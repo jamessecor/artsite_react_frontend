@@ -22,12 +22,12 @@ class Artwork extends React.Component {
             isNew: props.isNew,
             isEditable: props.isEditable,
             id: props.isNew ? "" : props.attributes.id,
-            title: props.attributes.title,
-            medium: props.attributes.medium,
-            year: props.attributes.year,
-            price: props.attributes.price,
-            image: props.attributes.image,
-            saleDate: props.attributes.sale_date
+            title: props.isNew ? "" : props.attributes.title,
+            medium: props.isNew ? "" : props.attributes.medium,
+            year: props.isNew ? "" : props.attributes.year,
+            price: props.isNew ? "" : props.attributes.price,
+            image: props.isNew ? "" : props.attributes.image,
+            saleDate: props.isNew ? "" : props.attributes.sale_date
         };
 
         this.togglePreview = this.togglePreview.bind(this);
@@ -114,7 +114,6 @@ class Artwork extends React.Component {
                     }
                     // Re-enable the submit button
                     document.getElementById(this.state.submitButtonId).disabled = false;
-                    console.log(this.state.submitButtonId);
                 }
             )
     }
@@ -126,7 +125,7 @@ class Artwork extends React.Component {
         this.setState({
             [fieldName]: value,
             imageAdded: fieldName === "image",
-            isShowingAlert: false
+            // isShowingAlert: false
         });
     }
 
