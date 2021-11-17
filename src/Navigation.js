@@ -104,8 +104,8 @@ class Navigation extends React.Component {
             filter: e.target.dataset.filter === undefined ? "" : e.target.dataset.filter,
             searchTerm: undefined,
             isArtworkDropdownOpen: false
-        }, () =>  {
-            if(["artwork", "search"].includes(this.state.currentPage)) {
+        }, () => {
+            if (["artwork", "search"].includes(this.state.currentPage)) {
                 this.fetchArtworks();
             }
         })
@@ -182,7 +182,8 @@ class Navigation extends React.Component {
                                     </span>
                                     {[...Array(currentYear - config.firstArtworkYear + 1).keys()].map((i) => {
                                         return (
-                                            <NavDropdown.Item key={i} onClick={this.handleClick} data-filter={currentYear - i}
+                                            <NavDropdown.Item key={i} onClick={this.handleClick}
+                                                              data-filter={currentYear - i}
                                                               data-page-id="artwork">{currentYear - i}</NavDropdown.Item>
                                         );
                                     })}
@@ -196,7 +197,8 @@ class Navigation extends React.Component {
                             </Nav>
                             <Nav>
                                 <Nav.Link disabled>James Secor &copy; 2021</Nav.Link>
-                                <Nav.Link href="https://www.instagram.com/jamessecor/"
+                                <Nav.Link target="_blank" rel="noopener noreferrer"
+                                          href="https://www.instagram.com/jamessecor/"
                                           className="nav-link instagram-icon">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                          fill="currentColor"

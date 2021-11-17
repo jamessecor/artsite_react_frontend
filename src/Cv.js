@@ -14,8 +14,8 @@ class Cv extends React.Component {
                     <Accordion.Body>
                         {soloShows.map(function (show) {
                             return (
-                                <div key={show.name}>
-                                    {show.name} | <a href={show.url}>{show.location}</a> - {show.address} {show.dates}
+                                <div key={show.name} className="mb-2">
+                                    <strong>{show.name}</strong> | <a target="_blank" rel="noopener noreferrer" href={show.url}>{show.location}</a> - {show.address} {show.dates}
                                 </div>
                             )
                         })}
