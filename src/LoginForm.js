@@ -2,6 +2,7 @@ import React from 'react'
 import './LoginForm.css'
 import SubmitButton from './SubmitButton'
 import config from "./config.json";
+import Form from 'react-bootstrap/Form';
 
 class LoginForm extends React.Component {
     constructor(props) {
@@ -53,8 +54,8 @@ class LoginForm extends React.Component {
     }
 
     handleChange(e) {
-        let email = e.target.name === "email" ? e.target.value : this.state.inputs.user.email
-        let password = e.target.name === "password" ? e.target.value : this.state.inputs.user.password
+        let email = e.target.id === "email" ? e.target.value : this.state.inputs.user.email
+        let password = e.target.id === "password" ? e.target.value : this.state.inputs.user.password
         this.setState({
             inputs: {
                 user: {
@@ -68,21 +69,18 @@ class LoginForm extends React.Component {
     render() {
         return (
             <div className="position-relative">
-                <form className="needs-validation loginForm position-fixed top-50 start-50 translate-middle" onSubmit={this.handleSubmit}>
-                    <div className="mb-3">
-                        <label className="form-label" htmlFor="email">email</label>
-                        <input onChange={this.handleChange} className="form-control" type="text" name="email"/>
-                    </div>
-                    <div className="mb-3">
-                        <label className="form-label" htmlFor="password">Password</label>
-                        <input onChange={this.handleChange} className="form-control" type="password" name="password"/>
-                    </div>
-                    <div className="d-flex">
-                        <SubmitButton />
-                        <div className="text-warning ps-3">{this.state.errors}</div>
-
-                    </div>
-                </form>
+                <Form className="needs-validation loginForm position-fixed top-50 start-50 translate-middle" onSubmit={this.handleSubmit}>
+                    <Form.Group className="mb-3" controlId="email">
+                        <Form.Label>email</Form.Label>
+                        <Form.Control onChange={this.handleChange} type="email"/>
+                    </Form.Group>
+                    <Form.Group className="mb-3" controlId="password">
+                        <Form.Label>password</Form.Label>
+                        <Form.Control onChange={this.handleChange} type="password"/>
+                    </Form.Group>
+                    <SubmitButton />
+                    <div className="text-warning ps-3">{this.state.errors}</div>
+                </Form>
             </div>
         )
     }

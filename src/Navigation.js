@@ -21,7 +21,7 @@ class Navigation extends React.Component {
             isLoggedIn: false,
             isShowingLoginForm: false,
             filter: props.filter === undefined ? "" : props.filter,
-            searchTerm: props.searchTerm === undefined ? "" : props.searchTerm,
+            searchTerm: props.searchTerm,
             artworks: [],
             isArtworkDropdownOpen: false,
             contactFormInputs: null
@@ -102,9 +102,13 @@ class Navigation extends React.Component {
         this.setState({
             currentPage: e.target.dataset.pageId,
             filter: e.target.dataset.filter === undefined ? "" : e.target.dataset.filter,
-            searchTerm: "",
+            searchTerm: undefined,
             isArtworkDropdownOpen: false
-        }, () => this.fetchArtworks())
+        }, () =>  {
+            if(["artwork", "search"].includes(this.state.currentPage)) {
+                this.fetchArtworks();
+            }
+        })
     }
 
     handleSearchSubmit(e) {
@@ -130,14 +134,16 @@ class Navigation extends React.Component {
 
     fetchArtworks() {
         let params = [];
+        console.log(this.state);
         if (this.state.searchTerm !== undefined) {
             params.push(`search=${this.state.searchTerm}`);
-        }
-        if (this.state.filter !== undefined) {
-            params.push(`year_filter=${this.state.filter}`);
-        }
-        if (this.state.currentPage === "home") {
-            params.push("limit=1");
+        } else {
+            if (this.state.filter !== undefined) {
+                params.push(`year_filter=${this.state.filter}`);
+            }
+            if (this.state.currentPage === "home") {
+                params.push("limit=1");
+            }
         }
         fetch(`${config.host}api/artworks?${params.join('&')}`,
             {
@@ -163,7 +169,7 @@ class Navigation extends React.Component {
         return (
             <div>
                 <Navbar expand="lg">
-                    <Container>
+                    <Container fluid>
                         <Navbar.Brand onClick={this.props.returnHome} data-page-id="home" href="#">James
                             Secor</Navbar.Brand>
                         <Navbar.Toggle aria-controls="basic-navbar-nav"/>

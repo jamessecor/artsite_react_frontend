@@ -1,6 +1,7 @@
 import React from "react";
-import config from './config.json'
+import config from './config.json';
 import SubmitButton from "./SubmitButton";
+import Form from 'react-bootstrap/Form';
 
 class ContactForm extends React.Component {
     constructor(props) {
@@ -20,10 +21,10 @@ class ContactForm extends React.Component {
     }
 
     handleChange(e) {
-        let firstname = e.target.name === "firstname" ? e.target.value : this.state.inputs.firstname
-        let lastname = e.target.name === "lastname" ? e.target.value : this.state.inputs.lastname
-        let email = e.target.name === "email" ? e.target.value : this.state.inputs.email
-        let message = e.target.name === "message" ? e.target.value : this.state.inputs.message
+        let firstname = e.target.id === "firstname" ? e.target.value : this.state.inputs.firstname
+        let lastname = e.target.id === "lastname" ? e.target.value : this.state.inputs.lastname
+        let email = e.target.id === "email" ? e.target.value : this.state.inputs.email
+        let message = e.target.id === "message" ? e.target.value : this.state.inputs.message
         this.setState({
             inputs: {
                 firstname: firstname,
@@ -86,31 +87,27 @@ class ContactForm extends React.Component {
             )
         } else {
             return (
-                <form className={this.state.isSubmitted ? 'was-validated col-lg-6 offset-lg-3': 'needs-validation col-lg-6 offset-lg-3'} onSubmit={this.handleSubmit}>
-                    <h5>join email list / leave a message</h5>
-                    <div className="mb-3">
-                        <label className="form-label" htmlFor="firstname">First Name</label>
-                        <input className="form-control" type="text" name="firstname" value={this.state.inputs.firstname}
-                               onChange={this.handleChange}/>
-                    </div>
-                    <div className="mb-3">
-                        <label className="form-label" htmlFor="lastname">Last Name</label>
-                        <input className="form-control" type="text" name="lastname" value={this.state.inputs.lastname}
-                               onChange={this.handleChange}/>
-                    </div>
-                    <div className="mb-3">
-                        <label className="form-label" htmlFor="email">Email</label>
-                        <input className="form-control" type="email" name="email" value={this.state.inputs.email}
-                               onChange={this.handleChange} required />
+                <Form className={this.state.isSubmitted ? 'was-validated col-lg-6 offset-lg-3': 'needs-validation col-lg-6 offset-lg-3'} onSubmit={this.handleSubmit}>
+                    <span className="pt-3 d-flex justify-content-center"><h5>join email list / leave a message</h5></span>
+                    <Form.Group className="mb-3" controlId="firstname">
+                        <Form.Label>First Name</Form.Label>
+                        <Form.Control type="text" value={this.state.inputs.firstname} onChange={this.handleChange}/>
+                    </Form.Group>
+                    <Form.Group className="mb-3" controlId="lastname">
+                        <Form.Label>Last Name</Form.Label>
+                        <Form.Control type="text" value={this.state.inputs.lastname} onChange={this.handleChange}/>
+                    </Form.Group>
+                    <Form.Group className="mb-3" controlId="email">
+                        <Form.Label>Email</Form.Label>
+                        <Form.Control type="email" value={this.state.inputs.email} onChange={this.handleChange}/>
                         <div className={this.state.errors.indexOf("email") >= 0 ? "invalid-feedback" : "valid-feedback"}>A valid email address is required</div>
-                    </div>
-                    <div className="mb-3">
-                        <label className="form-label" htmlFor="message">Message</label>
-                        <textarea className="form-control" rows="3" name="message" value={this.state.inputs.message}
-                                  onChange={this.handleChange} />
-                    </div>
-                    <SubmitButton/>
-                </form>
+                    </Form.Group>
+                    <Form.Group className="mb-3" controlId="message">
+                        <Form.Label>Message</Form.Label>
+                        <Form.Control rows={3} as="textarea" value={this.state.inputs.message} onChange={this.handleChange}/>
+                    </Form.Group>
+                    <SubmitButton />
+                </Form>
             )
         }
     }

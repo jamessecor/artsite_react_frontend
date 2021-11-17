@@ -41,7 +41,7 @@ class HomePage extends React.Component {
             <div>
                 <MovingColorImg imgClass={"m-0 p-0 h-100 w-100 position-absolute top-0 left-0"} isRotating={true} src={this.state.image}/>
 
-                <button className="position-absolute top-50 start-50 translate-middle btn btn-lg btn-outline-dark " onClick={this.props.enterSite}>Enter Site</button>
+                <button className="position-absolute top-50 start-50 translate-middle btn btn-lg btn-outline-primary" onClick={this.props.enterSite}>Enter Site</button>
             </div>
         )
     }
