@@ -1,5 +1,6 @@
 import React from 'react'
 import Cv from "./Cv"
+import Colors from "./Colors"
 import Artwork from "./Artwork"
 import Artworks from "./Artworks"
 import ContactForm from "./ContactForm"
@@ -101,6 +102,8 @@ class Navigation extends React.Component {
                 return <Artworks artworks={this.state.artworks} isLoggedIn={this.state.isLoggedIn}/>
             case "cv":
                 return <Cv isLoggedIn={this.state.isLoggedIn}/>
+            case "colors":
+                return <Colors />
             case "contact":
                 return <ContactForm formWillUnmount={this.formWillUnmount} inputs={this.state.contactFormInputs}/>
             default:
@@ -220,7 +223,9 @@ class Navigation extends React.Component {
                                 <Nav.Link data-page-id="contact"
                                           className={this.state.currentPage === "contact" ? "active" : ""}
                                           onClick={this.handleClick}>contact</Nav.Link>
-
+                                <Nav.Link data-page-id="colors"
+                                          className={this.state.currentPage === "colors" ? "active" : ""}
+                                          onClick={this.handleClick}>colors</Nav.Link>
                             </Nav>
                             <Nav>
                                 <Nav.Link disabled>James Secor &copy; 2021</Nav.Link>
@@ -258,7 +263,7 @@ class Navigation extends React.Component {
                 </Navbar>
                 {this.newArtworkForm()}
                 {this.currentPageContent()}
-                <LoginForm show={this.state.isShowingLoginForm} unmount={this.unmountLoginForm} />
+                <LoginForm show={this.state.isShowingLoginForm} unmount={this.unmountLoginForm}/>
             </div>
         )
     }
