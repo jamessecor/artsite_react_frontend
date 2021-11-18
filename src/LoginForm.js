@@ -49,6 +49,7 @@ class LoginForm extends React.Component {
             .then(
                 (result) => {
                     if (result.status === "ok") {
+                        this.setState({errors: []});
                         this.props.unmount(result);
                     } else if (result.status === "unauthorized") {
                         this.setState({

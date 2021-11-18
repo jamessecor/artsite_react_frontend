@@ -44,12 +44,15 @@ class ContactForm extends React.Component {
         let submitButton = e.target;
         submitButton.disabled = true;
 
+        let formData = new FormData();
+        for (const property in this.state.inputs) {
+            if (this.state.inputs[property] !== undefined) {
+                formData.append(property, this.state.inputs[property]);
+            }
+        }
         const requestMetadata = {
             method: 'POST',
-            body: JSON.stringify(this.state.inputs),
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*'
+            body: formData
         };
 
         fetch(`${config.host}api/new_contact`, requestMetadata)
@@ -83,12 +86,19 @@ class ContactForm extends React.Component {
     render() {
         if (this.state.isSubmitted && this.state.errors.length === 0) {
             return (
-                <div className="d-flex justify-content-center">thanks for your message!</div>
+                <div>
+                    <div className="mt-2 d-flex justify-content-center">
+                        <h4>Success!</h4>
+                    </div>
+                    <div className="mt-2 d-flex justify-content-center">
+                        <div>Thanks for your message.</div>
+                    </div>
+                </div>
             )
         } else {
             return (
-                <Form className={this.state.isSubmitted ? 'was-validated col-lg-6 offset-lg-3': 'needs-validation col-lg-6 offset-lg-3'} onSubmit={this.handleSubmit}>
-                    <span className="pt-3 d-flex justify-content-center"><h5>join email list / leave a message</h5></span>
+                <Form noValidate validated={this.state.isSubmitted} className={'col-lg-6 offset-lg-3'} onSubmit={this.handleSubmit}>
+                    <h5 className="pb-4 d-flex justify-content-center">join email list / leave a message</h5>
                     <Form.Group className="mb-3" controlId="firstname">
                         <Form.Label>First Name</Form.Label>
                         <Form.Control type="text" value={this.state.inputs.firstname} onChange={this.handleChange}/>
@@ -99,8 +109,8 @@ class ContactForm extends React.Component {
                     </Form.Group>
                     <Form.Group className="mb-3" controlId="email">
                         <Form.Label>Email</Form.Label>
-                        <Form.Control type="email" value={this.state.inputs.email} onChange={this.handleChange}/>
-                        <div className={this.state.errors.indexOf("email") >= 0 ? "invalid-feedback" : "valid-feedback"}>A valid email address is required</div>
+                        <Form.Control required type="email" value={this.state.inputs.email} onChange={this.handleChange}/>
+                        <Form.Control.Feedback type={this.state.errors.includes("email") ? "invalid" : "valid"}>A valid email address is required</Form.Control.Feedback>
                     </Form.Group>
                     <Form.Group className="mb-3" controlId="message">
                         <Form.Label>Message</Form.Label>

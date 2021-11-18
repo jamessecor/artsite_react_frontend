@@ -1,7 +1,4 @@
-.loginForm {
-    background: darkslateblue;
+.modal-content {
+    background: darkslateblue !important;
     color: lightblue;
-    border: 5px solid lightblue;
-    border-radius: 2%;
-    padding: 10px 200px;
 }

@@ -126,6 +126,7 @@ class Navigation extends React.Component {
     handleClick(e) {
         e.preventDefault()
         this.setState({
+            isShowingLoginForm: false,
             currentPage: e.target.dataset.pageId,
             filter: e.target.dataset.filter === undefined ? "" : e.target.dataset.filter,
             searchTerm: undefined,
@@ -147,7 +148,8 @@ class Navigation extends React.Component {
     handleSearchChange(e) {
         e.preventDefault();
         this.setState({
-            searchTerm: e.target.value
+            searchTerm: e.target.value,
+            isShowingLoginForm: false
         })
     }
 
@@ -193,7 +195,7 @@ class Navigation extends React.Component {
         const currentYear = new Date().getFullYear();
         return (
             <div>
-                <Navbar expand="lg">
+                <Navbar className="mb-4" expand="lg">
                     <Container fluid>
                         <Navbar.Brand onClick={this.props.returnHome} data-page-id="home" href="#">James
                             Secor</Navbar.Brand>

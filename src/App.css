@@ -1,5 +1,6 @@
 body, #root-container {
-  background: #bdd5e3;
+  background: #bad0c7;
+  font-family: "Lucida Sans Typewriter", monospace;
 }
 
 .alert-hidden {
