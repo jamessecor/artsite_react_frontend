@@ -39,7 +39,7 @@ class Navigation extends React.Component {
         this.formWillUnmount = this.formWillUnmount.bind(this);
 
         this.handleSignOut = this.handleSignOut.bind(this);
-        this.handleSignIn = this.handleSignIn.bind(this);
+        this.handleShowLoginForm = this.handleShowLoginForm.bind(this);
         this.loginWithToken = this.loginWithToken.bind(this);
         this.unmountLoginForm = this.unmountLoginForm.bind(this);
     }
@@ -56,12 +56,6 @@ class Navigation extends React.Component {
     newArtworkForm() {
         if (this.state.isLoggedIn && this.state.currentPage === "artwork") {
             return <Artwork isEditable={true} isNew={true}/>
-        }
-    }
-
-    loginForm() {
-        if (this.state.isShowingLoginForm) {
-            return <LoginForm unmount={this.unmountLoginForm}/>
         }
     }
 
@@ -123,7 +117,7 @@ class Navigation extends React.Component {
         localStorage.removeItem("token")
     }
 
-    handleSignIn() {
+    handleShowLoginForm() {
         this.setState({
             isShowingLoginForm: true
         })
@@ -242,9 +236,10 @@ class Navigation extends React.Component {
                                           className={this.state.isLoggedIn ? "nav-link btn btn-link" : "d-none"}>
                                     Log out
                                 </Nav.Link>
-                                <Nav.Link onClick={this.handleSignIn}
-                                          className={this.state.isLoggedIn ? "d-none" : "nav-link btn btn-link"}>Log
-                                    in</Nav.Link>
+                                <Nav.Link onClick={this.handleShowLoginForm}
+                                          className={this.state.isLoggedIn ? "d-none" : "nav-link btn btn-link"}>
+                                    Log in
+                                </Nav.Link>
                             </Nav>
                             <Form onSubmit={this.handleSearchSubmit} className="d-flex">
                                 <FormControl
@@ -261,7 +256,7 @@ class Navigation extends React.Component {
                 </Navbar>
                 {this.newArtworkForm()}
                 {this.currentPageContent()}
-                {this.loginForm()}
+                <LoginForm show={this.state.isShowingLoginForm} unmount={this.unmountLoginForm} />
             </div>
         )
     }

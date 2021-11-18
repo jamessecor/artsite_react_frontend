@@ -3,12 +3,14 @@ import './LoginForm.css'
 import SubmitButton from './SubmitButton'
 import config from "./config.json";
 import Form from 'react-bootstrap/Form';
+import Modal from 'react-bootstrap/Modal';
 
 class LoginForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             errors: [],
+            show: props.show,
             inputs: {
                 user: {
                     email: "",
@@ -18,6 +20,12 @@ class LoginForm extends React.Component {
         }
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevState.show !== this.props.show) {
+            this.setState({show: this.props.show});
+        }
     }
 
     handleSubmit(e) {
@@ -68,19 +76,26 @@ class LoginForm extends React.Component {
 
     render() {
         return (
-            <div className="position-relative">
-                <Form className="needs-validation loginForm position-fixed top-50 start-50 translate-middle" onSubmit={this.handleSubmit}>
-                    <Form.Group className="mb-3" controlId="email">
-                        <Form.Label>email</Form.Label>
-                        <Form.Control onChange={this.handleChange} type="email"/>
-                    </Form.Group>
-                    <Form.Group className="mb-3" controlId="password">
-                        <Form.Label>password</Form.Label>
-                        <Form.Control onChange={this.handleChange} type="password"/>
-                    </Form.Group>
-                    <SubmitButton />
-                    <div className="text-warning ps-3">{this.state.errors}</div>
-                </Form>
+            <div>
+                <Modal show={this.state.show} onHide={() => this.setState({show: false})}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Login</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <Form className="needs-validation" onSubmit={this.handleSubmit}>
+                            <Form.Group className="mb-3" controlId="email">
+                                <Form.Label>email</Form.Label>
+                                <Form.Control onChange={this.handleChange} type="email"/>
+                            </Form.Group>
+                            <Form.Group className="mb-3" controlId="password">
+                                <Form.Label>password</Form.Label>
+                                <Form.Control onChange={this.handleChange} type="password"/>
+                            </Form.Group>
+                            <SubmitButton />
+                            <div className="text-warning ps-3">{this.state.errors}</div>
+                        </Form>
+                    </Modal.Body>
+                </Modal>
             </div>
         )
     }
