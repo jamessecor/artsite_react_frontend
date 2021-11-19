@@ -1,5 +1,4 @@
 import React from 'react'
-import './Color.css'
 
 class Color extends React.Component {
     constructor(props) {
@@ -10,6 +9,11 @@ class Color extends React.Component {
                 r: Math.random() * 255,
                 g: Math.random() * 255,
                 b: Math.random() * 255
+            },
+            movement: {
+                r: Math.random() * -15,
+                g: Math.random() * 15,
+                b: Math.random() * 15
             }
         };
         this.setInterval = this.setInterval.bind(this);
@@ -40,26 +44,34 @@ class Color extends React.Component {
     setInterval() {
         this.setState({
             intervalId: setInterval(() => {
-                let newR = this.state.color.r + 1;
-                if (this.state.color.r > 255) {
-                    newR = 0;
+                let newR = this.state.color.r + this.state.movement.r;
+                let moveR = this.state.movement.r;
+                if (this.state.color.r > 245 || this.state.color.r < 10) {
+                    moveR = -1 * this.state.movement.r;
                 }
-                let newG = this.state.color.g + 1;
-                if (this.state.color.g > 255) {
-                    newG = 0;
+                let newG = this.state.color.g + this.state.movement.g;
+                let moveG = this.state.movement.g;
+                if (this.state.color.g > 245 || this.state.color.g < 10) {
+                    moveG = -1 * this.state.movement.g;
                 }
-                let newB = this.state.color.b + 1;
-                if (this.state.color.b > 255) {
-                    newB = 0;
+                let newB = this.state.color.b + this.state.movement.b;
+                let moveB = this.state.movement.b;
+                if (this.state.color.b > 245 || this.state.color.b < 10) {
+                    moveB = -1 * this.state.movement.b;
                 }
                 this.setState({
                     color: {
                         r: newR,
                         g: newG,
                         b: newB
+                    },
+                    movement: {
+                        r: moveR,
+                        g: moveG,
+                        b: moveB
                     }
                 });
-            }, 300)
+            }, Math.random() * 2500 + 50)
         });
     }
 
@@ -73,7 +85,7 @@ class Color extends React.Component {
                      filter: 'blur(1px)',
                      background: `rgb(${this.state.color.r},${this.state.color.g},${this.state.color.b}`
                  }}
-                 className="color"></div>
+                 className="color w-50"></div>
         )
     }
 }
