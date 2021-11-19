@@ -1,7 +1,7 @@
 import React from 'react'
 import Artwork from "./Artwork";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faToggleOn, faToggleOff, faTeeth, faTeethOpen, faInfoCircle, faTimesCircle} from '@fortawesome/free-solid-svg-icons'
+import {faToggleOn, faToggleOff, faInfoCircle, faTimesCircle} from '@fortawesome/free-solid-svg-icons'
 
 class Artworks extends React.Component {
     constructor(props) {

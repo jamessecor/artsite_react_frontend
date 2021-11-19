@@ -40,15 +40,15 @@ class Color extends React.Component {
     setInterval() {
         this.setState({
             intervalId: setInterval(() => {
-                let newR = this.state.color.r + 5;
+                let newR = this.state.color.r + 1;
                 if (this.state.color.r > 255) {
                     newR = 0;
                 }
-                let newG = this.state.color.g + 5;
+                let newG = this.state.color.g + 1;
                 if (this.state.color.g > 255) {
                     newG = 0;
                 }
-                let newB = this.state.color.b + 5;
+                let newB = this.state.color.b + 1;
                 if (this.state.color.b > 255) {
                     newB = 0;
                 }
@@ -59,7 +59,7 @@ class Color extends React.Component {
                         b: newB
                     }
                 });
-            }, 15)
+            }, 300)
         });
     }
 
@@ -69,7 +69,10 @@ class Color extends React.Component {
                  onMouseLeave={this.setInterval}
                  onTouchStart={this.clearIntervalAndSetColor}
                  onTouchEnd={this.setInterval}
-                 style={{background: `rgb(${this.state.color.r},${this.state.color.g},${this.state.color.b}`}}
+                 style={{
+                     filter: 'blur(1px)',
+                     background: `rgb(${this.state.color.r},${this.state.color.g},${this.state.color.b}`
+                 }}
                  className="color"></div>
         )
     }

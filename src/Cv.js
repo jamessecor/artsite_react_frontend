@@ -14,7 +14,7 @@ class Cv extends React.Component {
                     <Accordion.Body>
                         {soloShows.map(function (show) {
                             return (
-                                <div key={show.name} className="mb-2">
+                                <div key={`${show.name}${show.dates}`} className="mb-2">
                                      {/*TODO: change separators */}
                                     <strong>{show.name}</strong> | <a target="_blank" rel="noopener noreferrer" href={show.url}>{show.location}</a> - {show.address} {show.dates}
                                 </div>
@@ -27,10 +27,9 @@ class Cv extends React.Component {
                     <Accordion.Body>
                         {groupShows.map(function (show) {
                             return (
-                                <div key={show.name}>
+                                <div key={`${show.name}${show.dates}`}>
                                     {show.name} | <a href={show.url}>{show.location}</a> - {show.address} {show.dates}
                                 </div>
-
                             )
                         })}
                     </Accordion.Body>
@@ -44,7 +43,6 @@ class Cv extends React.Component {
                                     {residency.name} | <a
                                     href={residency.url}>{residency.location}</a> - {residency.address} {residency.dates}
                                 </div>
-
                             )
                         })}
                     </Accordion.Body>
@@ -57,7 +55,6 @@ class Cv extends React.Component {
                                 <div key={ed.name}>
                                     {ed.name} | <a href={ed.url}>{ed.location}</a> - {ed.address} {ed.dates}
                                 </div>
-
                             )
                         })}
                     </Accordion.Body>
