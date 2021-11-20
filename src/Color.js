@@ -5,6 +5,7 @@ class Color extends React.Component {
         super(props);
         this.state = {
             intervalId: null,
+            highlightColor: props.highlightColor,
             color: {
                 r: Math.random() * 255,
                 g: Math.random() * 255,
@@ -28,15 +29,17 @@ class Color extends React.Component {
         this.clearIntervalAndSetColor();
     }
 
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (this.props.highlightColor !== prevState.highlightColor) {
+            this.setState({highlightColor: this.props.highlightColor})
+        }
+    }
+
     clearIntervalAndSetColor() {
         if (this.state.intervalId !== null) {
             clearInterval(this.state.intervalId);
             this.setState({
-                color: {
-                    r: 200,
-                    g: 200,
-                    b: 0
-                }
+                color: this.state.highlightColor
             });
         }
     }
@@ -46,17 +49,17 @@ class Color extends React.Component {
             intervalId: setInterval(() => {
                 let newR = this.state.color.r + this.state.movement.r;
                 let moveR = this.state.movement.r;
-                if (this.state.color.r > 245 || this.state.color.r < 10) {
+                if ((this.state.color.r > 245 && this.state.movement.r > 0) || (this.state.color.r < 10 && this.state.movement.r < 0)) {
                     moveR = -1 * this.state.movement.r;
                 }
                 let newG = this.state.color.g + this.state.movement.g;
                 let moveG = this.state.movement.g;
-                if (this.state.color.g > 245 || this.state.color.g < 10) {
+                if ((this.state.color.g > 245 && this.state.movement.g > 0) || (this.state.color.g < 10 && this.state.movement.g < 0)) {
                     moveG = -1 * this.state.movement.g;
                 }
                 let newB = this.state.color.b + this.state.movement.b;
                 let moveB = this.state.movement.b;
-                if (this.state.color.b > 245 || this.state.color.b < 10) {
+                if ((this.state.color.b > 245 && this.state.movement.b > 0) || (this.state.color.b < 10 && this.state.movement.b < 0)) {
                     moveB = -1 * this.state.movement.b;
                 }
                 this.setState({
@@ -85,7 +88,7 @@ class Color extends React.Component {
                      filter: 'blur(1px)',
                      background: `rgb(${this.state.color.r},${this.state.color.g},${this.state.color.b}`
                  }}
-                 className="color w-50"></div>
+                 className="color w-50"></div> // w-50 so 2 fit per col
         )
     }
 }
