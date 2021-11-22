@@ -76,14 +76,99 @@ export const soloShows = [
 
 export const groupShows = [
     {
-        name: "Firstone",
-        dates: "Jan.2012 - Feb. 2024"
-
+        name: "Here Comes the Sun (to benefit OpenDoors of Asheville",
+        location: "blu29",
+        address: "Asheville, NC",
+        dates: "Apr-May 2021"
     },
     {
-        name: "2nd one",
-        dates: "Jan.2022 - Feb. 2024"
-
+        name: "Up & Away",
+        location: "Studio Place Arts",
+        address: "Barre, VT",
+        dates: "Mar-May 2021"
+    },
+    {
+        name: "Rolling On",
+        location: "Studio Place Arts",
+        address: "Barre, VT",
+        dates: "Jan-Mar 2021"
+    },
+    {
+        name: "Screen Time",
+        location: "River Arts",
+        address: "Morrisville, VT",
+        dates: "Nov 2020-Jan 2021"
+    },
+    {
+        name: "Futures",
+        location: "Studio Place Arts",
+        address: "Barre, VT",
+        dates: "2020"
+    },
+    {
+        name: "Contemporary American Regionalism: Vermont Perspectives",
+        location: "Southern Vermont Art Center",
+        address: "Manchester, VT",
+        dates: "2019"
+    },
+    {
+        name: "Summer Juried Show",
+        location: "T.W. Wood Gallery",
+        address: "Montpelier, VT",
+        dates: "2017"
+    },
+    {
+        name: "Encountering Yellow",
+        location: "Studio Place Arts",
+        address: "Barre, VT",
+        dates: "2016"
+    },
+    {
+        name: "Ongoing Member Shows",
+        location: "The Front",
+        address: "Montpelier, VT",
+        dates: "2015-current"
+    },
+    {
+        name: "CELEBRATE!",
+        location: "Studio Place Arts",
+        address: "Barre, VT",
+        dates: "2015 & 2016"
+    },
+    {
+        name: "The Montpelier Project",
+        location: "City Center",
+        address: "Montpelier, VT",
+        dates: "2015"
+    },
+    {
+        name: "HeArt & Home: Celebrating Inclusive Neighborhoods for Fair Housing Month",
+        location: "North End Studios",
+        address: "Burlington, VT",
+        dates: "2015"
+    },
+    {
+        name: "GallerySIX Group Show",
+        location: "GallerySIX",
+        address: "Montpelier, VT",
+        dates: "2015"
+    },
+    {
+        name: "Art Resource Association Group Shows",
+        address: "Montpelier, VT",
+        dates: "2012-2013"
+    },
+    {
+        name: "20-30, 2D-3D",
+        location: "Chandler Center for the Arts Gallery",
+        address: "Randolph, VT",
+        dates: "2013"
+    },
+    {
+        name: "Senior Show",
+        location: "Houghton House",
+        address: "Geneva, NY",
+        dates: "2010"
     }
 ]
 
@@ -100,9 +185,7 @@ export const residencies = [
 export const education = [
     {
         name: "Hobart College (HWS)",
-        location: "",
-        url: "url",
-        address: "addr",
-        dates: "2018"
+        address: "Geneva, NY",
+        dates: "2006-2010"
     }
 ]

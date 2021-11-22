@@ -12,7 +12,7 @@ class Colors extends React.Component {
     }
 
     componentDidMount() {
-        this.end.scrollIntoView({behavior: "smooth"});
+        this.scrollEl.scrollIntoView({behavior: "smooth"});
     }
 
     handleChooseColor(e) {
@@ -24,7 +24,6 @@ class Colors extends React.Component {
                 b: e.target.dataset.b
             }
         });
-        console.log(e.target);
     }
 
     render() {
@@ -33,7 +32,7 @@ class Colors extends React.Component {
                 <div className="d-flex flex-row h-100">
                     Choose Your Color
                     {/* Add a few colors to choose to be how it changes */}
-                    <div className="row col-3" ref={(el) => this.end = el}>
+                    <div className="row col-3" ref={(el) => this.scrollEl = el}>
                         <div className="d-flex">
                             {
                                 colorOptions.map((color) => {
