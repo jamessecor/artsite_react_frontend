@@ -186,6 +186,7 @@ export const education = [
     {
         name: "Hobart College (HWS)",
         address: "Geneva, NY",
+        location: "honors project in studio art",
         dates: "2006-2010"
     }
 ]

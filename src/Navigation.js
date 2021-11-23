@@ -205,10 +205,6 @@ class Navigation extends React.Component {
                         <Navbar.Collapse id="basic-navbar-nav">
                             <Nav className="me-auto">
                                 <NavDropdown title="artwork" id="basic-nav-dropdown">
-                                    <span
-                                        className="position-relative top-50 start-50 translate-middle badge rounded-pill bg-success">
-                                        {this.state.currentPage === "artwork" ? `viewing ${this.state.filter}` : ""}
-                                    </span>
                                     {[...Array(currentYear - config.firstArtworkYear + 1).keys()].map((i) => {
                                         return (
                                             <NavDropdown.Item key={i} onClick={this.handleClick}
@@ -217,6 +213,12 @@ class Navigation extends React.Component {
                                         );
                                     })}
                                 </NavDropdown>
+                                <Nav.Item className={this.state.currentPage === "artwork" ? "" : "d-none"}>
+                                    <span
+                                        className="position-relative top-50 start-50 translate-middle badge rounded-pill bg-success">
+                                        {`viewing ${this.state.filter}`}
+                                    </span>
+                                </Nav.Item>
                                 <Nav.Link className={this.state.currentPage === "cv" ? "active" : ""} data-page-id="cv"
                                           onClick={this.handleClick}>cv</Nav.Link>
                                 <Nav.Link data-page-id="contact"

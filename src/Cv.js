@@ -14,9 +14,11 @@ class Cv extends React.Component {
                     <Accordion.Body>
                         {soloShows.map(function (show) {
                             return (
-                                <div key={`${show.name}${show.dates}`} className="mb-2">
-                                     {/*TODO: change separators */}
-                                    <strong>{show.name}</strong><br/><a target="_blank" rel="noopener noreferrer" href={show.url}>{show.location}</a> - {show.address} {show.dates}
+                                <div key={`${show.name}${show.dates}`} className="mb-3">
+                                    <strong>{show.name}</strong><br/>
+                                    <a target="_blank" rel="noopener noreferrer" href={show.url}>{show.location}</a><br/>
+                                    {show.address}<br/>
+                                    {show.dates}
                                 </div>
                             )
                         })}
@@ -27,8 +29,11 @@ class Cv extends React.Component {
                     <Accordion.Body>
                         {groupShows.map(function (show) {
                             return (
-                                <div key={`${show.name}${show.dates}`} className="mb-2">
-                                    <strong>{show.name}</strong><br/><a href={show.url}>{show.location}</a> - {show.address} {show.dates}
+                                <div key={`${show.name}${show.dates}`} className="mb-3">
+                                    <strong>{show.name}</strong><br/>
+                                    <a target="_blank" rel="noopener noreferrer" href={show.url}>{show.location}</a><br/>
+                                    {show.address}<br/>
+                                    {show.dates}
                                 </div>
                             )
                         })}
@@ -39,9 +44,11 @@ class Cv extends React.Component {
                     <Accordion.Body>
                         {residencies.map(function (residency) {
                             return (
-                                <div key={residency.name} className="mb-2">
-                                    {residency.name} | <a
-                                    href={residency.url}>{residency.location}</a> - {residency.address} {residency.dates}
+                                <div key={residency.name} className="mb-3">
+                                    <strong>{residency.name}</strong><br/>
+                                    <a href={residency.url}>{residency.location}</a><br/>
+                                    {residency.address}<br/>
+                                    {residency.dates}
                                 </div>
                             )
                         })}
@@ -52,8 +59,11 @@ class Cv extends React.Component {
                     <Accordion.Body>
                         {education.map(function (ed) {
                             return (
-                                <div key={ed.name} className="mb-2">
-                                    {ed.name} | <a href={ed.url}>{ed.location}</a> - {ed.address} {ed.dates}
+                                <div key={ed.name} className="mb-3">
+                                    <strong>{ed.name}</strong><br/>
+                                    <a href={ed.url}>{ed.location}</a><br/>
+                                    {ed.address}<br/>
+                                    {ed.dates}
                                 </div>
                             )
                         })}
