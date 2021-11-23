@@ -206,8 +206,8 @@ class Navigation extends React.Component {
                             <Nav className="me-auto">
                                 <NavDropdown title="artwork" id="basic-nav-dropdown">
                                     <span
-                                        className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">
-                                        {this.state.currentPage === "artwork" ? this.state.filter : ""}
+                                        className="position-relative top-50 start-50 translate-middle badge rounded-pill bg-success">
+                                        {this.state.currentPage === "artwork" ? `viewing ${this.state.filter}` : ""}
                                     </span>
                                     {[...Array(currentYear - config.firstArtworkYear + 1).keys()].map((i) => {
                                         return (

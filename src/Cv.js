@@ -16,7 +16,7 @@ class Cv extends React.Component {
                             return (
                                 <div key={`${show.name}${show.dates}`} className="mb-2">
                                      {/*TODO: change separators */}
-                                    <strong>{show.name}</strong> | <a target="_blank" rel="noopener noreferrer" href={show.url}>{show.location}</a> - {show.address} {show.dates}
+                                    <strong>{show.name}</strong><br/><a target="_blank" rel="noopener noreferrer" href={show.url}>{show.location}</a> - {show.address} {show.dates}
                                 </div>
                             )
                         })}
@@ -28,7 +28,7 @@ class Cv extends React.Component {
                         {groupShows.map(function (show) {
                             return (
                                 <div key={`${show.name}${show.dates}`} className="mb-2">
-                                    {show.name} | <a href={show.url}>{show.location}</a> - {show.address} {show.dates}
+                                    <strong>{show.name}</strong><br/><a href={show.url}>{show.location}</a> - {show.address} {show.dates}
                                 </div>
                             )
                         })}
