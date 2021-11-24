@@ -155,6 +155,13 @@ class Artwork extends React.Component {
                                 <label htmlFor="medium">Medium</label>
                                 <input type="text" name="medium" defaultValue={this.state.medium}
                                        onChange={this.handleChange}/>
+                                {/* TODO: figure out tags */}
+                                {/*<label htmlFor="tags">Tags</label>*/}
+                                {/*<select multiple={true} name="tags"*/}
+                                {/*       onChange={this.handleChange}>*/}
+                                {/*    <option value="tag">tag</option>*/}
+                                {/*    <option value="tag2">tag2</option>*/}
+                                {/*</select>*/}
                                 <label htmlFor="image">Image</label>
                                 <input type="file" name="image" defaultValue="" onChange={this.handleChange}/>
                                 <button id={this.state.submitButtonId} className="btn btn-primary"

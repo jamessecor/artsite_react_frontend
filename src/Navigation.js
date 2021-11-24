@@ -127,6 +127,7 @@ class Navigation extends React.Component {
 
     handleClick(e) {
         e.preventDefault()
+
         this.setState({
             isShowingLoginForm: false,
             currentPage: e.target.dataset.pageId,
@@ -197,36 +198,38 @@ class Navigation extends React.Component {
         const currentYear = new Date().getFullYear();
         return (
             <div>
-                <Navbar className="mb-4" expand="lg">
+                <Navbar className="mb-4" collapseOnSelect={true} expand="lg">
                     <Container fluid>
-                        <Navbar.Brand onClick={this.props.returnHome} data-page-id="home" href="#">James
-                            Secor</Navbar.Brand>
+                        <Navbar.Brand onClick={this.props.returnHome} data-page-id="home" href="#">
+                            <div className={"d-flex"}>
+                                <span>James Secor</span>
+                                <span
+                                    className={this.state.currentPage === "artwork" ? "ms-2 h-25 badge rounded-pill bg-success" : "d-none"}>
+                                    {`viewing ${this.state.filter}`}
+                                </span>
+                            </div>
+
+                        </Navbar.Brand>
                         <Navbar.Toggle aria-controls="basic-navbar-nav"/>
                         <Navbar.Collapse id="basic-navbar-nav">
                             <Nav className="me-auto">
                                 <NavDropdown title="artwork" id="basic-nav-dropdown">
                                     {[...Array(currentYear - config.firstArtworkYear + 1).keys()].map((i) => {
                                         return (
-                                            <NavDropdown.Item key={i} onClick={this.handleClick}
+                                            <NavDropdown.Item eventKey={i} key={i} onClick={this.handleClick}
                                                               data-filter={currentYear - i}
                                                               data-page-id="artwork">{currentYear - i}</NavDropdown.Item>
                                         );
                                     })}
                                 </NavDropdown>
-                                <Nav.Item className={this.state.currentPage === "artwork" ? "" : "d-none"}>
-                                    <span
-                                        className="position-relative top-50 start-50 translate-middle badge rounded-pill bg-success">
-                                        {`viewing ${this.state.filter}`}
-                                    </span>
-                                </Nav.Item>
                                 <Nav.Link className={this.state.currentPage === "cv" ? "active" : ""} data-page-id="cv"
-                                          onClick={this.handleClick}>cv</Nav.Link>
+                                          onClick={this.handleClick} eventKey={"cv"}>cv</Nav.Link>
                                 <Nav.Link data-page-id="contact"
                                           className={this.state.currentPage === "contact" ? "active" : ""}
-                                          onClick={this.handleClick}>contact</Nav.Link>
+                                          onClick={this.handleClick} eventKey={"contact"}>contact</Nav.Link>
                                 <Nav.Link data-page-id="colors"
                                           className={this.state.currentPage === "colors" ? "active" : ""}
-                                          onClick={this.handleClick}>colors</Nav.Link>
+                                          onClick={this.handleClick} eventKey={"colors"}>colors</Nav.Link>
                             </Nav>
                             <Nav>
                                 <Nav.Link disabled>James Secor &copy; 2021</Nav.Link>
@@ -241,11 +244,13 @@ class Navigation extends React.Component {
                                     </svg>
                                 </Nav.Link>
                                 <Nav.Link onClick={this.handleSignOut}
-                                          className={this.state.isLoggedIn ? "nav-link btn btn-link" : "d-none"}>
+                                          className={this.state.isLoggedIn ? "nav-link btn btn-link" : "d-none"}
+                                          eventKey={"log-out"}>
                                     Log out
                                 </Nav.Link>
                                 <Nav.Link onClick={this.handleShowLoginForm}
-                                          className={this.state.isLoggedIn ? "d-none" : "nav-link btn btn-link"}>
+                                          className={this.state.isLoggedIn ? "d-none" : "nav-link btn btn-link"}
+                                          eventKey={"log-in"}>
                                     Log in
                                 </Nav.Link>
                             </Nav>
