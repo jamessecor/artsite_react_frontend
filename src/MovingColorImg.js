@@ -1,4 +1,5 @@
 import React from 'react';
+import config from './config.json'
 
 class MovingColorImg extends React.Component {
     constructor(props) {
@@ -66,7 +67,7 @@ class MovingColorImg extends React.Component {
     render() {
         return (
             <img alt="not found" onClick={this.toggleInterval} className={this.state.imgClass}
-                 style={{filter: 'hue-rotate(' + this.state.rotationAmount + 'deg)'}} src={this.props.src}/>
+                 style={{filter: 'hue-rotate(' + this.state.rotationAmount + 'deg)'}} src={`${config.host}${this.props.src}`}/>
         )
     }
 }

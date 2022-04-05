@@ -1,4 +1,4 @@
 {
-  "host": "https://artsite-api.herokuapp.com/",
+  "host": "http://localhost:8080/",
   "firstArtworkYear": 2012
 }

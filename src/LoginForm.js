@@ -44,7 +44,7 @@ class LoginForm extends React.Component {
             body: formData
         };
 
-        fetch(`${config.host}users/sign_in`, requestMetadata)
+        fetch(`${config.host}api/users/sign_in`, requestMetadata)
             .then(res => res.json())
             .then(
                 (result) => {
