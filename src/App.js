@@ -1,41 +1,26 @@
 import React from 'react'
-import Navigation from "./Navigation";
 import HomePage from "./HomePage";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css'
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Artworks from './Artworks';
+import Cv from './Cv';
+import Colors from './Colors';
+import Navigation from './Navigation';
 
-class App extends React.Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            currentPage: "home"
-        }
-
-        this.enterSite = this.enterSite.bind(this);
-    }
-
-    enterSite() {
-        this.setState({
-            currentPage: ""
-        })
-    }
-
-    render() {
-        if (this.state.currentPage === "home") {
-            return (
-                <HomePage enterSite={this.enterSite}/>
-            )
-        } else {
-            return (
-                <div className="container-fluid">
-                    <Navigation filter={2021} returnHome={() => this.setState({currentPage: "home"})}/>
-                </div>
-            )
-
-        }
-
-    }
-}
+const App = () => (
+    <BrowserRouter>
+        <Routes>
+            <Route path={'/'} element={<HomePage />} />
+            <Route element={<Navigation />}>
+                <Route path={'/artworks'} element={<Artworks />}>
+                    <Route path={":year"} element={<Artworks />} />
+                </Route>
+                <Route path={'/cv'} element={<Cv />} />
+                <Route path={'/colors'} element={<Colors />} />
+            </Route>
+        </Routes>
+    </BrowserRouter>
+);
 
 export default App;

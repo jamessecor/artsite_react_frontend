@@ -1,66 +1,75 @@
 import React from 'react'
+import { useMemo, useCallback } from 'react'
+import { useLocation } from 'react-router-dom'
 import Artwork from "./Artwork";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faToggleOn, faToggleOff, faInfoCircle, faTimesCircle} from '@fortawesome/free-solid-svg-icons'
+import useIsRotating from './hooks/useIsRotating';
+import useIsShowingInfo from './hooks/useIsShowingInfo';
+import useFetchArtworks from './hooks/useFetchArtworks';
+import config from './config.json';
 
-class Artworks extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            artworks: props.artworks,
-            isLoggedIn: props.isLoggedIn,
-            isRotating: false,
-            isShowingInfo: false
-        };
-        this.toggleAttribute = this.toggleAttribute.bind(this);
-    }
+const Artworks = ({ searchTerm }) => {
+    const { isRotating, setIsRotating } = useIsRotating();
+    const { isShowingInfo, setIsShowingInfo } = useIsShowingInfo();
+    const { pathname } = useLocation();
+    const year = pathname.substring(pathname.lastIndexOf('/') + 1) ?? '';
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        if (this.props.artworks !== prevProps.artworks) {
-            this.setState({artworks: this.props.artworks});
+    const fetchArtworks = useCallback(() => {        
+        let params = [];
+        if (searchTerm !== '') {
+            params.push(`search=${searchTerm}`);
+        } else {
+            if (year !== '') {
+                params.push(`year_filter=${year}`);
+            }
         }
-        if (this.props.isLoggedIn !== prevProps.isLoggedIn) {
-            this.setState({isLoggedIn: this.props.isLoggedIn});
-        }
-        if (this.props.isRotating !== prevProps.isRotating) {
-            this.setState({isRotating: this.props.isRotating});
-        }
-    }
+        fetch(`${config.host}api/artworks?${params.join('&')}`,
+            {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                method: "GET"
+            }
+        )
+            .then(res => res.json())
+            .then(
+                (result) => {
+                    if (result.length !== 0) {
+                        return result;
+                    }
+                }
+            )
+    }, [year, searchTerm]);
 
-    toggleAttribute(attribute, e) {
-        e.preventDefault();
-        this.setState(prevState => ({
-            [attribute]: !prevState[attribute]
-        }));
-    }
+    const artworks = useMemo(() => fetchArtworks(searchTerm), [year, searchTerm]);
 
-    render() {
-        return (
-            <div>
-                <span onClick={(e) => this.toggleAttribute("isRotating", e)}>
-                    <FontAwesomeIcon icon={this.state.isRotating ? faToggleOn : faToggleOff}/>
-                    {/*<FontAwesomeIcon icon={this.state.isRotating ? faTeeth : faTeethOpen}/>*/}
-                    <span className="ms-1">{this.state.isRotating ? "normal, please" : "rainbow time!"}</span>
-                </span>
-                <span className="ps-3" onClick={(e) => this.toggleAttribute("isShowingInfo", e)}>
-                    <FontAwesomeIcon icon={this.state.isShowingInfo ? faTimesCircle : faInfoCircle}/>
-                    <span className="ms-1">{this.state.isShowingInfo ? "hide info" : "show all info"}</span>
-                </span>
-                <div className="row align-items-center">
-                    {this.state.artworks.map((artwork, i) => {
+    return (
+        <React.Fragment>
+            <span onClick={() => setIsRotating(!isRotating)}>
+                <FontAwesomeIcon className={'ms-3'} icon={isRotating ? faToggleOn : faToggleOff}/>
+                {/*<FontAwesomeIcon icon={this.state.isRotating ? faTeeth : faTeethOpen}/>*/}
+                <span className="ms-1">{isRotating ? "normal, please" : "rainbow time!"}</span>
+            </span>
+            <span className="ps-3" onClick={() => setIsShowingInfo(!isShowingInfo)}>
+                <FontAwesomeIcon icon={isShowingInfo ? faTimesCircle : faInfoCircle}/>
+                <span className="ms-1">{isShowingInfo ? "hide info" : "show all info"}</span>
+            </span>
+            <div className="row align-items-center">
+                {artworks ? 
+                    (artworks.map((artwork, i) => {
                         return (
                             <div key={artwork.id} className="col-lg-4 col-12 mb-4">
                                 <div key={artwork.id}>
-                                    <Artwork isShowingInfo={this.state.isShowingInfo} isRotating={this.state.isRotating}
-                                             key={artwork.id} attributes={artwork} isEditable={this.state.isLoggedIn}/>
+                                    <Artwork isShowingInfo={isShowingInfo} isRotating={isRotating}
+                                                key={artwork.id} attributes={artwork} isEditable={false}/>
                                 </div>
                             </div>
                         )
-                    })}
-                </div>
+                }))
+                : null }
             </div>
-        )
-    }
-}
+        </React.Fragment>
+    );
+};
 
 export default Artworks;

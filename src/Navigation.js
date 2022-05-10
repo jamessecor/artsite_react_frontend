@@ -1,9 +1,5 @@
 import React from 'react'
-import Cv from "./Cv"
-import Colors from "./Colors"
-import Artwork from "./Artwork"
-import Artworks from "./Artworks"
-import ContactForm from "./ContactForm"
+import { useNavigate, useLocation, Outlet } from 'react-router-dom';
 import LoginForm from "./LoginForm"
 import config from "./config.json"
 import Nav from 'react-bootstrap/Nav'
@@ -14,267 +10,168 @@ import Form from 'react-bootstrap/Form'
 import FormControl from 'react-bootstrap/FormControl'
 import Button from 'react-bootstrap/Button'
 
-class Navigation extends React.Component {
-    constructor(props) {
-        super(props);
+const Navigation = () => {
+    const navigateTo = useNavigate();
+    const { pathname } = useLocation();
+    console.log('pathname', pathname);
 
-        this.state = {
-            currentPage: 'artwork',
-            isLoggedIn: false,
-            token: localStorage.token,
-            isShowingLoginForm: false,
-            filter: props.filter === undefined ? "" : props.filter,
-            searchTerm: props.searchTerm,
-            artworks: [],
-            isArtworkDropdownOpen: false,
-            contactFormInputs: null
-        }
+    // componentDidMount() {
+    //     this.loginWithToken();
+    //     this.fetchArtworks();
+    // }
 
-        this.handleClick = this.handleClick.bind(this)
-        this.currentPageContent = this.currentPageContent.bind(this)
-        this.handleSearchChange = this.handleSearchChange.bind(this)
-        this.handleSearchSubmit = this.handleSearchSubmit.bind(this)
-        this.fetchArtworks = this.fetchArtworks.bind(this)
-        this.toggleArtworkDropdown = this.toggleArtworkDropdown.bind(this)
+    // formWillUnmount(formInputs) {
+    //     this.setState({contactFormInputs: formInputs});
+    // }
 
-        this.formWillUnmount = this.formWillUnmount.bind(this);
+    // newArtworkForm() {
+    //     if (this.state.isLoggedIn && this.state.currentPage === "artwork") {
+    //         return <Artwork isEditable={true} isNew={true}/>
+    //     }
+    // }
 
-        this.handleSignOut = this.handleSignOut.bind(this);
-        this.handleShowLoginForm = this.handleShowLoginForm.bind(this);
-        this.loginWithToken = this.loginWithToken.bind(this);
-        this.unmountLoginForm = this.unmountLoginForm.bind(this);
-    }
+    // loginWithToken() {
+    //     if (this.state.token !== undefined) {
+    //         fetch(`${config.host}api/users/auto_login?token=${this.state.token}`,
+    //             {
+    //                 'Content-Type': 'application/json',
+    //                 'Accept': 'application/json',
+    //                 method: "GET"
+    //             }
+    //         )
+    //             .then(res => res.json())
+    //             .then(
+    //                 (result) => {
+    //                     if (result["status"] === "ok") {
+    //                         this.setState({isLoggedIn: true})
+    //                     }
+    //                 }
+    //             )
+    //     }
+    // }
 
-    componentDidMount() {
-        this.loginWithToken();
-        this.fetchArtworks();
-    }
+    // // If login is successful, persist the jwt in navigation state
+    // // TODO: decide if storing in localStorage is the way to go
+    // unmountLoginForm(result) {
+    //     this.setState({
+    //         isShowingLoginForm: false,
+    //         isLoggedIn: result["user"]["admin"],
+    //         token: result["jwt"]
+    //     })
+    //     localStorage["token"] = result["jwt"];
+    //     localStorage["user_id"] = result["user"]["id"];
+    //     localStorage["email"] = result["user"]["email"];
+    // }
 
-    formWillUnmount(formInputs) {
-        this.setState({contactFormInputs: formInputs});
-    }
+    // // currentPageContent() {
+    // //     switch (this.state.currentPage) {
+    // //         case "artwork":
+    // //             return <Artworks artworks={this.state.artworks} isLoggedIn={this.state.isLoggedIn}/>
+    // //         case "search":
+    // //             return <Artworks artworks={this.state.artworks} isLoggedIn={this.state.isLoggedIn}/>
+    // //         case "cv":
+    // //             return <Cv isLoggedIn={this.state.isLoggedIn}/>
+    // //         case "colors":
+    // //             return <Colors />
+    // //         case "contact":
+    // //             return <ContactForm formWillUnmount={this.formWillUnmount} inputs={this.state.contactFormInputs}/>
+    // //         default:
+    // //             return <Artworks artworks={this.state.artworks} isLoggedIn={this.state.isLoggedIn}/>
+    // //     }
+    // // }
 
-    newArtworkForm() {
-        if (this.state.isLoggedIn && this.state.currentPage === "artwork") {
-            return <Artwork isEditable={true} isNew={true}/>
-        }
-    }
+    // handleSignOut(e) {
+    //     e.preventDefault();
+    //     this.setState({
+    //         isLoggedIn: false,
+    //         token: ""
+    //     })
+    //     localStorage.removeItem("token")
+    // }
 
-    loginWithToken() {
-        if (this.state.token !== undefined) {
-            fetch(`${config.host}api/users/auto_login?token=${this.state.token}`,
-                {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
-                    method: "GET"
-                }
-            )
-                .then(res => res.json())
-                .then(
-                    (result) => {
-                        if (result["status"] === "ok") {
-                            this.setState({isLoggedIn: true})
-                        }
-                    }
-                )
-        }
-    }
+    // handleShowLoginForm() {
+    //     this.setState({
+    //         isShowingLoginForm: true
+    //     })
+    // }
 
-    // If login is successful, persist the jwt in navigation state
-    // TODO: decide if storing in localStorage is the way to go
-    unmountLoginForm(result) {
-        this.setState({
-            isShowingLoginForm: false,
-            isLoggedIn: result["user"]["admin"],
-            token: result["jwt"]
-        })
-        localStorage["token"] = result["jwt"];
-        localStorage["user_id"] = result["user"]["id"];
-        localStorage["email"] = result["user"]["email"];
-    }
+    // const toggleArtworkDropdown = (e) => {
+    //     e.preventDefault();
+    //     this.setState({
+    //         isArtworkDropdownOpen: !this.state.isArtworkDropdownOpen
+    //     })
+    // };
 
-    currentPageContent() {
-        switch (this.state.currentPage) {
-            case "artwork":
-                return <Artworks artworks={this.state.artworks} isLoggedIn={this.state.isLoggedIn}/>
-            case "search":
-                return <Artworks artworks={this.state.artworks} isLoggedIn={this.state.isLoggedIn}/>
-            case "cv":
-                return <Cv isLoggedIn={this.state.isLoggedIn}/>
-            case "colors":
-                return <Colors />
-            case "contact":
-                return <ContactForm formWillUnmount={this.formWillUnmount} inputs={this.state.contactFormInputs}/>
-            default:
-                return <Artworks artworks={this.state.artworks} isLoggedIn={this.state.isLoggedIn}/>
-        }
-    }
+    const currentYear = new Date().getFullYear();
 
-    handleSignOut(e) {
-        e.preventDefault();
-        this.setState({
-            isLoggedIn: false,
-            token: ""
-        })
-        localStorage.removeItem("token")
-    }
+    return (
+        <React.Fragment>
+            <Navbar className="mb-4" collapseOnSelect={true} expand="lg">
+                <Container fluid>
+                    <Navbar.Brand onClick={() => navigateTo('/')} data-page-id="home" href="#">
+                        <div className={"d-flex"}>
+                            <span>James Secor</span>
+                        </div>
 
-    handleShowLoginForm() {
-        this.setState({
-            isShowingLoginForm: true
-        })
-    }
+                    </Navbar.Brand>
+                    <Navbar.Toggle aria-controls="basic-navbar-nav"/>
+                    <Navbar.Collapse id="basic-navbar-nav">
+                        <Nav className="me-auto">
+                            <NavDropdown title="artwork" id="basic-nav-dropdown">
+                                {[...Array(currentYear - config.firstArtworkYear + 1).keys()].map((i) => {
+                                    return (
+                                        <NavDropdown.Item key={i} onClick={() => navigateTo(`/artworks/${currentYear - i}`)}
+                                                            data-filter={currentYear - i}
+                                                            data-page-id="artwork">{currentYear - i}</NavDropdown.Item>
+                                    );
+                                })}
+                            </NavDropdown>
+                            <Nav.Link className={pathname === "cv" ? "active" : ""} onClick={() => navigateTo('/cv')}>cv</Nav.Link>
+                            <Nav.Link className={pathname === "contact" ? "active" : ""} onClick={() => navigateTo('/contact')}>contact</Nav.Link>
+                            <Nav.Link className={pathname === "colors" ? "active" : ""} onClick={() => navigateTo('/colors')}>colors</Nav.Link>
+                        </Nav>
+                        <Nav>
+                            <Nav.Link disabled>James Secor &copy; 2021</Nav.Link>
+                            <Nav.Link target="_blank" rel="noopener noreferrer"
+                                        href="https://www.instagram.com/jamessecor/"
+                                        className="nav-link instagram-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                        fill="currentColor"
+                                        className="bi bi-instagram" viewBox="0 0 16 16">
+                                    <path
+                                        d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.917 3.917 0 0 0-1.417.923A3.927 3.927 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.916 3.916 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.926 3.926 0 0 0-.923-1.417A3.911 3.911 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0h.003zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599.28.28.453.546.598.92.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.47 2.47 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.478 2.478 0 0 1-.92-.598 2.48 2.48 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233 0-2.136.008-2.388.046-3.231.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92.28-.28.546-.453.92-.598.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045v.002zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92zm-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217zm0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334z"></path>
+                                </svg>
+                            </Nav.Link>
+                            {/* <Nav.Link onClick={this.handleSignOut}
+                                        className={this.state.isLoggedIn ? "nav-link btn btn-link" : "d-none"}
+                                        eventKey={"log-out"}>
+                                Log out
+                            </Nav.Link>
+                            <Nav.Link onClick={this.handleShowLoginForm}
+                                        className={this.state.isLoggedIn ? "d-none" : "nav-link btn btn-link"}
+                                        eventKey={"log-in"}>
+                                Log in
+                            </Nav.Link> */}
+                        </Nav>
+                        {/* <Form onSubmit={this.handleSearchSubmit} className="d-flex">
+                            <FormControl
+                                onChange={this.handleSearchChange}
+                                type="search"
+                                placeholder="Search"
+                                className="me-2"
+                                aria-label="Search"
+                            />
+                            <Button variant="outline-success">Search</Button>
+                        </Form> */}
+                    </Navbar.Collapse>
+                </Container>
+            </Navbar>
+            {/* {this.newArtworkForm()}
+            {this.currentPageContent()}
+            <LoginForm show={this.state.isShowingLoginForm} unmount={this.unmountLoginForm}/> */}
+            <Outlet />
+        </React.Fragment>
+    )
+};
 
-    handleClick(e) {
-        e.preventDefault()
-
-        this.setState({
-            isShowingLoginForm: false,
-            currentPage: e.target.dataset.pageId,
-            filter: e.target.dataset.filter === undefined ? "" : e.target.dataset.filter,
-            searchTerm: undefined,
-            isArtworkDropdownOpen: false
-        }, () => {
-            if (["artwork", "search"].includes(this.state.currentPage)) {
-                this.fetchArtworks();
-            }
-        })
-    }
-
-    handleSearchSubmit(e) {
-        e.preventDefault();
-        this.setState({
-            currentPage: "search"
-        }, () => this.fetchArtworks())
-    }
-
-    handleSearchChange(e) {
-        e.preventDefault();
-        this.setState({
-            searchTerm: e.target.value,
-            isShowingLoginForm: false
-        })
-    }
-
-    toggleArtworkDropdown(e) {
-        e.preventDefault();
-        this.setState({
-            isArtworkDropdownOpen: !this.state.isArtworkDropdownOpen
-        })
-    }
-
-    fetchArtworks() {
-        let params = [];
-        if (this.state.searchTerm !== undefined) {
-            params.push(`search=${this.state.searchTerm}`);
-        } else {
-            if (this.state.filter !== undefined) {
-                params.push(`year_filter=${this.state.filter}`);
-            }
-            if (this.state.currentPage === "home") {
-                params.push("limit=1");
-            }
-        }
-        fetch(`${config.host}api/artworks?${params.join('&')}`,
-            {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                method: "GET"
-            }
-        )
-            .then(res => res.json())
-            .then(
-                (result) => {
-                    if (result.length !== 0) {
-                        this.setState({
-                            artworks: result
-                        });
-                    }
-                }
-            )
-    }
-
-    render() {
-        const currentYear = new Date().getFullYear();
-        return (
-            <div>
-                <Navbar className="mb-4" collapseOnSelect={true} expand="lg">
-                    <Container fluid>
-                        <Navbar.Brand onClick={this.props.returnHome} data-page-id="home" href="#">
-                            <div className={"d-flex"}>
-                                <span>James Secor</span>
-                                <span
-                                    className={this.state.currentPage === "artwork" ? "ms-2 h-25 badge rounded-pill bg-success" : "d-none"}>
-                                    {`viewing ${this.state.filter}`}
-                                </span>
-                            </div>
-
-                        </Navbar.Brand>
-                        <Navbar.Toggle aria-controls="basic-navbar-nav"/>
-                        <Navbar.Collapse id="basic-navbar-nav">
-                            <Nav className="me-auto">
-                                <NavDropdown title="artwork" id="basic-nav-dropdown">
-                                    {[...Array(currentYear - config.firstArtworkYear + 1).keys()].map((i) => {
-                                        return (
-                                            <NavDropdown.Item eventKey={i} key={i} onClick={this.handleClick}
-                                                              data-filter={currentYear - i}
-                                                              data-page-id="artwork">{currentYear - i}</NavDropdown.Item>
-                                        );
-                                    })}
-                                </NavDropdown>
-                                <Nav.Link className={this.state.currentPage === "cv" ? "active" : ""} data-page-id="cv"
-                                          onClick={this.handleClick} eventKey={"cv"}>cv</Nav.Link>
-                                <Nav.Link data-page-id="contact"
-                                          className={this.state.currentPage === "contact" ? "active" : ""}
-                                          onClick={this.handleClick} eventKey={"contact"}>contact</Nav.Link>
-                                <Nav.Link data-page-id="colors"
-                                          className={this.state.currentPage === "colors" ? "active" : ""}
-                                          onClick={this.handleClick} eventKey={"colors"}>colors</Nav.Link>
-                            </Nav>
-                            <Nav>
-                                <Nav.Link disabled>James Secor &copy; 2021</Nav.Link>
-                                <Nav.Link target="_blank" rel="noopener noreferrer"
-                                          href="https://www.instagram.com/jamessecor/"
-                                          className="nav-link instagram-icon">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                         fill="currentColor"
-                                         className="bi bi-instagram" viewBox="0 0 16 16">
-                                        <path
-                                            d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.917 3.917 0 0 0-1.417.923A3.927 3.927 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.916 3.916 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.926 3.926 0 0 0-.923-1.417A3.911 3.911 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0h.003zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599.28.28.453.546.598.92.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.47 2.47 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.478 2.478 0 0 1-.92-.598 2.48 2.48 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233 0-2.136.008-2.388.046-3.231.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92.28-.28.546-.453.92-.598.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045v.002zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92zm-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217zm0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334z"></path>
-                                    </svg>
-                                </Nav.Link>
-                                <Nav.Link onClick={this.handleSignOut}
-                                          className={this.state.isLoggedIn ? "nav-link btn btn-link" : "d-none"}
-                                          eventKey={"log-out"}>
-                                    Log out
-                                </Nav.Link>
-                                <Nav.Link onClick={this.handleShowLoginForm}
-                                          className={this.state.isLoggedIn ? "d-none" : "nav-link btn btn-link"}
-                                          eventKey={"log-in"}>
-                                    Log in
-                                </Nav.Link>
-                            </Nav>
-                            <Form onSubmit={this.handleSearchSubmit} className="d-flex">
-                                <FormControl
-                                    onChange={this.handleSearchChange}
-                                    type="search"
-                                    placeholder="Search"
-                                    className="me-2"
-                                    aria-label="Search"
-                                />
-                                <Button variant="outline-success">Search</Button>
-                            </Form>
-                        </Navbar.Collapse>
-                    </Container>
-                </Navbar>
-                {this.newArtworkForm()}
-                {this.currentPageContent()}
-                <LoginForm show={this.state.isShowingLoginForm} unmount={this.unmountLoginForm}/>
-            </div>
-        )
-    }
-
-
-}
-
-export default Navigation
+export default Navigation;

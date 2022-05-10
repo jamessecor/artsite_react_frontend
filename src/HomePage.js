@@ -1,19 +1,20 @@
-import React from 'react';
+import * as React from 'react';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import config from "./config.json";
 import MovingColorImg from "./MovingColorImg";
 
-class HomePage extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {}
-        this.fetchArtworks = this.fetchArtworks.bind(this);
+const HomePage = () => {
+    const navigateTo = useNavigate();
+    const enterSite = () => {
+        navigateTo('/artworks');
     }
 
-    componentDidMount() {
-        this.fetchArtworks();
-    }
+    useEffect(() => {
+        fetchArtworks();
+    }, []);
 
-    fetchArtworks() {
+    const fetchArtworks = () => {
         let params = [];
         params.push("random=true");
         params.push("year_filter=2021");
@@ -36,15 +37,13 @@ class HomePage extends React.Component {
             )
     }
 
-    render() {
-        return (
-            <div>
-                <MovingColorImg imgClass={"m-0 p-0 h-100 w-100 position-absolute top-0 left-0"} isRotating={true} src={this.state.image}/>
+    return (
+        <div>
+            {/* <MovingColorImg imgClass={"m-0 p-0 h-100 w-100 position-absolute top-0 left-0"} isRotating={true} src={this.state.image}/> */}
 
-                <button className="position-absolute top-50 start-50 translate-middle btn btn-lg btn-outline-primary" onClick={this.props.enterSite}>Enter Site</button>
-            </div>
-        )
-    }
+            <button className="position-absolute top-50 start-50 translate-middle btn btn-lg btn-outline-primary" onClick={enterSite}>Enter Site</button>
+        </div>
+    );    
 }
 
 export default HomePage;

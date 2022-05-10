@@ -136,7 +136,7 @@ class Artwork extends React.Component {
                     {this.state.insertNewForm ? <ArtworkForm/> : ""}
                     <form className="d-flex mb-4 justify-content-center" onSubmit={this.handleSubmit}>
                         <div className="col-lg-6 col-12">
-                            <MovingColorImg isRotating={this.state.isRotating} src={this.state.image}/>
+                            <MovingColorImg isRotating={this.state.isRotating} src="./images/barcodes2019.jpg"/>
                         </div>
                         <div className="align-self-end artwork-info col-lg-6 col-12">
                             <div className="d-flex flex-column ms-2">
@@ -176,7 +176,7 @@ class Artwork extends React.Component {
             return (
                 <div className="row justify-content-center">
                     <div className="col-lg-11 col-11 pe-1">
-                        <MovingColorImg isRotating={this.state.isRotating} src={this.state.image}/>
+                        <MovingColorImg isRotating={this.state.isRotating} src="./images/barcodes2019.jpg"/>
                     </div>
                     <div className="align-self-end ps-0 col-lg-1 col-1">
                         <FontAwesomeIcon icon={this.state.isShowingInfo ? faTimesCircle : faInfoCircle} onClick={this.toggleShowInfo}/>
