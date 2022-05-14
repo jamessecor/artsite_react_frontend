@@ -7,8 +7,6 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faToggleOn, faToggleOff, faInfoCircle, faTimesCircle} from '@fortawesome/free-solid-svg-icons'
 import useIsRotating from './hooks/useIsRotating';
 import useIsShowingInfo from './hooks/useIsShowingInfo';
-import useFetchArtworks from './hooks/useFetchArtworks';
-// import { getArtworks } from './models/Artwork';
 
 const Artworks = ({ searchTerm = '', year = '' }) => {
     const { isRotating, setIsRotating } = useIsRotating();
@@ -39,8 +37,6 @@ const Artworks = ({ searchTerm = '', year = '' }) => {
         
     }, [searchTerm, year]);
 
-    useEffect(() => console.log('ar', artworks), [artworks]);
-
     return (
         <React.Fragment>
             <span onClick={() => setIsRotating(!isRotating)}>
@@ -53,14 +49,18 @@ const Artworks = ({ searchTerm = '', year = '' }) => {
                 <span className="ms-1">{isShowingInfo ? "hide info" : "show all info"}</span>
             </span>
             <div className="row align-items-center">
-                {artworks instanceof Array ? 
+                {artworks ? 
                     (artworks.map((artwork, i) => {
-                        console.log('art', artwork);
                         return (
                             <div key={artwork.id} className="col-lg-4 col-12 mb-4">
                                 <div key={artwork.id}>
-                                    <Artwork isShowingInfo={isShowingInfo} isRotating={isRotating}
-                                                key={artwork.id} attributes={artwork} isEditable={false}/>
+                                    <Artwork 
+                                        isShowingInfo={isShowingInfo} 
+                                        allAreRotating={isRotating}
+                                        key={artwork.id} 
+                                        attributes={artwork} 
+                                        isEditable={false}
+                                    />
                                 </div>
                             </div>
                         )

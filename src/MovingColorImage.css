@@ -1,0 +1,19 @@
+img {
+    border-radius: 2%;
+}
+
+.rotating {
+    /* filter: grayscale(100%); */
+    animation-name: image;
+    animation-duration: 4s;
+    animation-iteration-count: infinite;
+}
+
+@keyframes image {
+    /* 0%   {filter: hue-rotate(0);} */
+    0%   {filter: grayscale(0%);}
+    25%  {filter: grayscale(50%);}
+    50%  {filter: grayscale(100%);}
+    75%  {filter: grayscale(50%);}
+    100% {filter: grayscale(0%);}
+}

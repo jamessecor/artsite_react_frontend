@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import config from "./config.json";
-import MovingColorImg from "./MovingColorImg";
+import MovingColorImage from "./MovingColorImage";
 
 const HomePage = () => {
     const navigateTo = useNavigate();
@@ -39,7 +39,7 @@ const HomePage = () => {
 
     return (
         <div>
-            {/* <MovingColorImg imgClass={"m-0 p-0 h-100 w-100 position-absolute top-0 left-0"} isRotating={true} src={this.state.image}/> */}
+            {/* <MovingColorImage imgClass={"m-0 p-0 h-100 w-100 position-absolute top-0 left-0"} isRotating={true} src={this.state.image}/> */}
 
             <button className="position-absolute top-50 start-50 translate-middle btn btn-lg btn-outline-primary" onClick={enterSite}>Enter Site</button>
         </div>

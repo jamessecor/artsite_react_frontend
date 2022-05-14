@@ -13,7 +13,6 @@ import Button from 'react-bootstrap/Button'
 const Navigation = () => {
     const navigateTo = useNavigate();
     const { pathname } = useLocation();
-    console.log('pathname', pathname);
 
     // componentDidMount() {
     //     this.loginWithToken();
@@ -127,7 +126,7 @@ const Navigation = () => {
                                 })}
                             </NavDropdown>
                             <Nav.Link className={pathname === "cv" ? "active" : ""} onClick={() => navigateTo('/cv')}>cv</Nav.Link>
-                            <Nav.Link className={pathname === "contact" ? "active" : ""} onClick={() => navigateTo('/contact')}>contact</Nav.Link>
+                            {/* <Nav.Link className={pathname === "contact" ? "active" : ""} onClick={() => navigateTo('/contact')}>contact</Nav.Link> */}
                             <Nav.Link className={pathname === "colors" ? "active" : ""} onClick={() => navigateTo('/colors')}>colors</Nav.Link>
                         </Nav>
                         <Nav>
