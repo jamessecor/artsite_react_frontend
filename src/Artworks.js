@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import Artwork from "./Artwork";
 import config from './config.json';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -8,13 +8,18 @@ import {faToggleOn, faToggleOff, faInfoCircle, faTimesCircle} from '@fortawesome
 import useIsRotating from './hooks/useIsRotating';
 import useIsShowingInfo from './hooks/useIsShowingInfo';
 
-const Artworks = ({ searchTerm = '', year = '' }) => {
+const Artworks = () => {
+    const params = useParams();
+    const year = params.year ?? '';
+    const searchTerm = params.searchTerm ?? '';
+
     const { isRotating, setIsRotating } = useIsRotating();
     const { isShowingInfo, setIsShowingInfo } = useIsShowingInfo();
 
     const [artworks, setArtworks] = useState([]);
 
     useEffect(() => {
+        console.log('y', year);
         async function getArtworks(year, searchTerm) {
             let params = [];
             if (searchTerm !== '') {
