@@ -17,7 +17,7 @@ const HomePage = () => {
     const fetchArtworks = () => {
         let params = [];
         params.push("random=true");
-        params.push("year_filter=2021");
+        params.push("year=2021");
         fetch(`${config.host}api/artworks?${params.join('&')}`,
             {
                 'Content-Type': 'application/json',

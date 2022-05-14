@@ -8,7 +8,7 @@ const useFetchArtworks = (filter, searchTerm = '') => {
             params.push(`search=${searchTerm}`);
         } else {
             if (filter !== undefined) {
-                params.push(`year_filter=${filter}`);
+                params.push(`year=${filter}`);
             }
         }
         fetch(`${config.host}api/artworks?${params.join('&')}`,

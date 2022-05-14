@@ -176,7 +176,7 @@ class Artwork extends React.Component {
             return (
                 <div className="row justify-content-center">
                     <div className="col-lg-11 col-11 pe-1">
-                        <MovingColorImg isRotating={this.state.isRotating} src="./images/barcodes2019.jpg"/>
+                        <MovingColorImg isRotating={this.state.isRotating} src={this.state.image}/>
                     </div>
                     <div className="align-self-end ps-0 col-lg-1 col-1">
                         <FontAwesomeIcon icon={this.state.isShowingInfo ? faTimesCircle : faInfoCircle} onClick={this.toggleShowInfo}/>

@@ -1,47 +1,45 @@
 import React from 'react'
-import { useMemo, useCallback } from 'react'
+import { useState, useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import Artwork from "./Artwork";
+import config from './config.json';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faToggleOn, faToggleOff, faInfoCircle, faTimesCircle} from '@fortawesome/free-solid-svg-icons'
 import useIsRotating from './hooks/useIsRotating';
 import useIsShowingInfo from './hooks/useIsShowingInfo';
 import useFetchArtworks from './hooks/useFetchArtworks';
-import config from './config.json';
+// import { getArtworks } from './models/Artwork';
 
-const Artworks = ({ searchTerm }) => {
+const Artworks = ({ searchTerm = '', year = '' }) => {
     const { isRotating, setIsRotating } = useIsRotating();
     const { isShowingInfo, setIsShowingInfo } = useIsShowingInfo();
-    const { pathname } = useLocation();
-    const year = pathname.substring(pathname.lastIndexOf('/') + 1) ?? '';
 
-    const fetchArtworks = useCallback(() => {        
-        let params = [];
-        if (searchTerm !== '') {
-            params.push(`search=${searchTerm}`);
-        } else {
+    const [artworks, setArtworks] = useState([]);
+
+    useEffect(() => {
+        async function getArtworks(year, searchTerm) {
+            let params = [];
+            if (searchTerm !== '') {
+                params.push(`search=${searchTerm}`);
+            } 
             if (year !== '') {
-                params.push(`year_filter=${year}`);
+                params.push(`year=${year}`);
             }
-        }
-        fetch(`${config.host}api/artworks?${params.join('&')}`,
-            {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                method: "GET"
-            }
-        )
-            .then(res => res.json())
-            .then(
-                (result) => {
-                    if (result.length !== 0) {
-                        return result;
-                    }
+            let works = await fetch(`${config.host}api/artworks?${params.join('&')}`,
+                {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    method: "GET"
                 }
-            )
-    }, [year, searchTerm]);
+            );
+            setArtworks(await works.json());
+        }
 
-    const artworks = useMemo(() => fetchArtworks(searchTerm), [year, searchTerm]);
+        getArtworks(year, searchTerm);
+        
+    }, [searchTerm, year]);
+
+    useEffect(() => console.log('ar', artworks), [artworks]);
 
     return (
         <React.Fragment>
@@ -55,8 +53,9 @@ const Artworks = ({ searchTerm }) => {
                 <span className="ms-1">{isShowingInfo ? "hide info" : "show all info"}</span>
             </span>
             <div className="row align-items-center">
-                {artworks ? 
+                {artworks instanceof Array ? 
                     (artworks.map((artwork, i) => {
+                        console.log('art', artwork);
                         return (
                             <div key={artwork.id} className="col-lg-4 col-12 mb-4">
                                 <div key={artwork.id}>
