@@ -19,7 +19,6 @@ const Artworks = () => {
     const [artworks, setArtworks] = useState([]);
 
     useEffect(() => {
-        console.log('y', year);
         async function getArtworks(year, searchTerm) {
             let params = [];
             if (searchTerm !== '') {
