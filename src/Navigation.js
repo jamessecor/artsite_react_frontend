@@ -1,5 +1,5 @@
 import React from 'react'
-import { useNavigate, useLocation, Outlet } from 'react-router-dom';
+import { useNavigate, createSearchParams, useLocation, Outlet } from 'react-router-dom';
 import LoginForm from "./LoginForm"
 import config from "./config.json"
 import Nav from 'react-bootstrap/Nav'
@@ -119,9 +119,19 @@ const Navigation = () => {
                             <NavDropdown title="artwork" id="basic-nav-dropdown">
                                 {[...Array(currentYear - config.firstArtworkYear + 1).keys()].map((i) => {
                                     return (
-                                        <NavDropdown.Item key={i} onClick={() => navigateTo(`/artworks/${currentYear - i}`)}
-                                                            data-filter={currentYear - i}
-                                                            data-page-id="artwork">{currentYear - i}</NavDropdown.Item>
+                                        <NavDropdown.Item 
+                                            key={i} 
+                                            data-filter={currentYear - i}
+                                            data-page-id="artwork"
+                                            onClick={() => navigateTo({
+                                                    pathname: '/artworks', 
+                                                    search: createSearchParams({
+                                                        'year': `${currentYear - i}`
+                                                    }).toString()})
+                                            }
+                                        >
+                                            {currentYear - i}
+                                        </NavDropdown.Item>
                                     );
                                 })}
                             </NavDropdown>

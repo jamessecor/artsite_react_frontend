@@ -1,4 +1,4 @@
 {
-  "host": "https://artsite-api-9c6zt.ondigitalocean.app/",
+  "host": "http://localhost:8080/",
   "firstArtworkYear": 2012
 }

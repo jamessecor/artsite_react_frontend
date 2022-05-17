@@ -3,7 +3,7 @@ import config from './config.json'
 import useIsRotating from './hooks/useIsRotating';
 import './MovingColorImage.css';
 
-const MovingColorImage = ({src}) => {
+const MovingColorImage = ({src, title}) => {
     const { isRotating, setIsRotating } = useIsRotating();
     useEffect(() => {console.log('isR', isRotating)}, [isRotating]);
     // constructor(props) {
@@ -70,7 +70,7 @@ const MovingColorImage = ({src}) => {
 
     return (
         <img 
-            alt="not found"
+            alt={title}
             onClick={() => setIsRotating(!isRotating)}
             className={isRotating ? 'w-100 rotating' : 'w-100'}
             // style={{filter: 'hue-rotate(' + this.state.rotationAmount + 'deg)'}}

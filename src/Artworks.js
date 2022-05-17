@@ -1,18 +1,18 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useSearchParams } from 'react-router-dom'
 import Artwork from "./Artwork";
 import config from './config.json';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faToggleOn, faToggleOff, faInfoCircle, faTimesCircle} from '@fortawesome/free-solid-svg-icons'
 import useIsRotating from './hooks/useIsRotating';
 import useIsShowingInfo from './hooks/useIsShowingInfo';
+import { Button, Col, Container, Row, Stack } from 'react-bootstrap';
 
 const Artworks = () => {
-    const params = useParams();
-    const year = params.year ?? '';
-    const searchTerm = params.searchTerm ?? '';
-
+    const [searchParams, setSearchParams] = useSearchParams();
+    const year = searchParams.get('year') ?? '';
+    const searchTerm = searchParams.get('search') ?? '';
     const { isRotating, setIsRotating } = useIsRotating();
     const { isShowingInfo, setIsShowingInfo } = useIsShowingInfo();
 
@@ -39,25 +39,27 @@ const Artworks = () => {
 
         getArtworks(year, searchTerm);
         
-    }, [searchTerm, year]);
+    }, [year, searchTerm]);
 
     return (
         <React.Fragment>
-            <span onClick={() => setIsRotating(!isRotating)}>
-                <FontAwesomeIcon className={'ms-3'} icon={isRotating ? faToggleOn : faToggleOff}/>
-                {/*<FontAwesomeIcon icon={this.state.isRotating ? faTeeth : faTeethOpen}/>*/}
-                <span className="ms-1">{isRotating ? "normal, please" : "rainbow time!"}</span>
-            </span>
-            <span className="ps-3" onClick={() => setIsShowingInfo(!isShowingInfo)}>
-                <FontAwesomeIcon icon={isShowingInfo ? faTimesCircle : faInfoCircle}/>
-                <span className="ms-1">{isShowingInfo ? "hide info" : "show all info"}</span>
-            </span>
-            <div className="row align-items-center">
-                {artworks ? 
-                    (artworks.map((artwork, i) => {
-                        return (
-                            <div key={artwork.id} className="col-lg-4 col-12 mb-4">
-                                <div key={artwork.id}>
+            <Stack gap='1' direction='horizontal' className="position-fixed bottom-0 mx-auto">
+                <Button size='sm' variant='outline-info' onClick={() => setIsRotating(!isRotating)}>
+                    <FontAwesomeIcon icon={isRotating ? faToggleOn : faToggleOff}/>
+                    {/*<FontAwesomeIcon icon={this.state.isRotating ? faTeeth : faTeethOpen}/>*/}
+                    <span className="ms-1">{isRotating ? "normal, please" : "rainbow time!"}</span>
+                </Button>
+                <Button size='sm' variant='outline-info' onClick={() => setIsShowingInfo(!isShowingInfo)}>
+                    <FontAwesomeIcon icon={isShowingInfo ? faTimesCircle : faInfoCircle}/>
+                    <span className="ms-1">{isShowingInfo ? "hide info" : "show all info"}</span>
+                </Button>
+            </Stack>
+            <Container fluid={'sm'} className="align-items-center">
+                <Row xs={1} lg={3}>
+                    {artworks ? 
+                        (artworks.map((artwork, i) => {
+                            return (
+                                <Col key={artwork.id} className="mb-4 px-3">
                                     <Artwork 
                                         isShowingInfo={isShowingInfo} 
                                         allAreRotating={isRotating}
@@ -65,12 +67,12 @@ const Artworks = () => {
                                         attributes={artwork} 
                                         isEditable={false}
                                     />
-                                </div>
-                            </div>
-                        )
-                }))
-                : null }
-            </div>
+                                </Col>
+                            )
+                    }))
+                    : null }
+                </Row>
+            </Container>
         </React.Fragment>
     );
 };
