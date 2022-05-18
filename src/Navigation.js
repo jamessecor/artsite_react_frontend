@@ -8,8 +8,7 @@ import Navbar from 'react-bootstrap/Navbar'
 import Container from 'react-bootstrap/Container'
 import Form from 'react-bootstrap/Form'
 import FormControl from 'react-bootstrap/FormControl'
-import Button from 'react-bootstrap/Button'
-import './Navigation.css';
+import Button from 'react-bootstrap/Button';
 
 const Navigation = () => {
     const navigateTo = useNavigate();
@@ -106,7 +105,7 @@ const Navigation = () => {
 
     return (
         <React.Fragment>
-            <Navbar className="mb-4" collapseOnSelect={true} expand="lg">
+            <Navbar fixed='top' variant='dark' className="mb-4" collapseOnSelect={true} expand="lg">
                 <Container fluid>
                     <Navbar.Brand onClick={() => navigateTo('/')} data-page-id="home" href="#">
                         <div className={"d-flex"}>

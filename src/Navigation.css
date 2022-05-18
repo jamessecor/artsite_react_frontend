@@ -1,8 +1,0 @@
-nav.navbar > div > a > div > span,
-#basic-navbar-nav > div > a,
-#basic-navbar-nav > div > div > a,
-#basic-navbar-nav > div > div > div > a
-{
-    background: #3e3e3e;
-    color: #cad4ea;
-}

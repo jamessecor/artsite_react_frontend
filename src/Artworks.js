@@ -54,12 +54,12 @@ const Artworks = () => {
                     <span className="ms-1">{isShowingInfo ? "hide info" : "show all info"}</span>
                 </Button>
             </Stack>
-            <Container fluid={'sm'} className="align-items-center">
+            <Container fluid={'sm'} className="align-items-center mt-5">
                 <Row xs={1} lg={3}>
                     {artworks ? 
                         (artworks.map((artwork, i) => {
                             return (
-                                <Col key={artwork.id} className="mb-4 px-3">
+                                <Col key={artwork.id} className="my-4 px-4">
                                     <Artwork 
                                         isShowingInfo={isShowingInfo} 
                                         allAreRotating={isRotating}
