@@ -54,7 +54,7 @@ const Artworks = () => {
                     <span className="ms-1">{isShowingInfo ? "hide info" : "show all info"}</span>
                 </Button>
             </Stack>
-            <Container fluid={'sm'} className="align-items-center mt-5">
+            <Container fluid={'sm'} className="align-items-center">
                 <Row xs={1} lg={3}>
                     {artworks ? 
                         (artworks.map((artwork, i) => {
