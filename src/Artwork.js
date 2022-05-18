@@ -7,7 +7,7 @@ import { faInfoCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import { Col, Stack } from 'react-bootstrap';
 
 const Artwork = ({attributes, isRotating}) => {
-    const [isShowingInfo, setIsShowingInfo] = useState(true);
+    const [isShowingInfo, setIsShowingInfo] = useState(false);
     const toggleShowInfo = () => setIsShowingInfo(!isShowingInfo);
 
     return (

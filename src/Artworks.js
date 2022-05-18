@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
-import { useParams, useSearchParams } from 'react-router-dom'
+import { useSearchParams } from 'react-router-dom'
 import Artwork from "./Artwork";
 import config from './config.json';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -10,7 +10,7 @@ import useIsShowingInfo from './hooks/useIsShowingInfo';
 import { Button, Col, Container, Row, Stack } from 'react-bootstrap';
 
 const Artworks = () => {
-    const [searchParams, setSearchParams] = useSearchParams();
+    const [searchParams, _] = useSearchParams();
     const year = searchParams.get('year') ?? '';
     const searchTerm = searchParams.get('search') ?? '';
     const { isRotating, setIsRotating } = useIsRotating();

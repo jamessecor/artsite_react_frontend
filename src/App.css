@@ -1,5 +1,6 @@
-body, #root-container {
-  background: #bad0c7;
+body {
+  background: #3e3e3e;
+  color: #cad4ea;
   font-family: "Lucida Sans Typewriter", monospace;
 }
 
