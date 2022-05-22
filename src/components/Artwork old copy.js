@@ -5,7 +5,7 @@ import MovingColorImage from "./MovingColorImage";
 import PriceFormatter from "./PriceFormatter";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faInfoCircle, faTimesCircle} from '@fortawesome/free-solid-svg-icons'
-import config from './config.json'
+import config from '../config.json'
 
 class Artwork extends React.Component {
     constructor(props) {

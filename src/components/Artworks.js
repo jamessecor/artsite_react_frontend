@@ -2,11 +2,11 @@ import React from 'react'
 import { useState, useEffect } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import Artwork from "./Artwork";
-import config from './config.json';
+import config from '../config.json';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faToggleOn, faToggleOff, faInfoCircle, faTimesCircle} from '@fortawesome/free-solid-svg-icons'
-import useIsRotating from './hooks/useIsRotating';
-import useIsShowingInfo from './hooks/useIsShowingInfo';
+import useIsRotating from '../hooks/useIsRotating';
+import useIsShowingInfo from '../hooks/useIsShowingInfo';
 import { Button, Col, Container, Row, Stack } from 'react-bootstrap';
 
 const Artworks = () => {
@@ -59,11 +59,10 @@ const Artworks = () => {
                     {artworks ? 
                         (artworks.map((artwork, i) => {
                             return (
-                                <Col key={artwork.id} className="my-4 px-4">
+                                <Col key={`${artwork.id}-${artwork.title}`} className="my-4 px-4">
                                     <Artwork 
                                         isShowingInfo={isShowingInfo} 
                                         allAreRotating={isRotating}
-                                        key={artwork.id} 
                                         attributes={artwork} 
                                         isEditable={false}
                                     />

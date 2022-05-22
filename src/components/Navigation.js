@@ -1,7 +1,8 @@
-import React from 'react'
+import React from 'react';
+import { useState, useCallback } from 'react';
 import { useNavigate, createSearchParams, useLocation, Outlet } from 'react-router-dom';
 import LoginForm from "./LoginForm"
-import config from "./config.json"
+import config from "../config.json"
 import Nav from 'react-bootstrap/Nav'
 import NavDropdown from 'react-bootstrap/NavDropdown'
 import Navbar from 'react-bootstrap/Navbar'
@@ -14,7 +15,12 @@ import Button from 'react-bootstrap/Button';
 const Navigation = () => {
     const navigateTo = useNavigate();
     const { pathname } = useLocation();
+    const [showOffcanvas, setShowOffcanvas] = useState(false);
 
+    const HideOffcanvasAndNavigateTo = (newPath) => {
+        setShowOffcanvas(false);
+        navigateTo(newPath);
+    };
     // componentDidMount() {
     //     this.loginWithToken();
     //     this.fetchArtworks();
@@ -63,23 +69,6 @@ const Navigation = () => {
     //     localStorage["email"] = result["user"]["email"];
     // }
 
-    // // currentPageContent() {
-    // //     switch (this.state.currentPage) {
-    // //         case "artwork":
-    // //             return <Artworks artworks={this.state.artworks} isLoggedIn={this.state.isLoggedIn}/>
-    // //         case "search":
-    // //             return <Artworks artworks={this.state.artworks} isLoggedIn={this.state.isLoggedIn}/>
-    // //         case "cv":
-    // //             return <Cv isLoggedIn={this.state.isLoggedIn}/>
-    // //         case "colors":
-    // //             return <Colors />
-    // //         case "contact":
-    // //             return <ContactForm formWillUnmount={this.formWillUnmount} inputs={this.state.contactFormInputs}/>
-    // //         default:
-    // //             return <Artworks artworks={this.state.artworks} isLoggedIn={this.state.isLoggedIn}/>
-    // //     }
-    // // }
-
     // handleSignOut(e) {
     //     e.preventDefault();
     //     this.setState({
@@ -95,13 +84,6 @@ const Navigation = () => {
     //     })
     // }
 
-    // const toggleArtworkDropdown = (e) => {
-    //     e.preventDefault();
-    //     this.setState({
-    //         isArtworkDropdownOpen: !this.state.isArtworkDropdownOpen
-    //     })
-    // };
-
     const currentYear = new Date().getFullYear();
 
     return (
@@ -112,11 +94,10 @@ const Navigation = () => {
                         <div className={"d-flex"}>
                             <span>James Secor</span>
                         </div>
-
                     </Navbar.Brand>
-                    <Navbar.Toggle aria-controls="basic-navbar-nav"/>
-                    <Navbar.Offcanvas aria-labelled-by='basic-navbar-nav-label' id="basic-navbar-nav">
-                        <Offcanvas.Header closeButton>
+                    <Navbar.Toggle onClick={() => setShowOffcanvas(!showOffcanvas)}/>
+                    <Navbar.Offcanvas onHide={() => setShowOffcanvas(false)} show={showOffcanvas} scroll={true}>
+                        <Offcanvas.Header onHide={() => setShowOffcanvas(false)} closeButton>
                             <Offcanvas.Title>James Secor</Offcanvas.Title>
                         </Offcanvas.Header>
                         <Offcanvas.Body>
@@ -128,21 +109,19 @@ const Navigation = () => {
                                                 key={i} 
                                                 data-filter={currentYear - i}
                                                 data-page-id="artwork"
-                                                onClick={() => navigateTo({
-                                                        pathname: '/artworks', 
-                                                        search: createSearchParams({
-                                                            'year': `${currentYear - i}`
-                                                        }).toString()})
-                                                }
+                                                onClick={() => HideOffcanvasAndNavigateTo(`/artworks?year=${currentYear - i}`)}
                                             >
                                                 {currentYear - i}
                                             </NavDropdown.Item>
                                         );
                                     })}
                                 </NavDropdown>
-                                <Nav.Link className={pathname === "cv" ? "active" : ""} onClick={() => navigateTo('/cv')}>cv</Nav.Link>
+                                <Nav.Link className={pathname === "cv" ? "active" : ""} onClick={() => HideOffcanvasAndNavigateTo('/cv')}>
+                                    {'cv'}
+                                </Nav.Link>
                                 {/* <Nav.Link className={pathname === "contact" ? "active" : ""} onClick={() => navigateTo('/contact')}>contact</Nav.Link> */}
-                                <Nav.Link className={pathname === "colors" ? "active" : ""} onClick={() => navigateTo('/colors')}>colors</Nav.Link>
+                                <Nav.Link className={pathname === "colors" ? "active" : ""} onClick={() => HideOffcanvasAndNavigateTo('/colors')}>colors</Nav.Link>
+                                <Nav.Link className={pathname === "store" ? "active" : ""} onClick={() => HideOffcanvasAndNavigateTo('/store')}>store</Nav.Link>
                             </Nav>
                             <Nav>
                                 <Nav.Link disabled>James Secor &copy; 2021</Nav.Link>

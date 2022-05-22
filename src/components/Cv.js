@@ -1,9 +1,9 @@
 import React from "react"
 import Accordion from "react-bootstrap/Accordion";
-import {soloShows} from "./data/cv"
-import {groupShows} from "./data/cv"
-import {residencies} from "./data/cv"
-import {education} from "./data/cv"
+import {soloShows} from "../data/cv"
+import {groupShows} from "../data/cv"
+import {residencies} from "../data/cv"
+import {education} from "../data/cv"
 
 const Cv = () => (
     <Accordion className="col-lg-10 offset-lg-1 col-12" defaultActiveKey={"solo"}>

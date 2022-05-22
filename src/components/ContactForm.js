@@ -1,5 +1,5 @@
 import React from "react";
-import config from './config.json';
+import config from '../config.json';
 import SubmitButton from "./SubmitButton";
 import Form from 'react-bootstrap/Form';
 

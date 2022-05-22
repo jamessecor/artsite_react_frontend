@@ -7,6 +7,7 @@ import Artworks from './Artworks';
 import Cv from './Cv';
 import Colors from './Colors';
 import Navigation from './Navigation';
+import Store from './store/Store';
 
 const App = () => (
     <BrowserRouter>
@@ -18,6 +19,7 @@ const App = () => (
                 </Route>
                 <Route path={'/cv'} element={<Cv />} />
                 <Route path={'/colors'} element={<Colors />} />
+                <Route path={'/store'} element={<Store />} />
             </Route>
         </Routes>
     </BrowserRouter>

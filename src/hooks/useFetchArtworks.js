@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import config from '../config.json';
+import config from '.../config.json';
 
 const useFetchArtworks = (filter, searchTerm = '') => {
     const fetchArtworks = useCallback(() => {

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import config from "./config.json";
+import config from "../config.json";
 import MovingColorImage from "./MovingColorImage";
 import { Container } from 'react-bootstrap';
 

@@ -1,6 +1,6 @@
 import React from 'react'
 import Color from "./Color";
-import {colorOptions} from "./data/color_options";
+import {colorOptions} from "../data/color_options";
 
 class Colors extends React.Component {
     constructor(props) {
