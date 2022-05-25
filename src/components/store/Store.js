@@ -24,15 +24,15 @@ const Store = () => {
     return (
         <Container fluid={'sm'} className="align-items-center">
             <Row xs={1} lg={3}>
-                    {Object.values(storeItems).map((storeItem) =>
-                <Col xs={12}>
-                        <StoreItem key={`${storeItem.title}${storeItem.itemNumber}`}
+                {Object.values(storeItems).map((storeItem) =>
+                    <Col xs={12} key={`${storeItem.title}${storeItem.itemNumber}`}>
+                        <StoreItem
                                 title={storeItem.title}
                                 itemNumber={storeItem.itemNumber}
                                 imageSrc={storeItem.imageSrc} 
                         />
-                </Col>
-                        )}
+                    </Col>
+                )}
             </Row>
         </Container>
     )

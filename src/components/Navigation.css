@@ -2,3 +2,22 @@
     background: darkslateblue !important;
     color: lightblue;
 }
+.offcanvas,
+.offcanvas-body > .navbar-nav > .nav-item > a,
+.offcanvas-body > .navbar-nav > .nav-item > .dropdown-menu,
+.offcanvas-body > .navbar-nav > .nav-item > .dropdown-menu > a,
+.offcanvas-body > .navbar-nav > a {
+    background: lightblue;
+    color: darkslateblue;
+}
+
+.offcanvas-body > .navbar-nav > .nav-item > a:hover,
+.offcanvas-body > .navbar-nav > .nav-item > .dropdown-menu > a:hover,
+.offcanvas-body > .navbar-nav > a:hover {
+    background: darkslateblue;
+    color: lightblue;
+}
+
+.outlet-content {
+    margin-top: 5rem;
+}

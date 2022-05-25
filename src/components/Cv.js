@@ -4,6 +4,7 @@ import {soloShows} from "../data/cv"
 import {groupShows} from "../data/cv"
 import {residencies} from "../data/cv"
 import {education} from "../data/cv"
+import './Cv.css';
 
 const Cv = () => (
     <Accordion className="col-lg-10 offset-lg-1 col-12" defaultActiveKey={"solo"}>
