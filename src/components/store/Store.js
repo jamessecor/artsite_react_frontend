@@ -1,12 +1,42 @@
-import React from 'react';
-import { storeItemsArray } from '../../data/store.js';
+import React, { useState, useEffect } from 'react';
+import config from '../../config.json';
 import StoreItem from './StoreItem';
+import { Container, Row, Col } from 'react-bootstrap';
 
-const Store = () => (
-    <React.Fragment>
-        {Object.values(storeItemsArray).map((storeItem) => <StoreItem title={storeItem.title} itemNumber={storeItem.itemNumber} imageSrc={storeItem.imageSrc} />)}
-    </React.Fragment>
-);
+const Store = () => {
+    const [storeItems, setStoreItems] = useState([]);
+    useEffect(() => {
+        const fetchStoreItems = async () => {
+            const storeItems = await fetch(`${config.host}api/store`,
+                {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    method: "GET"
+                }
+            );
+            setStoreItems(await storeItems.json());
+            console.log('i', storeItems);
+        }
+        
+        fetchStoreItems();
+    }, []);
+
+    return (
+        <Container fluid={'sm'} className="align-items-center">
+            <Row xs={1} lg={3}>
+                    {Object.values(storeItems).map((storeItem) =>
+                <Col xs={12}>
+                        <StoreItem key={`${storeItem.title}${storeItem.itemNumber}`}
+                                title={storeItem.title}
+                                itemNumber={storeItem.itemNumber}
+                                imageSrc={storeItem.imageSrc} 
+                        />
+                </Col>
+                        )}
+            </Row>
+        </Container>
+    )
+};
 
 export default Store;
 //     <div class="spacer-row"></div>

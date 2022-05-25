@@ -1,9 +1,10 @@
 import React from 'react';
 import { Form } from 'react-bootstrap';
+import config from '../../config.json';
 
 const StoreItem = ({title, itemNumber, imageSrc}) => (
     <React.Fragment>
-        <img src={imageSrc} alt={title} />
+        <img className={'w-100'} src={`${config.host}${imageSrc}`} alt={title} />
         <Form target='paypal' action="https://www.paypal.com/cgi-bin/webscr" method='post'>
             <input type="hidden" name="cmd" value="_cart" />
             <input type="hidden" name="business" value="james.secor@gmail.com" />
@@ -24,9 +25,9 @@ const StoreItem = ({title, itemNumber, imageSrc}) => (
                 <option value="15 cards">15 cards $45.00 USD</option>    
                 </select> </td></tr>
 
-    <tr><td>
-            <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_cart_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!"></input>
-            <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1"></img>
+            <tr><td>
+                <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_cart_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!"></input>
+                <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1"></img>
             </td></tr></table>
             <input type="hidden" name="currency_code" value="USD" />
             <input type="hidden" name="option_select0" value="5 cards" />

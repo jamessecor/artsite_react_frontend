@@ -19,7 +19,9 @@ const App = () => (
                 </Route>
                 <Route path={'/cv'} element={<Cv />} />
                 <Route path={'/colors'} element={<Colors />} />
-                <Route path={'/store'} element={<Store />} />
+                <Route path={'/store'} element={<Store />}>
+                    <Route path={'postcards'} element={<Store />} />
+                </Route>
             </Route>
         </Routes>
     </BrowserRouter>

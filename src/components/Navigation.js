@@ -91,9 +91,7 @@ const Navigation = () => {
             <Navbar fixed='top' variant='dark' className="mb-4" collapseOnSelect={true} expand="lg">
                 <Container fluid>
                     <Navbar.Brand onClick={() => navigateTo('/')} data-page-id="home" href="#">
-                        <div className={"d-flex"}>
-                            <span>James Secor</span>
-                        </div>
+                        James Secor
                     </Navbar.Brand>
                     <Navbar.Toggle onClick={() => setShowOffcanvas(!showOffcanvas)}/>
                     <Navbar.Offcanvas onHide={() => setShowOffcanvas(false)} show={showOffcanvas} scroll={true}>
