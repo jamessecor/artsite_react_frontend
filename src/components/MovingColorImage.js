@@ -11,7 +11,7 @@ const MovingColorImage = ({src, title}) => {
             onClick={() => setIsRotating(!isRotating)}
             className={isRotating ? 'w-100 rotating' : 'w-100'}
             // style={{filter: 'hue-rotate(' + this.state.rotationAmount + 'deg)'}}
-            src={`${config.host}${src}`}/>
+            src={src}/>
     )
 }
 

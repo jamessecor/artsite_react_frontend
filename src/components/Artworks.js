@@ -8,6 +8,7 @@ import {faToggleOn, faToggleOff, faInfoCircle, faTimesCircle} from '@fortawesome
 import useIsRotating from '../hooks/useIsRotating';
 import useIsShowingInfo from '../hooks/useIsShowingInfo';
 import { Button, Col, Container, Row, Stack } from 'react-bootstrap';
+import useArtworks from '../hooks/useArtworks';
 
 const Artworks = () => {
     const [searchParams, _] = useSearchParams();
@@ -15,31 +16,11 @@ const Artworks = () => {
     const searchTerm = searchParams.get('search') ?? '';
     const { isRotating, setIsRotating } = useIsRotating();
     const { isShowingInfo, setIsShowingInfo } = useIsShowingInfo();
-
-    const [artworks, setArtworks] = useState([]);
-
+    const {artworks, setArtworks, setEm} = useArtworks();
+    
     useEffect(() => {
-        async function getArtworks(year, searchTerm) {
-            let params = [];
-            if (searchTerm !== '') {
-                params.push(`search=${searchTerm}`);
-            } 
-            if (year !== '') {
-                params.push(`year=${year}`);
-            }
-            let works = await fetch(`${config.host}api/artworks?${params.join('&')}`,
-                {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
-                    method: "GET"
-                }
-            );
-            setArtworks(await works.json());
-        }
-
-        getArtworks(year, searchTerm);
-        
-    }, [year, searchTerm]);
+        setEm(year, searchTerm);
+    }, [setEm, year, searchTerm]);
 
     return (
         <React.Fragment>
