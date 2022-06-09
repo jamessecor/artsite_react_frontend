@@ -6,7 +6,6 @@ import config from '../config.json';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faToggleOn, faToggleOff, faInfoCircle, faTimesCircle} from '@fortawesome/free-solid-svg-icons'
 import useIsRotating from '../hooks/useIsRotating';
-import useIsShowingInfo from '../hooks/useIsShowingInfo';
 import { Button, Col, Container, Row, Stack } from 'react-bootstrap';
 import useArtworks from '../hooks/useArtworks';
 
@@ -15,13 +14,13 @@ const Artworks = () => {
     const year = searchParams.get('year') ?? '';
     const searchTerm = searchParams.get('search') ?? '';
     const { isRotating, setIsRotating } = useIsRotating();
-    const { isShowingInfo, setIsShowingInfo } = useIsShowingInfo();
+    const [isShowingInfo, setIsShowingInfo] = useState(false);
     const {artworks, setArtworks, setEm} = useArtworks();
     
     useEffect(() => {
         setEm(year, searchTerm);
     }, [setEm, year, searchTerm]);
-
+    
     return (
         <React.Fragment>
             <Stack gap='1' direction='horizontal' className="position-fixed bottom-0 mx-auto">

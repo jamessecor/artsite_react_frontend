@@ -29,10 +29,7 @@ const useArtworks = (year, searchTerm = '') => {
     ];
 
     const setEm = useCallback((year, searchTerm) => {
-        // TODO: flesh out this callback
         let newArtworks = allArtworks;
-        console.log('all', allArtworks);
-        console.log('f', year);
         if (year) {
             newArtworks = newArtworks.filter(x => x.year.toString() === year.toString());
         }

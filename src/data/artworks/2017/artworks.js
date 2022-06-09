@@ -49,7 +49,7 @@ export const artworks2017 = [
     },
     {
         "id": "16",
-        "title": "LisiÃ¨re du bois (Little Baseball)",
+        "title": "Lisière du bois (Little Baseball)",
         "year": "2017",
         "media": "acrylic on paper",
         "image": "/images/2012-2021/04.jpg",
