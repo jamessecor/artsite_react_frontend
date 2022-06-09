@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useNavigate, useLocation, Outlet } from 'react-router-dom';
 // import LoginForm from "./LoginForm"
 import config from "../config.json"
@@ -8,9 +8,9 @@ import NavDropdown from 'react-bootstrap/NavDropdown'
 import Navbar from 'react-bootstrap/Navbar'
 import Offcanvas from 'react-bootstrap/Offcanvas'
 import Container from 'react-bootstrap/Container'
-// import Form from 'react-bootstrap/Form'
-// import FormControl from 'react-bootstrap/FormControl'
-// import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form'
+import FormControl from 'react-bootstrap/FormControl'
+import Button from 'react-bootstrap/Button';
 // import NavbarCollapse from 'react-bootstrap/esm/NavbarCollapse';
 import './Navigation.css';
 
@@ -23,6 +23,7 @@ const Navigation = () => {
         setShowOffcanvas(false);
         navigateTo(newPath);
     };
+
     // componentDidMount() {
     //     this.loginWithToken();
     //     this.fetchArtworks();
@@ -86,6 +87,13 @@ const Navigation = () => {
     //     })
     // }
 
+    const searchTerm = useRef();
+
+    const handleSearchSubmit = (e) => {
+        e.preventDefault();
+        // HideOffcanvasAndNavigateTo(`/artworks?search=${searchTerm.current.value}`);
+        navigateTo(`/artworks?search=${searchTerm.current.value}`);
+    }
     const currentYear = new Date().getFullYear();
 
     const NavbarLinks = () => (
@@ -135,16 +143,20 @@ const Navigation = () => {
                     Log in
                 </Nav.Link> */}
             </Nav>
-            {/* <Form onSubmit={this.handleSearchSubmit} className="d-flex">
+            <Form onSubmit={handleSearchSubmit} className="d-flex">
                 <FormControl
-                    onChange={this.handleSearchChange}
+                    // onChange={(e) => {
+                    //     e.preventDefault();
+                    //     setSearchTerm(e.target.value);
+                    // }}
                     type="search"
+                    ref={searchTerm}
                     placeholder="Search"
                     className="me-2"
                     aria-label="Search"
                 />
-                <Button variant="outline-success">Search</Button>
-            </Form> */}
+                <Button type="submit" variant="outline-success">Search</Button>
+            </Form>
         </React.Fragment>
     );
 

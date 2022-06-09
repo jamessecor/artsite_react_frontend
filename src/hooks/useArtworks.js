@@ -33,6 +33,9 @@ const useArtworks = (year, searchTerm = '') => {
         if (year) {
             newArtworks = newArtworks.filter(x => x.year.toString() === year.toString());
         }
+        if (searchTerm) {
+            newArtworks = newArtworks.filter(x => x.title.toString().toLowerCase().includes(searchTerm.toString().toLowerCase()));
+        }
         setArtworks(newArtworks);
     }, [year, searchTerm]);
 
