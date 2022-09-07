@@ -118,6 +118,7 @@ const Navigation = () => {
                 </Nav.Link>
                 {/* <Nav.Link className={pathname === "contact" ? "active" : ""} onClick={() => navigateTo('/contact')}>contact</Nav.Link> */}
                 <Nav.Link className={pathname === "colors" ? "active" : ""} onClick={() => HideOffcanvasAndNavigateTo('/colors')}>colors</Nav.Link>
+                <Nav.Link className={pathname === "contact" ? "active" : ""} onClick={() => HideOffcanvasAndNavigateTo('/contact')}>contact</Nav.Link>
                 <Nav.Link className={pathname === "store" ? "active" : ""} onClick={() => HideOffcanvasAndNavigateTo('/store')}>store</Nav.Link>
             </Nav>
             <Nav>

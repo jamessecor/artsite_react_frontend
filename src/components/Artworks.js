@@ -2,7 +2,6 @@ import React from 'react'
 import { useState, useEffect } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import Artwork from "./Artwork";
-import config from '../config.json';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faToggleOn, faToggleOff, faInfoCircle, faTimesCircle} from '@fortawesome/free-solid-svg-icons'
 import useIsRotating from '../hooks/useIsRotating';
@@ -15,7 +14,7 @@ const Artworks = () => {
     const searchTerm = searchParams.get('search') ?? '';
     const { isRotating, setIsRotating } = useIsRotating();
     const [isShowingInfo, setIsShowingInfo] = useState(false);
-    const {artworks, setArtworks, setEm} = useArtworks();
+    const {artworks, setEm} = useArtworks();
     
     useEffect(() => {
         setEm(year, searchTerm);
