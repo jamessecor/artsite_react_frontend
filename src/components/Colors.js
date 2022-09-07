@@ -52,12 +52,16 @@ class Colors extends React.Component {
                     </div>
                 </div>
                 <div className="row vh-100 g-0 container-fluid">
-                    {[...Array(108)].map((value, index) => {
+                    {[...Array(432)].map((value, index) => {
                         return (
                             <div key={index} className="col-1">
                                 <div className="d-flex h-100">
                                     <Color key={`color-a-${index}`} highlightColor={this.state.highlightColor}/>
                                     <Color key={`color-b-${index}`} highlightColor={this.state.highlightColor}/>
+                                    <Color key={`color-c-${index}`} highlightColor={this.state.highlightColor}/>
+                                    <Color key={`color-d-${index}`} highlightColor={this.state.highlightColor}/>
+                                    <Color key={`color-e-${index}`} highlightColor={this.state.highlightColor}/>
+                                    <Color key={`color-f-${index}`} highlightColor={this.state.highlightColor}/>
                                 </div>
                             </div>
                         )
