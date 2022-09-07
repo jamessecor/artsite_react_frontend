@@ -19,15 +19,17 @@ const Color = ({ highlightColor }) => {
     };
 
     return (
-        <div onMouseEnter={handleMouseEnter}
-                onMouseLeave={handleMouseLeave}
-                // onTouchStart={this.clearIntervalAndSetColor}
-                // onTouchEnd={this.setInterval}
-                style={{
-                    filter: 'blur(1px)',
-                    background: `rgb(${red},${green},${blue}`
-                }}
-                className={`${isRotating ? 'rotatingColor' : ''} color w-50`}></div> // w-50 so 2 fit per col
+        <div 
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            // onTouchStart={this.clearIntervalAndSetColor}
+            // onTouchEnd={this.setInterval}
+            style={{
+                filter: 'blur(25px)',
+                background: `rgb(${red},${green},${blue}`
+            }}
+            className={`${isRotating ? 'rotatingColor' : ''} color w-50`}
+        /> // w-50 so 2 fit per col
     )    
 }
 

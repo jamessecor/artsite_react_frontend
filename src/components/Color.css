@@ -1,5 +1,5 @@
 .rotatingColor {
-    /* filter: grayscale(100%); */
+    filter: grayscale(0%);
     animation-name: color;
     animation-duration: 1s;
     animation-iteration-count: infinite;

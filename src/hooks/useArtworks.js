@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useEffect, useState } from 'react';
 import { artworks2012 } from '../data/artworks/2012/artworks';
 import { artworks2013 } from '../data/artworks/2013/artworks';
 import { artworks2014 } from '../data/artworks/2014/artworks';
@@ -14,7 +14,7 @@ import { artworks2022 } from '../data/artworks/2022/artworks';
 const useArtworks = (year, searchTerm = '') => {
     const [artworks, setArtworks] = useState([]);
 
-    const allArtworks = [
+    const allArtworks = useMemo(() => [
         ...artworks2012,
         ...artworks2013,
         ...artworks2014,
@@ -26,7 +26,7 @@ const useArtworks = (year, searchTerm = '') => {
         ...artworks2020,
         ...artworks2021,
         ...artworks2022
-    ];
+    ], []);
 
     const setEm = useCallback((year, searchTerm) => {
         let newArtworks = allArtworks;
@@ -37,10 +37,16 @@ const useArtworks = (year, searchTerm = '') => {
             newArtworks = newArtworks.filter(x => x.title.toString().toLowerCase().includes(searchTerm.toString().toLowerCase()));
         }
         setArtworks(newArtworks);
-    }, [year, searchTerm]);
+    }, [allArtworks]);
+
+    const randomArtwork = useEffect(() => {
+        setEm();
+        return allArtworks[Math.floor(Math.random() * allArtworks.length)];
+    }, [allArtworks, setEm]);
 
     return {
         artworks,
+        randomArtwork,
         setArtworks,
         setEm
     };
