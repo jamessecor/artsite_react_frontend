@@ -8,6 +8,7 @@ import Cv from './Cv';
 import Colors from './Colors';
 import Navigation from './Navigation';
 import Store from './store/Store';
+import ContactForm from './ContactForm';
 
 const App = () => (
     <BrowserRouter>
@@ -19,6 +20,7 @@ const App = () => (
                 </Route>
                 <Route path={'/cv'} element={<Cv />} />
                 <Route path={'/colors'} element={<Colors />} />
+                <Route path={'/contact'} element={<ContactForm />} />
                 <Route path={'/store'} element={<Store />}>
                     <Route path={'postcards'} element={<Store />} />
                 </Route>
