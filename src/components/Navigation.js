@@ -11,7 +11,7 @@ import Container from 'react-bootstrap/Container'
 import Form from 'react-bootstrap/Form'
 import FormControl from 'react-bootstrap/FormControl'
 import Button from 'react-bootstrap/Button';
-// import NavbarCollapse from 'react-bootstrap/esm/NavbarCollapse';
+import NavbarCollapse from 'react-bootstrap/esm/NavbarCollapse';
 import './Navigation.css';
 
 const Navigation = () => {
@@ -164,13 +164,13 @@ const Navigation = () => {
         <React.Fragment>
             <Navbar fixed='top' variant='dark' className="mb-4" collapseOnSelect={true} expand="false">{/* TODO: set to lg and uncomment NavbarCollapse */}
                 <Container fluid>
+                    <Navbar.Toggle className='me-auto' onClick={() => setShowOffcanvas(!showOffcanvas)}/>
                     <Navbar.Brand onClick={() => navigateTo('/')} data-page-id="home" href="#">
                         James Secor
                     </Navbar.Brand>
-                    <Navbar.Toggle onClick={() => setShowOffcanvas(!showOffcanvas)}/>
-                    {/* <NavbarCollapse collapseOnSelect={true}>
-                        <NavbarLinks />
-                    </NavbarCollapse> */}
+                    {/* <NavbarCollapse collapseOnSelect={true}> */}
+                        {/* <NavbarLinks /> */}
+                    {/* </NavbarCollapse> */}
                     <Navbar.Offcanvas onHide={() => setShowOffcanvas(false)} show={showOffcanvas} scroll={true}>
                         <Offcanvas.Header onHide={() => setShowOffcanvas(false)} closeButton>
                             <Offcanvas.Title>James Secor</Offcanvas.Title>
