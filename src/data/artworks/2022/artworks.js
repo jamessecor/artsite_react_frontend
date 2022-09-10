@@ -1,6 +1,13 @@
 export const artworks2022 = 
 [
     {
+        "id": "00000001",
+        "title": "Flying to the Rainbows (Do Not Enter)",
+        "price": "250",
+        "year": "2022",
+        "image": "/images/2022/flying_to_the_rainbows.jpg"
+    },
+    {
         "id": "1",
         "title": "a yak suffering a snack attack",
         "price": "250",

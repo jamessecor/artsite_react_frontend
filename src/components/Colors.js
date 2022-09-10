@@ -49,7 +49,7 @@ const Colors = () => {
             </div>
             <div className="row vh-100 g-0 container-fluid">
                 <img src={randomArtwork?.image} />
-                {[...Array(432)].map((value, index) => {
+                {[...Array(336)].map((value, index) => {
                     return (
                         <div key={index} className="col-1">
                             <div className="d-flex h-100">
@@ -57,8 +57,6 @@ const Colors = () => {
                                 <Color key={`color-b-${index}`} highlightColor={highlightColor}/>
                                 <Color key={`color-c-${index}`} highlightColor={highlightColor}/>
                                 <Color key={`color-d-${index}`} highlightColor={highlightColor}/>
-                                <Color key={`color-e-${index}`} highlightColor={highlightColor}/>
-                                <Color key={`color-f-${index}`} highlightColor={highlightColor}/>
                             </div>
                         </div>
                     )
