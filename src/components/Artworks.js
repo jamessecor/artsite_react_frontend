@@ -5,7 +5,7 @@ import Artwork from "./Artwork";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faToggleOn, faToggleOff, faInfoCircle, faTimesCircle} from '@fortawesome/free-solid-svg-icons'
 import useIsRotating from '../hooks/useIsRotating';
-import { Button, Col, Container, Row, Stack } from 'react-bootstrap';
+import { Button, Col, Container, Row, Stack, Toast } from 'react-bootstrap';
 import useArtworks from '../hooks/useArtworks';
 
 const Artworks = () => {
@@ -35,8 +35,8 @@ const Artworks = () => {
             </Stack>
             <Container fluid={'sm'} className="align-items-center">
                 <Row xs={1} lg={3}>
-                    {artworks ? 
-                        (artworks.map((artwork, i) => {
+                    {artworks.length
+                        ? (artworks.map((artwork, i) => {
                             return (
                                 <Col key={`${artwork.id}-${artwork.title}`} className="my-4 px-4">
                                     <Artwork 
@@ -47,8 +47,25 @@ const Artworks = () => {
                                     />
                                 </Col>
                             )
-                    }))
-                    : null }
+                        }))
+                        : (
+                            <Container className={'align-items-center'}>
+                                <Row xs={1}>
+                                    <Col>
+                                        <Toast bg='warning'>
+                                            <Toast.Header>
+                                                <strong className='me-auto'>
+                                                    {'No artworks found :('}
+                                                </strong>
+                                            </Toast.Header>
+                                            <Toast.Body>
+                                                {'Please try another search or click select a different menu option.'}
+                                            </Toast.Body>
+                                        </Toast>  
+                                    </Col>
+                                </Row>
+                            </Container>
+                        )}
                 </Row>
             </Container>
         </React.Fragment>

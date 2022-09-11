@@ -39,7 +39,7 @@ const useArtworks = (year, searchTerm = '') => {
         setArtworks(newArtworks);
     }, [allArtworks]);
 
-    const randomArtwork = useEffect(() => {
+    const randomArtwork = useCallback(() => {
         setEm();
         return allArtworks[Math.floor(Math.random() * allArtworks.length)];
     }, [allArtworks, setEm]);

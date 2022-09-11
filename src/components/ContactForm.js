@@ -2,7 +2,6 @@ import React, { useRef, useState } from "react";
 import { Container, Button, Row, Col, Toast } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 import emailjs from '@emailjs/browser';
-import { useNavigate } from 'react-router-dom';
 
 const ContactForm = () => {
     const [firstname, setFirstname] = useState('');
@@ -11,7 +10,6 @@ const ContactForm = () => {
     const [message, setMessage] = useState('');
     const formRef = useRef();
     const [isSubmitted, setIsSubmitted] = useState(false);
-    const navigate = useNavigate();
 
     const handleChange = (e) => {
         if (e.target.id === "firstname") setFirstname(e.target.value);
@@ -29,7 +27,6 @@ const ContactForm = () => {
         }, (error) => {
             console.log(error.text);
         });
-        navigate('/colors');
     }
 
     return (
@@ -40,7 +37,9 @@ const ContactForm = () => {
                         isSubmitted
                             ? (
                                 <Toast bg='success'>
-                                    <Toast.Header>{'Success!'}</Toast.Header>
+                                    <Toast.Header>
+                                        <strong className="me-auto">{'Success!'}</strong>
+                                    </Toast.Header>
                                     <Toast.Body>
                                         {'You\'re message has been sent directly to, and only to, James. Thanks for reaching out!'}
                                     </Toast.Body>

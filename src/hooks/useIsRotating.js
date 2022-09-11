@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
-const useIsRotating = () => {
-    const [isRotating, setIsRotating] = useState(false);
+const useIsRotating = (startsWithRotating = false) => {
+    const [isRotating, setIsRotating] = useState(startsWithRotating);
     return {
         isRotating,
         setIsRotating

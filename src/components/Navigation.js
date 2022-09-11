@@ -91,8 +91,7 @@ const Navigation = () => {
 
     const handleSearchSubmit = (e) => {
         e.preventDefault();
-        // HideOffcanvasAndNavigateTo(`/artworks?search=${searchTerm.current.value}`);
-        navigateTo(`/artworks?search=${searchTerm.current.value}`);
+        HideOffcanvasAndNavigateTo(`/artworks?search=${searchTerm.current.value}`);
     }
     const currentYear = new Date().getFullYear();
 

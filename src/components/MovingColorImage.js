@@ -1,16 +1,14 @@
-import React, { useEffect } from 'react';
-import config from '../config.json'
+import * as React from 'react';
 import useIsRotating from '../hooks/useIsRotating';
 import './MovingColorImage.css';
 
-const MovingColorImage = ({src, title}) => {
-    const { isRotating, setIsRotating } = useIsRotating();
+const MovingColorImage = ({src, title, startsWithRotating = false}) => {
+    const { isRotating, setIsRotating } = useIsRotating(startsWithRotating);
     return (
         <img 
             alt={title}
             onClick={() => setIsRotating(!isRotating)}
             className={isRotating ? 'w-100 rotating' : 'w-100'}
-            // style={{filter: 'hue-rotate(' + this.state.rotationAmount + 'deg)'}}
             src={src}/>
     )
 }

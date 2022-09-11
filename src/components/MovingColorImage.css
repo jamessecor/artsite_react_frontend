@@ -3,17 +3,18 @@ img {
 }
 
 .rotating {
-    /* filter: grayscale(100%); */
     animation-name: image;
-    animation-duration: 4s;
+    animation-duration: 2s;
     animation-iteration-count: infinite;
 }
 
 @keyframes image {
-    /* 0%   {filter: hue-rotate(0);} */
-    0%   {filter: grayscale(0%);}
-    25%  {filter: grayscale(50%);}
-    50%  {filter: grayscale(100%);}
-    75%  {filter: grayscale(50%);}
-    100% {filter: grayscale(0%);}
+    0%   {filter: hue-rotate(0);}
+    15%  {filter: hue-rotate(45deg);}
+    30%  {filter: hue-rotate(90deg);}
+    45%  {filter: hue-rotate(135deg);}
+    60% {filter: hue-rotate(180deg);}
+    75% {filter: hue-rotate(225deg);}
+    90% {filter: hue-rotate(270deg);}
+    100% {filter: hue-rotate(315deg);}
 }
