@@ -1,7 +1,6 @@
 import React from 'react'
 import './LoginForm.css'
 import SubmitButton from './SubmitButton'
-import config from "../config.json";
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 

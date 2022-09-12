@@ -1,10 +1,9 @@
 import React from 'react';
 import { Form } from 'react-bootstrap';
-import config from '../../config.json';
 
 const StoreItem = ({title, itemNumber, imageSrc}) => (
     <React.Fragment>
-        <img className={'w-100'} src={`${config.host}${imageSrc}`} alt={title} />
+        {/* <img className={'w-100'} src={`${config.host}${imageSrc}`} alt={title} /> */}
         <Form target='paypal' action="https://www.paypal.com/cgi-bin/webscr" method='post'>
             <input type="hidden" name="cmd" value="_cart" />
             <input type="hidden" name="business" value="james.secor@gmail.com" />

@@ -11,9 +11,16 @@ import { artworks2020 } from '../data/artworks/2020/artworks';
 import { artworks2021 } from '../data/artworks/2021/artworks';
 import { artworks2022 } from '../data/artworks/2022/artworks';
 
-const useArtworks = (year, searchTerm = '') => {
-    const [artworks, setArtworks] = useState([]);
+const useArtworks = (year, grouping, searchTerm = '') => {
+    const groupingsLabels = {
+        "nomophobia": "#nomophobia",
+        "digital_edits": "digital_edits",
+        "storage": "as not seen",
+        "mug_dish_glass": "animal mug, dish, and glass"
+    };
 
+    const [artworks, setArtworks] = useState([]);
+    
     const allArtworks = useMemo(() => [
         ...artworks2012,
         ...artworks2013,
@@ -28,10 +35,20 @@ const useArtworks = (year, searchTerm = '') => {
         ...artworks2022
     ], []);
 
-    const setEm = useCallback((year, searchTerm) => {
+    const allYears = useMemo(() => [...new Set(allArtworks.map((artwork) => artwork.year))].sort().reverse(), [allArtworks]);
+    const allGroupings = useMemo(() => {
+        const groupings = new Array();
+        allArtworks.filter((artwork) => artwork.grouping?.length).map((artwork) => groupings.push(...artwork.grouping));
+        return [...new Set(groupings)];
+    }, [allArtworks]);
+    
+    const setEm = useCallback((year, grouping, searchTerm) => {
         let newArtworks = allArtworks;
         if (year) {
             newArtworks = newArtworks.filter(x => x.year.toString() === year.toString());
+        }
+        if (grouping) {
+            newArtworks = newArtworks.filter(x => x.grouping?.includes(grouping));
         }
         if (searchTerm) {
             newArtworks = newArtworks.filter(x => x.title.toString().toLowerCase().includes(searchTerm.toString().toLowerCase()));
@@ -47,6 +64,9 @@ const useArtworks = (year, searchTerm = '') => {
     return {
         artworks,
         randomArtwork,
+        allYears,
+        allGroupings,
+        groupingsLabels,
         setArtworks,
         setEm
     };

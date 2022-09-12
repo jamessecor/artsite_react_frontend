@@ -1,8 +1,6 @@
 import React from 'react';
 import { useState, useRef } from 'react';
 import { useNavigate, useLocation, Outlet } from 'react-router-dom';
-// import LoginForm from "./LoginForm"
-import config from "../config.json"
 import Nav from 'react-bootstrap/Nav'
 import NavDropdown from 'react-bootstrap/NavDropdown'
 import Navbar from 'react-bootstrap/Navbar'
@@ -13,79 +11,18 @@ import FormControl from 'react-bootstrap/FormControl'
 import Button from 'react-bootstrap/Button';
 import NavbarCollapse from 'react-bootstrap/esm/NavbarCollapse';
 import './Navigation.css';
+import useArtworks from '../hooks/useArtworks';
 
 const Navigation = () => {
     const navigateTo = useNavigate();
     const { pathname } = useLocation();
     const [showOffcanvas, setShowOffcanvas] = useState(false);
+    const { allGroupings, allYears, groupingsLabels } = useArtworks();
 
     const HideOffcanvasAndNavigateTo = (newPath) => {
         setShowOffcanvas(false);
         navigateTo(newPath);
     };
-
-    // componentDidMount() {
-    //     this.loginWithToken();
-    //     this.fetchArtworks();
-    // }
-
-    // formWillUnmount(formInputs) {
-    //     this.setState({contactFormInputs: formInputs});
-    // }
-
-    // newArtworkForm() {
-    //     if (this.state.isLoggedIn && this.state.currentPage === "artwork") {
-    //         return <Artwork isEditable={true} isNew={true}/>
-    //     }
-    // }
-
-    // loginWithToken() {
-    //     if (this.state.token !== undefined) {
-    //         fetch(`${config.host}api/users/auto_login?token=${this.state.token}`,
-    //             {
-    //                 'Content-Type': 'application/json',
-    //                 'Accept': 'application/json',
-    //                 method: "GET"
-    //             }
-    //         )
-    //             .then(res => res.json())
-    //             .then(
-    //                 (result) => {
-    //                     if (result["status"] === "ok") {
-    //                         this.setState({isLoggedIn: true})
-    //                     }
-    //                 }
-    //             )
-    //     }
-    // }
-
-    // // If login is successful, persist the jwt in navigation state
-    // // TODO: decide if storing in localStorage is the way to go
-    // unmountLoginForm(result) {
-    //     this.setState({
-    //         isShowingLoginForm: false,
-    //         isLoggedIn: result["user"]["admin"],
-    //         token: result["jwt"]
-    //     })
-    //     localStorage["token"] = result["jwt"];
-    //     localStorage["user_id"] = result["user"]["id"];
-    //     localStorage["email"] = result["user"]["email"];
-    // }
-
-    // handleSignOut(e) {
-    //     e.preventDefault();
-    //     this.setState({
-    //         isLoggedIn: false,
-    //         token: ""
-    //     })
-    //     localStorage.removeItem("token")
-    // }
-
-    // handleShowLoginForm() {
-    //     this.setState({
-    //         isShowingLoginForm: true
-    //     })
-    // }
 
     const searchTerm = useRef();
 
@@ -99,15 +36,27 @@ const Navigation = () => {
         <React.Fragment>
             <Nav className="me-auto">
                 <NavDropdown title="artwork" id="basic-nav-dropdown">
-                    {[...Array(currentYear - config.firstArtworkYear + 1).keys()].map((i) => {
+                    {allYears.map((year) => {
                         return (
                             <NavDropdown.Item 
-                                key={i} 
-                                data-filter={currentYear - i}
+                                key={year} 
+                                data-filter={year}
                                 data-page-id="artwork"
-                                onClick={() => HideOffcanvasAndNavigateTo(`/artworks?year=${currentYear - i}`)}
+                                onClick={() => HideOffcanvasAndNavigateTo(`/artworks?year=${year}`)}
                             >
-                                {currentYear - i}
+                                {year}
+                            </NavDropdown.Item>
+                        );
+                    })}
+                    {allGroupings.map((grouping) => {
+                        return (
+                            <NavDropdown.Item 
+                                key={grouping} 
+                                data-filter={grouping}
+                                data-page-id="grouping"
+                                onClick={() => HideOffcanvasAndNavigateTo(`/artworks?grouping=${grouping}`)}
+                            >
+                                {groupingsLabels[grouping]}
                             </NavDropdown.Item>
                         );
                     })}
@@ -115,13 +64,12 @@ const Navigation = () => {
                 <Nav.Link className={pathname === "cv" ? "active" : ""} onClick={() => HideOffcanvasAndNavigateTo('/cv')}>
                     {'cv'}
                 </Nav.Link>
-                {/* <Nav.Link className={pathname === "contact" ? "active" : ""} onClick={() => navigateTo('/contact')}>contact</Nav.Link> */}
                 <Nav.Link className={pathname === "colors" ? "active" : ""} onClick={() => HideOffcanvasAndNavigateTo('/colors')}>colors</Nav.Link>
                 <Nav.Link className={pathname === "contact" ? "active" : ""} onClick={() => HideOffcanvasAndNavigateTo('/contact')}>contact</Nav.Link>
-                <Nav.Link className={pathname === "store" ? "active" : ""} onClick={() => HideOffcanvasAndNavigateTo('/store')}>store</Nav.Link>
+                {/* <Nav.Link className={pathname === "store" ? "active" : ""} onClick={() => HideOffcanvasAndNavigateTo('/store')}>store</Nav.Link> */}
             </Nav>
             <Nav>
-                <Nav.Link disabled>James Secor &copy; 2021</Nav.Link>
+                <Nav.Link disabled>James Secor &copy; 2022</Nav.Link>
                 <Nav.Link target="_blank" rel="noopener noreferrer"
                             href="https://www.instagram.com/jamessecor/"
                             className="nav-link instagram-icon">
@@ -172,7 +120,7 @@ const Navigation = () => {
                         {/* <NavbarLinks /> */}
                     {/* </NavbarCollapse> */}
                     <Navbar.Offcanvas onHide={() => setShowOffcanvas(false)} show={showOffcanvas} scroll={true}>
-                        <Offcanvas.Header onHide={() => setShowOffcanvas(false)} closeButton>
+                        <Offcanvas.Header onClick={() => navigateTo('/')} onHide={() => setShowOffcanvas(false)} closeButton>
                             <Offcanvas.Title>James Secor</Offcanvas.Title>
                         </Offcanvas.Header>
                         <Offcanvas.Body>

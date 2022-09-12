@@ -11,14 +11,15 @@ import useArtworks from '../hooks/useArtworks';
 const Artworks = () => {
     const [searchParams, _] = useSearchParams();
     const year = searchParams.get('year') ?? '';
+    const grouping = searchParams.get('grouping') ?? '';
     const searchTerm = searchParams.get('search') ?? '';
     const { isRotating, setIsRotating } = useIsRotating();
     const [isShowingInfo, setIsShowingInfo] = useState(false);
     const {artworks, setEm} = useArtworks();
     
     useEffect(() => {
-        setEm(year, searchTerm);
-    }, [setEm, year, searchTerm]);
+        setEm(year, grouping, searchTerm);
+    }, [setEm, year, grouping, searchTerm]);
     
     return (
         <React.Fragment>
