@@ -1,5 +1,12 @@
 export const soloShows = [
     {
+        name: "animal mug, dish, and glass",
+        location: "The Drawing Board",
+        url: "https://drawingboardvt.com",
+        address: "Montpelier, VT",
+        dates: "Jan-Feb, 2022"
+    },
+    {
         name: "Peanut Butter Garlic Toast",
         location: "Morse Block Deli",
         url: "https://morseblockdeli.com",
@@ -76,7 +83,14 @@ export const soloShows = [
 
 export const groupShows = [
     {
-        name: "Here Comes the Sun (to benefit OpenDoors of Asheville",
+        name: "Interplay",
+        location: "Art at the Kent",
+        url: "https://www.kentscorner.org/interplay",
+        address: "Calais, VT",
+        dates: "Sep-Oct 2022"
+    },
+    {
+        name: "Here Comes the Sun (to benefit OpenDoors of Asheville)",
         location: "blu29",
         address: "Asheville, NC",
         dates: "Apr-May 2021"
