@@ -68,20 +68,6 @@ const Navigation = () => {
                 <Nav.Link className={pathname === "contact" ? "active" : ""} onClick={() => HideOffcanvasAndNavigateTo('/contact')}>contact</Nav.Link>
                 {/* <Nav.Link className={pathname === "store" ? "active" : ""} onClick={() => HideOffcanvasAndNavigateTo('/store')}>store</Nav.Link> */}
             </Nav>
-            <Form onSubmit={handleSearchSubmit} className="d-flex">
-                <FormControl
-                    // onChange={(e) => {
-                    //     e.preventDefault();
-                    //     setSearchTerm(e.target.value);
-                    // }}
-                    type="search"
-                    ref={searchTerm}
-                    placeholder="Search"
-                    className="me-2"
-                    aria-label="Search"
-                />
-                <Button type="submit" variant="outline-success">Search</Button>
-            </Form>
             <Nav>
                 <Nav.Link target="_blank" rel="noopener noreferrer"
                             href="https://www.instagram.com/jamessecor/"
@@ -94,17 +80,17 @@ const Navigation = () => {
                     </svg>
                 </Nav.Link>
                 <Nav.Link className='mt-auto' disabled>James Secor &copy; 2022</Nav.Link>
-                {/* <Nav.Link onClick={this.handleSignOut}
-                            className={this.state.isLoggedIn ? "nav-link btn btn-link" : "d-none"}
-                            eventKey={"log-out"}>
-                    Log out
-                </Nav.Link>
-                <Nav.Link onClick={this.handleShowLoginForm}
-                            className={this.state.isLoggedIn ? "d-none" : "nav-link btn btn-link"}
-                            eventKey={"log-in"}>
-                    Log in
-                </Nav.Link> */}
             </Nav>
+            <Form onSubmit={handleSearchSubmit} className="d-flex">
+                <FormControl
+                    type="search"
+                    ref={searchTerm}
+                    placeholder="Search"
+                    className="me-2"
+                    aria-label="Search"
+                />
+                <Button type="submit" variant="outline-success">Search</Button>
+            </Form>
         </React.Fragment>
     );
 
@@ -116,13 +102,14 @@ const Navigation = () => {
                     <Navbar.Brand onClick={() => navigateTo('/')} data-page-id="home" href="#">
                         James Secor
                     </Navbar.Brand>
-                    {/* <NavbarCollapse collapseOnSelect={true}> */}
-                        {/* <NavbarLinks /> */}
-                    {/* </NavbarCollapse> */}
                     <Navbar.Offcanvas onHide={() => setShowOffcanvas(false)} show={showOffcanvas} scroll={true}>
                         <Offcanvas.Header onHide={() => setShowOffcanvas(false)} closeButton>
                             <Offcanvas.Title>
-                                <Button size='lg' onClick={() => navigateTo('/')}>James Secor</Button>
+                                <Nav>
+                                    {/* <Navbar> */}
+                                        <Nav.Link onClick={() => navigateTo('/')}>James Secor</Nav.Link>
+                                    {/* </Navbar> */}
+                                </Nav>
                             </Offcanvas.Title>
                         </Offcanvas.Header>
                         <Offcanvas.Body>
@@ -131,9 +118,6 @@ const Navigation = () => {
                     </Navbar.Offcanvas>
                 </Container>
             </Navbar>
-            {/* {this.newArtworkForm()}
-            {this.currentPageContent()}
-            <LoginForm show={this.state.isShowingLoginForm} unmount={this.unmountLoginForm}/> */}
             <div className='outlet-content'>
                 <Outlet />
             </div>

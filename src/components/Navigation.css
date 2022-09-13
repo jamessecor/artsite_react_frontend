@@ -3,14 +3,17 @@
     color: lightblue;
 }
 .offcanvas,
+.offcanvas-header > .offcanvas-title > .navbar-nav > a,
 .offcanvas-body > .navbar-nav > .nav-item > a,
 .offcanvas-body > .navbar-nav > .nav-item > .dropdown-menu,
 .offcanvas-body > .navbar-nav > .nav-item > .dropdown-menu > a,
 .offcanvas-body > .navbar-nav > a {
     background: lightblue;
     color: darkslateblue;
+    font-size: large;
 }
 
+.offcanvas-header > .offcanvas-title > .navbar-nav > a:hover,
 .offcanvas-body > .navbar-nav > .nav-item > a:hover,
 .offcanvas-body > .navbar-nav > .nav-item > .dropdown-menu > a:hover,
 .offcanvas-body > .navbar-nav > a:hover {
