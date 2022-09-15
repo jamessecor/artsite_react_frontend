@@ -5,22 +5,19 @@ import PriceFormatter from "./PriceFormatter";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInfoCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import { Col, Stack } from 'react-bootstrap';
+import useArtworkSettings from "../hooks/useArtworkSettings";
 
-const Artwork = ({attributes, isShowingInfo, isRotating}) => {
+const Artwork = ({attributes}) => {
     const [isShowingThisInfo, setIsShowingThisInfo] = useState();
-    const toggleShowInfo = () => setIsShowingThisInfo(!isShowingThisInfo);
-
-    useEffect(() => {
-        setIsShowingThisInfo(isShowingInfo);
-    }, [isShowingInfo]);
+    const { isShowingInfoAll } = useArtworkSettings();
 
     return (
         <React.Fragment>
             <Col xs='12'>
-                <MovingColorImage isRotating={isRotating} src={attributes.image} title={attributes.title} />
+                <MovingColorImage src={attributes.image} title={attributes.title} />
                 <Stack className='mt-1'>
-                    <FontAwesomeIcon className='ms-auto' icon={isShowingInfo || isShowingThisInfo ? faTimesCircle : faInfoCircle} onClick={() => toggleShowInfo()}/>
-                    {isShowingInfo || isShowingThisInfo ?
+                    <FontAwesomeIcon className='ms-auto' icon={isShowingInfoAll || isShowingThisInfo ? faTimesCircle : faInfoCircle} onClick={() => setIsShowingThisInfo(!isShowingThisInfo)}/>
+                    {isShowingInfoAll || isShowingThisInfo ?
                         (
                             <Stack>
                                 <div className='ms-auto fw-bold'>{attributes.title}</div>

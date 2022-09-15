@@ -53,6 +53,9 @@ const useArtworks = (year, grouping, searchTerm = '') => {
         if (searchTerm) {
             newArtworks = newArtworks.filter(x => x.title.toString().toLowerCase().includes(searchTerm.toString().toLowerCase()));
         }
+        console.log('before', newArtworks.map((x) => x.arrangement ?? 'none'));
+        newArtworks = newArtworks.sort((x, y) => y.arrangement ?? 0 - x.arrangement ?? 1);
+        console.log('after', newArtworks.map((x) => x.arrangement ?? 'none'));
         setArtworks(newArtworks);
     }, [allArtworks]);
 

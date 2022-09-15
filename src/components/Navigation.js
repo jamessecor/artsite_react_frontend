@@ -9,15 +9,20 @@ import Container from 'react-bootstrap/Container'
 import Form from 'react-bootstrap/Form'
 import FormControl from 'react-bootstrap/FormControl'
 import Button from 'react-bootstrap/Button';
+import Stack from 'react-bootstrap/Stack';
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faToggleOn, faToggleOff, faInfoCircle, faTimesCircle} from '@fortawesome/free-solid-svg-icons'
 import NavbarCollapse from 'react-bootstrap/esm/NavbarCollapse';
 import './Navigation.css';
 import useArtworks from '../hooks/useArtworks';
+import useArtworkSettings from '../hooks/useArtworkSettings';
 
 const Navigation = () => {
     const navigateTo = useNavigate();
     const { pathname } = useLocation();
     const [showOffcanvas, setShowOffcanvas] = useState(false);
     const { allGroupings, allYears, groupingsLabels } = useArtworks();
+    const { isRotatingAll, isShowingInfoAll, setIsRotatingAll, setIsShowingInfoAll } = useArtworkSettings();
 
     const HideOffcanvasAndNavigateTo = (newPath) => {
         setShowOffcanvas(false);
@@ -68,6 +73,17 @@ const Navigation = () => {
                 <Nav.Link className={pathname === "contact" ? "active" : ""} onClick={() => HideOffcanvasAndNavigateTo('/contact')}>contact</Nav.Link>
                 {/* <Nav.Link className={pathname === "store" ? "active" : ""} onClick={() => HideOffcanvasAndNavigateTo('/store')}>store</Nav.Link> */}
             </Nav>
+            <Stack gap='1' direction='horizontal' className="position-fixed bottom-0 mx-auto">
+                <Button size='sm' variant='outline-info' onClick={() => setIsRotatingAll(!isRotatingAll)}>
+                    <FontAwesomeIcon icon={isRotatingAll ? faToggleOn : faToggleOff}/>
+                    {/*<FontAwesomeIcon icon={this.state.isRotatingAll ? faTeeth : faTeethOpen}/>*/}
+                    <span className="ms-1">{isRotatingAll ? "normal, please" : "rainbow time!"}</span>
+                </Button>
+                <Button size='sm' variant='outline-info' onClick={() => setIsShowingInfoAll(!isShowingInfoAll)}>
+                    <FontAwesomeIcon icon={isShowingInfoAll ? faTimesCircle : faInfoCircle}/>
+                    <span className="ms-1">{isShowingInfoAll ? "hide info" : "show all info"}</span>
+                </Button>
+            </Stack>
             <Nav>
                 <Nav.Link target="_blank" rel="noopener noreferrer"
                             href="https://www.instagram.com/jamessecor/"

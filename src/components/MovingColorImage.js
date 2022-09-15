@@ -1,15 +1,21 @@
 import * as React from 'react';
-import useIsRotating from '../hooks/useIsRotating';
+import { useState, useMemo } from 'react';
+import useArtworkSettings from '../hooks/useArtworkSettings';
 import './MovingColorImage.css';
 
-const MovingColorImage = ({src, title, isVertical = false, startsWithRotating = false}) => {
-    const { isRotating, setIsRotating } = useIsRotating(startsWithRotating);
-    const widthOrHeightClass = isVertical ? 'vh-100 w-100' : 'w-100';
+const MovingColorImage = ({src, title, isFullHeightAndWidth = false}) => {
+    const { isRotatingAll } = useArtworkSettings();
+    const [isRotating, setIsRotating] = useState(isRotatingAll);
+    const widthOrHeightClass = isFullHeightAndWidth ? 'vh-100 w-100' : 'w-100';
+
+    React.useEffect(() => console.log('isrotatingall', isRotatingAll), [isRotatingAll]);
+    
+    const isActuallyRotating = useMemo(() => isRotatingAll || isRotating, [isRotatingAll, isRotating]);
     return (
         <img 
             alt={title}
             onClick={() => setIsRotating(!isRotating)}
-            className={isRotating ? `${widthOrHeightClass} rotating` : widthOrHeightClass}
+            className={isActuallyRotating ? `${widthOrHeightClass} rotating` : widthOrHeightClass}
             src={src}/>
     )
 }
