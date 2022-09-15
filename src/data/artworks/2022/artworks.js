@@ -5,7 +5,33 @@ export const artworks2022 =
         "title": "Flying to the Rainbows (Do Not Enter)",
         "price": "250",
         "year": "2022",
+        "medium": "acrylic on panel",
         "image": "/images/2022/flying_to_the_rainbows.jpg"
+    },
+    {
+        "id": "00000002",
+        "title": "A Boat",
+        "price": "150",
+        "year": "2022",
+        "medium": "acrylic on panel",
+        "image": "/images/2022/aBoat.jpg"
+    },
+    {
+        "id": "00000003",
+        "title": "Duluth Harbor Cam I",
+        "price": "300",
+        "saleDate": "2021-02-18",
+        "year": "2022",
+        "medium": "acrylic on panel",
+        "image": "/images/2022/duluth.jpg"
+    },
+    {
+        "id": "00000004",
+        "title": "Excavator",
+        "price": "300",
+        "year": "2022",
+        "medium": "acrylic on panel",
+        "image": "/images/2022/excavator.jpg"
     },
     {
         "id": "1",
