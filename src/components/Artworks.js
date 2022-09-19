@@ -2,7 +2,6 @@ import React from 'react'
 import { useState, useEffect } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import Artwork from "./Artwork";
-import useArtworkSettings from '../hooks/useArtworkSettings';
 import { Button, Col, Container, Row, Stack, Toast } from 'react-bootstrap';
 import useArtworks from '../hooks/useArtworks';
 
@@ -11,7 +10,6 @@ const Artworks = () => {
     const year = searchParams.get('year') ?? '';
     const grouping = searchParams.get('grouping') ?? '';
     const searchTerm = searchParams.get('search') ?? '';
-    const { isRotatingAll, isShowingInfoAll } = useArtworkSettings();
     const {artworks, setEm} = useArtworks();
     
     useEffect(() => {
@@ -26,8 +24,6 @@ const Artworks = () => {
                         return (
                             <Col key={`${artwork.id}-${artwork.title}`} className="my-4 px-4">
                                 <Artwork 
-                                    isShowingInfo={isShowingInfoAll} 
-                                    allAreRotating={isRotatingAll}
                                     attributes={artwork} 
                                     isEditable={false}
                                 />

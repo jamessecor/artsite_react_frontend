@@ -3,6 +3,8 @@
     color: lightblue;
 }
 .offcanvas,
+.offcanvas > .offcanvas-header,
+.offcanvas > .offcanvas-body,
 .offcanvas-header > .offcanvas-title > .navbar-nav > a,
 .offcanvas-body > .navbar-nav > .nav-item > a,
 .offcanvas-body > .navbar-nav > .nav-item > .dropdown-menu,

@@ -1,22 +1,23 @@
 import * as React from 'react';
 import { useState, useMemo } from 'react';
-import useArtworkSettings from '../hooks/useArtworkSettings';
 import './MovingColorImage.css';
+import { ArtworkRotatingContext } from './Navigation';
 
-const MovingColorImage = ({src, title, isFullHeightAndWidth = false}) => {
-    const { isRotatingAll } = useArtworkSettings();
-    const [isRotating, setIsRotating] = useState(isRotatingAll);
+const MovingColorImage = ({src, title, isFullHeightAndWidth = false, startsWithRotating = false}) => {
+    const [isRotating, setIsRotating] = useState(startsWithRotating);
     const widthOrHeightClass = isFullHeightAndWidth ? 'vh-100 w-100' : 'w-100';
-
-    React.useEffect(() => console.log('isrotatingall', isRotatingAll), [isRotatingAll]);
     
-    const isActuallyRotating = useMemo(() => isRotatingAll || isRotating, [isRotatingAll, isRotating]);
+    // const isActuallyRotating = useMemo(() => isRotatingSetting || isRotating, [isRotatingSetting, isRotating]);
     return (
-        <img 
-            alt={title}
-            onClick={() => setIsRotating(!isRotating)}
-            className={isActuallyRotating ? `${widthOrHeightClass} rotating` : widthOrHeightClass}
-            src={src}/>
+        <ArtworkRotatingContext.Consumer>
+            {(isRotatingSetting) => (
+                <img 
+                    alt={title}
+                    onClick={() => setIsRotating(!isRotating)}
+                    className={isRotatingSetting || isRotating ? `${widthOrHeightClass} rotating` : widthOrHeightClass}
+                    src={src}/>
+            )}
+        </ArtworkRotatingContext.Consumer>
     )
 }
 
