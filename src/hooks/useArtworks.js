@@ -16,7 +16,9 @@ const useArtworks = (year, grouping, searchTerm = '') => {
         "nomophobia": "#nomophobia",
         "digital_edits": "digital_edits",
         "storage": "as not seen",
-        "mug_dish_glass": "animal mug, dish, and glass"
+        "mug_dish_glass": "animal mug, dish, and glass",
+        "merica": "merica (TBD)",
+        "wallabies": "Off the Wallabies"
     };
 
     const [artworks, setArtworks] = useState([]);
@@ -58,7 +60,8 @@ const useArtworks = (year, grouping, searchTerm = '') => {
 
     const randomArtwork = useCallback(() => {
         setEm();
-        return allArtworks[Math.floor(Math.random() * allArtworks.length)];
+        const filteredWorks = allArtworks.filter((artwork) => artwork.grouping?.includes('merica'));
+        return filteredWorks[Math.floor(Math.random() * filteredWorks.length)];
     }, [allArtworks, setEm]);
 
     return {
