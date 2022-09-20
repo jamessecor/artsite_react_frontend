@@ -29,6 +29,16 @@ const NavigationLinks = ({ setShowOffcanvas }) => {
     return (
         <React.Fragment>
             <Nav className="me-auto">
+                <Form onSubmit={handleSearchSubmit} className="d-flex">
+                    <FormControl
+                        type="search"
+                        ref={searchTerm}
+                        placeholder="Search"
+                        className="me-2"
+                        aria-label="Search"
+                    />
+                    <Button type="submit" variant="outline-success">Search</Button>
+                </Form>
                 <NavDropdown title="artwork" id="basic-nav-dropdown">
                     {allYears.map((year) => {
                         return (
@@ -75,16 +85,6 @@ const NavigationLinks = ({ setShowOffcanvas }) => {
                 </Nav.Link>
                 <Nav.Link className='mt-auto' disabled>James Secor &copy; 2022</Nav.Link>
             </Nav>
-            <Form onSubmit={handleSearchSubmit} className="d-flex">
-                <FormControl
-                    type="search"
-                    ref={searchTerm}
-                    placeholder="Search"
-                    className="me-2"
-                    aria-label="Search"
-                />
-                <Button type="submit" variant="outline-success">Search</Button>
-            </Form>
         </React.Fragment>
     );
 

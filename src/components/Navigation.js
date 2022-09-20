@@ -37,7 +37,7 @@ const Navigation = () => {
                             </Offcanvas.Header>
                             <Offcanvas.Body>
                                 <NavigationLinks setShowOffcanvas={setShowOffcanvas} />
-                                <Nav className={'mt-5'}>
+                                <Nav className={'mt-5 p-2 border rounded border-2 border-light'}>
                                     <div className={'ms-5'}>{'Settings'}</div>
                                     <Nav.Link onClick={() => setIsShowingInfo(!isShowingInfo)}>
                                         <FontAwesomeIcon icon={isShowingInfo ? faToggleOn : faToggleOff}/>
