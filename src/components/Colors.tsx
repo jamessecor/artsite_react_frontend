@@ -1,15 +1,16 @@
-import React, { useEffect, useRef } from 'react';
+import * as React from 'react';
+import { useEffect, useRef } from 'react';
 import Color from "./Color";
 import {colorOptions} from "../data/color_options";
 import useArtworks from '../hooks/useArtworks';
 
 const Colors = () => {
     const highlightColor = {r: 200, g: 200, b: 0};
-    const scrollEl = useRef();
+    const scrollEl = useRef<HTMLElement>(null);
     const { randomArtwork } = useArtworks();
 
     useEffect(() => {
-        scrollEl.current.scrollIntoView({behavior: "smooth"});
+        if (scrollEl.current) scrollEl.current.scrollIntoView({behavior: "smooth"});
     }, []);
 
     // handleChooseColor(e) {

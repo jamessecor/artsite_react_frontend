@@ -1,4 +1,5 @@
-import React, { useEffect } from "react"
+import * as React from "react";
+import { useEffect } from "react";
 import Accordion from "react-bootstrap/Accordion";
 import {soloShows} from "../data/cv"
 import {groupShows} from "../data/cv"

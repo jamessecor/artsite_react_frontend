@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import * as React, { useState } from 'react';
 import './Color.css';
 
 const Color = ({ highlightColor }) => {

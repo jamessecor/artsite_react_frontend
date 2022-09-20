@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react';
+import * as React from 'react';
+import { useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import Artwork from "./Artwork";
 import { Col, Container, Row, Toast } from 'react-bootstrap';

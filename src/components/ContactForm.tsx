@@ -1,4 +1,5 @@
-import React, { useRef, useState } from "react";
+import * as React from "react";
+import { useRef, useState } from "react";
 import { Container, Button, Row, Col, Toast } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 import emailjs from '@emailjs/browser';

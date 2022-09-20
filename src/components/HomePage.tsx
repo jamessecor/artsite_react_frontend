@@ -16,11 +16,7 @@ const HomePage = () => {
 
     return (
         <div className='imageContainer' onClick={enterSite}>
-            {
-                randomArtwork 
-                    ? <MovingColorImage isFullHeightAndWidth={true} src={artwork.image} title={artwork.title} startsWithRotating={true} />
-                    : null
-            }
+            <MovingColorImage isFullHeightAndWidth={true} src={artwork.image} title={artwork.title} startsWithRotating={true} />
             <Button variant='outline-primary' size='lg' className="position-absolute top-50 start-50 translate-middle" onClick={enterSite}>Enter Site</Button>
         </div>
     );    
