@@ -39,12 +39,12 @@ const Navigation = () => {
                                 <NavigationLinks setShowOffcanvas={setShowOffcanvas} />
                                 <Nav className={'mt-5 p-2 border rounded border-2 border-light'}>
                                     <div className={'ms-5'}>{'Settings'}</div>
-                                    <Nav.Link onClick={() => setIsShowingInfo(!isShowingInfo)}>
-                                        <FontAwesomeIcon icon={isShowingInfo ? faToggleOn : faToggleOff}/>
+                                    <Nav.Link className={'no-hover'} onClick={() => setIsShowingInfo(!isShowingInfo)}>
+                                        <FontAwesomeIcon size={'lg'} icon={isShowingInfo ? faToggleOn : faToggleOff}/>
                                         {' Show Artwork Info'}
                                     </Nav.Link>
-                                    <Nav.Link onClick={() => setIsRotating(!isRotating)}>
-                                        <FontAwesomeIcon icon={isRotating ? faToggleOn : faToggleOff}/>
+                                    <Nav.Link className={'no-hover'} onClick={() => setIsRotating(!isRotating)}>
+                                        <FontAwesomeIcon size={'lg'} icon={isRotating ? faToggleOn : faToggleOff}/>
                                         {' Wild Colors'}
                                     </Nav.Link>
                                 </Nav>

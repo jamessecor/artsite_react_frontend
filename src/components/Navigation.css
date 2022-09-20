@@ -2,11 +2,13 @@
     background: darkslateblue !important;
     color: lightblue;
 }
+
 .offcanvas,
 .offcanvas > .offcanvas-header,
 .offcanvas > .offcanvas-body,
 .offcanvas-header > .offcanvas-title > .navbar-nav > a,
 .offcanvas-body > .navbar-nav > .nav-item > a,
+.offcanvas-body > .navbar-nav > a.no-hover:hover,
 .offcanvas-body > .navbar-nav > .nav-item > .dropdown-menu,
 .offcanvas-body > .navbar-nav > .nav-item > .dropdown-menu > a,
 .offcanvas-body > .navbar-nav > a {

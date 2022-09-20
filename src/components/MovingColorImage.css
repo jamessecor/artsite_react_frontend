@@ -4,17 +4,20 @@ img {
 
 .rotating {
     animation-name: image;
-    animation-duration: 2s;
+    animation-duration: 6s;
     animation-iteration-count: infinite;
 }
 
 @keyframes image {
     0% {filter: hue-rotate(0);}
-    15% {filter: hue-rotate(45deg);}
-    30% {filter: hue-rotate(90deg);}
-    45% {filter: hue-rotate(135deg);}
-    60% {filter: hue-rotate(180deg);}
-    75% {filter: hue-rotate(225deg);}
-    90% {filter: hue-rotate(270deg);}
-    100% {filter: hue-rotate(315deg);}
+    10% {filter: hue-rotate(.1turn);}
+    20% {filter: hue-rotate(.2turn);}
+    30% {filter: hue-rotate(.3turn);}
+    40% {filter: hue-rotate(.4turn);}
+    50% {filter: hue-rotate(.5turn);}
+    60% {filter: hue-rotate(.6turn);}
+    70% {filter: hue-rotate(.7turn);}
+    80% {filter: hue-rotate(.8turn);}
+    90% {filter: hue-rotate(.9turn);}
+    100% {filter: hue-rotate(1turn);}
 }
