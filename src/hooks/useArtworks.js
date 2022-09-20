@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useEffect, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { artworks2012 } from '../data/artworks/2012/artworks';
 import { artworks2013 } from '../data/artworks/2013/artworks';
 import { artworks2014 } from '../data/artworks/2014/artworks';
@@ -39,7 +39,7 @@ const useArtworks = (year, grouping, searchTerm = '') => {
 
     const allYears = useMemo(() => [...new Set(allArtworks.map((artwork) => artwork.year))].sort().reverse(), [allArtworks]);
     const allGroupings = useMemo(() => {
-        const groupings = new Array();
+        const groupings = [];
         allArtworks.filter((artwork) => artwork.grouping?.length).map((artwork) => groupings.push(...artwork.grouping));
         return [...new Set(groupings)];
     }, [allArtworks]);
@@ -55,7 +55,7 @@ const useArtworks = (year, grouping, searchTerm = '') => {
         if (searchTerm) {
             newArtworks = newArtworks.filter(x => x.title.toString().toLowerCase().includes(searchTerm.toString().toLowerCase()));
         }
-        newArtworks = newArtworks.sort((x, y) => y.arrangement ?? 0 - x.arrangement ?? 1);
+        newArtworks = newArtworks.sort((x, y) => x.arrangement - y.arrangement);
         setArtworks(newArtworks);
     }, [allArtworks]);
 

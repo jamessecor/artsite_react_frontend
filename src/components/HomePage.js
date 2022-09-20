@@ -9,7 +9,7 @@ import './HomePage.css';
 const HomePage = () => {
     const navigateTo = useNavigate();
     const { randomArtwork } = useArtworks();
-    const artwork = useMemo(() => randomArtwork(), []);
+    const artwork = useMemo(() => randomArtwork(), [randomArtwork]);
     const enterSite = () => {
         navigateTo('/artworks?year=2022');
     }

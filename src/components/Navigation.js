@@ -1,15 +1,12 @@
-import React, { useEffect } from 'react';
-import { useState, useRef } from 'react';
-import { useNavigate, useLocation, Outlet } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useNavigate, Outlet } from 'react-router-dom';
 import Nav from 'react-bootstrap/Nav';
 import NavigationLinks from './NavigationLinks';
 import Navbar from 'react-bootstrap/Navbar';
 import Offcanvas from 'react-bootstrap/Offcanvas';
-import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
-import Stack from 'react-bootstrap/Stack';
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faToggleOn, faToggleOff, faInfoCircle, faTimesCircle} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faToggleOn, faToggleOff } from '@fortawesome/free-solid-svg-icons';
 import './Navigation.css';
 
 export const ArtworkShowingInfoContext = React.createContext(true);

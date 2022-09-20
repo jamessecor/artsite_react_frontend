@@ -1,5 +1,4 @@
-import * as React from 'react';
-import { useState, useMemo } from 'react';
+import React, { useState } from 'react';
 import './MovingColorImage.css';
 import { ArtworkRotatingContext } from './Navigation';
 

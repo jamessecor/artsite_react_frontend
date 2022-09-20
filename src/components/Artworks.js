@@ -1,8 +1,7 @@
-import React from 'react'
-import { useState, useEffect } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import React, { useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import Artwork from "./Artwork";
-import { Button, Col, Container, Row, Stack, Toast } from 'react-bootstrap';
+import { Col, Container, Row, Toast } from 'react-bootstrap';
 import useArtworks from '../hooks/useArtworks';
 
 const Artworks = () => {
