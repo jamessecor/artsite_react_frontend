@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Nav from 'react-bootstrap/Nav'
@@ -19,11 +19,11 @@ const NavigationLinks = ({ setShowOffcanvas }) => {
         navigateTo(newPath);
     };
 
-    const searchTerm = useRef();
+    const searchTerm = useRef<HTMLInputElement>(null);
 
     const handleSearchSubmit = (e) => {
         e.preventDefault();
-        HideOffcanvasAndNavigateTo(`/artworks?search=${searchTerm.current.value}`);
+        if (searchTerm.current && searchTerm.current.value) HideOffcanvasAndNavigateTo(`/artworks?search=${searchTerm.current.value}`);
     }
 
     return (

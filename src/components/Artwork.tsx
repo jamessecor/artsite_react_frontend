@@ -1,4 +1,4 @@
-import React from "react"
+import * as React from "react"
 import { useState } from "react"
 import MovingColorImage from "./MovingColorImage";
 import PriceFormatter from "./PriceFormatter";
@@ -8,7 +8,7 @@ import { Col, Stack } from 'react-bootstrap';
 import { ArtworkShowingInfoContext } from './Navigation';
 
 const Artwork = ({attributes}) => {
-    const [isShowingThisInfo, setIsShowingThisInfo] = useState();
+    const [isShowingThisInfo, setIsShowingThisInfo] = useState(false);
 
     return (
         <ArtworkShowingInfoContext.Consumer>

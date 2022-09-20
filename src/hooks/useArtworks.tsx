@@ -10,20 +10,27 @@ import { artworks2019 } from '../data/artworks/2019/artworks';
 import { artworks2020 } from '../data/artworks/2020/artworks';
 import { artworks2021 } from '../data/artworks/2021/artworks';
 import { artworks2022 } from '../data/artworks/2022/artworks';
+import { Artwork } from '../models/Artwork';
 
-const useArtworks = (year, grouping, searchTerm = '') => {
-    const groupingsLabels = {
-        "nomophobia": "#nomophobia",
-        "digital_edits": "digital_edits",
-        "storage": "as not seen",
-        "mug_dish_glass": "animal mug, dish, and glass",
-        "merica": "merica (TBD)",
-        "wallabies": "Off the Wallabies"
-    };
+interface UseArtworkParams {
+    year: string;
+    grouping: string;
+    searchTerm: string;
+}
 
-    const [artworks, setArtworks] = useState([]);
+const groupingsLabels = {
+    "nomophobia": "#nomophobia",
+    "digital_edits": "digital_edits",
+    "storage": "as not seen",
+    "mug_dish_glass": "animal mug, dish, and glass",
+    "merica": "Freedom Fries",
+    "wallabies": "Off the Wallabies"
+};
+
+const useArtworks = (year = '', grouping = '', searchTerm = '') => {
+    const [artworks, setArtworks] = useState<Array<Artwork>>([]);
     
-    const allArtworks = useMemo(() => [
+    const allArtworks: Array<Artwork> = useMemo(() => [
         ...artworks2012,
         ...artworks2013,
         ...artworks2014,
@@ -35,16 +42,26 @@ const useArtworks = (year, grouping, searchTerm = '') => {
         ...artworks2020,
         ...artworks2021,
         ...artworks2022
-    ], []);
+    ], [artworks2012,
+        artworks2013,
+        artworks2014,
+        artworks2015,
+        artworks2016,
+        artworks2017,
+        artworks2018,
+        artworks2019,
+        artworks2020,
+        artworks2021,
+        artworks2022]);
 
     const allYears = useMemo(() => [...new Set(allArtworks.map((artwork) => artwork.year))].sort().reverse(), [allArtworks]);
     const allGroupings = useMemo(() => {
-        const groupings = [];
-        allArtworks.filter((artwork) => artwork.grouping?.length).map((artwork) => groupings.push(...artwork.grouping));
+        const groupings = new Array<string>;
+        allArtworks.filter((artwork) => artwork.grouping && artwork.grouping.length > 0).map((artwork) => groupings.push(...artwork.grouping));
         return [...new Set(groupings)];
     }, [allArtworks]);
     
-    const setEm = useCallback((year, grouping, searchTerm) => {
+    const setEm = useCallback((year = '', grouping = '', searchTerm = '') => {
         let newArtworks = allArtworks;
         if (year) {
             newArtworks = newArtworks.filter(x => x.year.toString() === year.toString());
@@ -55,13 +72,13 @@ const useArtworks = (year, grouping, searchTerm = '') => {
         if (searchTerm) {
             newArtworks = newArtworks.filter(x => x.title.toString().toLowerCase().includes(searchTerm.toString().toLowerCase()));
         }
-        newArtworks = newArtworks.sort((x, y) => x.arrangement - y.arrangement);
+        newArtworks = newArtworks.sort((a, b) => a.arrangement.localeCompare(b.arrangement));
         setArtworks(newArtworks);
     }, [allArtworks]);
 
     const randomArtwork = useCallback(() => {
         setEm();
-        const filteredWorks = allArtworks.filter((artwork) => artwork.grouping?.includes('merica'));
+        const filteredWorks = allArtworks.filter((artwork) => artwork.grouping && artwork.grouping.includes('merica'));
         return filteredWorks[Math.floor(Math.random() * filteredWorks.length)];
     }, [allArtworks, setEm]);
 
