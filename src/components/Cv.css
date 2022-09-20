@@ -1,8 +1,22 @@
-.accordion-item {
-    background: #3e3e3e;
-    color: #cad4ea;
-}
+
 .accordion-button {
-    background: rgb(29, 94, 94);
-    color: #cad4ea;
+    color: darkslateblue;
+    background: lightblue;
+}
+
+.accordion-button:not(.collapsed) {
+    color: lightblue;
+    background: darkslateblue;
+}
+
+.accordion-body > div > a {
+    text-decoration: none; 
+    padding: 0 4px 0 4px;
+    color: lightblue;
+    background: darkslateblue;
+}
+
+.accordion-body > div > a:hover {
+    background: lightblue;
+    color: darkslateblue;
 }

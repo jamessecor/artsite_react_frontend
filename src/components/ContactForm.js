@@ -46,7 +46,7 @@ const ContactForm = () => {
                                 </Toast>                
                             )
                             : (
-                                <Form ref={formRef} noValidate validated={isSubmitted} className={'col-lg-6 offset-lg-3'} onSubmit={handleSubmit}>
+                                <Form ref={formRef} noValidate validated={isSubmitted} className={'bg-dark rounded p-5 col-lg-6 offset-lg-3'} onSubmit={handleSubmit}>
                                     <h5 className="pb-4 d-flex justify-content-center">join email list / leave a message</h5>
                                     <Form.Group className="mb-3" controlId="firstname">
                                         <Form.Label>First Name</Form.Label>
@@ -59,13 +59,12 @@ const ContactForm = () => {
                                     <Form.Group className="mb-3" controlId="email">
                                         <Form.Label>Email</Form.Label>
                                         <Form.Control required name='email' type="email" value={email} onChange={handleChange}/>
-                                        {/* <Form.Control.Feedback type={this.state.errors.includes("email") ? "invalid" : "valid"}>A valid email address is required</Form.Control.Feedback> */}
                                     </Form.Group>
                                     <Form.Group className="mb-3" controlId="message">
                                         <Form.Label>Message</Form.Label>
                                         <Form.Control rows={3} as="textarea" name='message' value={message} onChange={handleChange}/>
                                     </Form.Group>
-                                    <Button type='submit' disabled={isSubmitted}>Submit</Button>
+                                    <Button type='submit' variant={'success'} disabled={isSubmitted}>Submit</Button>
                                 </Form>
                             )
                     }

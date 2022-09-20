@@ -4,7 +4,7 @@ img {
 
 .rotating {
     animation-name: image;
-    animation-duration: 6s;
+    animation-duration: 3s;
     animation-iteration-count: infinite;
 }
 
