@@ -57,7 +57,9 @@ const useArtworks = (year = '', grouping = '', searchTerm = '') => {
     const allYears = useMemo(() => [...new Set(allArtworks.map((artwork) => artwork.year))].sort().reverse(), [allArtworks]);
     const allGroupings = useMemo(() => {
         const groupings = new Array<string>;
-        allArtworks.filter((artwork) => artwork.grouping && artwork.grouping.length > 0).map((artwork) => groupings.push(...artwork.grouping));
+        allArtworks.map((artwork) => {
+            if (artwork.grouping && artwork.grouping.length > 0) groupings.push(...artwork.grouping);
+        });
         return [...new Set(groupings)];
     }, [allArtworks]);
     
@@ -72,7 +74,12 @@ const useArtworks = (year = '', grouping = '', searchTerm = '') => {
         if (searchTerm) {
             newArtworks = newArtworks.filter(x => x.title.toString().toLowerCase().includes(searchTerm.toString().toLowerCase()));
         }
-        newArtworks = newArtworks.sort((a, b) => a.arrangement.localeCompare(b.arrangement));
+        newArtworks = newArtworks.sort((a, b) => {
+            if (a.arrangement && b.arrangement) {
+                return a.arrangement.localeCompare(b.arrangement);
+            }
+            return 0;
+        });
         setArtworks(newArtworks);
     }, [allArtworks]);
 
