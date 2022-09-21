@@ -204,3 +204,46 @@ export const education = [
         dates: "2006-2010"
     }
 ]
+
+export const press = [
+    {
+        name: "Vermont Art Guide #3",
+        location: "Artist to Watch",
+        url: "/articles/artistToWatch.jpg"
+    },
+    {
+        name: "Vermont Art Guide #3",
+        location: "Companions",
+        url: "/articles/companions.jpg"
+    },
+    {
+        name: "Seven Days",
+        location: "Our Seven Favorite Vermont Art Shows of 2017",
+        url: "/articles/7_best_2017__7Days.pdf"
+    },
+    {
+        name: "Seven Days",
+        location: "#nomophobia: Review",
+        url: "/articles/nomophobia_MegBrazill.pdf"
+    },
+    {
+        name: "Seven Days",
+        location: "As Not Seen: Review",
+        url: "/articles/7_best_2017__7Days.pdf"
+    }
+]
+
+export const links = [
+    {
+        location: "Off the Wallabies & Other Creature Habits",
+        url: "https://peppertreepublishing.com/off-the-wallabies-other-creature-habits/"
+    },
+    {
+        location: "Vermont Art Guide #3",
+        url: "https://shop.kasinihouseartshop.com/product/vermont-art-guide-3"
+    },
+    {
+        location: "Suspended Sentence by Janice Morgan",
+        url: "https://janicemorganauthor.com/suspended-sentence/portraits/"
+    },
+]

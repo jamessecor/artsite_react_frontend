@@ -1,10 +1,12 @@
 import * as React from "react";
 import { useEffect } from "react";
 import Accordion from "react-bootstrap/Accordion";
-import {soloShows} from "../data/cv"
-import {groupShows} from "../data/cv"
-import {residencies} from "../data/cv"
-import {education} from "../data/cv"
+import {soloShows} from "../data/cv";
+import {groupShows} from "../data/cv";
+import {residencies} from "../data/cv";
+import {education} from "../data/cv";
+import {press} from "../data/cv";
+import {links} from "../data/cv";
 import './Cv.css';
 
 const Cv = () => {
@@ -69,6 +71,33 @@ const Cv = () => {
                                 {ed.url ? (<a target="_blank" rel="noopener noreferrer" href={ed.url}>{ed.location}</a>) : ed.location}<br/>
                                 {ed.address}<br/>
                                 {ed.dates}
+                            </div>
+                        )
+                    })}
+                </Accordion.Body>
+            </Accordion.Item>
+            <Accordion.Item className={'bg-dark'} eventKey={"press"}>
+                <Accordion.Header>Press</Accordion.Header>
+                <Accordion.Body>
+                    {press.map(function (pressItem) {
+                        return (
+                            <div key={pressItem.name} className="mb-3">
+                                <strong>{pressItem.name}</strong><br/>
+                                {pressItem.url ? (<a target="_blank" rel="noopener noreferrer" href={pressItem.url}>{pressItem.location}</a>) : pressItem.location}<br/>
+                                {pressItem.address}<br/>
+                                {pressItem.dates}
+                            </div>
+                        )
+                    })}
+                </Accordion.Body>
+            </Accordion.Item>
+            <Accordion.Item className={'bg-dark'} eventKey={"links"}>
+                <Accordion.Header>Links</Accordion.Header>
+                <Accordion.Body>
+                    {links.map(function (link) {
+                        return (
+                            <div key={link.name} className="mb-3">                                
+                                {link.url ? (<a target="_blank" rel="noopener noreferrer" href={link.url}>{link.location}</a>) : link.location}<br/>                                
                             </div>
                         )
                     })}
