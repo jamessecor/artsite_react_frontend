@@ -3,12 +3,3 @@ body {
   color: #cad4ea;
   font-family: "Lucida Sans Typewriter", monospace;
 }
-
-.alert-hidden {
-  opacity: 0;
-  transition: all ease-in 3s;
-}
-.alert-shown {
-  opacity: 100%;
-  transition: all ease-out 1s;
-}

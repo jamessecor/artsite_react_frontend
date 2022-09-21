@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import * as React from 'react';
+import { useState } from 'react';
 import { useNavigate, Outlet } from 'react-router-dom';
 import Nav from 'react-bootstrap/Nav';
 import NavigationLinks from './NavigationLinks';
@@ -21,7 +22,7 @@ const Navigation = () => {
     return (
         <ArtworkShowingInfoContext.Provider value={isShowingInfo}>
             <ArtworkRotatingContext.Provider value={isRotating}>
-                <Navbar fixed='top' variant='dark' className="mb-4" collapseOnSelect={true} expand="false">
+                <Navbar fixed='top' variant='dark' className="mb-4" collapseOnSelect={true} expand={false}>
                     <Container fluid>
                         <Navbar.Toggle className='me-auto' onClick={() => setShowOffcanvas(!showOffcanvas)}/>
                         <Navbar.Brand onClick={() => navigateTo('/')} data-page-id="home" href="#">

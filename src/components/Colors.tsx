@@ -1,13 +1,14 @@
 import * as React from 'react';
-import { useEffect, useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import Color from "./Color";
 import {colorOptions} from "../data/color_options";
 import useArtworks from '../hooks/useArtworks';
 
 const Colors = () => {
     const highlightColor = {r: 200, g: 200, b: 0};
-    const scrollEl = useRef<HTMLElement>(null);
+    const scrollEl = useRef<HTMLDivElement>(null);
     const { randomArtwork } = useArtworks();
+    const artwork = useMemo(() => randomArtwork(), [randomArtwork]);
 
     useEffect(() => {
         if (scrollEl.current) scrollEl.current.scrollIntoView({behavior: "smooth"});
@@ -49,7 +50,7 @@ const Colors = () => {
                 </div>
             </div>
             <div className="row vh-100 g-0 container-fluid">
-                <img src={randomArtwork?.image} />
+                <img src={artwork.image} />
                 {[...Array(336)].map((value, index) => {
                     return (
                         <div key={index} className="col-1">

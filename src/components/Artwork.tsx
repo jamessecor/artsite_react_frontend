@@ -26,7 +26,7 @@ const Artwork = ({attributes}) => {
                                     <div className='ms-auto fw-bold'>{attributes.title}</div>
                                     <div className='ms-auto'>{attributes.year}</div>
                                     <div className='ms-auto'>{attributes.medium}</div>
-                                    <PriceFormatter classes='ms-auto' value={attributes.price} saleDate={attributes.saleDate}/>
+                                    <PriceFormatter classes='ms-auto' price={attributes.price} isSold={attributes.saleDate ?? false}/>
                                 </Stack>
                             ) : null}
                     </Stack>

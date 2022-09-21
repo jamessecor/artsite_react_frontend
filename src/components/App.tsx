@@ -1,7 +1,7 @@
-import React from 'react'
+import * as React from 'react';
 import HomePage from "./HomePage";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './App.css'
+import './App.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Artworks from './Artworks';
 import Cv from './Cv';

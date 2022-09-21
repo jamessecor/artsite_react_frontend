@@ -3,14 +3,16 @@ import { useRef, useState } from "react";
 import { Container, Button, Row, Col, Toast } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 import emailjs from '@emailjs/browser';
+import { useNavigate } from "react-router-dom";
 
 const ContactForm = () => {
     const [firstname, setFirstname] = useState('');
     const [lastname, setLastname] = useState('');
     const [email, setEmail] = useState('');
     const [message, setMessage] = useState('');
-    const formRef = useRef();
+    const formRef = useRef<HTMLFormElement>(null);
     const [isSubmitted, setIsSubmitted] = useState(false);
+    const navigateTo = useNavigate();
 
     const handleChange = (e) => {
         if (e.target.id === "firstname") setFirstname(e.target.value);
@@ -22,7 +24,7 @@ const ContactForm = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         setIsSubmitted(true);
-        emailjs.sendForm(process.env.REACT_APP_SERVICE_ID, process.env.REACT_APP_TEMPLATE_ID, formRef.current, process.env.REACT_APP_PUBLIC_KEY)
+        emailjs.sendForm(process.env.REACT_APP_SERVICE_ID ?? '', process.env.REACT_APP_TEMPLATE_ID ?? '', formRef.current ?? '', process.env.REACT_APP_PUBLIC_KEY ?? '')
         .then((result) => {
             console.log(result.text);
         }, (error) => {
@@ -37,12 +39,19 @@ const ContactForm = () => {
                     {
                         isSubmitted
                             ? (
-                                <Toast bg='success'>
+                                <Toast
+                                    
+                                    className={'position-absolute top-50 start-50 translate-middle'}
+                                    onClose={() => navigateTo('/artworks?year=2022')}
+                                    bg='success'
+                                >
                                     <Toast.Header>
                                         <strong className="me-auto">{'Success!'}</strong>
                                     </Toast.Header>
                                     <Toast.Body>
-                                        {'You\'re message has been sent directly to, and only to, James. Thanks for reaching out!'}
+                                        {'You\'re message has been sent directly to, and only to, James.'}
+                                        <br/><br/>
+                                        {'Thanks for reaching out!'}
                                     </Toast.Body>
                                 </Toast>                
                             )

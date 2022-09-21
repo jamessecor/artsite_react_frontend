@@ -23,10 +23,7 @@ const Artworks = () => {
                     ? (artworks.map((artwork, i) => {
                         return (
                             <Col key={`${artwork.id}-${artwork.title}`} className="my-4 px-4">
-                                <Artwork 
-                                    attributes={artwork} 
-                                    isEditable={false}
-                                />
+                                <Artwork attributes={artwork} />
                             </Col>
                         )
                     }))
