@@ -72,7 +72,9 @@ const useArtworks = (year = '', grouping = '', searchTerm = '') => {
             newArtworks = newArtworks.filter(x => x.grouping?.includes(grouping));
         }
         if (searchTerm) {
-            newArtworks = newArtworks.filter(x => x.title.toString().toLowerCase().includes(searchTerm.toString().toLowerCase()));
+            newArtworks = newArtworks.filter(x => x.title.toLowerCase().includes(searchTerm.toLowerCase())
+                || x.year.toLowerCase().includes(searchTerm.toLowerCase())
+                || x.media.toLowerCase().includes(searchTerm.toLowerCase()));
         }
         newArtworks = newArtworks.sort((a, b) => {
             if (a.arrangement && b.arrangement) {

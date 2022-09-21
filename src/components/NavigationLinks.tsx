@@ -33,7 +33,7 @@ const NavigationLinks = ({ setShowOffcanvas }) => {
                     <FormControl
                         type="search"
                         ref={searchTerm}
-                        placeholder="Search"
+                        placeholder={'Enter Search'}
                         className="me-2"
                         aria-label="Search"
                     />

@@ -8,7 +8,7 @@ interface PriceFormatterParams {
 
 const PriceFormatter: React.FC<PriceFormatterParams> = ({ price, isSold = false, classes }) => {
 
-    const displayPrice = React.useMemo(() => price.indexOf('$') ? price : `$${price}`, [price])
+    const displayPrice = React.useMemo(() => price.indexOf('\$') >= 0 ? price : `$${price}`, [price])
 
     return (
         <div className={classes}>
