@@ -2,13 +2,14 @@ import * as React from 'react';
 import { useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import Artwork from "./Artwork";
+import { Groupings } from "../models/Artwork";
 import { Col, Container, Row, Toast } from 'react-bootstrap';
 import useArtworks from '../hooks/useArtworks';
 
 const Artworks = () => {
     const [searchParams, _] = useSearchParams();
     const year = searchParams.get('year') ?? '';
-    const grouping = searchParams.get('grouping') ?? '';
+    const grouping = searchParams.get('grouping') as Groupings ?? '';
     const searchTerm = searchParams.get('search') ?? '';
     const {artworks, setEm} = useArtworks();
     
