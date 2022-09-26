@@ -242,7 +242,7 @@ export const artworks2018: Array<Artwork> =
         image: "/images/2012-2021/TheOne2018.jpg",
         buyerID: "139",
         arrangement: "3",
-        isHomePage: true,
+        isHomePage: false,
         price: "125",
         grouping: ["storage"],
         saleDate: "1900-01-01",
@@ -467,7 +467,7 @@ export const artworks2018: Array<Artwork> =
         media: "acrylic on board",
         image: "/images/2012-2021/rip_barreST.jpg",
         arrangement: "3",
-        isHomePage: true,
+        isHomePage: false,
         price: "300",
         grouping: []
     },

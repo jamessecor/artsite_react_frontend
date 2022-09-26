@@ -11,7 +11,7 @@ const HomePage = () => {
     const { randomArtwork } = useArtworks();
     const artwork = useMemo(() => randomArtwork(), [randomArtwork]);
     const enterSite = () => {
-        navigateTo('/artworks?year=2022');
+        navigateTo('/artworks/current');
     }
 
     return (

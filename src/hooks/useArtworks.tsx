@@ -48,7 +48,7 @@ const useArtworks = () => {
         return [...new Set(groupings)];
     }, [allArtworks]);
     
-    const setEm = useCallback((year = '', grouping: Groupings = '', searchTerm = '') => {
+    const setEm = useCallback((year = '', grouping: Groupings = '', searchTerm = '', current = false) => {
         let newArtworks = allArtworks;
         if (year) {
             newArtworks = newArtworks.filter(x => x.year.toString() === year.toString());
@@ -60,6 +60,10 @@ const useArtworks = () => {
             newArtworks = newArtworks.filter(x => x.title.toLowerCase().includes(searchTerm.toLowerCase())
                 || x.year.toLowerCase().includes(searchTerm.toLowerCase())
                 || x.media.toLowerCase().includes(searchTerm.toLowerCase()));
+        }
+        if (current) {
+            console.log('xxx');
+            newArtworks = newArtworks.filter(x => x.isHomePage);
         }
         newArtworks = newArtworks.sort((a, b) => {
             if (a.arrangement && b.arrangement) {

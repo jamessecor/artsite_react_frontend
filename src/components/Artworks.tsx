@@ -8,7 +8,11 @@ import useArtworks from '../hooks/useArtworks';
 import { useNavigate } from "react-router-dom";
 import Button from 'react-bootstrap/Button';
 
-const Artworks = () => {
+interface IArtworkProps {
+    current?: boolean;
+}
+
+const Artworks = ({ current = false }: IArtworkProps) => {
     const [searchParams, _] = useSearchParams();
     const year = searchParams.get('year') ?? '';
     const grouping = searchParams.get('grouping') as Groupings ?? '';
@@ -17,8 +21,9 @@ const Artworks = () => {
     const navigateTo = useNavigate();
     
     useEffect(() => {
-        setEm(year, grouping, searchTerm);
-    }, [setEm, year, grouping, searchTerm]);
+        console.log('current', current);
+        setEm(year, grouping, searchTerm, current);
+    }, [setEm, year, grouping, searchTerm, current]);
 
     const enterSite = () => navigateTo('/artworks?year=2022');
     
