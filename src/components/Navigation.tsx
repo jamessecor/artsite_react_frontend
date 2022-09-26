@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { useState, createContext } from 'react';
 import { useNavigate, Outlet } from 'react-router-dom';
 import Nav from 'react-bootstrap/Nav';
 import NavigationLinks from './NavigationLinks';
@@ -10,8 +10,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faToggleOn, faToggleOff } from '@fortawesome/free-solid-svg-icons';
 import './Navigation.css';
 
-export const ArtworkShowingInfoContext = React.createContext(true);
-export const ArtworkRotatingContext = React.createContext(false);
+export const ArtworkShowingInfoContext = createContext(true);
+export const ArtworkRotatingContext = createContext(false);
 
 const Navigation = () => {
     const navigateTo = useNavigate();

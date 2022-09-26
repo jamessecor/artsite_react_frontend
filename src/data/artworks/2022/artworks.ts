@@ -11,7 +11,7 @@ export const artworks2022: Array<Artwork> =
         grouping: ["merica"]
     }, {
         id: "2022-021",
-        title: "Stolen Land Errupting",
+        title: "Claimed Land Errupting",
         price: "325",
         year: "2022",
         media: "gouache on paper",
@@ -115,7 +115,7 @@ export const artworks2022: Array<Artwork> =
         grouping: ["merica"]
     }, {
         id: "2022-008",
-        title: "Space Exploration (Us First)",
+        title: "Summertime Lasers",
         price: "325",
         year: "2022",
         media: "gouache on paper",

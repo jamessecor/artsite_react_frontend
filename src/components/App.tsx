@@ -15,9 +15,7 @@ const App = () => (
         <Routes>
             <Route path={'/'} element={<HomePage />} />
             <Route element={<Navigation />}>
-                <Route path={'/artworks'} element={<Artworks />}>
-                    <Route path={":year"} element={<Artworks />} />
-                </Route>
+                <Route path={'/artworks'} element={<Artworks />} />
                 <Route path={'/cv'} element={<Cv />} />
                 <Route path={'/colors'} element={<Colors />} />
                 <Route path={'/contact'} element={<ContactForm />} />
@@ -25,6 +23,7 @@ const App = () => (
                     <Route path={'postcards'} element={<Store />} />
                 </Route>
             </Route>
+            <Route path={'*'} element={<HomePage />} />
         </Routes>
     </BrowserRouter>
 );

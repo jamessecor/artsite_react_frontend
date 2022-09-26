@@ -15,7 +15,7 @@ const Artwork = ({attributes}) => {
             {(isShowingInfo) => (
                 <Col xs='12'>
                     <MovingColorImage src={attributes.image} title={attributes.title} />
-                    <Stack className='mt-1'>
+                    <Stack className='mt-2'>
                         {isShowingInfo ? 
                             null : (
                             <FontAwesomeIcon className='ms-auto' icon={isShowingThisInfo ? faTimesCircle : faInfoCircle} onClick={() => setIsShowingThisInfo(!isShowingThisInfo)}/>
@@ -23,10 +23,10 @@ const Artwork = ({attributes}) => {
                         {isShowingInfo || isShowingThisInfo ?
                             (
                                 <Stack>
-                                    <div className='ms-auto fw-bold'>{attributes.title}</div>
-                                    <div className='ms-auto'>{attributes.year}</div>
-                                    <div className='ms-auto'>{attributes.media}</div>
-                                    <PriceFormatter classes='ms-auto' price={attributes.price} isSold={attributes.saleDate ?? false}/>
+                                    <div className='text-end fw-bold'>{attributes.title}</div>
+                                    <div className='text-end'>{attributes.year}</div>
+                                    <div className='text-end'>{attributes.media}</div>
+                                    <PriceFormatter classes='text-end' price={attributes.price} isSold={attributes.saleDate ?? false}/>
                                 </Stack>
                             ) : null}
                     </Stack>

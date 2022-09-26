@@ -6,6 +6,7 @@ import { Groupings } from "../models/Artwork";
 import { Col, Container, Row, Toast } from 'react-bootstrap';
 import useArtworks from '../hooks/useArtworks';
 import { useNavigate } from "react-router-dom";
+import Button from 'react-bootstrap/Button';
 
 const Artworks = () => {
     const [searchParams, _] = useSearchParams();
@@ -18,10 +19,12 @@ const Artworks = () => {
     useEffect(() => {
         setEm(year, grouping, searchTerm);
     }, [setEm, year, grouping, searchTerm]);
+
+    const enterSite = () => navigateTo('/artworks?year=2022');
     
     return (
         <Container fluid={'sm'} className="align-items-center">
-            <Row xs={1} lg={6}>
+            <Row xs={1} lg={4} className={'d-flex align-items-center'}>
                 {artworks.length
                     ? (artworks.map((artwork, i) => {
                         return (
@@ -36,7 +39,7 @@ const Artworks = () => {
                                 <Col>
                                     <Toast
                                         className={'position-absolute top-50 start-50 translate-middle'}
-                                        onClose={() => navigateTo('/artworks?year=2022')}                                    
+                                        onClose={enterSite}                                    
                                         bg='primary'
                                     >
                                         <Toast.Header>
@@ -44,8 +47,9 @@ const Artworks = () => {
                                                 {'No artworks found :('}
                                             </strong>
                                         </Toast.Header>
-                                        <Toast.Body>
+                                        <Toast.Body className="d-flex flex-column justify-content-center">
                                             {'Please try another search or select a different menu option.'}
+                                            <Button variant='outline-info' size='lg' className={'mt-2'} onClick={enterSite}>Return Home</Button>
                                         </Toast.Body>
                                     </Toast>  
                                 </Col>
