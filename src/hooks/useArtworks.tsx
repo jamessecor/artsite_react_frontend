@@ -10,24 +10,9 @@ import { artworks2019 } from '../data/artworks/2019/artworks';
 import { artworks2020 } from '../data/artworks/2020/artworks';
 import { artworks2021 } from '../data/artworks/2021/artworks';
 import { artworks2022 } from '../data/artworks/2022/artworks';
-import { Artwork } from '../models/Artwork';
+import { Artwork, Groupings } from '../models/Artwork';
 
-interface UseArtworkParams {
-    year: string;
-    grouping: string;
-    searchTerm: string;
-}
-
-const groupingsLabels = {
-    "nomophobia": "#nomophobia",
-    "digital_edits": "digital_edits",
-    "storage": "as not seen",
-    "mug_dish_glass": "animal mug, dish, and glass",
-    "merica": "Freedom Fries",
-    "wallabies": "Off the Wallabies"
-};
-
-const useArtworks = (year = '', grouping = '', searchTerm = '') => {
+const useArtworks = () => {
     const [artworks, setArtworks] = useState<Array<Artwork>>([]);
     
     const allArtworks: Array<Artwork> = useMemo(() => [
@@ -63,7 +48,7 @@ const useArtworks = (year = '', grouping = '', searchTerm = '') => {
         return [...new Set(groupings)];
     }, [allArtworks]);
     
-    const setEm = useCallback((year = '', grouping = '', searchTerm = '') => {
+    const setEm = useCallback((year = '', grouping: Groupings = '', searchTerm = '') => {
         let newArtworks = allArtworks;
         if (year) {
             newArtworks = newArtworks.filter(x => x.year.toString() === year.toString());
@@ -96,7 +81,6 @@ const useArtworks = (year = '', grouping = '', searchTerm = '') => {
         randomArtwork,
         allYears,
         allGroupings,
-        groupingsLabels,
         setArtworks,
         setEm
     };
