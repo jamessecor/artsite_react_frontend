@@ -4,6 +4,7 @@ import { useSearchParams } from 'react-router-dom';
 import Artwork from "./Artwork";
 import { Col, Container, Row, Toast } from 'react-bootstrap';
 import useArtworks from '../hooks/useArtworks';
+import { useNavigate } from "react-router-dom";
 
 const Artworks = () => {
     const [searchParams, _] = useSearchParams();
@@ -11,6 +12,7 @@ const Artworks = () => {
     const grouping = searchParams.get('grouping') ?? '';
     const searchTerm = searchParams.get('search') ?? '';
     const {artworks, setEm} = useArtworks();
+    const navigateTo = useNavigate();
     
     useEffect(() => {
         setEm(year, grouping, searchTerm);
@@ -18,7 +20,7 @@ const Artworks = () => {
     
     return (
         <Container fluid={'sm'} className="align-items-center">
-            <Row xs={1} lg={3}>
+            <Row xs={1} lg={6}>
                 {artworks.length
                     ? (artworks.map((artwork, i) => {
                         return (
@@ -31,14 +33,18 @@ const Artworks = () => {
                         <Container className={'align-items-center'}>
                             <Row xs={1}>
                                 <Col>
-                                    <Toast bg='warning'>
+                                    <Toast
+                                        className={'position-absolute top-50 start-50 translate-middle'}
+                                        onClose={() => navigateTo('/artworks?year=2022')}                                    
+                                        bg='primary'
+                                    >
                                         <Toast.Header>
                                             <strong className='me-auto'>
                                                 {'No artworks found :('}
                                             </strong>
                                         </Toast.Header>
                                         <Toast.Body>
-                                            {'Please try another search or click select a different menu option.'}
+                                            {'Please try another search or select a different menu option.'}
                                         </Toast.Body>
                                     </Toast>  
                                 </Col>

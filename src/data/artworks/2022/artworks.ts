@@ -3,7 +3,7 @@ import { Artwork } from '../../../models/Artwork';
 export const artworks2022: Array<Artwork> =
     [{
         id: "2022-022",
-        title: "",
+        title: "Nothing But Energy",
         price: "325",
         year: "2022",
         media: "gouache on paper",
@@ -11,7 +11,7 @@ export const artworks2022: Array<Artwork> =
         grouping: ["merica"]
     }, {
         id: "2022-021",
-        title: "",
+        title: "Stolen Land Errupting",
         price: "325",
         year: "2022",
         media: "gouache on paper",
@@ -19,7 +19,7 @@ export const artworks2022: Array<Artwork> =
         grouping: ["merica"]
     }, {
         id: "2022-020",
-        title: "",
+        title: "Competing Interests",
         price: "325",
         year: "2022",
         media: "gouache on paper",
@@ -27,7 +27,7 @@ export const artworks2022: Array<Artwork> =
         grouping: ["merica"]
     }, {
         id: "2022-019",
-        title: "",
+        title: "Proud Palette",
         price: "325",
         year: "2022",
         media: "gouache on paper",
@@ -35,7 +35,7 @@ export const artworks2022: Array<Artwork> =
         grouping: ["merica"]
     }, {
         id: "2022-018",
-        title: "",
+        title: "Driving to Freedom",
         price: "325",
         year: "2022",
         media: "gouache on paper",
@@ -43,7 +43,7 @@ export const artworks2022: Array<Artwork> =
         grouping: ["merica"]
     }, {
         id: "2022-017",
-        title: "",
+        title: "Fast Food and Religion",
         price: "325",
         year: "2022",
         media: "gouache on paper",
@@ -51,7 +51,7 @@ export const artworks2022: Array<Artwork> =
         grouping: ["merica"]
     }, {
         id: "2022-016",
-        title: "",
+        title: "Flag Truck",
         price: "325",
         year: "2022",
         media: "gouache on paper",
@@ -59,7 +59,7 @@ export const artworks2022: Array<Artwork> =
         grouping: ["merica"]
     }, {
         id: "2022-015",
-        title: "",
+        title: "Freedom Frites I",
         price: "325",
         year: "2022",
         media: "gouache on paper",
@@ -67,7 +67,7 @@ export const artworks2022: Array<Artwork> =
         grouping: ["merica"]
     }, {
         id: "2022-014",
-        title: "",
+        title: "Freedom Frites II",
         price: "325",
         year: "2022",
         media: "gouache on paper",
@@ -75,7 +75,7 @@ export const artworks2022: Array<Artwork> =
         grouping: ["merica"]
     }, {
         id: "2022-013",
-        title: "",
+        title: "Green Winter, No Snow: 2100",
         price: "325",
         year: "2022",
         media: "gouache on paper",
@@ -83,7 +83,7 @@ export const artworks2022: Array<Artwork> =
         grouping: ["merica"]
     }, {
         id: "2022-012",
-        title: "",
+        title: "Looking for Hope (and My Shipments)",
         price: "325",
         year: "2022",
         media: "gouache on paper",
@@ -91,7 +91,7 @@ export const artworks2022: Array<Artwork> =
         grouping: ["merica"]
     }, {
         id: "2022-011",
-        title: "",
+        title: "Stars, Stripes, and Melting Glaciers",
         price: "325",
         year: "2022",
         media: "gouache on paper",
@@ -99,7 +99,7 @@ export const artworks2022: Array<Artwork> =
         grouping: ["merica"]
     }, {
         id: "2022-010",
-        title: "",
+        title: "Oil Delivery",
         price: "325",
         year: "2022",
         media: "gouache on paper",
@@ -107,7 +107,7 @@ export const artworks2022: Array<Artwork> =
         grouping: ["merica"]
     }, {
         id: "2022-009",
-        title: "",
+        title: "New Construction on Claimed Land",
         price: "325",
         year: "2022",
         media: "gouache on paper",
@@ -115,7 +115,7 @@ export const artworks2022: Array<Artwork> =
         grouping: ["merica"]
     }, {
         id: "2022-008",
-        title: "",
+        title: "Space Exploration (Us First)",
         price: "325",
         year: "2022",
         media: "gouache on paper",
@@ -123,7 +123,7 @@ export const artworks2022: Array<Artwork> =
         grouping: ["merica"]
     }, {
         id: "2022-007",
-        title: "",
+        title: "Claimed Land for Storage",
         price: "325",
         year: "2022",
         media: "gouache on paper",
@@ -131,7 +131,7 @@ export const artworks2022: Array<Artwork> =
         grouping: ["merica"]
     }, {
         id: "2022-006",
-        title: "",
+        title: "Three's a Crowd",
         price: "325",
         year: "2022",
         media: "gouache on paper",
@@ -139,7 +139,7 @@ export const artworks2022: Array<Artwork> =
         grouping: ["merica"]
     }, {
         id: "2022-005",
-        title: "",
+        title: "Toxic Grazing",
         price: "325",
         year: "2022",
         media: "gouache on paper",
@@ -147,7 +147,7 @@ export const artworks2022: Array<Artwork> =
         grouping: ["merica"]
     }, {
         id: "2022-004",
-        title: "",
+        title: "Transitioning Off",
         price: "325",
         year: "2022",
         media: "gouache on paper",
@@ -155,7 +155,7 @@ export const artworks2022: Array<Artwork> =
         grouping: ["merica"]
     }, {
         id: "2022-003",
-        title: "",
+        title: "Claiming Stolen Land",
         price: "325",
         year: "2022",
         media: "gouache on paper",
