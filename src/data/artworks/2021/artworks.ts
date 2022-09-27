@@ -160,7 +160,7 @@ export const artworks2021: Array<Artwork> =
         id: "221",
         title: "Montpelier",
         year: "2021",
-        media: "acry",
+        media: "acrylic on panel",
         image: "/images/2012-2021/PXL_20210720_104848850.jpg",
         arrangement: "6",
         isHomePage: false,
