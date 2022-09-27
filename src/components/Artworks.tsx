@@ -21,7 +21,6 @@ const Artworks = ({ current = false }: IArtworkProps) => {
     const navigateTo = useNavigate();
     
     useEffect(() => {
-        console.log('current', current);
         setEm(year, grouping, searchTerm, current);
     }, [setEm, year, grouping, searchTerm, current]);
 

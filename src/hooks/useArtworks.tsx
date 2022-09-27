@@ -62,7 +62,6 @@ const useArtworks = () => {
                 || x.media.toLowerCase().includes(searchTerm.toLowerCase()));
         }
         if (current) {
-            console.log('xxx');
             newArtworks = newArtworks.filter(x => x.isHomePage);
         }
         newArtworks = newArtworks.sort((a, b) => {

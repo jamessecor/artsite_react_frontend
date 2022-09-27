@@ -9,25 +9,31 @@ import Colors from './Colors';
 import Navigation from './Navigation';
 import Store from './store/Store';
 import ContactForm from './ContactForm';
+import BackgroundColorProvider from './BackgroundColorProvider';
 
-const App = () => (
-    <BrowserRouter>
-        <Routes>
-            <Route path={'/'} element={<HomePage />} />
-            <Route element={<Navigation />}>
-                <Route path={'/artworks/current'} element={<Artworks current={true} />} />
-                <Route path={'/artworks'} element={<Artworks />}>
-                </Route>
-                <Route path={'/cv'} element={<Cv />} />
-                <Route path={'/colors'} element={<Colors />} />
-                <Route path={'/contact'} element={<ContactForm />} />
-                <Route path={'/store'} element={<Store />}>
-                    <Route path={'postcards'} element={<Store />} />
-                </Route>
-            </Route>
-            <Route path={'*'} element={<HomePage />} />
-        </Routes>
-    </BrowserRouter>
-);
+const App = () => {
+    return (
+        <React.StrictMode>
+            <BackgroundColorProvider>
+                <BrowserRouter>
+                    <Routes>
+                        <Route path={'/'} element={<HomePage />} />
+                        <Route element={<Navigation />}>
+                            <Route path={'/artworks/current'} element={<Artworks current={true} />} />
+                            <Route path={'/artworks'} element={<Artworks />} />
+                            <Route path={'/cv'} element={<Cv />} />
+                            <Route path={'/colors'} element={<Colors />} />
+                            <Route path={'/contact'} element={<ContactForm />} />
+                            <Route path={'/store'} element={<Store />}>
+                                <Route path={'postcards'} element={<Store />} />
+                            </Route>
+                        </Route>
+                        <Route path={'*'} element={<HomePage />} />
+                    </Routes>
+                </BrowserRouter>
+            </BackgroundColorProvider>
+        </React.StrictMode>
+    );
+};
 
 export default App;
