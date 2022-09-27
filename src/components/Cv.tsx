@@ -24,7 +24,7 @@ const Cv = () => {
                         <Accordion.Body>
                             {soloShows.map(function (show) {
                                 return (
-                                    <div key={`${show.name}${show.dates}`} className={`mb-3 ${textColor(color.r, color.g, color.b)}`}>
+                                    <div key={`${show.name}${show.dates}`} className={'mb-3 text-light'}>
                                         <strong>{show.name}</strong><br/>
                                         {show.url ? (<a target="_blank" rel="noopener noreferrer" href={show.url}>{show.location}</a>) : show.location}<br/>
                                         {show.address}<br/>
@@ -39,7 +39,7 @@ const Cv = () => {
                         <Accordion.Body>
                             {groupShows.map(function (show) {
                                 return (
-                                    <div key={`${show.name}${show.dates}`} className={`mb-3 ${textColor(color.r, color.g, color.b)}`}>
+                                    <div key={`${show.name}${show.dates}`} className={'mb-3 text-light'}>
                                         <strong>{show.name}</strong><br/>
                                         {show.url ? (<a target="_blank" rel="noopener noreferrer" href={show.url}>{show.location}</a>) : show.location}<br/>
                                         {show.address}<br/>
@@ -54,7 +54,7 @@ const Cv = () => {
                         <Accordion.Body>
                             {residencies.map(function (residency) {
                                 return (
-                                    <div key={residency.name} className={`mb-3 ${textColor(color.r, color.g, color.b)}`}>
+                                    <div key={residency.name} className={'mb-3 text-light'}>
                                         <strong>{residency.name}</strong><br/>
                                         {residency.url ? (<a target="_blank" rel="noopener noreferrer" href={residency.url}>{residency.location}</a>) : residency.location}<br/>
                                         {residency.address}<br/>
@@ -69,7 +69,7 @@ const Cv = () => {
                         <Accordion.Body>
                             {education.map(function (ed) {
                                 return (
-                                    <div key={ed.name} className={`mb-3 ${textColor(color.r, color.g, color.b)}`}>
+                                    <div key={ed.name} className={'mb-3 text-light'}>
                                         <strong>{ed.name}</strong><br/>
                                         {ed.url ? (<a target="_blank" rel="noopener noreferrer" href={ed.url}>{ed.location}</a>) : ed.location}<br/>
                                         {ed.address}<br/>
@@ -84,7 +84,7 @@ const Cv = () => {
                         <Accordion.Body>
                             {press.map(function (pressItem) {
                                 return (
-                                    <div key={pressItem.name} className={`mb-3 ${textColor(color.r, color.g, color.b)}`}>
+                                    <div key={pressItem.name} className={'mb-3 text-light'}>
                                         <strong>{pressItem.name}</strong><br/>
                                         {pressItem.url ? (<a target="_blank" rel="noopener noreferrer" href={pressItem.url}>{pressItem.location}</a>) : pressItem.location}<br/>
                                         {pressItem.address}<br/>
@@ -99,7 +99,7 @@ const Cv = () => {
                         <Accordion.Body>
                             {links.map(function (link) {
                                 return (
-                                    <div key={link.name} className={`mb-3 ${textColor(color.r, color.g, color.b)}`}>
+                                    <div key={link.name} className={'mb-3 text-light'}>
                                         {link.url ? (<a target="_blank" rel="noopener noreferrer" href={link.url}>{link.location}</a>) : link.location}<br/>                                
                                     </div>
                                 )
