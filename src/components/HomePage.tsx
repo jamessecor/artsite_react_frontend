@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 import useArtworks from '../hooks/useArtworks';
 import MovingColorImage from "./MovingColorImage";
-import './HomePage.css';
 
 const HomePage = () => {
     const navigateTo = useNavigate();
@@ -15,7 +14,7 @@ const HomePage = () => {
     }
 
     return (
-        <div className='imageContainer' onClick={enterSite}>
+        <div className='position-absolute top-0 start-0 w-100' onClick={enterSite}>
             <MovingColorImage isFullHeightAndWidth={true} src={artwork.image} title={artwork.title} startsWithRotating={true} />
             <Button variant='outline-primary' size='lg' className="position-absolute top-50 start-50 translate-middle" onClick={enterSite}>Enter Site</Button>
         </div>

@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { createContext, useState } from 'react';
-import { Container } from 'react-bootstrap';
 
 interface IBackgroundColor {
     color: {

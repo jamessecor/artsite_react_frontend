@@ -9,7 +9,7 @@ import Offcanvas from 'react-bootstrap/Offcanvas';
 import Container from 'react-bootstrap/Container';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faToggleOn, faToggleOff } from '@fortawesome/free-solid-svg-icons';
-import { SketchPicker } from 'react-color';
+import { SketchPicker, HuePicker } from 'react-color';
 import './Navigation.css';
 
 export const ArtworkShowingInfoContext = createContext(true);
@@ -26,11 +26,11 @@ const Navigation = () => {
         <ArtworkShowingInfoContext.Provider value={isShowingInfo}>
             <ArtworkRotatingContext.Provider value={isRotating}>
                 <BackgroundColorContext.Consumer>
-                    {({color, setColor}) => (
+                    {({ color, setColor }) => (
                         <React.Fragment>
                             <Navbar fixed='top' variant={'dark'} collapseOnSelect={true} expand={false}>
                                 <Container fluid>
-                                    <Navbar.Toggle className='me-auto' onClick={() => setShowOffcanvas(!showOffcanvas)}/>
+                                    <Navbar.Toggle className='me-auto' onClick={() => setShowOffcanvas(!showOffcanvas)} />
                                     <Navbar.Brand onClick={() => navigateTo('/')} data-page-id="home" href="#">
                                         James Secor
                                     </Navbar.Brand>
@@ -47,21 +47,33 @@ const Navigation = () => {
                                             <Nav className={'mt-5 p-2 border rounded border-2 border-light'}>
                                                 <div className={'ms-5'}>{'Settings'}</div>
                                                 <Nav.Link className={'no-hover'} onClick={() => setIsShowingInfo(!isShowingInfo)}>
-                                                    <FontAwesomeIcon size={'lg'} icon={isShowingInfo ? faToggleOn : faToggleOff}/>
+                                                    <FontAwesomeIcon size={'lg'} icon={isShowingInfo ? faToggleOn : faToggleOff} />
                                                     {' Show Artwork Info'}
                                                 </Nav.Link>
                                                 <Nav.Link className={'no-hover'} onClick={() => setIsRotating(!isRotating)}>
-                                                    <FontAwesomeIcon size={'lg'} icon={isRotating ? faToggleOn : faToggleOff}/>
+                                                    <FontAwesomeIcon size={'lg'} icon={isRotating ? faToggleOn : faToggleOff} />
                                                     {' Wild Colors'}
                                                 </Nav.Link>
                                                 <Nav.Link className={'no-hover'} onClick={() => setIsUsingColorSelector(!isUsingColorSelector)}>
-                                                    <FontAwesomeIcon size={'lg'} icon={isUsingColorSelector ? faToggleOn : faToggleOff}/>
+                                                    <FontAwesomeIcon size={'lg'} icon={isUsingColorSelector ? faToggleOn : faToggleOff} />
                                                     {' Select Background Color'}
                                                 </Nav.Link>
                                                 {
                                                     isUsingColorSelector
                                                         ? (
                                                             <SketchPicker
+                                                                className={'mt-1 align-self-center'}
+                                                                color={color}
+                                                                onChange={(newColor) => setColor(newColor.rgb)}
+                                                                onChangeComplete={(newColor) => setColor(newColor.rgb)}
+                                                            />
+                                                        )
+                                                        : null}
+
+                                                {
+                                                    isUsingColorSelector
+                                                        ? (
+                                                            <HuePicker
                                                                 className={'mt-1 align-self-center'}
                                                                 color={color}
                                                                 onChange={(newColor) => setColor(newColor.rgb)}
