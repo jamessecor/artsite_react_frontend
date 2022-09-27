@@ -13,6 +13,7 @@ const MovingColorImage = ({src, title, isFullHeightAndWidth = false, startsWithR
             {(isRotatingSetting) => (
                 <img 
                     alt={title}
+                    style={{ filter: 'hue-rotate(90deg)' }}
                     onClick={() => setIsRotating(!isRotating)}
                     className={isRotatingSetting || isRotating ? `${widthOrHeightClass} rotating` : widthOrHeightClass}
                     src={src}/>
