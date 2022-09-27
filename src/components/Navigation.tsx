@@ -28,7 +28,7 @@ const Navigation = () => {
                 <BackgroundColorContext.Consumer>
                     {({color, setColor}) => (
                         <React.Fragment>
-                            <Navbar fixed='top' variant={isTooLightForDarkTheme(color.r, color.g, color.b) ? 'light' : 'dark'} className="mb-4" collapseOnSelect={true} expand={false}>
+                            <Navbar fixed='top' variant={'dark'} collapseOnSelect={true} expand={false}>
                                 <Container fluid>
                                     <Navbar.Toggle className='me-auto' onClick={() => setShowOffcanvas(!showOffcanvas)}/>
                                     <Navbar.Brand onClick={() => navigateTo('/')} data-page-id="home" href="#">

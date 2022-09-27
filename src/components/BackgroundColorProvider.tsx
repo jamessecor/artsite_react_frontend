@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { createContext, useState } from 'react';
+import { Container } from 'react-bootstrap';
 
 interface IBackgroundColor {
     color: {
@@ -24,15 +25,17 @@ export const BackgroundColorContext = createContext({
 } as IBackgroundColor);
 
 export const isTooLightForDarkTheme = (r: number, g: number, b: number) => (r + g + b) > 450;
+export const textColor = (r: number, g: number, b: number) => isTooLightForDarkTheme(r, g, b) ? 'dark-text' : 'light-text';
 
 const BackgroundColorProvider = ({ children }) => {
     const [color, setColor] = useState(initialColor);
 
-    React.useEffect(() => console.log('c', color));
-
     return (
         <BackgroundColorContext.Provider value={{color: color, setColor: setColor}}>
-            <div style={{backgroundColor: `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`}}>
+            <div style={{
+                backgroundColor: `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
+                marginTop: '3.5rem'
+            }}>
                 {children}
             </div>
         </BackgroundColorContext.Provider>
