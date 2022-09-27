@@ -11,7 +11,7 @@ interface IBackgroundColor {
     setColor: React.Dispatch<React.SetStateAction<{ r: number; g: number; b: number; a: number; }>>;
 }
 
-const initialColor = {
+export const initialColor = {
     r: 62,
     g: 62,
     b: 62,
@@ -22,6 +22,8 @@ export const BackgroundColorContext = createContext({
     color: initialColor,
     setColor: () => {}
 } as IBackgroundColor);
+
+export const isTooLightForDarkTheme = (r: number, g: number, b: number) => (r + g + b) > 450;
 
 const BackgroundColorProvider = ({ children }) => {
     const [color, setColor] = useState(initialColor);

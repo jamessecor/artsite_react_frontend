@@ -3,7 +3,7 @@ import { useState, createContext } from 'react';
 import { useNavigate, Outlet } from 'react-router-dom';
 import Nav from 'react-bootstrap/Nav';
 import NavigationLinks from './NavigationLinks';
-import { BackgroundColorContext } from './BackgroundColorProvider';
+import { BackgroundColorContext, isTooLightForDarkTheme } from './BackgroundColorProvider';
 import Navbar from 'react-bootstrap/Navbar';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import Container from 'react-bootstrap/Container';
@@ -28,7 +28,7 @@ const Navigation = () => {
                 <BackgroundColorContext.Consumer>
                     {({color, setColor}) => (
                         <React.Fragment>
-                            <Navbar fixed='top' variant='dark' className="mb-4" collapseOnSelect={true} expand={false}>
+                            <Navbar fixed='top' variant={isTooLightForDarkTheme(color.r, color.g, color.b) ? 'light' : 'dark'} className="mb-4" collapseOnSelect={true} expand={false}>
                                 <Container fluid>
                                     <Navbar.Toggle className='me-auto' onClick={() => setShowOffcanvas(!showOffcanvas)}/>
                                     <Navbar.Brand onClick={() => navigateTo('/')} data-page-id="home" href="#">

@@ -1,5 +1,11 @@
-body {
-  background: #3e3e3e;
-  color: #cad4ea;
+body {  
   font-family: "Lucida Sans Typewriter", monospace;
+}
+
+.light-text {
+  color: #cad4ea;
+}
+
+.dark-text {
+  color: rgb(43, 38, 38);
 }
