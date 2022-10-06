@@ -2,6 +2,36 @@ import { Artwork } from '../../../models/Artwork';
 
 export const artworks2022: Array<Artwork> =
     [{
+        id: "2022-025",
+        title: "Typewriter",
+        price: "350",
+        year: "2022",
+        media: "gouache on paper",
+        saleDate: "2022-09-01",
+        image: "/images/2022/wallabies/typewriter.jpg",
+        grouping: ["wallabies"]
+    },
+    {
+        id: "2022-024",
+        title: "Cover",
+        price: "250",
+        year: "2022",
+        media: "gouache on paper",
+        saleDate: "2022-01-01",
+        image: "/images/2022/wallabies/cover.jpg",
+        grouping: ["wallabies"]
+    },
+    {
+        id: "2022-023",
+        title: "Inside Cover",
+        price: "250",
+        year: "2022",
+        media: "gouache on paper",
+        saleDate: "2022-01-01",
+        image: "/images/2022/wallabies/title_page.jpg",
+        grouping: ["wallabies"]
+    },
+    {
         id: "2022-022",
         title: "Nothing But Energy",
         price: "325",
