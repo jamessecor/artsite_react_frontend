@@ -8,7 +8,7 @@ export const artworks2022: Array<Artwork> =
         year: "2022",
         media: "gouache on paper",
         saleDate: "2022-09-01",
-        image: "/images/2022/wallabies/typewriter.jpg",
+        image: "/images/2022/wallabies/typewriter.JPG",
         grouping: ["wallabies"]
     },
     {
@@ -28,7 +28,7 @@ export const artworks2022: Array<Artwork> =
         year: "2022",
         media: "gouache on paper",
         saleDate: "2022-01-01",
-        image: "/images/2022/wallabies/title_page.jpg",
+        image: "/images/2022/wallabies/title_page.JPG",
         grouping: ["wallabies"]
     },
     {
