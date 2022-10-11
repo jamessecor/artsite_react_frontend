@@ -356,6 +356,7 @@ export const artworks2022: Array<Artwork> =
         title: "an oriole conducting a tutorial",
         price: "250",
         year: "2022",
+        saleDate: "2022-10-10",
         image: "/images/2022/wallabies/17.JPG",
         grouping: ["wallabies"],
         media: "gouache on paper"

@@ -1,12 +1,12 @@
 export type Groupings = '' | "nomophobia" | "digital_edits" | "storage" | "mug_dish_glass" | "merica" | "wallabies";
 
 export enum GroupingsLabels {
+    wallabies = "Off the Wallabies",
+    merica = "Freedom Fries",
     nomophobia = "#nomophobia",
     // digital_edits = "digital_edits",
-    storage = "as not seen",
     mug_dish_glass = "animal mug, dish, and glass",
-    merica = "Freedom Fries",
-    wallabies = "Off the Wallabies"
+    storage = "as not seen"
 };
 
 export interface Artwork {

@@ -556,6 +556,7 @@ export const artworks2018: Array<Artwork> =
         title: "Spewing Dreams",
         year: "2018",
         media: "acrylic on board",
+        saleDate: "2022-10-10",
         image: "/images/2012-2021/SpewingDreams2018.jpg",
         arrangement: "8",
         isHomePage: false,

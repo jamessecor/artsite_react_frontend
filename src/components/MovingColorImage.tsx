@@ -7,7 +7,7 @@ import { AlphaPicker } from 'react-color';
 const MovingColorImage = ({src, title, isFullHeightAndWidth = false, startsWithRotating = false}) => {
     const widthOrHeightClass = isFullHeightAndWidth ? 'vh-100 w-100' : 'w-100';
     
-    const [isRotating, setIsRotating] = useState(startsWithRotating);
+    const [isRotating, setIsRotating] = useState(false);
     const [hueRotateAmount, setHueRotateAmount] = useState(0.0);
     
     return (
@@ -18,7 +18,7 @@ const MovingColorImage = ({src, title, isFullHeightAndWidth = false, startsWithR
                         alt={title}
                         style={{ filter: `hue-rotate(${hueRotateAmount * 360}deg)` }}
                         onClick={() => setIsRotating(!isRotating)}
-                        className={isRotatingSetting ? `${widthOrHeightClass} rotating` : widthOrHeightClass}
+                        className={startsWithRotating || isRotatingSetting ? `${widthOrHeightClass} rotating` : widthOrHeightClass}
                         src={src}/>
                     {isRotating ? (
                         <AlphaPicker

@@ -205,6 +205,7 @@ export const artworks2016: Array<Artwork> =
         media: "acrylic on board",
         image: "/images/2012-2021/TheBlueUnderTheBridge2016.jpg",
         arrangement: "10",
+        saleDate: "2022-10-10",
         isHomePage: false,
         price: "225",
         grouping: []

@@ -72,6 +72,7 @@ export const artworks2019: Array<Artwork> =
         media: "acrylic on canvas",
         image: "/images/2012-2021/show33Secor.jpg",
         arrangement: "2",
+        saleDate: "2022-10-10",
         isHomePage: false,
         price: "300",
         grouping: []
@@ -83,6 +84,7 @@ export const artworks2019: Array<Artwork> =
         media: "gouache on paper",
         image: "/images/2012-2021/animalMug_dish_andGlass_I.jpg",
         arrangement: "0",
+        saleDate: "2022-10-10",
         isHomePage: true,
         price: "150",
         grouping: ["mug_dish_glass"]
@@ -105,6 +107,7 @@ export const artworks2019: Array<Artwork> =
         media: "gouache on paper",
         image: "/images/2012-2021/IMG_20191207_102150.jpg",
         arrangement: "3",
+        saleDate: "2022-10-10",
         isHomePage: false,
         price: "150",
         grouping: ["mug_dish_glass"]
@@ -191,6 +194,7 @@ export const artworks2019: Array<Artwork> =
         media: "gouache on paper",
         image: "/images/2012-2021/6.jpg",
         arrangement: "6",
+        saleDate: "2022-10-10",
         isHomePage: false,
         price: "150",
         grouping: ["mug_dish_glass"]

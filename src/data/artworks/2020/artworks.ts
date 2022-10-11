@@ -19,6 +19,7 @@ export const artworks2020: Array<Artwork> =
         media: "acrylic on board",
         image: "/images/2012-2021/TheCostOfEverythingI.jpg",
         arrangement: "4",
+        saleDate: "2022-10-10",
         isHomePage: false,
         price: "300",
         grouping: []
@@ -30,6 +31,7 @@ export const artworks2020: Array<Artwork> =
         media: "acrylic on board",
         image: "/images/2012-2021/TheCostOfEverythingII.jpg",
         arrangement: "2",
+        saleDate: "2022-10-10",
         isHomePage: false,
         price: "300",
         grouping: []

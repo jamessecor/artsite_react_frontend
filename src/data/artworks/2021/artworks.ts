@@ -8,6 +8,7 @@ export const artworks2021: Array<Artwork> =
         media: "acrylic on canvas",
         image: "/images/2012-2021/PXL_20210131_134304591.jpg",
         arrangement: "1",
+        saleDate: "2022-10-10",
         isHomePage: true,
         price: "650",
         grouping: []
@@ -104,6 +105,7 @@ export const artworks2021: Array<Artwork> =
         media: "acrylic on board",
         image: "/images/2012-2021/PXL_20210522_143020307.PORTRAIT.jpg",
         arrangement: "0",
+        saleDate: "2022-10-10",
         isHomePage: true,
         price: "250",
         grouping: []
@@ -115,6 +117,7 @@ export const artworks2021: Array<Artwork> =
         media: "acrylic on board",
         image: "/images/2012-2021/IMG_20210925_082003_125.jpg",
         arrangement: "1",
+        saleDate: "2022-10-10",
         isHomePage: false,
         price: "300",
         grouping: []
