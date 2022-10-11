@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button } from 'react-bootstrap';
+import { Button, Toast } from 'react-bootstrap';
 import useArtworks from '../hooks/useArtworks';
 import MovingColorImage from "./MovingColorImage";
 
@@ -16,7 +16,24 @@ const HomePage = () => {
     return (
         <div className='position-absolute top-0 start-0 w-100' onClick={enterSite}>
             <MovingColorImage isFullHeightAndWidth={true} src={artwork.image} title={artwork.title} startsWithRotating={true} />
-            <Button variant='outline-primary' size='lg' className="position-absolute top-50 start-50 translate-middle" onClick={enterSite}>Enter Site</Button>
+            <Toast
+                className={'position-absolute top-50 start-50 translate-middle'}
+                onClose={enterSite}                                    
+            >
+                <Toast.Header>
+                    <img src={artwork.image} className="w-25 rounded me-2" alt="" />
+                    <strong className='me-auto'>
+                        {'Chirping in the Thickets'}
+                    </strong>
+                </Toast.Header>
+                <Toast.Body className="d-flex flex-column justify-content-center">
+                    {'On view this November at the Front'}
+                    <br /> {'6 Barre St, Montpelier, VT'}
+                    <br />{'Nov 4 - 27'}
+                    <br />{'Opening: Nov 4th, 4-8 pm'}
+                    <Button variant='outline-info' size='lg' className={'mt-2'} onClick={enterSite}>Enter Site</Button>
+                </Toast.Body>
+            </Toast>
         </div>
     );    
 }
