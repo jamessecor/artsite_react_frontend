@@ -18,7 +18,7 @@ const HomePage = () => {
             <MovingColorImage isFullHeightAndWidth={true} src={artwork.image} title={artwork.title} startsWithRotating={true} />
             <Toast
                 className={'position-absolute top-50 start-50 translate-middle'}
-                onClose={enterSite}                                    
+                onClose={enterSite}
             >
                 <Toast.Header>
                     <img src={artwork.image} className="w-25 rounded me-2" alt="" />
@@ -27,11 +27,13 @@ const HomePage = () => {
                     </strong>
                 </Toast.Header>
                 <Toast.Body className="d-flex flex-column justify-content-center">
-                    {'On view this November at the Front'}
-                    <br /> {'6 Barre St, Montpelier, VT'}
-                    <br />{'Nov 4 - 27'}
-                    <br />{'Opening: Nov 4th, 4-8 pm'}
-                    <Button variant='outline-info' size='lg' className={'mt-2'} onClick={enterSite}>Enter Site</Button>
+                    <div className='d-flex text-center justify-content-center'>
+                        {'On view this November at the Front'}
+                        <br /> {'6 Barre St, Montpelier, VT'}
+                        <br />{'Nov 4 - 27'}
+                        <br />{'Opening: Nov 4th, 4-8 pm'}
+                    </div>
+                    <Button variant='success' size='lg' className={'mt-2'} onClick={enterSite}>Continue</Button>
                 </Toast.Body>
             </Toast>
         </div>

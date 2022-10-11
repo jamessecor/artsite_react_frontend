@@ -9,6 +9,14 @@ export enum GroupingsLabels {
     storage = "as not seen"
 };
 
+export enum GroupingsLabelsOrder {
+    wallabies = 1,
+    merica = 2,
+    nomophobia = 3,
+    mug_dish_glass = 4,
+    storage = 5
+};
+
 export interface Artwork {
     id: string;
     title: string;

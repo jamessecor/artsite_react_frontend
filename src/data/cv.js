@@ -1,5 +1,12 @@
 export const soloShows = [
     {
+        name: "Chirping in the Thickets",
+        location: "the Front",
+        url: "https://thefrontvt.com",
+        address: "6 Barre St, Montpelier, VT",
+        dates: "Nov 2022"
+    },
+    {
         name: "animal mug, dish, and glass",
         location: "The Drawing Board",
         url: "https://drawingboardvt.com",

@@ -10,7 +10,7 @@ import { artworks2019 } from '../data/artworks/2019/artworks';
 import { artworks2020 } from '../data/artworks/2020/artworks';
 import { artworks2021 } from '../data/artworks/2021/artworks';
 import { artworks2022 } from '../data/artworks/2022/artworks';
-import { Artwork, Groupings } from '../models/Artwork';
+import { Artwork, Groupings, GroupingsLabelsOrder } from '../models/Artwork';
 
 const useArtworks = () => {
     const [artworks, setArtworks] = useState<Array<Artwork>>([]);
@@ -45,7 +45,7 @@ const useArtworks = () => {
         allArtworks.map((artwork) => {
             if (artwork.grouping && artwork.grouping.length > 0) groupings.push(...artwork.grouping);
         });
-        return [...new Set(groupings)];
+        return [...new Set(groupings)].sort((a, b) => GroupingsLabelsOrder[a] - GroupingsLabelsOrder[b]);
     }, [allArtworks]);
     
     const setEm = useCallback((year = '', grouping: Groupings = '', searchTerm = '', current = false) => {
