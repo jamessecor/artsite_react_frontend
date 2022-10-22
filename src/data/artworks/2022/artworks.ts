@@ -198,6 +198,7 @@ export const artworks2022: Array<Artwork> =
         price: "250",
         year: "2022",
         media: "acrylic on panel",
+        saleDate: "2022-10-21",
         image: "/images/2022/flying_to_the_rainbows.jpg"
     },
     {
