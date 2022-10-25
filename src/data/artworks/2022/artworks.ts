@@ -7,7 +7,7 @@ export const artworks2022: Array<Artwork> =
         price: "350",
         year: "2022",
         media: "gouache on paper",
-        saleDate: "2022-09-01",
+        saleDate: "2022-10-10",
         image: "/images/2022/wallabies/typewriter.JPG",
         grouping: ["wallabies"]
     },

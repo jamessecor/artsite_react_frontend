@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Artworks from './Artworks';
+import SoldArtworks from './SoldArtworks';
 import Cv from './Cv';
 import Colors from './Colors';
 import Navigation from './Navigation';
@@ -20,6 +21,7 @@ const App = () => {
                         <Route path={'/'} element={<HomePage />} />
                         <Route element={<Navigation />}>
                             <Route path={'/artworks/current'} element={<Artworks current={true} />} />
+                            <Route path={'/artworks/sold'} element={<SoldArtworks />} />
                             <Route path={'/artworks'} element={<Artworks />} />
                             <Route path={'/cv'} element={<Cv />} />
                             <Route path={'/colors'} element={<Colors />} />

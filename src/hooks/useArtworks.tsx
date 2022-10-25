@@ -79,13 +79,20 @@ const useArtworks = () => {
         return filteredWorks[Math.floor(Math.random() * filteredWorks.length)];
     }, [allArtworks, setEm]);
 
+    const soldArtworkByQuarter = useCallback((startDate: Date, endDate: Date) => {
+        setEm();
+        const soldArtworks = allArtworks.filter((artwork) => artwork.saleDate && new Date(artwork.saleDate) >= startDate && new Date(artwork.saleDate) <= endDate);
+        return soldArtworks;
+    }, [allArtworks, setEm]);
+
     return {
         artworks,
         randomArtwork,
         allYears,
         allGroupings,
         setArtworks,
-        setEm
+        setEm,
+        soldArtworkByQuarter
     };
 };
 
