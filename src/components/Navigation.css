@@ -24,3 +24,7 @@
     background: darkslateblue;
     color: lightblue;
 }
+
+.navbar-nav .nav-link {
+    padding-left: 6px !important;
+}

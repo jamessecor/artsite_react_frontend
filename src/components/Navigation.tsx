@@ -35,16 +35,16 @@ const Navigation = () => {
                                         James Secor
                                     </Navbar.Brand>
                                     <Navbar.Offcanvas onHide={() => setShowOffcanvas(false)} show={showOffcanvas} scroll={true}>
-                                        <Offcanvas.Header onHide={() => setShowOffcanvas(false)} closeButton>
+                                        <Offcanvas.Header className={'pb-0'} onHide={() => setShowOffcanvas(false)} closeButton>
                                             <Offcanvas.Title>
                                                 <Nav>
-                                                    <Nav.Link onClick={() => navigateTo('/')}>James Secor</Nav.Link>
+                                                    <Nav.Link className={'px-2'} onClick={() => navigateTo('/')}>James Secor</Nav.Link>
                                                 </Nav>
                                             </Offcanvas.Title>
                                         </Offcanvas.Header>
-                                        <Offcanvas.Body>
+                                        <Offcanvas.Body className={'pt-1'}>
                                             <NavigationLinks setShowOffcanvas={setShowOffcanvas} />
-                                            <Nav className={'mt-5 p-2 border rounded border-2 border-light'}>
+                                            <Nav className={'mt-2 p-2 border rounded border-2 border-light'}>
                                                 <div className={'ms-5'}>{'Settings'}</div>
                                                 <Nav.Link className={'no-hover'} onClick={() => setIsShowingInfo(!isShowingInfo)}>
                                                     <FontAwesomeIcon size={'lg'} icon={isShowingInfo ? faToggleOn : faToggleOff} />

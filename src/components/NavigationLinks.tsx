@@ -29,17 +29,8 @@ const NavigationLinks = ({ setShowOffcanvas }) => {
 
     return (
         <React.Fragment>
+            <NavDropdown.Divider />
             <Nav className="me-auto">
-                <Form onSubmit={handleSearchSubmit} className="d-flex">
-                    <FormControl
-                        type="search"
-                        ref={searchTerm}
-                        placeholder={'Enter Search'}
-                        className="me-2"
-                        aria-label="Search"
-                    />
-                    <Button type="submit" variant="outline-success">Search</Button>
-                </Form>
                 <NavDropdown title="artwork" id="basic-nav-dropdown">
                     {allGroupings.map((grouping) => {
                         if (GroupingsLabels[grouping] !== undefined) {
@@ -56,6 +47,7 @@ const NavigationLinks = ({ setShowOffcanvas }) => {
                         }
 
                     })}
+                    <NavDropdown.Divider />
                     {allYears.map((year) => (
                         <NavDropdown.Item
                             key={year}
@@ -74,6 +66,16 @@ const NavigationLinks = ({ setShowOffcanvas }) => {
                 <Nav.Link className={pathname === "contact" ? "active" : ""} onClick={() => HideOffcanvasAndNavigateTo('/contact')}>contact</Nav.Link>
                 {/* <Nav.Link className={pathname === "store" ? "active" : ""} onClick={() => HideOffcanvasAndNavigateTo('/store')}>store</Nav.Link> */}
             </Nav>
+            <Form onSubmit={handleSearchSubmit} className="d-flex my-1">
+                <FormControl
+                    type="search"
+                    ref={searchTerm}
+                    placeholder={'Search Artworks'}
+                    className="me-2"
+                    aria-label="Search"
+                />
+                <Button type="submit" variant="outline-success">Search</Button>
+            </Form>
             <Nav>
                 <Nav.Link target="_blank" rel="noopener noreferrer"
                     href="https://www.instagram.com/jamessecor/"
