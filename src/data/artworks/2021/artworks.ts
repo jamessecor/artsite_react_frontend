@@ -11,6 +11,7 @@ export const artworks2021: Array<Artwork> =
         saleDate: "2022-10-10",
         isHomePage: true,
         price: "650",
+        salePrice: "689",
         grouping: []
     },
     {
@@ -108,6 +109,7 @@ export const artworks2021: Array<Artwork> =
         saleDate: "2022-10-10",
         isHomePage: true,
         price: "250",
+        salePrice: "265",
         grouping: []
     },
     {
@@ -120,6 +122,7 @@ export const artworks2021: Array<Artwork> =
         saleDate: "2022-10-10",
         isHomePage: false,
         price: "300",
+        salePrice: "318",
         grouping: []
     },
     {

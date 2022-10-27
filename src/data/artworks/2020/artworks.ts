@@ -34,6 +34,7 @@ export const artworks2020: Array<Artwork> =
         saleDate: "2022-10-10",
         isHomePage: false,
         price: "300",
+        salePrice: "318",
         grouping: []
     },
     {

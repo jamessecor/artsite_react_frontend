@@ -75,6 +75,7 @@ export const artworks2019: Array<Artwork> =
         saleDate: "2022-10-10",
         isHomePage: false,
         price: "300",
+        salePrice: "318",
         grouping: []
     },
     {
@@ -197,6 +198,7 @@ export const artworks2019: Array<Artwork> =
         saleDate: "2022-10-10",
         isHomePage: false,
         price: "150",
+        salePrice: "159",
         grouping: ["mug_dish_glass"]
     },
     {

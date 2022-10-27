@@ -561,6 +561,7 @@ export const artworks2018: Array<Artwork> =
         arrangement: "8",
         isHomePage: false,
         price: "275",
+        salePrice: "291.50",
         grouping: []
     }
     ];

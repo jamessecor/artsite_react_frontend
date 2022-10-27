@@ -208,6 +208,7 @@ export const artworks2016: Array<Artwork> =
         saleDate: "2022-10-10",
         isHomePage: false,
         price: "225",
+        salePrice: "238.50",
         grouping: []
     },
     {
