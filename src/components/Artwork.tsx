@@ -29,7 +29,7 @@ const Artwork = ({attributes}) => {
                                             <div className='text-end fw-bold'>{attributes.title}</div>
                                             <div className='text-end'>{attributes.year}</div>
                                             <div className='text-end'>{attributes.media}</div>
-                                            <PriceFormatter classes='text-end' price={attributes.price} isSold={attributes.saleDate ?? false}/>
+                                            <PriceFormatter classes='text-end' price={attributes.price} isSold={attributes.saleDate ?? attributes.isNFS ?? false}/>
                                         </Stack>
                                     ) : null}
                             </Stack>

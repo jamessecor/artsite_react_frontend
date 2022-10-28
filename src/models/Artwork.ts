@@ -32,4 +32,5 @@ export interface Artwork {
     taxStatus?: string;
     salePrice?: string;
     saleRevenue?: string;
+    isNFS?: boolean;
 };
