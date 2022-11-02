@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useRef } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, useSearchParams } from 'react-router-dom';
 import Nav from 'react-bootstrap/Nav'
 import NavDropdown from 'react-bootstrap/NavDropdown'
 import Form from 'react-bootstrap/Form'
@@ -13,6 +13,11 @@ import useArtworks from '../hooks/useArtworks';
 const NavigationLinks = ({ setShowOffcanvas }) => {
     const navigateTo = useNavigate();
     const { pathname } = useLocation();
+    
+    const [searchParams, _] = useSearchParams();
+    const urlYear = searchParams.get('year') ?? '';
+    const urlGrouping = searchParams.get('grouping');
+
     const { allGroupings, allYears } = useArtworks();
 
     const HideOffcanvasAndNavigateTo = (newPath) => {
@@ -39,6 +44,7 @@ const NavigationLinks = ({ setShowOffcanvas }) => {
                                     key={grouping}
                                     data-filter={grouping}
                                     data-page-id="grouping"
+                                    className={grouping === urlGrouping ? "border border-2 border-primary rounded" : "rounded"}
                                     onClick={() => HideOffcanvasAndNavigateTo(`/artworks?grouping=${grouping}`)}
                                 >
                                     {GroupingsLabels[grouping]}
@@ -53,17 +59,18 @@ const NavigationLinks = ({ setShowOffcanvas }) => {
                             key={year}
                             data-filter={year}
                             data-page-id="artwork"
+                            className={year === urlYear ? "border border-2 border-primary rounded" : "rounded"}
                             onClick={() => HideOffcanvasAndNavigateTo(`/artworks?year=${year}`)}
                         >
                             {year}
                         </NavDropdown.Item>
                     ))}
                 </NavDropdown>
-                <Nav.Link className={pathname === "cv" ? "active" : ""} onClick={() => HideOffcanvasAndNavigateTo('/cv')}>
+                <Nav.Link className={pathname === "/cv" ? "border border-2 border-primary rounded" : "rounded"} onClick={() => HideOffcanvasAndNavigateTo('/cv')}>
                     {'cv'}
                 </Nav.Link>
                 {/* <Nav.Link className={pathname === "colors" ? "active" : ""} onClick={() => HideOffcanvasAndNavigateTo('/colors')}>colors</Nav.Link> */}
-                <Nav.Link className={pathname === "contact" ? "active" : ""} onClick={() => HideOffcanvasAndNavigateTo('/contact')}>contact</Nav.Link>
+                <Nav.Link className={pathname === "/contact" ? "border border-2 border-primary rounded" : "rounded"} onClick={() => HideOffcanvasAndNavigateTo('/contact')}>contact</Nav.Link>
                 {/* <Nav.Link className={pathname === "store" ? "active" : ""} onClick={() => HideOffcanvasAndNavigateTo('/store')}>store</Nav.Link> */}
             </Nav>
             <Form onSubmit={handleSearchSubmit} className="d-flex my-1">
