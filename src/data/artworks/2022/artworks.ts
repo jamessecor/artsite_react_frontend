@@ -296,6 +296,7 @@ export const artworks2022: Array<Artwork> =
         price: "250",
         year: "2022",
         image: "/images/2022/wallabies/10.JPG",
+        isNFS: true,
         grouping: ["wallabies"],
         media: "gouache on paper"
     },
