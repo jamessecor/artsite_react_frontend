@@ -229,7 +229,7 @@ export const artworks2022: Array<Artwork> =
     },
     {
         id: "1",
-        title: "a yak suffering a snack attack",
+        title: "Yak",
         price: "250",
         year: "2022",
         image: "/images/2022/wallabies/03.JPG",
@@ -238,7 +238,7 @@ export const artworks2022: Array<Artwork> =
     },
     {
         id: "2",
-        title: "chirping crickets in the thickets",
+        title: "Crickets",
         price: "250",
         year: "2022",
         image: "/images/2022/wallabies/04.JPG",
@@ -247,7 +247,7 @@ export const artworks2022: Array<Artwork> =
     },
     {
         id: "3",
-        title: "there are foxes in the copses",
+        title: "Foxes",
         price: "250",
         year: "2022",
         image: "/images/2022/wallabies/05.JPG",
@@ -256,7 +256,7 @@ export const artworks2022: Array<Artwork> =
     },
     {
         id: "04",
-        title: "on the veldt eland are svelte",
+        title: "Eland",
         price: "250",
         year: "2022",
         image: "/images/2022/wallabies/06.JPG",
@@ -265,7 +265,7 @@ export const artworks2022: Array<Artwork> =
     },
     {
         id: "05",
-        title: "do loons nest in the Dunes?",
+        title: "Loons",
         price: "250",
         year: "2022",
         image: "/images/2022/wallabies/07.JPG",
@@ -274,7 +274,7 @@ export const artworks2022: Array<Artwork> =
     },
     {
         id: "06",
-        title: "behind my house a doleful grouse",
+        title: "Grouse",
         price: "250",
         year: "2022",
         image: "/images/2022/wallabies/08.JPG",
@@ -283,7 +283,7 @@ export const artworks2022: Array<Artwork> =
     },
     {
         id: "07",
-        title: "a dolphin doing a flip through a Mobius strip",
+        title: "Dolphin",
         price: "250",
         year: "2022",
         image: "/images/2022/wallabies/09.JPG",
@@ -292,7 +292,7 @@ export const artworks2022: Array<Artwork> =
     },
     {
         id: "08",
-        title: "where do butterflies go when rain falls and the winds blow?",
+        title: "Butterflies",
         price: "250",
         year: "2022",
         image: "/images/2022/wallabies/10.JPG",
@@ -301,7 +301,7 @@ export const artworks2022: Array<Artwork> =
     },
     {
         id: "9",
-        title: "a bashful giraffe makes me laugh",
+        title: "Giraffe",
         price: "250",
         year: "2022",
         image: "/images/2022/wallabies/11.JPG",
@@ -310,7 +310,7 @@ export const artworks2022: Array<Artwork> =
     },
     {
         id: "10",
-        title: "Have you ever seen a rainbow trout jump about, twist and shout?",
+        title: "Rainbow Trout",
         price: "250",
         year: "2022",
         image: "/images/2022/wallabies/12.JPG",
@@ -319,7 +319,7 @@ export const artworks2022: Array<Artwork> =
     },
     {
         id: "11",
-        title: "does an ocelot floss a lot?",
+        title: "Ocelot",
         price: "250",
         year: "2022",
         image: "/images/2022/wallabies/13.JPG",
@@ -328,7 +328,7 @@ export const artworks2022: Array<Artwork> =
     },
     {
         id: "12",
-        title: "a skunk rummaging in your junk",
+        title: "Skunk",
         price: "250",
         year: "2022",
         image: "/images/2022/wallabies/14.JPG",
@@ -337,7 +337,7 @@ export const artworks2022: Array<Artwork> =
     },
     {
         id: "13",
-        title: "Is there anything that an ant can't?",
+        title: "Ants",
         price: "250",
         year: "2022",
         image: "/images/2022/wallabies/15.JPG",
@@ -346,7 +346,7 @@ export const artworks2022: Array<Artwork> =
     },
     {
         id: "14",
-        title: "a red hen is learning to write with a pen",
+        title: "Hen",
         price: "250",
         year: "2022",
         image: "/images/2022/wallabies/16.JPG",
@@ -355,7 +355,7 @@ export const artworks2022: Array<Artwork> =
     },
     {
         id: "15",
-        title: "an oriole conducting a tutorial",
+        title: "Oriole",
         price: "250",
         salePrice: "265",
         year: "2022",
@@ -366,7 +366,7 @@ export const artworks2022: Array<Artwork> =
     },
     {
         id: "16",
-        title: "where is the bear who borrowed my Adirondack chair?",
+        title: "Bear",
         price: "250",
         year: "2022",
         image: "/images/2022/wallabies/18.JPG",
@@ -375,7 +375,7 @@ export const artworks2022: Array<Artwork> =
     },
     {
         id: "17",
-        title: "there's a moose on the loose along the hypotenuse",
+        title: "Moose",
         price: "250",
         year: "2022",
         image: "/images/2022/wallabies/19.JPG",
@@ -384,7 +384,7 @@ export const artworks2022: Array<Artwork> =
     },
     {
         id: "18",
-        title: "I say! There's a quail playing chess with a snail.",
+        title: "Quail and Snail",
         price: "250",
         year: "2022",
         image: "/images/2022/wallabies/20.JPG",
@@ -393,7 +393,7 @@ export const artworks2022: Array<Artwork> =
     },
     {
         id: "19",
-        title: "a pensive cat lying on a bath mat",
+        title: "Cat",
         price: "250",
         year: "2022",
         image: "/images/2022/wallabies/21.JPG",
@@ -402,7 +402,7 @@ export const artworks2022: Array<Artwork> =
     },
     {
         id: "20",
-        title: "do you hear the owls practicing their vowels?",
+        title: "Owls",
         price: "250",
         year: "2022",
         image: "/images/2022/wallabies/22.JPG",
@@ -411,7 +411,7 @@ export const artworks2022: Array<Artwork> =
     },
     {
         id: "21",
-        title: "penguins are nice gliding on the ice",
+        title: "Penguins",
         price: "250",
         year: "2022",
         image: "/images/2022/wallabies/23.JPG",
@@ -420,7 +420,7 @@ export const artworks2022: Array<Artwork> =
     },
     {
         id: "22",
-        title: "And now Curtsie the cow will take a bow",
+        title: "Curtsie",
         price: "250",
         year: "2022",
         image: "/images/2022/wallabies/24.JPG",
