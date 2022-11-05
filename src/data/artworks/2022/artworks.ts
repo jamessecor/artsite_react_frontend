@@ -265,7 +265,7 @@ export const artworks2022: Array<Artwork> =
     },
     {
         id: "05",
-        title: "Loons",
+        title: "Loon",
         price: "250",
         year: "2022",
         image: "/images/2022/wallabies/07.JPG",
