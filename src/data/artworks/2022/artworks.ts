@@ -53,6 +53,7 @@ export const artworks2022: Array<Artwork> =
         title: "Competing Interests",
         price: "325",
         year: "2022",
+        saleDate: "2022-11-13",
         media: "gouache on paper",
         image: "/images/2022/merica/competing_interests.jpg",
         grouping: ["merica"]
@@ -133,6 +134,7 @@ export const artworks2022: Array<Artwork> =
         title: "Oil Delivery",
         price: "325",
         year: "2022",
+        saleDate: "2022-11-13",
         media: "gouache on paper",
         image: "/images/2022/merica/national_fuels.jpg",
         grouping: ["merica"]
@@ -341,6 +343,7 @@ export const artworks2022: Array<Artwork> =
         title: "Ants",
         price: "250",
         year: "2022",
+        saleDate: "2022-11-13",
         image: "/images/2022/wallabies/15.JPG",
         grouping: ["wallabies"],
         media: "gouache on paper"
