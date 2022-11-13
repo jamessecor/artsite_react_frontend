@@ -160,6 +160,7 @@ export const artworks2022: Array<Artwork> =
         price: "325",
         year: "2022",
         media: "gouache on paper",
+        saleDate: "2022-11-04",
         image: "/images/2022/merica/storing_land.jpg",
         grouping: ["merica"]
     }, {
@@ -192,6 +193,7 @@ export const artworks2022: Array<Artwork> =
         price: "325",
         year: "2022",
         media: "gouache on paper",
+        saleDate: "2022-11-04",
         image: "/images/2022/merica/transportation.jpg",
         grouping: ["merica"]
     },
@@ -334,6 +336,7 @@ export const artworks2022: Array<Artwork> =
         title: "Skunk",
         price: "250",
         year: "2022",
+        saleDate: "2022-11-04",
         image: "/images/2022/wallabies/14.JPG",
         grouping: ["wallabies"],
         media: "gouache on paper"
