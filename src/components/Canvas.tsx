@@ -17,6 +17,7 @@ const onTouchMove = (canvasRef: React.RefObject<HTMLCanvasElement>, e) => {
 
 const Canvas = (props) => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
+
     useEffect(() => {
         const canvas = canvasRef.current;
         if (canvas !== null) {
