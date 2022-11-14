@@ -11,6 +11,7 @@ import Navigation from './Navigation';
 import Store from './store/Store';
 import ContactForm from './ContactForm';
 import BackgroundColorProvider from './BackgroundColorProvider';
+import Nomophobia from './Nomophobia';
 
 const App = () => {
     return (
@@ -24,6 +25,7 @@ const App = () => {
                             <Route path={'/artworks/sold'} element={<SoldArtworks />} />
                             <Route path={'/artworks'} element={<Artworks />} />
                             <Route path={'/cv'} element={<Cv />} />
+                            <Route path={'/nomophobia'} element={<Nomophobia />} />
                             <Route path={'/colors'} element={<Colors />} />
                             <Route path={'/contact'} element={<ContactForm />} />
                             <Route path={'/store'} element={<Store />}>
