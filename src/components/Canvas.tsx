@@ -25,6 +25,12 @@ const Canvas = (props) => {
             // ...then set the internal size to match
             canvas.width  = canvas.offsetWidth;
             canvas.height = canvas.offsetHeight;
+            
+            const ctx = canvas.getContext('2d');
+            if (ctx !== null) {
+                ctx.fillStyle = 'lightgreen';
+                ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+            }
         }
     }, [canvasRef]);
   
