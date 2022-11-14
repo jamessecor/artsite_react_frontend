@@ -1,19 +1,28 @@
 import React, { useRef, useEffect } from 'react'
 
-const onTouchMove = (canvasRef: React.RefObject<HTMLCanvasElement>, e) => {
+const onTouchMove = (canvasRef: React.RefObject<HTMLCanvasElement>, e: React.TouchEvent<HTMLCanvasElement>) => {
     const canvas = canvasRef.current;
     if (canvas !== null) {
         const rect = canvas.getBoundingClientRect();
         const ctx = canvas.getContext('2d');
         if (ctx !== null) {
-            console.log('rect', rect);
-            console.log('fff', e.clientX, e.clientY, e.clientX - rect.left, e.clientY - rect.top);
+            ctx.fillStyle = '#dd4488';
+            ctx.fillRect(e.targetTouches[0].clientX - rect.left, e.targetTouches[0].clientY - rect.top, 2, 2);
+        }
+    }
+}
+
+const onMouseMove = (canvasRef: React.RefObject<HTMLCanvasElement>, e: React.MouseEvent<HTMLCanvasElement>) => {
+    const canvas = canvasRef.current;
+    if (canvas !== null) {
+        const rect = canvas.getBoundingClientRect();
+        const ctx = canvas.getContext('2d');
+        if (ctx !== null) {
             ctx.fillStyle = '#dd4488';
             ctx.fillRect(e.clientX - rect.left, e.clientY - rect.top, 2, 2);
         }
     }
 }
-
 
 const Canvas = (props) => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -37,9 +46,10 @@ const Canvas = (props) => {
   
     return <canvas
         onTouchMove={(e) => onTouchMove(canvasRef, e)}
-        onMouseMove={(e) => onTouchMove(canvasRef, e)}
+        onMouseMove={(e) => onMouseMove(canvasRef, e)}
         ref={canvasRef}
         {...props}
+        draggable={true}
     />
 };
 
