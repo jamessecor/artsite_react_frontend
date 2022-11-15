@@ -4,7 +4,7 @@ interface ICoords {
     x: number;
     y: number;
 }
-const Canvas = ({ clear, setClear, props}) => {
+const Canvas = ({ isLoading, clear, setClear, props}) => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const [previousCoords, setPreviousCoords] = useState<ICoords>({x: -1, y: -1});
     // const { clear, setClear, ...restProps } = props;
@@ -43,8 +43,6 @@ const Canvas = ({ clear, setClear, props}) => {
     const initializeCanvas = () => {
         const canvas = canvasRef.current;
         if (canvas !== null) {
-            canvas.style.width ='100%';
-            canvas.style.height='100%';
             // ...then set the internal size to match
             canvas.width  = canvas.offsetWidth;
             canvas.height = canvas.offsetHeight;
@@ -57,12 +55,12 @@ const Canvas = ({ clear, setClear, props}) => {
         }
     };
 
-    const resetCanvas = () => {
+    const resetCanvas = (color = 'lightgreen') => {
         const canvas = canvasRef.current;
         if (canvas !== null) {
             const ctx = canvas.getContext('2d');
             if (ctx !== null) {
-                ctx.fillStyle = 'lightgreen';
+                ctx.fillStyle = color;
                 ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
                 ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
             }
@@ -75,10 +73,12 @@ const Canvas = ({ clear, setClear, props}) => {
     }, [canvasRef]);
 
     useEffect(() => {
-        resetCanvas();
-    }, [clear]);
-  
+        const color = isLoading ? 'grey' : '#d6faff';
+        resetCanvas(color);
+    }, [clear, isLoading]);
+
     return <canvas
+        style={{width: '100%', height: '100%'}}
         onTouchMove={(e) => onTouchMove(canvasRef, e)}
         onMouseMove={(e) => onMouseMove(canvasRef, e)}
         ref={canvasRef}

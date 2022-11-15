@@ -30,12 +30,12 @@ const Nomophobia = () => {
                     <Card className={'position-absolute top-50 start-50 translate-middle phone'}>
                         <Card.Body className={'justify-content-center phone-screen'}>
                             { isLoading
-                                ? (
+                                && (
                                     <div className={'position-absolute top-50 start-50 translate-middle '}>
                                         <Spinner variant={'info'} animation={'border'} />
                                     </div>
-                                ) : <Canvas clear={clear} setClear={setClear} props={null} />
-                            }
+                                )}
+                            <Canvas isLoading={isLoading} clear={clear} setClear={setClear} props={null} />
                             <Button className={'d-flex align-self-center '} onClick={() => clearCanvas()}>Clear</Button>
                         </Card.Body>
                     </Card>
