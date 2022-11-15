@@ -33,10 +33,12 @@ const Canvas = ({ isLoading, clear, setClear, props}) => {
     };
 
     const onTouchMove = (canvasRef: React.RefObject<HTMLCanvasElement>, e: React.TouchEvent<HTMLCanvasElement>) => {
+        e.preventDefault();
         onMove(canvasRef, e.targetTouches[0].clientX, e.targetTouches[0].clientY);
     }
     
     const onMouseMove = (canvasRef: React.RefObject<HTMLCanvasElement>, e: React.MouseEvent<HTMLCanvasElement>) => {
+        e.preventDefault();
         onMove(canvasRef, e.clientX, e.clientY);
     }
 
