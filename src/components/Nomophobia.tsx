@@ -36,7 +36,7 @@ const Nomophobia = () => {
                                     </div>
                                 )}
                             <Canvas isLoading={isLoading} clear={clear} setClear={setClear} props={null} />
-                            <iframe width="100%" height="100%" src="https://www.instagram.com/jamessecor/embed"></iframe>
+                            {/* <iframe width="100%" height="100%" src="https://www.instagram.com/jamessecor/embed"></iframe> */}
                             <Button className={'d-flex align-self-center '} onClick={() => clearCanvas()}>Clear</Button>
                         </Card.Body>
                     </Card>

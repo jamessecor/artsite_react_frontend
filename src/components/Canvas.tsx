@@ -20,7 +20,7 @@ const Canvas = ({ isLoading, clear, setClear, props}) => {
                 ctx.moveTo(previousCoords.x, previousCoords.y);
                 const absDiffX = Math.abs((x - rect.left) - previousCoords.x);
                 const absDiffY = Math.abs((y - rect.top) - previousCoords.y);
-                if (absDiffX < 15 && absDiffY < 15) {
+                if (absDiffX < 35 && absDiffY < 35) {
                     ctx.lineTo(x - rect.left, y - rect.top)
                     ctx.stroke();
                 }
@@ -81,8 +81,8 @@ const Canvas = ({ isLoading, clear, setClear, props}) => {
 
     return <canvas
         style={{width: '100%', height: '100%'}}
-        onTouchMove={(e) => onTouchMove(canvasRef, e)}
-        onMouseMove={(e) => onMouseMove(canvasRef, e)}
+        onTouchMove={(e) => isLoading ? {} : onTouchMove(canvasRef, e)}
+        onMouseMove={(e) => isLoading ? {} : onMouseMove(canvasRef, e)}
         ref={canvasRef}
         draggable={true}
         {...props}
