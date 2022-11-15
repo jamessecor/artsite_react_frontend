@@ -79,7 +79,7 @@ const Canvas = ({ isLoading, clear, setClear, props}) => {
     }, [clear, isLoading]);
 
     return <canvas
-        style={{width: '100%', height: '100%', overscrollBehaviorY: 'contain'}}
+        style={{width: '100%', height: '100%', overscrollBehavior: 'contain'}}
         onTouchMove={(e) => isLoading ? {} : onTouchMove(canvasRef, e)}
         onMouseMove={(e) => isLoading ? {} : onMouseMove(canvasRef, e)}
         ref={canvasRef}
