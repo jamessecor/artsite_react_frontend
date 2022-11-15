@@ -33,7 +33,6 @@ const Canvas = ({ isLoading, clear, setClear, props}) => {
     };
 
     const onTouchMove = (canvasRef: React.RefObject<HTMLCanvasElement>, e: React.TouchEvent<HTMLCanvasElement>) => {
-        e.preventDefault();
         onMove(canvasRef, e.targetTouches[0].clientX, e.targetTouches[0].clientY);
     }
     
@@ -80,7 +79,7 @@ const Canvas = ({ isLoading, clear, setClear, props}) => {
     }, [clear, isLoading]);
 
     return <canvas
-        style={{width: '100%', height: '100%'}}
+        style={{width: '100%', height: '100%', overscrollBehaviorY: 'contain'}}
         onTouchMove={(e) => isLoading ? {} : onTouchMove(canvasRef, e)}
         onMouseMove={(e) => isLoading ? {} : onMouseMove(canvasRef, e)}
         ref={canvasRef}
