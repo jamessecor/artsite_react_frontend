@@ -11,7 +11,7 @@ import Navigation from './Navigation';
 import Store from './store/Store';
 import ContactForm from './ContactForm';
 import BackgroundColorProvider from './BackgroundColorProvider';
-import Nomophobia from './Nomophobia';
+import Nomophobia from './nomophobia/Nomophobia';
 
 const App = () => {
     return (

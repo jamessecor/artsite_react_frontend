@@ -1,13 +1,16 @@
-import React, { useRef, useState, useEffect } from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React, { useRef, useState, useEffect } from 'react';
+import { Button } from 'react-bootstrap';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
 
 interface ICoords {
     x: number;
     y: number;
-}
-const Canvas = ({ isLoading, clear, setClear, props}) => {
+};
+
+const Canvas = ({ onClearCanvas, isLoading, clear, setClear, props}) => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const [previousCoords, setPreviousCoords] = useState<ICoords>({x: -1, y: -1});
-    // const { clear, setClear, ...restProps } = props;
     
     const onMove = (canvasRef: React.RefObject<HTMLCanvasElement>, x: number, y: number) => {
         const canvas = canvasRef.current;
@@ -78,14 +81,23 @@ const Canvas = ({ isLoading, clear, setClear, props}) => {
         resetCanvas(color);
     }, [clear, isLoading]);
 
-    return <canvas
-        style={{width: '100%', height: '100%', overscrollBehavior: 'contain'}}
-        onTouchMove={(e) => isLoading ? {} : onTouchMove(canvasRef, e)}
-        onMouseMove={(e) => isLoading ? {} : onMouseMove(canvasRef, e)}
-        ref={canvasRef}
-        draggable={true}
-        {...props}
-    />
+    return (
+        <div className={'d-flex w-100'}>
+            <canvas
+                // style={{width: '100%', height: '100%', overscrollBehavior: 'contain'}}
+                width={'100%'}
+                height={'100%'}
+                onTouchMove={(e) => isLoading ? {} : onTouchMove(canvasRef, e)}
+                onMouseMove={(e) => isLoading ? {} : onMouseMove(canvasRef, e)}
+                ref={canvasRef}
+                draggable={true}
+                {...props}
+            />
+            <Button className={'btn btn-dark phone-app-button'} onClick={() => onClearCanvas()}>
+                <FontAwesomeIcon icon={faTrash} />
+            </Button>
+        </div>
+    )
 };
 
 export default Canvas;

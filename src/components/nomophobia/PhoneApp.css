@@ -1,0 +1,10 @@
+.phone-app-button {
+    border: .2rem solid white;
+    border-radius: 50px;
+    height: 4rem;
+    width: 4rem;
+}
+
+.phone-app-button:hover {
+    border: .2rem solid green;
+}
