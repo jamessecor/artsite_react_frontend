@@ -6,6 +6,7 @@ import './Nomophobia.css';
 import Canvas from './Canvas';
 import PhoneApp from "./PhoneApp";
 import { faEdit, faPersonCircleQuestion } from '@fortawesome/free-solid-svg-icons';
+import { PHONE_HEIGHT, PHONE_WIDTH } from "./PhoneSize";
 
 export enum Pages {
     Home = 'home',
@@ -33,11 +34,11 @@ const Nomophobia = () => {
                     isLoading={isLoading}
                     clear={clear}
                     setClear={setClear}
-                    height={450}
-                    width={275}
+                    height={PHONE_HEIGHT}
+                    width={PHONE_WIDTH}
                 />;
             case Pages.Instagram:
-                return <iframe height={450} width={275} src="https://www.instagram.com/jamessecor/embed"></iframe>;
+                return <iframe height={PHONE_HEIGHT} width={PHONE_WIDTH} src="https://www.instagram.com/jamessecor/embed"></iframe>;
             default:
                 return null;
         }
@@ -61,11 +62,11 @@ const Nomophobia = () => {
         <BackgroundColorContext.Consumer>
             {({color, setColor}) => (
                 <Container className={'phone-container'}>
-                    <Card className={'position-absolute top-50 start-50 translate-middle phone'}>
-                        <Card.Header className={'phone-header'}>
+                    <div className={'position-absolute top-50 start-50 translate-middle phone d-flex flex-column'}>
+                        <div className={'d-flex justify-content-center align-items-center phone-header'}>
                             <div className={'speaker'} />
-                        </Card.Header>
-                        <Card.Body className={'justify-content-center p-0 phone-screen'}>
+                        </div>
+                        <div className={'justify-content-center p-0 phone-screen'}>
                             { isLoading
                                 && (
                                     <div className={'position-absolute top-50 start-50 translate-middle '}>
@@ -74,11 +75,11 @@ const Nomophobia = () => {
                                 )}
                             {getPhoneApp(currentPage)}
                             {/* SPOTIFY IFRAME */}
-                        </Card.Body>
-                        <Card.Footer className={'d-flex justify-content-center phone-footer'}>
+                        </div>
+                        <div className={'d-flex justify-content-center align-items-center phone-footer'}>
                             <Button className={'btn btn-dark phone-app-button'} onClick={() => setCurrentPage(Pages.Home)} />
-                        </Card.Footer>
-                    </Card>
+                        </div>
+                    </div>
                 </Container>
             )}
         </BackgroundColorContext.Consumer>
