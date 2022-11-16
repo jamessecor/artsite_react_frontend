@@ -1,16 +1,17 @@
 import * as React from "react";
 import { useState } from 'react';
-import { Button, Card, Container, Spinner } from "react-bootstrap";
+import { Button, Container, Spinner } from "react-bootstrap";
 import { BackgroundColorContext, textColor } from "../BackgroundColorProvider";
 import './Nomophobia.css';
 import Canvas from './Canvas';
 import PhoneApp from "./PhoneApp";
-import { faEdit, faPersonCircleQuestion } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faPersonCircleQuestion, faMusic } from '@fortawesome/free-solid-svg-icons';
 import { PHONE_HEIGHT, PHONE_WIDTH } from "./PhoneSize";
 
 export enum Pages {
     Home = 'home',
     Instagram = 'instagram',
+    Spotify = 'spotify',
     Canvas = 'canvas'
 }
 
@@ -26,6 +27,7 @@ const Nomophobia = () => {
                     <>
                         <PhoneApp page={Pages.Canvas} setCurrentPage={setCurrentPage} icon={faEdit} />
                         <PhoneApp page={Pages.Instagram} setCurrentPage={setCurrentPage} icon={faPersonCircleQuestion} />
+                        <PhoneApp page={Pages.Spotify} setCurrentPage={setCurrentPage} icon={faMusic} />
                     </>
                 );
             case Pages.Canvas:
@@ -39,6 +41,8 @@ const Nomophobia = () => {
                 />;
             case Pages.Instagram:
                 return <iframe height={PHONE_HEIGHT} width={PHONE_WIDTH} src="https://www.instagram.com/jamessecor/embed"></iframe>;
+            case Pages.Spotify:
+                return <iframe src="https://open.spotify.com/embed/artist/7yua0uWx5rD0XZOMjgSM6D?utm_source=generator" width={PHONE_WIDTH} height={PHONE_HEIGHT} frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>;
             default:
                 return null;
         }
@@ -74,7 +78,6 @@ const Nomophobia = () => {
                                     </div>
                                 )}
                             {getPhoneApp(currentPage)}
-                            {/* SPOTIFY IFRAME */}
                         </div>
                         <div className={'d-flex justify-content-center align-items-center phone-footer'}>
                             <Button className={'btn btn-dark phone-app-button'} onClick={() => setCurrentPage(Pages.Home)} />
