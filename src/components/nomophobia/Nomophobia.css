@@ -6,27 +6,27 @@
 }
 
 .phone-header {
-    height: 25px;
-    border-top-right-radius: 10px;
-    border-top-left-radius: 10px;
+    height: 40px;
+    border-top-right-radius: 20px;
+    border-top-left-radius: 20px;
 }
 
 .phone-footer {
-    height: 75px;
+    height: 55px;
     border-bottom-right-radius: 20px;
     border-bottom-left-radius: 20px;
 }
 
 .phone {
     border: 1px solid orangered;
-    border-top-right-radius: 10px;
-    border-top-left-radius: 10px;
+    border-top-right-radius: 20px;
+    border-top-left-radius: 20px;
     border-bottom-right-radius: 20px;
     border-bottom-left-radius: 20px;
 }
 .phone-screen {
-    min-width: 275px;
-    min-height: 450px;
+    width: 275px;
+    height: 450px;
     background: #333;
 }
 
@@ -36,4 +36,15 @@
     border-radius: 5px;
     border: 1px solid orangered;
     background: gray;
+}
+
+.phone-bottom-button {
+    border: .1rem solid orangered;
+    border-radius: 50px;
+    height: 45px;
+    width: 45px;
+}
+
+.phone-bottom-button:hover {
+    border: .1rem solid green;
 }

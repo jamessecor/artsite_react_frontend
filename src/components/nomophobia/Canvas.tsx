@@ -11,6 +11,7 @@ interface ICoords {
 const Canvas = ({ onClearCanvas, isLoading, clear, setClear, width, height}) => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const [previousCoords, setPreviousCoords] = useState<ICoords>({x: -1, y: -1});
+    const [isClicking, setIsClicking] = useState(false);
     
     const onMove = (canvasRef: React.RefObject<HTMLCanvasElement>, x: number, y: number) => {
         const canvas = canvasRef.current;
@@ -23,7 +24,7 @@ const Canvas = ({ onClearCanvas, isLoading, clear, setClear, width, height}) => 
                 ctx.moveTo(previousCoords.x, previousCoords.y);
                 const absDiffX = Math.abs((x - rect.left) - previousCoords.x);
                 const absDiffY = Math.abs((y - rect.top) - previousCoords.y);
-                if (absDiffX < 35 && absDiffY < 35) {
+                if (isClicking || (absDiffX < 35 && absDiffY < 35)) {
                     ctx.lineTo(x - rect.left, y - rect.top)
                     ctx.stroke();
                 }
@@ -87,8 +88,16 @@ const Canvas = ({ onClearCanvas, isLoading, clear, setClear, width, height}) => 
                 // style={{width: '100%', height: '100%', overscrollBehavior: 'contain'}}
                 width={width}
                 height={height}
+                onMouseDown={(e) => {
+                    if (canvasRef?.current !== null) {
+                        const rect = canvasRef?.current.getBoundingClientRect();
+                        setPreviousCoords({x: e.clientX - rect.left, y: e.clientY - rect.top});
+                    }
+                    setIsClicking(true);
+                }}
+                onMouseUp={(e) => setIsClicking(false)}
+                onMouseMove={(e) => !isClicking || isLoading ? {} : onMouseMove(canvasRef, e)}
                 onTouchMove={(e) => isLoading ? {} : onTouchMove(canvasRef, e)}
-                onMouseMove={(e) => isLoading ? {} : onMouseMove(canvasRef, e)}
                 ref={canvasRef}
                 draggable={true}
             />

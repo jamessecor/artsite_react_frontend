@@ -80,7 +80,7 @@ const Nomophobia = () => {
                             {getPhoneApp(currentPage)}
                         </div>
                         <div className={'d-flex justify-content-center align-items-center phone-footer'}>
-                            <Button className={'btn btn-dark phone-app-button'} onClick={() => setCurrentPage(Pages.Home)} />
+                            <Button className={'btn btn-dark phone-bottom-button'} onClick={() => setCurrentPage(Pages.Home)} />
                         </div>
                     </div>
                 </Container>
