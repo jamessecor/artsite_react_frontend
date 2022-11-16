@@ -27,9 +27,7 @@
 .phone-screen {
     min-width: 275px;
     min-height: 450px;
-    border: 20px 10px 45px 10px solid orangered !important;
     background: #333;
-    /* border-radius: 25px; */
 }
 
 .speaker {
