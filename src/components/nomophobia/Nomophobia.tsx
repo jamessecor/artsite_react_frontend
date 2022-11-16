@@ -37,7 +37,7 @@ const Nomophobia = () => {
                     width={275}
                 />;
             case Pages.Instagram:
-                return <iframe width="100%" height="100%" src="https://www.instagram.com/jamessecor/embed"></iframe>;
+                return <iframe height={450} width={275} src="https://www.instagram.com/jamessecor/embed"></iframe>;
             default:
                 return null;
         }
@@ -75,8 +75,8 @@ const Nomophobia = () => {
                             {getPhoneApp(currentPage)}
                             {/* SPOTIFY IFRAME */}
                         </Card.Body>
-                        <Card.Footer className={'phone-footer'}>
-                            <Button className={'phone-app-button'} onClick={() => setCurrentPage(Pages.Home)} />
+                        <Card.Footer className={'d-flex justify-content-center phone-footer'}>
+                            <Button className={'btn btn-dark phone-app-button'} onClick={() => setCurrentPage(Pages.Home)} />
                         </Card.Footer>
                     </Card>
                 </Container>

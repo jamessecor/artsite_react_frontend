@@ -2,7 +2,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useRef, useState, useEffect } from 'react';
 import { Button } from 'react-bootstrap';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
-import './Canvas.css';
 
 interface ICoords {
     x: number;
@@ -93,9 +92,9 @@ const Canvas = ({ onClearCanvas, isLoading, clear, setClear, width, height}) => 
                 ref={canvasRef}
                 draggable={true}
             />
-            {/* <Button className={'btn btn-dark phone-app-button'} onClick={() => onClearCanvas()}>
+            <Button className={'position-absolute btn btn-dark phone-app-button'} onClick={() => onClearCanvas()}>
                 <FontAwesomeIcon icon={faTrash} />
-            </Button> */}
+            </Button>
         </div>
     )
 };
