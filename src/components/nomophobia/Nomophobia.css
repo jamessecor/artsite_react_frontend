@@ -5,9 +5,9 @@
     border: none;
     /* border-radius: 25px; */
 }
-.phone {
-    width: 18rem;
-    height: 28rem;
+.phone-screen {
+    min-width: 275px;
+    min-height: 450px;
     border: 1px solid orangered !important;
     /* border-radius: 25px; */
 }

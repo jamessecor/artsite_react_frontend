@@ -13,12 +13,11 @@ export enum Pages {
     Canvas = 'canvas'
 }
 
-
 const Nomophobia = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState<Pages>(Pages.Home);
     const [clear, setClear] = useState(true);
-    
+
     const getPhoneApp = (currentPage: Pages) => {
         switch (currentPage) {
             case Pages.Home:
@@ -29,7 +28,14 @@ const Nomophobia = () => {
                     </>
                 );
             case Pages.Canvas:
-                return <Canvas onClearCanvas={clearCanvas} isLoading={isLoading} clear={clear} setClear={setClear} props={null} />;
+                return <Canvas
+                    onClearCanvas={clearCanvas}
+                    isLoading={isLoading}
+                    clear={clear}
+                    setClear={setClear}
+                    height={450}
+                    width={275}
+                />;
             case Pages.Instagram:
                 return <iframe width="100%" height="100%" src="https://www.instagram.com/jamessecor/embed"></iframe>;
             default:
@@ -59,7 +65,7 @@ const Nomophobia = () => {
                         <Card.Header className={'phone-header'}>
                             <div className={'speaker'} />
                         </Card.Header>
-                        <Card.Body className={'justify-content-center p-0'}>
+                        <Card.Body className={'justify-content-center p-0 phone-screen'}>
                             { isLoading
                                 && (
                                     <div className={'position-absolute top-50 start-50 translate-middle '}>

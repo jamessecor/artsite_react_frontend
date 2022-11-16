@@ -2,13 +2,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useRef, useState, useEffect } from 'react';
 import { Button } from 'react-bootstrap';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import './Canvas.css';
 
 interface ICoords {
     x: number;
     y: number;
 };
 
-const Canvas = ({ onClearCanvas, isLoading, clear, setClear, props}) => {
+const Canvas = ({ onClearCanvas, isLoading, clear, setClear, width, height}) => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const [previousCoords, setPreviousCoords] = useState<ICoords>({x: -1, y: -1});
     
@@ -85,17 +86,16 @@ const Canvas = ({ onClearCanvas, isLoading, clear, setClear, props}) => {
         <div className={'d-flex w-100'}>
             <canvas
                 // style={{width: '100%', height: '100%', overscrollBehavior: 'contain'}}
-                width={'100%'}
-                height={'100%'}
+                width={width}
+                height={height}
                 onTouchMove={(e) => isLoading ? {} : onTouchMove(canvasRef, e)}
                 onMouseMove={(e) => isLoading ? {} : onMouseMove(canvasRef, e)}
                 ref={canvasRef}
                 draggable={true}
-                {...props}
             />
-            <Button className={'btn btn-dark phone-app-button'} onClick={() => onClearCanvas()}>
+            {/* <Button className={'btn btn-dark phone-app-button'} onClick={() => onClearCanvas()}>
                 <FontAwesomeIcon icon={faTrash} />
-            </Button>
+            </Button> */}
         </div>
     )
 };
