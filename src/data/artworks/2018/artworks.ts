@@ -527,6 +527,8 @@ export const artworks2018: Array<Artwork> =
         arrangement: "1",
         isHomePage: false,
         price: "350",
+        salePrice: "350",
+        saleDate: "2022-11-16",
         grouping: []
     },
     {

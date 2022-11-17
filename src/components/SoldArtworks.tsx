@@ -5,6 +5,8 @@ import Artwork from "./Artwork";
 import { Col, Container, Row } from 'react-bootstrap';
 import useArtworks from '../hooks/useArtworks';
 
+export const roundToDollar = (n: number) => Math.round(n * 100) / 100;
+
 const SoldArtworks = () => {
     const endOfMonth = new Date();
     endOfMonth.setMonth(endOfMonth.getMonth() + 1);
@@ -34,11 +36,26 @@ const SoldArtworks = () => {
                             <input type="date" name="end" value={endDate.toISOString().substring(0,10)} onChange={(e) => setEndDate(new Date(e.target.value))}/>
                         </Col>
                         {soldArtworks.length 
-                            ? soldArtworks.map((artwork, i) => <div>{`${artwork.salePrice ?? artwork.price} | ${artwork.saleDate} | ${artwork.title}`}</div>)
+                            ? soldArtworks.map((artwork, i) => {
+                                const price = parseFloat(artwork.salePrice ?? artwork.price);
+                                return (
+                                    <div>
+                                        {
+                                            `${roundToDollar(price / 1.06)}` // Total without tax
+                                            + ` | ${price}` // Total with tax
+                                            + ` | ${roundToDollar((price / 1.06) * 0.06)}` // Tax owed
+                                            + ` | ${artwork.saleDate}`
+                                            + ` | ${artwork.title}`
+                                        }
+                                    </div>
+                                )})
                             : null}
-                        {total} TOTAL
-                        <br/>
-                        {total - (total / 1.06)} Taxes Owed
+                        <hr />
+                        <div className={'fw-bold'}>
+                            {roundToDollar(total / 1.06)} Total without tax
+                            <br/>{total} TOTAL with tax
+                            <br/>{total - (total / 1.06)} Taxes Owed
+                        </div>
                     </Row>
                     <Row xs={1} lg={4} className={'d-flex align-items-center'}>
                         {soldArtworks.length
