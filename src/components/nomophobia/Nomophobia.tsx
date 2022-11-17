@@ -9,6 +9,7 @@ import { faEdit, faPersonCircleQuestion, faMusic } from '@fortawesome/free-solid
 import { PHONE_HEIGHT, PHONE_WIDTH } from "./PhoneSize";
 
 export enum Pages {
+    Off = 'off',
     Home = 'home',
     Instagram = 'instagram',
     Spotify = 'spotify',
@@ -16,8 +17,8 @@ export enum Pages {
 }
 
 const Nomophobia = () => {
-    const [isLoading, setIsLoading] = useState(true);
-    const [currentPage, setCurrentPage] = useState<Pages>(Pages.Home);
+    const [isLoading, setIsLoading] = useState(false);
+    const [currentPage, setCurrentPage] = useState<Pages>(Pages.Off);
     const [clear, setClear] = useState(true);
     const [currentTime, setCurrentTime] = useState(new Date());
 
@@ -26,10 +27,21 @@ const Nomophobia = () => {
         return function cleanup() {
             clearInterval(timer);
         };
-    });
+    }, []);
+
+    const load = (timeToLoad: number) => {
+        setIsLoading(true);
+        setTimeout(() => setIsLoading(false), timeToLoad);
+    };
 
     const getPhoneApp = (currentPage: Pages) => {
         switch (currentPage) {
+            case Pages.Off:
+                return (
+                    <div className={'d-flex justify-content-end p-3'}>
+                        <span className={'py-1 px-2 border border-2 border-dark rounded-pill'}>{currentTime.toLocaleTimeString()}</span>
+                    </div>
+                )
             case Pages.Home:
                 return (
                     <>
@@ -37,9 +49,9 @@ const Nomophobia = () => {
                             <span className={'py-1 px-2 border border-2 border-dark rounded-pill'}>{currentTime.toLocaleTimeString()}</span>
                         </div>
                         <div className={'d-flex justify-content-between p-3'}>
-                            <PhoneApp page={Pages.Canvas} setCurrentPage={setCurrentPage} icon={faEdit} />
-                            <PhoneApp page={Pages.Instagram} setCurrentPage={setCurrentPage} icon={faPersonCircleQuestion} />
-                            <PhoneApp page={Pages.Spotify} setCurrentPage={setCurrentPage} icon={faMusic} />
+                            <PhoneApp load={load} page={Pages.Canvas} setCurrentPage={setCurrentPage} icon={faEdit} />
+                            <PhoneApp load={load} page={Pages.Instagram} setCurrentPage={setCurrentPage} icon={faPersonCircleQuestion} />
+                            <PhoneApp load={load} page={Pages.Spotify} setCurrentPage={setCurrentPage} icon={faMusic} />
                         </div>
                     </>
                 );
@@ -51,7 +63,7 @@ const Nomophobia = () => {
                     setClear={setClear}
                     height={PHONE_HEIGHT}
                     width={PHONE_WIDTH}
-                />;
+                    />;
             case Pages.Instagram:
                 return <iframe height={PHONE_HEIGHT} width={PHONE_WIDTH} src="https://www.instagram.com/jamessecor/embed"></iframe>;
             case Pages.Spotify:
@@ -61,16 +73,10 @@ const Nomophobia = () => {
         }
     }
 
-    React.useEffect(() => {
-        setTimeout(() => {
-            setIsLoading(false);
-        }, 3000);
-    })
-
     const clearCanvas = () => {
-        setIsLoading(true);
+        // setIsLoading(true);
         setTimeout(() => {
-            setIsLoading(false);
+            // setIsLoading(false);
             setClear(true);
         }, 1000);
     };
