@@ -37,14 +37,7 @@ const Nomophobia = () => {
     const getPhoneApp = (currentPage: Pages) => {
         switch (currentPage) {
             case Pages.Off:
-                return (
-                    <div className={'d-flex justify-content-end p-3'}>
-                        <div className={'d-flex flex-column justify-content-center align-items-center'}>
-                            <span className={'py-1 px-2 border border-2 border-dark rounded-pill'}>{currentTime.toLocaleTimeString()}</span>
-                            {currentTime.toLocaleDateString()}
-                        </div>
-                    </div>
-                )
+                return <div className={'phone-screen-off'} />;
             case Pages.Home:
                 return (
                     <>
@@ -78,25 +71,23 @@ const Nomophobia = () => {
     return (
         <BackgroundColorContext.Consumer>
             {({color, setColor}) => (
-                <Container className={'phone-container'}>
-                    <div className={'position-absolute top-50 start-50 translate-middle phone d-flex flex-column'}>
-                        <div className={'d-flex justify-content-center align-items-center phone-header'}>
-                            <div className={'speaker'} />
-                        </div>
-                        <div className={'justify-content-center p-0 phone-screen'}>
-                            { isLoading
-                                && (
-                                    <div className={'position-absolute top-50 start-50 translate-middle '}>
-                                        <Spinner variant={'info'} animation={'border'} />
-                                    </div>
-                                )}
-                            {getPhoneApp(currentPage)}
-                        </div>
-                        <div className={'d-flex justify-content-center align-items-center phone-footer'}>
-                            <Button className={'btn btn-dark phone-bottom-button'} onClick={() => setCurrentPage(Pages.Home)} />
-                        </div>
+                <div className={'phone position-absolute top-50 start-50 translate-middle d-flex flex-column'}>
+                    <div className={'d-flex justify-content-center align-items-center phone-header'}>
+                        <div className={'speaker'} />
                     </div>
-                </Container>
+                    <div className={'justify-content-center p-0 phone-screen'}>
+                        { isLoading
+                            && (
+                                <div className={'position-absolute top-50 start-50 translate-middle '}>
+                                    <Spinner variant={'info'} animation={'border'} />
+                                </div>
+                            )}
+                        {getPhoneApp(currentPage)}
+                    </div>
+                    <div className={'d-flex justify-content-center align-items-center phone-footer'}>
+                        <Button className={'btn btn-dark phone-bottom-button'} onClick={() => setCurrentPage(Pages.Home)} />
+                    </div>
+                </div>
             )}
         </BackgroundColorContext.Consumer>
     )
