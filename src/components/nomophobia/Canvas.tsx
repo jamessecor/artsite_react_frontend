@@ -37,6 +37,7 @@ const Canvas = ({ onClearCanvas, isLoading, clear, setClear, width, height}) => 
     };
 
     const onTouchMove = (canvasRef: React.RefObject<HTMLCanvasElement>, e: React.TouchEvent<HTMLCanvasElement>) => {
+        e.preventDefault();
         onMove(canvasRef, e.targetTouches[0].clientX, e.targetTouches[0].clientY);
     }
     
@@ -97,6 +98,14 @@ const Canvas = ({ onClearCanvas, isLoading, clear, setClear, width, height}) => 
                 }}
                 onMouseUp={(e) => setIsClicking(false)}
                 onMouseMove={(e) => !isClicking || isLoading ? {} : onMouseMove(canvasRef, e)}
+                onTouchStart={(e) => {
+                    if (canvasRef?.current !== null) {
+                        const rect = canvasRef?.current.getBoundingClientRect();
+                        setPreviousCoords({x: e.targetTouches[0].clientX - rect.left, y: e.targetTouches[0].clientY - rect.top});
+                    }
+                    setIsClicking(true);
+                }}
+                onTouchEnd={(e) => setIsClicking(false)}
                 onTouchMove={(e) => isLoading ? {} : onTouchMove(canvasRef, e)}
                 ref={canvasRef}
                 draggable={true}
