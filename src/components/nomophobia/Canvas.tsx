@@ -11,7 +11,7 @@ interface ICoords {
 const Canvas = ({ onClearCanvas, isLoading, clear, setClear, width, height}) => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const [previousCoords, setPreviousCoords] = useState<ICoords>({x: -1, y: -1});
-    const [isClicking, setIsClicking] = useState(false);
+    const [isClickingOrTouching, setIsClickingOrTouching] = useState(false);
     
     const onMove = (canvasRef: React.RefObject<HTMLCanvasElement>, x: number, y: number) => {
         const canvas = canvasRef.current;
@@ -22,9 +22,7 @@ const Canvas = ({ onClearCanvas, isLoading, clear, setClear, width, height}) => 
                 ctx.fillStyle = '#dd4488';
                 ctx.beginPath();
                 ctx.moveTo(previousCoords.x, previousCoords.y);
-                const absDiffX = Math.abs((x - rect.left) - previousCoords.x);
-                const absDiffY = Math.abs((y - rect.top) - previousCoords.y);
-                if (isClicking || (absDiffX < 35 && absDiffY < 35)) {
+                if (isClickingOrTouching) {
                     ctx.lineTo(x - rect.left, y - rect.top)
                     ctx.stroke();
                 }
@@ -37,7 +35,6 @@ const Canvas = ({ onClearCanvas, isLoading, clear, setClear, width, height}) => 
     };
 
     const onTouchMove = (canvasRef: React.RefObject<HTMLCanvasElement>, e: React.TouchEvent<HTMLCanvasElement>) => {
-        e.preventDefault();
         onMove(canvasRef, e.targetTouches[0].clientX, e.targetTouches[0].clientY);
     }
     
@@ -94,18 +91,18 @@ const Canvas = ({ onClearCanvas, isLoading, clear, setClear, width, height}) => 
                         const rect = canvasRef?.current.getBoundingClientRect();
                         setPreviousCoords({x: e.clientX - rect.left, y: e.clientY - rect.top});
                     }
-                    setIsClicking(true);
+                    setIsClickingOrTouching(true);
                 }}
-                onMouseUp={(e) => setIsClicking(false)}
-                onMouseMove={(e) => !isClicking || isLoading ? {} : onMouseMove(canvasRef, e)}
+                onMouseUp={(e) => setIsClickingOrTouching(false)}
+                onMouseMove={(e) => !isClickingOrTouching || isLoading ? {} : onMouseMove(canvasRef, e)}
                 onTouchStart={(e) => {
                     if (canvasRef?.current !== null) {
                         const rect = canvasRef?.current.getBoundingClientRect();
                         setPreviousCoords({x: e.targetTouches[0].clientX - rect.left, y: e.targetTouches[0].clientY - rect.top});
                     }
-                    setIsClicking(true);
+                    setIsClickingOrTouching(true);
                 }}
-                onTouchEnd={(e) => setIsClicking(false)}
+                onTouchEnd={(e) => setIsClickingOrTouching(false)}
                 onTouchMove={(e) => isLoading ? {} : onTouchMove(canvasRef, e)}
                 ref={canvasRef}
                 draggable={true}
