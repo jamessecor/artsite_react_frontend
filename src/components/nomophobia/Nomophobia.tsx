@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button, Container, Spinner } from "react-bootstrap";
 import { BackgroundColorContext, textColor } from "../BackgroundColorProvider";
 import './Nomophobia.css';
@@ -19,15 +19,28 @@ const Nomophobia = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState<Pages>(Pages.Home);
     const [clear, setClear] = useState(true);
+    const [currentTime, setCurrentTime] = useState(new Date());
+
+    useEffect(() => {
+        var timer = setInterval(() => setCurrentTime(new Date()), 1000);
+        return function cleanup() {
+            clearInterval(timer);
+        };
+    });
 
     const getPhoneApp = (currentPage: Pages) => {
         switch (currentPage) {
             case Pages.Home:
                 return (
                     <>
-                        <PhoneApp page={Pages.Canvas} setCurrentPage={setCurrentPage} icon={faEdit} />
-                        <PhoneApp page={Pages.Instagram} setCurrentPage={setCurrentPage} icon={faPersonCircleQuestion} />
-                        <PhoneApp page={Pages.Spotify} setCurrentPage={setCurrentPage} icon={faMusic} />
+                        <div className={'d-flex justify-content-end p-3'}>
+                            <span className={'py-1 px-2 border border-2 border-dark rounded-pill'}>{currentTime.toLocaleTimeString()}</span>
+                        </div>
+                        <div className={'d-flex justify-content-between p-3'}>
+                            <PhoneApp page={Pages.Canvas} setCurrentPage={setCurrentPage} icon={faEdit} />
+                            <PhoneApp page={Pages.Instagram} setCurrentPage={setCurrentPage} icon={faPersonCircleQuestion} />
+                            <PhoneApp page={Pages.Spotify} setCurrentPage={setCurrentPage} icon={faMusic} />
+                        </div>
                     </>
                 );
             case Pages.Canvas:

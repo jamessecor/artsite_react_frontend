@@ -27,7 +27,8 @@
 .phone-screen {
     width: 275px;
     height: 450px;
-    background: #333;
+    /* background-image: url("jamessecor.com/public/images/2012-2021/PXL_20210216_191103895.jpg"); */
+    background: rgb(217, 168, 206);
 }
 
 .speaker {
