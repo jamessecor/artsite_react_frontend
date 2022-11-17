@@ -39,7 +39,10 @@ const Nomophobia = () => {
             case Pages.Off:
                 return (
                     <div className={'d-flex justify-content-end p-3'}>
-                        <span className={'py-1 px-2 border border-2 border-dark rounded-pill'}>{currentTime.toLocaleTimeString()}</span>
+                        <div className={'d-flex flex-column justify-content-center align-items-center'}>
+                            <span className={'py-1 px-2 border border-2 border-dark rounded-pill'}>{currentTime.toLocaleTimeString()}</span>
+                            {currentTime.toLocaleDateString()}
+                        </div>
                     </div>
                 )
             case Pages.Home:
@@ -57,7 +60,6 @@ const Nomophobia = () => {
                 );
             case Pages.Canvas:
                 return <Canvas
-                    onClearCanvas={clearCanvas}
                     isLoading={isLoading}
                     clear={clear}
                     setClear={setClear}
@@ -72,14 +74,6 @@ const Nomophobia = () => {
                 return null;
         }
     }
-
-    const clearCanvas = () => {
-        // setIsLoading(true);
-        setTimeout(() => {
-            // setIsLoading(false);
-            setClear(true);
-        }, 1000);
-    };
 
     return (
         <BackgroundColorContext.Consumer>

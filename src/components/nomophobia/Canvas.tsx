@@ -1,14 +1,15 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useRef, useState, useEffect } from 'react';
 import { Button } from 'react-bootstrap';
-import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faEraser } from '@fortawesome/free-solid-svg-icons';
+import './Canvas.css';
 
 interface ICoords {
     x: number;
     y: number;
 };
 
-const Canvas = ({ onClearCanvas, isLoading, clear, setClear, width, height}) => {
+const Canvas = ({ isLoading, clear, setClear, width, height}) => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const [previousCoords, setPreviousCoords] = useState<ICoords>({x: -1, y: -1});
     const [isClickingOrTouching, setIsClickingOrTouching] = useState(false);
@@ -58,12 +59,12 @@ const Canvas = ({ onClearCanvas, isLoading, clear, setClear, width, height}) => 
         }
     };
 
-    const resetCanvas = (color = 'lightgreen') => {
+    const resetCanvas = () => {
         const canvas = canvasRef.current;
         if (canvas !== null) {
             const ctx = canvas.getContext('2d');
             if (ctx !== null) {
-                ctx.fillStyle = color;
+                ctx.fillStyle = isLoading ? 'grey' : `rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255})`;
                 ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
                 ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
             }
@@ -75,15 +76,9 @@ const Canvas = ({ onClearCanvas, isLoading, clear, setClear, width, height}) => 
         initializeCanvas();
     }, [canvasRef]);
 
-    useEffect(() => {
-        const color = isLoading ? 'grey' : '#d6faff';
-        resetCanvas(color);
-    }, [clear, isLoading]);
-
     return (
         <div className={'d-flex w-100'}>
             <canvas
-                // style={{width: '100%', height: '100%', overscrollBehavior: 'contain'}}
                 width={width}
                 height={height}
                 onMouseDown={(e) => {
@@ -105,11 +100,12 @@ const Canvas = ({ onClearCanvas, isLoading, clear, setClear, width, height}) => 
                 onTouchEnd={(e) => setIsClickingOrTouching(false)}
                 onTouchMove={(e) => isLoading ? {} : onTouchMove(canvasRef, e)}
                 ref={canvasRef}
-                draggable={true}
             />
-            <Button className={'position-absolute btn btn-dark phone-app-button'} onClick={() => onClearCanvas()}>
-                <FontAwesomeIcon icon={faTrash} />
-            </Button>
+            <div className={'position-absolute w-100 d-flex justify-content-end'}>
+                <Button className={'btn btn-warning m-3'} onClick={() => resetCanvas()}>
+                    <FontAwesomeIcon icon={faEraser} />
+                </Button>
+            </div>
         </div>
     )
 };
