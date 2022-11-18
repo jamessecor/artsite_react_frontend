@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { InputGroup, Form, Button, Badge, Placeholder } from "react-bootstrap";
 import { BsFillBookmarkCheckFill, BsXCircleFill } from 'react-icons/bs';
 
@@ -25,6 +25,8 @@ const getRandomZeroToNine = () => Math.round(Math.random() * 10) - 1;
 
 const School = ({isLoading}) => {
     const [completed, setCompleted] = useState(false);
+    const [timesUp, setTimesUp] = useState(false);
+    const [timeRemaining, setTimeRemaining] = useState(30);
 
     const [checkedAnswers, setCheckedAnswers] = useState<ICheckedAnswers>({
         0: null,
@@ -59,6 +61,19 @@ const School = ({isLoading}) => {
 
     const allCorrect = useMemo(() => Object.values(checkedAnswers).every(Boolean), [checkedAnswers]);
 
+    useEffect(() => {
+        const timeRemainingTimer = setInterval(() => setTimeRemaining(timeRemaining - 1), 1000);
+        return function cleanup() {
+            clearInterval(timeRemainingTimer);
+        };
+    }, [timeRemaining]);
+
+    useEffect(() => {
+        if (timeRemaining <= 0) {
+            setTimesUp(true);
+        }
+    }, [timeRemaining]);
+
     const submitForm = useCallback((e) => {
         e.preventDefault();
         setCompleted(true);
@@ -75,6 +90,7 @@ const School = ({isLoading}) => {
                     </>
                 ) : (
                     <>
+                        <Badge className={'position-absolute me-2 end-0'} pill={true} bg={timesUp ? 'danger' : 'warning'}>{timesUp ? ':(' : `:${timeRemaining}`}</Badge>
                         {problemsAndAnswers.answers.map((answer, index) => {
                             return (
                                 <InputGroup
