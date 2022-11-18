@@ -53,6 +53,8 @@ const School = () => {
 
     const problemsAndAnswers = useMemo(() => getProblemsAndAnswers(), [getProblemsAndAnswers]);
 
+    const allCorrect = useMemo(() => Object.values(checkedAnswers).every(Boolean), [checkedAnswers]);
+
     const submitForm = useCallback((e) => {
         e.preventDefault();
         setCompleted(true);
@@ -62,6 +64,11 @@ const School = () => {
         <div className={'overflow-auto phone-screen-off bg-light'}>
             <Form onSubmit={(e) => submitForm(e)} className={'p-2 justify-content-center'}>
                 <Form.Label>Math Homework</Form.Label>
+                {allCorrect ? (
+                    <div>
+                        All good! You pass.
+                    </div>
+                ) : null}
                 {problemsAndAnswers.answers.map((answer, index) => {
                     return (
                         <InputGroup
