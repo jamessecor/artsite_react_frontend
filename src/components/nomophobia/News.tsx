@@ -8,7 +8,7 @@ const News = () => {
         <Carousel>
             {press.map((pressItem) => (
                 <Carousel.Item>
-                    <iframe height={PHONE_HEIGHT} width={PHONE_WIDTH} src={`../${pressItem.url}`}/>
+                    <iframe height={PHONE_HEIGHT} width={PHONE_WIDTH} src={`https://jamessecor.com${pressItem.url}`}/>
                 </Carousel.Item>
             ))}
         </Carousel>
