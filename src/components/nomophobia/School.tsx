@@ -72,6 +72,7 @@ const School = ({isLoading}) => {
                 {problemsAndAnswers.answers.map((answer, index) => {
                     return (
                         <InputGroup
+                            key={index}
                             onChange={(e) => {
                                 const inputValue = (e.target as HTMLInputElement).value;
                                 setFormAnswers({...formAnswers, [index]: inputValue});
@@ -82,14 +83,17 @@ const School = ({isLoading}) => {
                             }}
                             className={'my-2'}
                         >
-                            {isLoading ? (
-                                    <Placeholder as={InputGroup} animation="glow"><Placeholder className={'w-25'} /></Placeholder>
+                            <Button disabled={true} className={'p-0'} variant={'light'}>{`${index + 1}.`}</Button>
+                                {isLoading ? (
+                                    <Placeholder as={InputGroup.Text} className={'w-50'} animation="glow">
+                                        <Placeholder className={'w-100'} />
+                                    </Placeholder>
                                 ) : (
                                     <InputGroup.Text id="basic-addon3">
                                         {`${problemsAndAnswers.x[index]} x ${problemsAndAnswers.y[index]} = `}
                                     </InputGroup.Text>
                                 )}
-                            <Form.Control id={`question-${index}`} aria-describedby="basic-addon3" />
+                            <Form.Control autoComplete={'off'} type={'number'} id={`question-${index}`} aria-describedby="basic-addon3" />
                             { completed && (
                                 <div className={'position-absolute end-0 me-1'}>
                                     {checkedAnswers[index] ? <BsFillBookmarkCheckFill color={'green'} /> : <BsXCircleFill color={'orangered'} />}
