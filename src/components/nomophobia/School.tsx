@@ -68,7 +68,7 @@ const School = ({isLoading}) => {
         <div className={'overflow-auto phone-screen-off bg-light'}>
             <Form onSubmit={(e) => submitForm(e)} className={'p-2 justify-content-center'}>
                 <Form.Label>Math Homework</Form.Label>
-                {allCorrect ? (
+                {completed && allCorrect ? (
                     <>
                         <Badge className={'position-absolute me-2 end-0'} pill={true} bg={'success'}>{'Done!'}</Badge>
                         <iframe style={{borderRadius:'12px'}} src="https://open.spotify.com/embed/episode/5lFTD6w4CxgyOxYsBaZ2nD?utm_source=generator" width="100%" height="352" frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
