@@ -1,7 +1,6 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useRef, useState, useEffect } from 'react';
 import { Button } from 'react-bootstrap';
-import { faEraser } from '@fortawesome/free-solid-svg-icons';
+import { TfiEraser } from 'react-icons/tfi'
 import './Canvas.css';
 
 interface ICoords {
@@ -101,11 +100,9 @@ const Canvas = ({ isLoading, clear, setClear, width, height}) => {
                 onTouchMove={(e) => isLoading ? {} : onTouchMove(canvasRef, e)}
                 ref={canvasRef}
             />
-            <div className={'position-absolute w-100 d-flex justify-content-end'}>
-                <Button className={'btn btn-warning m-3'} onClick={() => resetCanvas()}>
-                    <FontAwesomeIcon icon={faEraser} />
-                </Button>
-            </div>
+            <Button className={'position-absolute btn btn-warning m-3'} onClick={() => resetCanvas()}>
+                <h4><TfiEraser /></h4>
+            </Button>
         </div>
     )
 };

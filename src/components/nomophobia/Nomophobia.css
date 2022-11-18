@@ -18,7 +18,7 @@
 }
 
 .phone {
-    box-shadow: 0px 0px 40px 10px #111, 15px 15px 60px #222;
+    box-shadow: 0px 0px 30px 20px;
     border: 1px solid orangered;
     border-top-right-radius: 20px;
     border-top-left-radius: 20px;

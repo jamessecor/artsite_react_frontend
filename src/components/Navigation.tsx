@@ -7,8 +7,7 @@ import { BackgroundColorContext, isTooLightForDarkTheme } from './BackgroundColo
 import Navbar from 'react-bootstrap/Navbar';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import Container from 'react-bootstrap/Container';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faToggleOn, faToggleOff } from '@fortawesome/free-solid-svg-icons';
+import { BsToggle2Off, BsToggle2On } from 'react-icons/bs';
 import { SketchPicker, HuePicker } from 'react-color';
 import './Navigation.css';
 
@@ -47,15 +46,15 @@ const Navigation = () => {
                                             <Nav className={'mt-2 p-2 border rounded border-2 border-light'}>
                                                 <div className={'ms-5'}>{'Settings'}</div>
                                                 <Nav.Link className={'no-hover'} onClick={() => setIsShowingInfo(!isShowingInfo)}>
-                                                    <FontAwesomeIcon size={'lg'} icon={isShowingInfo ? faToggleOn : faToggleOff} />
+                                                    <h3>{isShowingInfo ? <BsToggle2On /> : <BsToggle2Off />}</h3>
                                                     {' Show Artwork Info'}
                                                 </Nav.Link>
                                                 <Nav.Link className={'no-hover'} onClick={() => setIsRotating(!isRotating)}>
-                                                    <FontAwesomeIcon size={'lg'} icon={isRotating ? faToggleOn : faToggleOff} />
+                                                    <h3>{isRotating ? <BsToggle2On /> : <BsToggle2Off />}</h3>
                                                     {' Wild Colors'}
                                                 </Nav.Link>
                                                 <Nav.Link className={'no-hover'} onClick={() => setIsUsingColorSelector(!isUsingColorSelector)}>
-                                                    <FontAwesomeIcon size={'lg'} icon={isUsingColorSelector ? faToggleOn : faToggleOff} />
+                                                    <h3>{isUsingColorSelector ? <BsToggle2On /> : <BsToggle2Off />}</h3>
                                                     {' Select Background Color'}
                                                 </Nav.Link>
                                                 {

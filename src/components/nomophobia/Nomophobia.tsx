@@ -1,11 +1,13 @@
 import * as React from "react";
-import { useEffect, useState } from 'react';
-import { Button, Container, Spinner } from "react-bootstrap";
+import { useCallback, useEffect, useState } from 'react';
+import { Button, Spinner } from "react-bootstrap";
 import { BackgroundColorContext, textColor } from "../BackgroundColorProvider";
 import './Nomophobia.css';
 import Canvas from './Canvas';
-import PhoneApp from "./PhoneApp";
-import { faEdit, faPersonCircleQuestion, faMusic } from '@fortawesome/free-solid-svg-icons';
+import PhoneApp from './PhoneApp';
+import School from './School';
+import { MdOutlineSchool } from 'react-icons/md';
+import { BsFillPencilFill, BsInstagram, BsSpotify } from 'react-icons/bs';
 import { PHONE_HEIGHT, PHONE_WIDTH } from "./PhoneSize";
 
 export enum Pages {
@@ -13,7 +15,8 @@ export enum Pages {
     Home = 'home',
     Instagram = 'instagram',
     Spotify = 'spotify',
-    Canvas = 'canvas'
+    Canvas = 'canvas',
+    School = 'school'
 }
 
 const Nomophobia = () => {
@@ -29,12 +32,12 @@ const Nomophobia = () => {
         };
     }, []);
 
-    const load = (timeToLoad: number) => {
+    const load = useCallback((timeToLoad: number) => {
         setIsLoading(true);
         setTimeout(() => setIsLoading(false), timeToLoad);
-    };
+    }, []);
 
-    const getPhoneApp = (currentPage: Pages) => {
+    const getPhoneApp = useCallback((currentPage: Pages) => {
         switch (currentPage) {
             case Pages.Off:
                 return <div className={'phone-screen-off'} />;
@@ -45,9 +48,10 @@ const Nomophobia = () => {
                             <span className={'py-1 px-2 border border-2 border-dark rounded-pill'}>{currentTime.toLocaleTimeString()}</span>
                         </div>
                         <div className={'d-flex justify-content-between p-3'}>
-                            <PhoneApp load={load} page={Pages.Canvas} setCurrentPage={setCurrentPage} icon={faEdit} />
-                            <PhoneApp load={load} page={Pages.Instagram} setCurrentPage={setCurrentPage} icon={faPersonCircleQuestion} />
-                            <PhoneApp load={load} page={Pages.Spotify} setCurrentPage={setCurrentPage} icon={faMusic} />
+                            <PhoneApp load={load} page={Pages.Canvas} setCurrentPage={setCurrentPage} icon={<BsFillPencilFill />} />
+                            <PhoneApp load={load} page={Pages.Instagram} setCurrentPage={setCurrentPage} icon={<BsInstagram />} />
+                            <PhoneApp load={load} page={Pages.Spotify} setCurrentPage={setCurrentPage} icon={<BsSpotify />} />
+                            <PhoneApp load={load} page={Pages.School} setCurrentPage={setCurrentPage} icon={<MdOutlineSchool />} />
                         </div>
                     </>
                 );
@@ -63,10 +67,13 @@ const Nomophobia = () => {
                 return <iframe height={PHONE_HEIGHT} width={PHONE_WIDTH} src="https://www.instagram.com/jamessecor/embed"></iframe>;
             case Pages.Spotify:
                 return <iframe src="https://open.spotify.com/embed/artist/7yua0uWx5rD0XZOMjgSM6D?utm_source=generator" width={PHONE_WIDTH} height={PHONE_HEIGHT} frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>;
+            case Pages.School:
+                // return <div>school goes here</div>
+                return <School />;
             default:
                 return null;
         }
-    }
+    }, [clear, currentTime, isLoading, load]);
 
     return (
         <BackgroundColorContext.Consumer>
@@ -78,14 +85,17 @@ const Nomophobia = () => {
                     <div className={'justify-content-center p-0 phone-screen'}>
                         { isLoading
                             && (
-                                <div className={'position-absolute top-50 start-50 translate-middle '}>
+                                <div style={{zIndex: 10000}} className={'position-absolute top-50 start-50 translate-middle '}>
                                     <Spinner variant={'info'} animation={'border'} />
                                 </div>
                             )}
                         {getPhoneApp(currentPage)}
                     </div>
                     <div className={'d-flex justify-content-center align-items-center phone-footer'}>
-                        <Button className={'btn btn-dark phone-bottom-button'} onClick={() => setCurrentPage(Pages.Home)} />
+                        <Button
+                            className={'btn btn-dark phone-bottom-button'}
+                            onClick={() => setCurrentPage(Pages.Home)} 
+                        />
                     </div>
                 </div>
             )}

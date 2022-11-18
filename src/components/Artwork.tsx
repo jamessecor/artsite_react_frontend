@@ -2,8 +2,7 @@ import * as React from "react"
 import { useState } from "react"
 import MovingColorImage from "./MovingColorImage";
 import PriceFormatter from "./PriceFormatter";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faInfoCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
+import { ImInfo } from 'react-icons/im';
 import { Col, Stack } from 'react-bootstrap';
 import { ArtworkShowingInfoContext } from './Navigation';
 import { BackgroundColorContext, isTooLightForDarkTheme } from "./BackgroundColorProvider";
@@ -21,8 +20,8 @@ const Artwork = ({attributes}) => {
                             <Stack className='mt-2'>
                                 {isShowingInfo ? 
                                     null : (
-                                    <FontAwesomeIcon className='ms-auto' icon={isShowingThisInfo ? faTimesCircle : faInfoCircle} onClick={() => setIsShowingThisInfo(!isShowingThisInfo)}/>
-                                )}
+                                        <h3 onClick={() => setIsShowingThisInfo(!isShowingThisInfo)} className={'ms-auto'}><ImInfo /></h3>
+                                    )}
                                 {isShowingInfo || isShowingThisInfo ?
                                     (
                                         <Stack className={isTooLightForDarkTheme(color.r, color.g, color.b) ? 'dark-text': 'light-text'}>
