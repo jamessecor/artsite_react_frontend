@@ -68,8 +68,7 @@ const Nomophobia = () => {
             case Pages.Spotify:
                 return <iframe src="https://open.spotify.com/embed/artist/7yua0uWx5rD0XZOMjgSM6D?utm_source=generator" width={PHONE_WIDTH} height={PHONE_HEIGHT} frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>;
             case Pages.School:
-                // return <div>school goes here</div>
-                return <School />;
+                return <School isLoading={isLoading} />;
             default:
                 return null;
         }

@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useCallback, useMemo, useState } from 'react';
-import { InputGroup, Form, Button } from "react-bootstrap";
+import { InputGroup, Form, Button, Placeholder } from "react-bootstrap";
 import { BsFillBookmarkCheckFill, BsXCircleFill } from 'react-icons/bs';
 
 interface IFormAnswers {
@@ -21,7 +21,7 @@ interface ICheckedAnswers {
 
 const getRandomZeroToNine = () => Math.round(Math.random() * 10) - 1;
 
-const School = () => {
+const School = ({isLoading}) => {
     const [completed, setCompleted] = useState(false);
 
     const [checkedAnswers, setCheckedAnswers] = useState<ICheckedAnswers>({
@@ -82,9 +82,13 @@ const School = () => {
                             }}
                             className={'my-2'}
                         >
-                            <InputGroup.Text id="basic-addon3">
-                                {`${problemsAndAnswers.x[index]} x ${problemsAndAnswers.y[index]} = `}
-                            </InputGroup.Text>
+                            {isLoading ? (
+                                    <Placeholder as={InputGroup} animation="glow"><Placeholder className={'w-25'} /></Placeholder>
+                                ) : (
+                                    <InputGroup.Text id="basic-addon3">
+                                        {`${problemsAndAnswers.x[index]} x ${problemsAndAnswers.y[index]} = `}
+                                    </InputGroup.Text>
+                                )}
                             <Form.Control id={`question-${index}`} aria-describedby="basic-addon3" />
                             { completed && (
                                 <div className={'position-absolute end-0 me-1'}>
