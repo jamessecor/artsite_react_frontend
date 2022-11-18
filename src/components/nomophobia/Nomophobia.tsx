@@ -42,7 +42,7 @@ const Nomophobia = () => {
     const getPhoneApp = useCallback((currentPage: Pages) => {
         switch (currentPage) {
             case Pages.Off:
-                return <div className={'phone-screen-off'} />;
+                return <div onClick={() => setCurrentPage(Pages.Home)} className={'phone-screen-off'} />;
             case Pages.Home:
                 return (
                     <>
@@ -54,6 +54,8 @@ const Nomophobia = () => {
                             <PhoneApp load={load} page={Pages.Instagram} setCurrentPage={setCurrentPage} icon={<BsInstagram />} />
                             <PhoneApp load={load} page={Pages.Spotify} setCurrentPage={setCurrentPage} icon={<BsSpotify />} />
                             <PhoneApp load={load} page={Pages.School} setCurrentPage={setCurrentPage} icon={<MdOutlineSchool />} />
+                        </div>
+                        <div className={'d-flex justify-content-between p-3'}>
                             <PhoneApp load={load} page={Pages.News} setCurrentPage={setCurrentPage} icon={<BsNewspaper />} />
                         </div>
                     </>
@@ -69,7 +71,7 @@ const Nomophobia = () => {
             case Pages.Instagram:
                 return <iframe height={PHONE_HEIGHT} width={PHONE_WIDTH} src="https://www.instagram.com/jamessecor/embed"></iframe>;
             case Pages.Spotify:
-                return <iframe src="https://open.spotify.com/embed/artist/7yua0uWx5rD0XZOMjgSM6D?utm_source=generator" width={PHONE_WIDTH} height={PHONE_HEIGHT} frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>;
+                return <iframe width={PHONE_WIDTH} height={PHONE_HEIGHT} src="https://open.spotify.com/embed/artist/7yua0uWx5rD0XZOMjgSM6D?utm_source=generator" frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>;
             case Pages.School:
                 return <School isLoading={isLoading} />;
             case Pages.News:
