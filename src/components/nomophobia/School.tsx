@@ -53,14 +53,10 @@ const School = () => {
 
     const problemsAndAnswers = useMemo(() => getProblemsAndAnswers(), [getProblemsAndAnswers]);
 
-    React.useEffect(() => {
-        console.log('c', checkedAnswers);
-    }, [checkedAnswers]);
-
     const submitForm = useCallback((e) => {
         e.preventDefault();
         setCompleted(true);
-    }, [formAnswers]);
+    }, []);
 
     return (
         <div className={'overflow-auto phone-screen-off bg-light'}>
