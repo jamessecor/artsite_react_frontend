@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { InputGroup, Form, Button, Badge, Placeholder } from "react-bootstrap";
+import { InputGroup, Spinner, Form, Button, Badge, Placeholder } from "react-bootstrap";
 import { BsFillBookmarkCheckFill, BsXCircleFill } from 'react-icons/bs';
 
 interface IFormAnswers {
@@ -23,12 +23,17 @@ interface ICheckedAnswers {
     6: boolean | null;
 };
 
+type IBuffer = number | null;
+
+const TIME_TO_COMPLETE = 25000;
+
 const getRandomZeroToNine = () => Math.round(Math.random() * 10) - 1;
 
 const School = ({isLoading}) => {
     const [completed, setCompleted] = useState(false);
     const [timesUp, setTimesUp] = useState(false);
-    const [timeRemaining, setTimeRemaining] = useState(25);
+    const [timeRemaining, setTimeRemaining] = useState(TIME_TO_COMPLETE);
+    const [isBuffering, setIsBuffering] = useState<IBuffer>(null);
 
     const [checkedAnswers, setCheckedAnswers] = useState<ICheckedAnswers>({
         0: null,
@@ -66,7 +71,23 @@ const School = ({isLoading}) => {
     const allCorrect = useMemo(() => Object.values(checkedAnswers).every(Boolean), [checkedAnswers]);
 
     useEffect(() => {
-        const timeRemainingTimer = setInterval(() => setTimeRemaining(timeRemaining - 1), 1000);
+        if (isBuffering) {
+            console.log('isB', isBuffering);
+            setTimeout(() => {
+                console.log('ending isB');
+                setIsBuffering(null);
+            }, isBuffering);
+        }
+    }, [isBuffering])
+
+    useEffect(() => {
+        const timeRemainingTimer = setInterval(() => {
+            setTimeRemaining(timeRemaining - 1000);
+            const shouldBuffer = Math.random() * 5 > 4;
+            if (shouldBuffer && !timesUp) {
+                setIsBuffering((Math.random() * 500) + 1000);
+            }
+        }, 1000);
         return function cleanup() {
             clearInterval(timeRemainingTimer);
         };
@@ -85,8 +106,16 @@ const School = ({isLoading}) => {
 
     return (
         <div className={'overflow-auto phone-screen-off bg-light'}>
+            {isBuffering && isBuffering > 0 && (
+                <div style={{zIndex: 10000}} className={'d-flex flex-column justify-content-center align-items-center position-absolute top-50 start-50 translate-middle'}>
+                    <Spinner variant={'info'} animation={'border'} />
+                    <Badge pill={true} className={'bg-info'}>
+                        {'Buffering...'}
+                    </Badge>
+                </div>
+            )}
             <Form onSubmit={(e) => submitForm(e)} className={'p-2 justify-content-center'}>
-                <Form.Label>Math Homework</Form.Label>
+                <Form.Label className={'mb-0 w-100 text-center fw-bold text-decoration-underline'}>Math Homework</Form.Label>
                 {completed && allCorrect ? (
                     <>
                         <Badge className={'position-absolute me-2 end-0'} pill={true} bg={'success'}>{'Done!'}</Badge>
@@ -94,7 +123,7 @@ const School = ({isLoading}) => {
                     </>
                 ) : (
                     <>
-                        <Badge className={'position-absolute me-2 end-0'} pill={true} bg={timesUp ? 'danger' : 'warning'}>{timesUp ? ':(' : `:${timeRemaining}`}</Badge>
+                        <Badge className={'position-absolute me-2 end-0'} pill={true} bg={timesUp ? 'danger' : 'warning'}>{timesUp ? ':(' : `:${timeRemaining / 1000}`}</Badge>
                         {problemsAndAnswers.answers.map((answer, index) => {
                             return (
                                 <InputGroup
@@ -119,7 +148,7 @@ const School = ({isLoading}) => {
                                                 {`${problemsAndAnswers.x[index]} x ${problemsAndAnswers.y[index]} = `}
                                             </InputGroup.Text>
                                         )}
-                                    <Form.Control autoComplete={'off'} type={'number'} id={`question-${index}`} aria-describedby="basic-addon3" />
+                                    <Form.Control disabled={Boolean(isBuffering)} autoComplete={'off'} type={'number'} id={`question-${index}`} aria-describedby="basic-addon3" />
                                     <div className={'position-absolute end-0 me-1'}>
                                         {checkedAnswers[index] 
                                             ? <BsFillBookmarkCheckFill color={'green'} /> 
@@ -129,12 +158,15 @@ const School = ({isLoading}) => {
                             )
                         })}
                         <Button
-                            disabled={completed}
-                            className={`w-100 ${completed ? 'btn-success' : ''}`}
+                            disabled={timesUp || completed || Boolean(isBuffering)}
+                            className={`w-100 ${completed ? 'btn-success' : (timesUp ? 'btn-danger' : '')}`}
                             type={'submit'}
                         >
-                            {completed ? 'Complete!' : 'Submit Worksheet'}
+                            {completed ? 'Complete!' : (timesUp ? 'Time\'s Up :(' : 'Submit Worksheet')}
                         </Button>
+                        {timesUp && (
+                            <iframe className={'mt-2'} style={{borderRadius:'12px'}} src="https://open.spotify.com/embed/episode/5lFTD6w4CxgyOxYsBaZ2nD?utm_source=generator" width="100%" height="352" frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                        )}
                     </>
                 )}
             </Form>
