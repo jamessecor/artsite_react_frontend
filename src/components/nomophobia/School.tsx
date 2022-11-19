@@ -10,6 +10,7 @@ interface IFormAnswers {
     3: number | null;
     4: number | null;
     5: number | null;
+    6: number | null;
 };
 
 interface ICheckedAnswers {
@@ -19,6 +20,7 @@ interface ICheckedAnswers {
     3: boolean | null;
     4: boolean | null;
     5: boolean | null;
+    6: boolean | null;
 };
 
 const getRandomZeroToNine = () => Math.round(Math.random() * 10) - 1;
@@ -26,7 +28,7 @@ const getRandomZeroToNine = () => Math.round(Math.random() * 10) - 1;
 const School = ({isLoading}) => {
     const [completed, setCompleted] = useState(false);
     const [timesUp, setTimesUp] = useState(false);
-    const [timeRemaining, setTimeRemaining] = useState(30);
+    const [timeRemaining, setTimeRemaining] = useState(25);
 
     const [checkedAnswers, setCheckedAnswers] = useState<ICheckedAnswers>({
         0: null,
@@ -34,7 +36,8 @@ const School = ({isLoading}) => {
         2: null,
         3: null,
         4: null,
-        5: null
+        5: null,
+        6: null
     });
 
     const [formAnswers, setFormAnswers] = useState<IFormAnswers>({
@@ -43,12 +46,13 @@ const School = ({isLoading}) => {
         2: null,
         3: null,
         4: null,
-        5: null
+        5: null,
+        6: null
     });
 
     const getProblemsAndAnswers = useCallback(() => {
-        const x = [getRandomZeroToNine(), getRandomZeroToNine(), getRandomZeroToNine(), getRandomZeroToNine(), getRandomZeroToNine(), getRandomZeroToNine()];
-        const y = [getRandomZeroToNine(), getRandomZeroToNine(), getRandomZeroToNine(), getRandomZeroToNine(), getRandomZeroToNine(), getRandomZeroToNine()];
+        const x = [getRandomZeroToNine(), getRandomZeroToNine(), getRandomZeroToNine(), getRandomZeroToNine(), getRandomZeroToNine(), getRandomZeroToNine(), getRandomZeroToNine()];
+        const y = [getRandomZeroToNine(), getRandomZeroToNine(), getRandomZeroToNine(), getRandomZeroToNine(), getRandomZeroToNine(), getRandomZeroToNine(), getRandomZeroToNine()];
         const answers = x.map((a, index) => a * y[index]);
         return {
             x: x,

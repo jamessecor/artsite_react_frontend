@@ -1,5 +1,6 @@
 import * as React from "react";
 import { useCallback, useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { Button, Spinner } from "react-bootstrap";
 import { BackgroundColorContext, textColor } from "../BackgroundColorProvider";
 import './Nomophobia.css';
@@ -22,8 +23,9 @@ export enum Pages {
 }
 
 const Nomophobia = () => {
+    const [searchParams, setSearchParams] = useSearchParams();
     const [isLoading, setIsLoading] = useState(false);
-    const [currentPage, setCurrentPage] = useState<Pages>(Pages.Off);
+    const [currentPage, setCurrentPage] = useState<Pages>(searchParams.get('p') as Pages ?? Pages.Off);
     const [clear, setClear] = useState(true);
     const [currentTime, setCurrentTime] = useState(new Date());
 
@@ -77,7 +79,7 @@ const Nomophobia = () => {
             case Pages.News:
                 return <News />;
             default:
-                return null;
+                return <div onClick={() => setCurrentPage(Pages.Home)} className={'phone-screen-off'} />;
         }
     }, [clear, currentTime, isLoading, load]);
 
