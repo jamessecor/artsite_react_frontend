@@ -45,6 +45,8 @@ const Nomophobia = () => {
         switch (currentPage) {
             case Pages.Off:
                 return <div onClick={() => setCurrentPage(Pages.Home)} className={'phone-screen-off'} />;
+                // TODO: add contact
+                // return <div className={'phone-screen-off overflow-auto'}><ContactForm /></div>;
             case Pages.Home:
                 return (
                     <>

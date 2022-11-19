@@ -148,7 +148,7 @@ const School = ({isLoading}) => {
                                                 {`${problemsAndAnswers.x[index]} x ${problemsAndAnswers.y[index]} = `}
                                             </InputGroup.Text>
                                         )}
-                                    <Form.Control disabled={Boolean(isBuffering)} autoComplete={'off'} type={'number'} id={`question-${index}`} aria-describedby="basic-addon3" />
+                                    <Form.Control autoComplete={'off'} type={'number'} id={`question-${index}`} aria-describedby="basic-addon3" />
                                     <div className={'position-absolute end-0 me-1'}>
                                         {checkedAnswers[index] 
                                             ? <BsFillBookmarkCheckFill color={'green'} /> 
