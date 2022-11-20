@@ -139,7 +139,7 @@ const School = ({isLoading}) => {
                                     className={'my-2'}
                                 >
                                     <Button disabled={true} className={'p-0'} variant={'light'}>{`${index + 1}.`}</Button>
-                                        {isLoading ? (
+                                        {isLoading || isBuffering ? (
                                             <Placeholder as={InputGroup.Text} className={'w-50'} animation="glow">
                                                 <Placeholder className={'w-100'} />
                                             </Placeholder>
