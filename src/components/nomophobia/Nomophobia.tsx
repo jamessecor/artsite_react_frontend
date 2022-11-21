@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useMemo, useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Button, Spinner } from "react-bootstrap";
 import { BackgroundColorContext, textColor } from "../BackgroundColorProvider";
@@ -11,6 +11,7 @@ import News from './News';
 import { MdOutlineSchool } from 'react-icons/md';
 import { BsFillPencilFill, BsInstagram, BsNewspaper, BsSpotify } from 'react-icons/bs';
 import { PHONE_HEIGHT, PHONE_WIDTH } from "./PhoneSize";
+import useArtworks from "../../hooks/useArtworks";
 
 export enum Pages {
     Off = 'off',
@@ -23,6 +24,9 @@ export enum Pages {
 }
 
 const Nomophobia = () => {
+    const { randomArtwork } = useArtworks();
+    const artwork = useMemo(() => randomArtwork(), [randomArtwork]);
+
     const [searchParams, setSearchParams] = useSearchParams();
     const [isLoading, setIsLoading] = useState(false);
     const [currentPage, setCurrentPage] = useState<Pages>(searchParams.get('p') as Pages ?? Pages.Off);
@@ -92,7 +96,13 @@ const Nomophobia = () => {
                     <div className={'d-flex justify-content-center align-items-center phone-header'}>
                         <div className={'speaker'} />
                     </div>
-                    <div className={'justify-content-center p-0 phone-screen'}>
+                    <div
+                        style={{
+                            backgroundImage: `linear-gradient(gray, gray), url(${artwork.image})`,
+                            backgroundBlendMode: 'saturation'
+                        }}
+                        className={'justify-content-center p-0 phone-screen'}
+                    >
                         { isLoading
                             && (
                                 <div style={{zIndex: 10000}} className={'position-absolute top-50 start-50 translate-middle '}>

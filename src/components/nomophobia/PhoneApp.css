@@ -1,8 +1,6 @@
 .phone-app-button {
     border: .2rem solid orangered;
     border-radius: 50px;
-    height: 3rem;
-    width: 3rem;
 }
 
 .phone-app-button:hover {
