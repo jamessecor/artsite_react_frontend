@@ -72,9 +72,7 @@ const School = ({isLoading}) => {
 
     useEffect(() => {
         if (isBuffering) {
-            console.log('isB', isBuffering);
             setTimeout(() => {
-                console.log('ending isB');
                 setIsBuffering(null);
             }, isBuffering);
         }
@@ -106,7 +104,7 @@ const School = ({isLoading}) => {
 
     return (
         <div className={'overflow-auto phone-screen-off bg-light'}>
-            {isBuffering && isBuffering > 0 && (
+            {!isLoading && (isBuffering && isBuffering > 0) && (
                 <div style={{zIndex: 10000}} className={'d-flex flex-column justify-content-center align-items-center position-absolute top-50 start-50 translate-middle'}>
                     <Spinner variant={'info'} animation={'border'} />
                     <Badge pill={true} className={'bg-info'}>
@@ -116,14 +114,14 @@ const School = ({isLoading}) => {
             )}
             <Form onSubmit={(e) => submitForm(e)} className={'p-2 justify-content-center'}>
                 <Form.Label className={'mb-0 w-100 text-center fw-bold text-decoration-underline'}>Math Homework</Form.Label>
-                {completed && allCorrect ? (
+                {(completed && allCorrect) || timesUp ? (
                     <>
-                        <Badge className={'position-absolute me-2 end-0'} pill={true} bg={'success'}>{'Done!'}</Badge>
+                        <Badge className={'position-absolute me-2 end-0'} pill={true} bg={timesUp ? 'danger' : 'success'}>{timesUp ? 'LATE! No Credit.' : 'Done!'}</Badge>
                         <iframe style={{borderRadius:'12px'}} src="https://open.spotify.com/embed/episode/5lFTD6w4CxgyOxYsBaZ2nD?utm_source=generator" width="100%" height="352" frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
                     </>
                 ) : (
                     <>
-                        <Badge className={'position-absolute me-2 end-0'} pill={true} bg={timesUp ? 'danger' : 'warning'}>{timesUp ? ':(' : `:${timeRemaining / 1000}`}</Badge>
+                        <Badge style={{zIndex: 100}} className={'position-absolute me-2 end-0'} pill={true} bg={timesUp ? 'danger' : 'warning'}>{timesUp ? ':(' : `:${timeRemaining / 1000}`}</Badge>
                         {problemsAndAnswers.answers.map((answer, index) => {
                             return (
                                 <InputGroup
@@ -164,9 +162,6 @@ const School = ({isLoading}) => {
                         >
                             {completed ? 'Complete!' : (timesUp ? 'Time\'s Up :(' : 'Submit Worksheet')}
                         </Button>
-                        {timesUp && (
-                            <iframe className={'mt-2'} style={{borderRadius:'12px'}} src="https://open.spotify.com/embed/episode/5lFTD6w4CxgyOxYsBaZ2nD?utm_source=generator" width="100%" height="352" frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-                        )}
                     </>
                 )}
             </Form>
