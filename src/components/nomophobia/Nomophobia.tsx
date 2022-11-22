@@ -12,6 +12,7 @@ import { MdOutlineSchool } from 'react-icons/md';
 import { BsFillPencilFill, BsInstagram, BsNewspaper, BsSpotify } from 'react-icons/bs';
 import { PHONE_HEIGHT, PHONE_WIDTH } from "./PhoneSize";
 import useArtworks from "../../hooks/useArtworks";
+import SchoolInstructions from "./SchoolInstructions";
 
 export enum Pages {
     Off = 'off',
@@ -19,6 +20,7 @@ export enum Pages {
     Instagram = 'instagram',
     Spotify = 'spotify',
     Canvas = 'canvas',
+    SchoolInstructions = 'schoolinstructions',
     School = 'school',
     News = 'news'
 }
@@ -61,7 +63,7 @@ const Nomophobia = () => {
                             <PhoneApp load={load} page={Pages.Canvas} setCurrentPage={setCurrentPage} icon={<BsFillPencilFill />} />
                             <PhoneApp load={load} page={Pages.Instagram} setCurrentPage={setCurrentPage} icon={<BsInstagram />} />
                             <PhoneApp load={load} page={Pages.Spotify} setCurrentPage={setCurrentPage} icon={<BsSpotify />} />
-                            <PhoneApp load={load} page={Pages.School} setCurrentPage={setCurrentPage} icon={<MdOutlineSchool />} />
+                            <PhoneApp load={load} page={Pages.SchoolInstructions} setCurrentPage={setCurrentPage} icon={<MdOutlineSchool />} />
                         </div>
                         <div className={'d-flex justify-content-between p-3'}>
                             <PhoneApp load={load} page={Pages.News} setCurrentPage={setCurrentPage} icon={<BsNewspaper />} />
@@ -80,6 +82,8 @@ const Nomophobia = () => {
                 return <iframe height={PHONE_HEIGHT} width={PHONE_WIDTH} src="https://www.instagram.com/jamessecor/embed"></iframe>;
             case Pages.Spotify:
                 return <iframe width={PHONE_WIDTH} height={PHONE_HEIGHT} src="https://open.spotify.com/embed/artist/7yua0uWx5rD0XZOMjgSM6D?utm_source=generator" frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>;
+            case Pages.SchoolInstructions:
+                return <SchoolInstructions isLoading={isLoading} setCurrentPage={setCurrentPage} />
             case Pages.School:
                 return <School isLoading={isLoading} />;
             case Pages.News:

@@ -116,7 +116,7 @@ const School = ({isLoading}) => {
                 <Form.Label className={'mb-0 w-100 text-center fw-bold text-decoration-underline'}>Math Homework</Form.Label>
                 {(completed && allCorrect) || timesUp ? (
                     <>
-                        <Badge className={'position-absolute me-2 end-0'} pill={true} bg={timesUp ? 'danger' : 'success'}>{timesUp ? 'LATE! No Credit.' : 'Done!'}</Badge>
+                        <Badge className={'position-absolute me-2 end-0'} pill={true} bg={timesUp && !allCorrect ? 'danger' : 'success'}>{timesUp && !allCorrect ? 'LATE! No Credit.' : 'Done!'}</Badge>
                         <iframe style={{borderRadius:'12px'}} src="https://open.spotify.com/embed/episode/5lFTD6w4CxgyOxYsBaZ2nD?utm_source=generator" width="100%" height="352" frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
                     </>
                 ) : (
