@@ -8,11 +8,14 @@ import Canvas from './Canvas';
 import PhoneApp from './PhoneApp';
 import School from './School';
 import News from './News';
+import GalleryTour from './GalleryTour';
 import { MdOutlineSchool } from 'react-icons/md';
 import { BsFillPencilFill, BsInstagram, BsNewspaper, BsSpotify } from 'react-icons/bs';
+import { HiBuildingLibrary } from 'react-icons/hi2'
 import { PHONE_HEIGHT, PHONE_WIDTH } from "./PhoneSize";
 import useArtworks from "../../hooks/useArtworks";
 import SchoolInstructions from "./SchoolInstructions";
+import { chirpingInTheThicketsTour } from "../../data/gallery-tour/chirping-in-the-thickets";
 
 export enum Pages {
     Off = 'off',
@@ -22,7 +25,8 @@ export enum Pages {
     Canvas = 'canvas',
     SchoolInstructions = 'schoolinstructions',
     School = 'school',
-    News = 'news'
+    News = 'news',
+    GalleryTour = 'gallerytour'
 }
 
 const Nomophobia = () => {
@@ -67,6 +71,7 @@ const Nomophobia = () => {
                         </div>
                         <div className={'d-flex justify-content-between p-3'}>
                             <PhoneApp load={load} page={Pages.News} setCurrentPage={setCurrentPage} icon={<BsNewspaper />} />
+                            <PhoneApp load={load} page={Pages.GalleryTour} setCurrentPage={setCurrentPage} icon={<HiBuildingLibrary />} />
                         </div>
                     </>
                 );
@@ -88,6 +93,8 @@ const Nomophobia = () => {
                 return <School isLoading={isLoading} />;
             case Pages.News:
                 return <News />;
+            case Pages.GalleryTour:
+                return <GalleryTour images={chirpingInTheThicketsTour} />;
             default:
                 return <div onClick={() => setCurrentPage(Pages.Home)} className={'phone-screen-off'} />;
         }
