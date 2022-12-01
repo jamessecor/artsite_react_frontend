@@ -103,17 +103,26 @@ const Nomophobia = () => {
     return (
         <BackgroundColorContext.Consumer>
             {({color, setColor}) => (
+                // PHONE
                 <div className={'phone position-absolute top-50 start-50 translate-middle d-flex flex-column'}>
+                    {/* POWER BUTTON */}
+                    <Button
+                        className={'power-button position-absolute end-0 top-0'} 
+                        onClick={() => setCurrentPage(currentPage === Pages.Off ? Pages.Home : Pages.Off)}
+                    />
+                    {/* SPEAKER */}
                     <div className={'d-flex justify-content-center align-items-center phone-header'}>
                         <div className={'speaker'} />
                     </div>
+                    {/* PHONE SCREEN */}
                     <div
+                        className={'justify-content-center p-0 phone-screen'}
                         style={{
+                            boxShadow: currentPage === Pages.Off ? '' : '0px 0px 25px 10px rgba(205, 255, 205, 0.3)',
                             backgroundImage: `linear-gradient(rgba(${color.r ?? 10}, ${color.g ?? 210}, ${color.b ?? 200}, ${color.a ?? 1}), rgba(184, 255, 184, 0.3)), url(${artwork.image})`,
                             // background: `radial-gradient(lime, rgba(${color.r ?? 10}, ${color.g ?? 210}, ${color.b ?? 200}, ${color.a ?? 1}) 75%)`,
                             // backgroundBlendMode: 'saturation'
                         }}
-                        className={'justify-content-center p-0 phone-screen'}
                     >
                         { isLoading
                             && (
@@ -123,6 +132,7 @@ const Nomophobia = () => {
                             )}
                         {getPhoneApp(currentPage)}
                     </div>
+                    {/* BOTTOM BUTTON */}
                     <div className={'d-flex justify-content-center align-items-center phone-footer'}>
                         <Button
                             className={'btn btn-dark phone-bottom-button'}
