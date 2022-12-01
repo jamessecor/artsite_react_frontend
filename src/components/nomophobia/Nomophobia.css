@@ -29,6 +29,9 @@
     width: 275px;
     height: 450px;
     background-size: cover;
+    /* background: rgba(184, 255, 184, 0.3); */
+    box-shadow: 0px 0px 5px 5px rgba(184, 255, 184, 0.3);
+    z-index: 3;
 }
 
 .phone-screen-off {

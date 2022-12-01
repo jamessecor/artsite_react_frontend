@@ -16,14 +16,15 @@ const HomePage = () => {
     return (
         <div className='position-absolute top-0 start-0 w-100' onClick={enterSite}>
             <MovingColorImage isFullHeightAndWidth={true} src={artwork.image} title={artwork.title} startsWithRotating={true} />
-            <Toast
+            {/* <Toast
+                bg={'success'}
                 className={'position-absolute top-50 start-50 translate-middle'}
                 onClose={enterSite}
             >
-                <Toast.Header>
+                <Toast.Header closeButton={false}>
                     <img src={artwork.image} className="w-25 rounded me-2" alt="" />
                     <strong className='me-auto'>
-                        {'Chirping in the Thickets'}
+                        {'James Secor art'}
                     </strong>
                 </Toast.Header>
                 <Toast.Body className="d-flex flex-column justify-content-center">
@@ -35,7 +36,8 @@ const HomePage = () => {
                     </div>
                     <Button variant='success' size='lg' className={'mt-2'} onClick={enterSite}>Continue</Button>
                 </Toast.Body>
-            </Toast>
+            </Toast> */}
+            <Button variant='success' size='lg' className={'border border-4 border-primary position-absolute top-50 start-50 translate-middle'} onClick={enterSite}>Go to more art</Button>
         </div>
     );    
 }

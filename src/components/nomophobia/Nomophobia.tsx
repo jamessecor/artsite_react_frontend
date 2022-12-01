@@ -27,7 +27,7 @@ export enum Pages {
     School = 'school',
     News = 'news',
     GalleryTour = 'gallerytour'
-}
+};
 
 const Nomophobia = () => {
     const { randomArtwork } = useArtworks();
@@ -67,9 +67,9 @@ const Nomophobia = () => {
                             <PhoneApp load={load} page={Pages.Canvas} setCurrentPage={setCurrentPage} icon={<BsFillPencilFill />} />
                             <PhoneApp load={load} page={Pages.Instagram} setCurrentPage={setCurrentPage} icon={<BsInstagram />} />
                             <PhoneApp load={load} page={Pages.Spotify} setCurrentPage={setCurrentPage} icon={<BsSpotify />} />
-                            <PhoneApp load={load} page={Pages.SchoolInstructions} setCurrentPage={setCurrentPage} icon={<MdOutlineSchool />} />
                         </div>
                         <div className={'d-flex justify-content-between p-3'}>
+                            <PhoneApp load={load} page={Pages.SchoolInstructions} setCurrentPage={setCurrentPage} icon={<MdOutlineSchool />} />
                             <PhoneApp load={load} page={Pages.News} setCurrentPage={setCurrentPage} icon={<BsNewspaper />} />
                             <PhoneApp load={load} page={Pages.GalleryTour} setCurrentPage={setCurrentPage} icon={<HiBuildingLibrary />} />
                         </div>
@@ -109,8 +109,9 @@ const Nomophobia = () => {
                     </div>
                     <div
                         style={{
-                            backgroundImage: `linear-gradient(gray, gray), url(${artwork.image})`,
-                            backgroundBlendMode: 'saturation'
+                            backgroundImage: `linear-gradient(rgba(${color.r ?? 10}, ${color.g ?? 210}, ${color.b ?? 200}, ${color.a ?? 1}), rgba(184, 255, 184, 0.3)), url(${artwork.image})`,
+                            // background: `radial-gradient(lime, rgba(${color.r ?? 10}, ${color.g ?? 210}, ${color.b ?? 200}, ${color.a ?? 1}) 75%)`,
+                            // backgroundBlendMode: 'saturation'
                         }}
                         className={'justify-content-center p-0 phone-screen'}
                     >
