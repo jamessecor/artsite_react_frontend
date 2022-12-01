@@ -7,27 +7,29 @@ const INSTRUCTIONS_1 = 'During the pandemic many, if not all, Americans in schoo
 const INSTRUCTIONS_2 = 'Can you finish this worksheet before the it\'s due? Watch out for buffering!';
 
 const SchoolInstructions = ({ isLoading, setCurrentPage }) => {
-    const [isLoadingHomework, setIsLoadingHomework] = useState(false);
     const onStart = () => {
         setCurrentPage(Pages.School);
     };
 
     return (
-        <Toast>
-            <Toast.Header className={'justify-content-between'}>
+        <Toast bg={'success'} className={'h-100'}>
+            <Toast.Header 
+                className={'justify-content-center'}
+                closeButton={false}
+            >
                 {'Homework game'}
             </Toast.Header>
             <Toast.Body>
-                {INSTRUCTIONS_1}
-                <br />
-                <br />
-                {INSTRUCTIONS_2}
-                {isLoadingHomework ? (
-                    <Button disabled={true}>{'Loading...'}</Button>
-                )
-                : (
-                    <Button onClick={() => onStart()}>{'Start My Homework'}</Button>
-                )}
+                <div className={'d-flex flex-column text-center'}>
+                    <div className={'pb-2'}>{INSTRUCTIONS_1}</div>
+                    <div className={'pb-2'}>{INSTRUCTIONS_2}</div>
+                    {isLoading ? (
+                        <Button disabled={true}>{'Loading...'}</Button>
+                    )
+                    : (
+                        <Button onClick={() => onStart()}>{'Start My Homework'}</Button>
+                    )}
+                </div>
             </Toast.Body>
         </Toast>
     )

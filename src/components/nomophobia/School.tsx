@@ -103,7 +103,7 @@ const School = ({isLoading}) => {
     }, []);
 
     return (
-        <div className={'overflow-auto phone-screen-off bg-light'}>
+        <div className={'overflow-auto phone-screen-off bg-success'}>
             {!isLoading && (isBuffering && isBuffering > 0) && (
                 <div style={{zIndex: 10000}} className={'d-flex flex-column justify-content-center align-items-center position-absolute top-50 start-50 translate-middle'}>
                     <Spinner variant={'info'} animation={'border'} />
@@ -113,7 +113,7 @@ const School = ({isLoading}) => {
                 </div>
             )}
             <Form onSubmit={(e) => submitForm(e)} className={'p-2 justify-content-center'}>
-                <Form.Label className={'mb-0 w-100 text-center fw-bold text-decoration-underline'}>Math Homework</Form.Label>
+                <Form.Label className={'mb-0 w-100 text-center fw-bold text-light text-decoration-underline'}>Math Homework</Form.Label>
                 {(completed && allCorrect) || timesUp ? (
                     <>
                         <Badge className={'position-absolute me-2 end-0'} pill={true} bg={timesUp && !allCorrect ? 'danger' : 'success'}>{timesUp && !allCorrect ? 'LATE! No Credit.' : 'Done!'}</Badge>
