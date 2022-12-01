@@ -107,7 +107,7 @@ const Nomophobia = () => {
                 <div className={'phone position-absolute top-50 start-50 translate-middle d-flex flex-column'}>
                     {/* POWER BUTTON */}
                     <Button
-                        className={'power-button position-absolute end-0 top-0'} 
+                        className={'power-button position-absolute m-0 p-0 end-0 top-0'} 
                         onClick={() => setCurrentPage(currentPage === Pages.Off ? Pages.Home : Pages.Off)}
                     />
                     {/* SPEAKER */}
