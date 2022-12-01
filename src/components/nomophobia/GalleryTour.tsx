@@ -12,7 +12,12 @@ const GalleryTour: React.FC<IGalleryParams> = ({ images }) => {
         <Carousel slide={false} variant={'dark'} >
             {images.map((image) => (
                 <Carousel.Item key={image.key}>
-                    <img height={PHONE_HEIGHT} width={PHONE_WIDTH} src={`${process.env.REACT_APP_BASE_URL}/${image.src}`}/>
+                    <img
+                        height={PHONE_HEIGHT}
+                        width={PHONE_WIDTH}
+                        src={`${process.env.REACT_APP_BASE_URL}/${image.src}`}
+                        style={{ objectFit: 'cover' }}
+                    />
                 </Carousel.Item>
             ))}
         </Carousel>
