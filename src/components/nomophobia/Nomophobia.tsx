@@ -59,21 +59,23 @@ const Nomophobia = () => {
                 // return <div className={'phone-screen-off overflow-auto'}><ContactForm /></div>;
             case Pages.Home:
                 return (
-                    <>
+                    <div className={'h-100 d-flex flex-column justify-content-between'}>
                         <div className={'d-flex justify-content-end p-3'}>
-                            <span className={'bg-light py-1 px-2 border border-2 border-dark rounded-pill'}>{currentTime.toLocaleTimeString()}</span>
+                            <span className={'py-1 px-2 border border-2 border-light text-light rounded-pill'}>{currentTime.toLocaleTimeString()}</span>
                         </div>
-                        <div className={'d-flex justify-content-between p-3'}>
-                            <PhoneApp load={load} page={Pages.Canvas} setCurrentPage={setCurrentPage} icon={<BsFillPencilFill />} />
-                            <PhoneApp load={load} page={Pages.Instagram} setCurrentPage={setCurrentPage} icon={<BsInstagram />} />
-                            <PhoneApp load={load} page={Pages.Spotify} setCurrentPage={setCurrentPage} icon={<BsSpotify />} />
+                        <div>
+                            <div className={'d-flex justify-content-between p-3'}>
+                                <PhoneApp load={load} page={Pages.Canvas} setCurrentPage={setCurrentPage} icon={<BsFillPencilFill />} />
+                                <PhoneApp load={load} page={Pages.Instagram} setCurrentPage={setCurrentPage} icon={<BsInstagram />} />
+                                <PhoneApp load={load} page={Pages.Spotify} setCurrentPage={setCurrentPage} icon={<BsSpotify />} />
+                            </div>
+                            <div className={'d-flex justify-content-between p-3'}>
+                                <PhoneApp load={load} page={Pages.SchoolInstructions} setCurrentPage={setCurrentPage} icon={<MdOutlineSchool />} />
+                                <PhoneApp load={load} page={Pages.News} setCurrentPage={setCurrentPage} icon={<BsNewspaper />} />
+                                <PhoneApp load={load} page={Pages.GalleryTour} setCurrentPage={setCurrentPage} icon={<HiBuildingLibrary />} />
+                            </div>
                         </div>
-                        <div className={'d-flex justify-content-between p-3'}>
-                            <PhoneApp load={load} page={Pages.SchoolInstructions} setCurrentPage={setCurrentPage} icon={<MdOutlineSchool />} />
-                            <PhoneApp load={load} page={Pages.News} setCurrentPage={setCurrentPage} icon={<BsNewspaper />} />
-                            <PhoneApp load={load} page={Pages.GalleryTour} setCurrentPage={setCurrentPage} icon={<HiBuildingLibrary />} />
-                        </div>
-                    </>
+                    </div>
                 );
             case Pages.Canvas:
                 return <Canvas
