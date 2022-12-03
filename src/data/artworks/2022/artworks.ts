@@ -45,6 +45,7 @@ export const artworks2022: Array<Artwork> =
         title: "Claimed Land Errupting",
         price: "325",
         year: "2022",
+        isHomePage: true,
         media: "gouache on paper",
         image: "/images/2022/merica/changing_climate.jpg",
         grouping: ["merica"]
@@ -111,6 +112,7 @@ export const artworks2022: Array<Artwork> =
         title: "Green Winter, No Snow: 2100",
         price: "325",
         year: "2022",
+        isHomePage: true,
         media: "gouache on paper",
         image: "/images/2022/merica/green_winter_2050.jpg",
         grouping: ["merica"]
@@ -391,6 +393,7 @@ export const artworks2022: Array<Artwork> =
         title: "Moose",
         price: "250",
         year: "2022",
+        isHomePage: true,
         image: "/images/2022/wallabies/19.JPG",
         grouping: ["wallabies"],
         media: "gouache on paper"

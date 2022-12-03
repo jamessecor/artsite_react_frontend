@@ -86,7 +86,6 @@ export const artworks2019: Array<Artwork> =
         image: "/images/2012-2021/animalMug_dish_andGlass_I.jpg",
         arrangement: "0",
         saleDate: "2022-10-10",
-        isHomePage: true,
         price: "150",
         grouping: ["mug_dish_glass"]
     },

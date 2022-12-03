@@ -9,7 +9,6 @@ export const artworks2018: Array<Artwork> =
         image: "/images/2012-2021/ParkingMeters2018.jpg",
         buyerID: "141",
         arrangement: "7",
-        isHomePage: true,
         price: "500",
         grouping: [],
         saleDate: "2018-09-01",

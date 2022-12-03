@@ -30,7 +30,7 @@ const Artworks = ({ current = false }: IArtworkProps) => {
         <Container fluid={'sm'} className="align-items-center">
             <Row xs={1} lg={4} className={'d-flex align-items-center'}>
                 {artworks.length
-                    ? (artworks.map((artwork, i) => {
+                    ? (artworks.sort((a, b) => parseInt(b.year) - parseInt(a.year)).map((artwork, i) => {
                         return (
                             <Col key={`${artwork.id}-${artwork.title}`} className="my-4 px-4">
                                 <Artwork attributes={artwork} />

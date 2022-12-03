@@ -59,7 +59,6 @@ export const artworks2020: Array<Artwork> =
         image: "/images/2012-2021/IMG_20200426_151022.jpg",
         buyerID: "191",
         arrangement: "1",
-        isHomePage: true,
         price: "300",
         grouping: [],
         saleDate: "2020-07-01",
