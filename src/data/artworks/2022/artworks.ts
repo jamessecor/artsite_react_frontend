@@ -315,6 +315,7 @@ export const artworks2022: Array<Artwork> =
         title: "Giraffe",
         price: "250",
         year: "2022",
+        isNFS: true,
         image: "/images/2022/wallabies/11.JPG",
         grouping: ["wallabies"],
         media: "gouache on paper"
@@ -384,6 +385,7 @@ export const artworks2022: Array<Artwork> =
         title: "Bear",
         price: "250",
         year: "2022",
+        isNFS: true,
         image: "/images/2022/wallabies/18.JPG",
         grouping: ["wallabies"],
         media: "gouache on paper"
@@ -412,6 +414,7 @@ export const artworks2022: Array<Artwork> =
         title: "Cat",
         price: "250",
         year: "2022",
+        isNFS: true,
         image: "/images/2022/wallabies/21.JPG",
         grouping: ["wallabies"],
         media: "gouache on paper"
