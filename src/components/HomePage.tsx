@@ -1,9 +1,10 @@
 import * as React from 'react';
 import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, Toast } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import useArtworks from '../hooks/useArtworks';
 import MovingColorImage from "./MovingColorImage";
+import { BsFillPlayCircleFill, BsPlay, BsPlayCircleFill } from 'react-icons/bs';
 
 const HomePage = () => {
     const navigateTo = useNavigate();
@@ -16,6 +17,11 @@ const HomePage = () => {
     return (
         <div className='position-absolute top-0 start-0 w-100' onClick={enterSite}>
             <MovingColorImage isFullHeightAndWidth={true} src={artwork.image} title={artwork.title} startsWithRotating={true} />
+            <button style={{ background: 'greenyellow', borderRadius: '10px' }} className={'position-absolute top-50 start-50 translate-middle'} onClick={enterSite}>
+                <h1>
+                    <BsFillPlayCircleFill />
+                </h1>
+            </button>
             {/* <Toast
                 bg={'success'}
                 className={'position-absolute top-50 start-50 translate-middle'}
@@ -37,9 +43,8 @@ const HomePage = () => {
                     <Button variant='success' size='lg' className={'mt-2'} onClick={enterSite}>Continue</Button>
                 </Toast.Body>
             </Toast> */}
-            <Button variant='success' size='lg' className={'border border-4 border-primary position-absolute top-50 start-50 translate-middle'} onClick={enterSite}>Go to more art</Button>
         </div>
-    );    
+    );
 }
 
 export default HomePage;

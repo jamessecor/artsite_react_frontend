@@ -13,7 +13,7 @@ import useArtworks from '../hooks/useArtworks';
 const NavigationLinks = ({ setShowOffcanvas }) => {
     const navigateTo = useNavigate();
     const { pathname } = useLocation();
-    
+
     const [searchParams, _] = useSearchParams();
     const urlYear = searchParams.get('year') ?? '';
     const urlGrouping = searchParams.get('grouping');
@@ -36,7 +36,7 @@ const NavigationLinks = ({ setShowOffcanvas }) => {
         <React.Fragment>
             <NavDropdown.Divider />
             <Nav className="me-auto">
-                <NavDropdown title="artwork" id="basic-nav-dropdown">
+                <NavDropdown title="artwork" id="basic-nav-dropdown" className={pathname === "/artworks" ? "border border-2 border-primary rounded" : "rounded"}>
                     {allGroupings.map((grouping) => {
                         if (GroupingsLabels[grouping] !== undefined) {
                             return (
@@ -70,7 +70,12 @@ const NavigationLinks = ({ setShowOffcanvas }) => {
                     {'cv'}
                 </Nav.Link>
                 {/* <Nav.Link className={pathname === "colors" ? "active" : ""} onClick={() => HideOffcanvasAndNavigateTo('/colors')}>colors</Nav.Link> */}
-                <Nav.Link className={pathname === "/contact" ? "border border-2 border-primary rounded" : "rounded"} onClick={() => HideOffcanvasAndNavigateTo('/contact')}>contact</Nav.Link>
+                <Nav.Link className={pathname === "/contact" ? "border border-2 border-primary rounded" : "rounded"} onClick={() => HideOffcanvasAndNavigateTo('/contact')}>
+                    {'contact'}
+                </Nav.Link>
+                <Nav.Link className={pathname === "/nomophobia" ? "border border-2 border-primary rounded" : "rounded"} onClick={() => HideOffcanvasAndNavigateTo('/nomophobia')}>
+                    <em>{'#nomophobia'}</em>
+                </Nav.Link>
                 {/* <Nav.Link className={pathname === "store" ? "active" : ""} onClick={() => HideOffcanvasAndNavigateTo('/store')}>store</Nav.Link> */}
             </Nav>
             <Form onSubmit={handleSearchSubmit} className="d-flex my-1">

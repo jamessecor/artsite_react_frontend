@@ -4,7 +4,7 @@ import { Toast, Button } from 'react-bootstrap';
 import { Pages } from './Nomophobia';
 
 const INSTRUCTIONS_1 = 'During the pandemic many, if not all, Americans in school were forced to do their learning remotely. Due to disparities in internet access, some were unable to keep up with their work.';
-const INSTRUCTIONS_2 = 'Can you finish this worksheet before the it\'s due? Watch out for buffering!';
+const INSTRUCTIONS_2 = 'You have 15 seconds to finish this worksheet before the it\'s due. Watch out for buffering!';
 
 const SchoolInstructions = ({ isLoading, setCurrentPage }) => {
     const onStart = () => {

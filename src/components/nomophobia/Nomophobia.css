@@ -42,13 +42,14 @@
     width: 60px;
     height: 10px;
     border-radius: 5px 5px 0 0;
-    translate: -25px -11px;
+    translate: -25px -10px;
     background: darkred;
     border: 1px solid darksalmon;
+    border-bottom: none;
 }
 
 .power-button:hover {
-    background: lightcoral;
+    background: greenyellow;
     border: 1px solid orangered;
 }
 

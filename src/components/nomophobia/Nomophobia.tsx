@@ -55,8 +55,8 @@ const Nomophobia = () => {
         switch (currentPage) {
             case Pages.Off:
                 return <div onClick={() => setCurrentPage(Pages.Home)} className={'phone-screen-off'} />;
-                // TODO: add contact
-                // return <div className={'phone-screen-off overflow-auto'}><ContactForm /></div>;
+            // TODO: add contact
+            // return <div className={'phone-screen-off overflow-auto'}><ContactForm /></div>;
             case Pages.Home:
                 return (
                     <div className={'h-100 d-flex flex-column justify-content-between'}>
@@ -84,7 +84,7 @@ const Nomophobia = () => {
                     setClear={setClear}
                     height={PHONE_HEIGHT}
                     width={PHONE_WIDTH}
-                    />;
+                />;
             case Pages.Instagram:
                 return <iframe height={PHONE_HEIGHT} width={PHONE_WIDTH} src="https://www.instagram.com/jamessecor/embed"></iframe>;
             case Pages.Spotify:
@@ -104,12 +104,12 @@ const Nomophobia = () => {
 
     return (
         <BackgroundColorContext.Consumer>
-            {({color, setColor}) => (
+            {({ color, setColor }) => (
                 // PHONE
-                <div className={'phone position-absolute top-50 start-50 translate-middle d-flex flex-column'}>
+                <div className={'my-4 phone position-absolute top-50 start-50 translate-middle d-flex flex-column'}>
                     {/* POWER BUTTON */}
                     <Button
-                        className={'power-button position-absolute m-0 p-0 end-0 top-0'} 
+                        className={'power-button position-absolute m-0 p-0 end-0 top-0'}
                         onClick={() => setCurrentPage(currentPage === Pages.Off ? Pages.Home : Pages.Off)}
                     />
                     {/* SPEAKER */}
@@ -124,9 +124,9 @@ const Nomophobia = () => {
                             backgroundImage: `linear-gradient(rgba(${color.r ?? 10}, ${color.g ?? 210}, ${color.b ?? 200}, ${color.a ?? 1}), rgba(184, 255, 184, 0.3)), url(${artwork.image})`
                         }}
                     >
-                        { isLoading
+                        {isLoading
                             && (
-                                <div style={{zIndex: 10000}} className={'position-absolute top-50 start-50 translate-middle '}>
+                                <div className={'position-absolute top-50 start-50 translate-middle '}>
                                     <Spinner variant={'info'} animation={'border'} />
                                 </div>
                             )}
@@ -136,7 +136,7 @@ const Nomophobia = () => {
                     <div className={'d-flex justify-content-center align-items-center phone-footer'}>
                         <Button
                             className={'btn btn-dark phone-bottom-button'}
-                            onClick={() => setCurrentPage(Pages.Home)} 
+                            onClick={() => setCurrentPage(Pages.Home)}
                         />
                     </div>
                 </div>
