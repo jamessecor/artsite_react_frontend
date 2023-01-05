@@ -4,11 +4,10 @@ export const artworks2022: Array<Artwork> =
     [{
         id: "2022-026",
         title: "Cascades",
-        price: "150",
+        price: "225",
         year: "2022",
         media: "acrylic on panel",
-        isNFS: true,
-        image: "/images/2022/cascades.jpg"
+        image: "/images/2022/cascades2022.jpg"
     },
     {
         id: "2022-025",
