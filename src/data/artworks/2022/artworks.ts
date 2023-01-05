@@ -2,6 +2,15 @@ import { Artwork } from '../../../models/Artwork';
 
 export const artworks2022: Array<Artwork> =
     [{
+        id: "2022-026",
+        title: "Cascades",
+        price: "150",
+        year: "2022",
+        media: "acrylic on panel",
+        isNFS: true,
+        image: "/images/2022/cascades.jpg"
+    },
+    {
         id: "2022-025",
         title: "Typewriter",
         price: "350",
