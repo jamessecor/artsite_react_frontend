@@ -77,7 +77,7 @@ const ContactForm = () => {
                                                 <Form.Label>Message</Form.Label>
                                                 <Form.Control rows={3} as="textarea" name='message' value={message} onChange={handleChange}/>
                                             </Form.Group>
-                                            <Button type='submit' variant={'success'} disabled={isSubmitted}>Submit</Button>
+                                            <Button className={'w-100'} type='submit' variant={'success'} disabled={isSubmitted}>Submit</Button>
                                         </Form>
                                     )
                             }
