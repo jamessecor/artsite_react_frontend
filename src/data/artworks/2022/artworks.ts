@@ -23,6 +23,7 @@ export const artworks2022: Array<Artwork> =
     {
         id: "2022-024",
         title: "Cover",
+        arrangement: 2,
         price: "250",
         year: "2022",
         media: "gouache on paper",
@@ -33,6 +34,7 @@ export const artworks2022: Array<Artwork> =
     {
         id: "2022-023",
         title: "Inside Cover",
+        arrangement: 3,
         price: "250",
         year: "2022",
         media: "gouache on paper",
@@ -240,6 +242,7 @@ export const artworks2022: Array<Artwork> =
     {
         id: "00000004",
         title: "Excavator",
+        arrangement: 5,
         price: "300",
         year: "2022",
         media: "acrylic on panel",
@@ -248,6 +251,7 @@ export const artworks2022: Array<Artwork> =
     {
         id: "1",
         title: "Yak",
+        arrangement: 4,
         price: "250",
         year: "2022",
         isNFS: true,
@@ -258,6 +262,7 @@ export const artworks2022: Array<Artwork> =
     {
         id: "2",
         title: "Crickets",
+        arrangement: 1,
         price: "250",
         year: "2022",
         image: "/images/2022/wallabies/04.JPG",
