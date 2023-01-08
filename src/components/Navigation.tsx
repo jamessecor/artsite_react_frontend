@@ -1,12 +1,13 @@
 import * as React from 'react';
 import { useState, createContext } from 'react';
 import { useNavigate, Outlet } from 'react-router-dom';
-import Nav from 'react-bootstrap/Nav';
 import NavigationLinks from './NavigationLinks';
-import { BackgroundColorContext, isTooLightForDarkTheme } from './BackgroundColorProvider';
+import { BackgroundColorContext } from './BackgroundColorProvider';
 import Navbar from 'react-bootstrap/Navbar';
-import Offcanvas from 'react-bootstrap/Offcanvas';
+import Badge from 'react-bootstrap/Badge';
 import Container from 'react-bootstrap/Container';
+import Nav from 'react-bootstrap/Nav';
+import Offcanvas from 'react-bootstrap/Offcanvas';
 import { BsToggle2Off, BsToggle2On } from 'react-icons/bs';
 import { SketchPicker, HuePicker } from 'react-color';
 import './Navigation.css';
@@ -46,23 +47,35 @@ const Navigation = () => {
                                             </Offcanvas.Header>
                                             <Offcanvas.Body className={'pt-1'}>
                                                 <NavigationLinks setShowOffcanvas={setShowOffcanvas} />
-                                                <Nav className={'mt-2 p-2 border rounded border-2 border-light'}>
-                                                    <div className={'ms-5'}>{'Settings'}</div>
-                                                    <Nav.Link className={'no-hover'} onClick={() => setIsShowingInfo(!isShowingInfo)}>
-                                                        <h3>{isShowingInfo ? <BsToggle2On /> : <BsToggle2Off />}</h3>
-                                                        {' Show Artwork Info'}
+                                                <Nav className={'mt-2 p-2 border rounded border-3 border-secondary'}>
+                                                    <div className={'text-center'}>
+                                                        <Badge pill={true} className={'bg-secondary w-100'}>
+                                                            {'Settings'}
+                                                        </Badge>
+                                                    </div>
+                                                    <Nav.Link className={'py-0 no-hover'} onClick={() => setIsShowingInfo(!isShowingInfo)}>
+                                                        <div className={'d-flex align-items-center'}>
+                                                            <h3 className={'mb-1 pe-2'}>{isShowingInfo ? <BsToggle2On /> : <BsToggle2Off />}</h3>
+                                                            {'Show Artwork Info'}
+                                                        </div>
                                                     </Nav.Link>
-                                                    <Nav.Link className={'no-hover'} onClick={() => setIsShowingSold(!isShowingSold)}>
-                                                        <h3>{isShowingSold ? <BsToggle2On /> : <BsToggle2Off />}</h3>
-                                                        {' Show Sold Artworks'}
+                                                    <Nav.Link className={'py-0 no-hover'} onClick={() => setIsShowingSold(!isShowingSold)}>
+                                                        <div className={'d-flex align-items-center'}>
+                                                            <h3 className={'mb-1 pe-2'}>{isShowingSold ? <BsToggle2On /> : <BsToggle2Off />}</h3>
+                                                            {' Show Sold Artworks'}
+                                                        </div>
                                                     </Nav.Link>
-                                                    <Nav.Link className={'no-hover'} onClick={() => setIsRotating(!isRotating)}>
-                                                        <h3>{isRotating ? <BsToggle2On /> : <BsToggle2Off />}</h3>
-                                                        {' Wild Colors'}
+                                                    <Nav.Link className={'py-0 no-hover'} onClick={() => setIsRotating(!isRotating)}>
+                                                        <div className={'d-flex align-items-center'}>
+                                                            <h3 className={'mb-1 pe-2'}>{isRotating ? <BsToggle2On /> : <BsToggle2Off />}</h3>
+                                                            {' Wild Colors'}
+                                                        </div>
                                                     </Nav.Link>
-                                                    <Nav.Link className={'no-hover'} onClick={() => setIsUsingColorSelector(!isUsingColorSelector)}>
-                                                        <h3>{isUsingColorSelector ? <BsToggle2On /> : <BsToggle2Off />}</h3>
-                                                        {' Select Background Color'}
+                                                    <Nav.Link className={'py-0 no-hover'} onClick={() => setIsUsingColorSelector(!isUsingColorSelector)}>
+                                                        <div className={'d-flex align-items-center'}>
+                                                            <h3 className={'mb-1 pe-2'}>{isUsingColorSelector ? <BsToggle2On /> : <BsToggle2Off />}</h3>
+                                                            {' Select Background Color'}
+                                                        </div>
                                                     </Nav.Link>
                                                     {
                                                         isUsingColorSelector
