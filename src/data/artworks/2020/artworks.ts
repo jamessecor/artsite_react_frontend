@@ -182,6 +182,7 @@ export const artworks2020: Array<Artwork> =
         media: "gouache and pencil on paper",
         image: "/images/2012-2021/powerstrip_in_my_home_office.JPG",
         arrangement: 1,
+        isNFS: true,
         isHomePage: false,
         price: "55",
         grouping: []
