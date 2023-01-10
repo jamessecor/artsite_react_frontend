@@ -71,7 +71,7 @@ export const artworks2022: Array<Artwork> =
         grouping: ["merica"]
     }, {
         id: "2022-019",
-        title: "Proud Palette",
+        title: "Proud Pallet",
         price: "325",
         year: "2022",
         media: "gouache on paper",
