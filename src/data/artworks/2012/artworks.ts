@@ -7,7 +7,7 @@ export const artworks2012: Array<Artwork> =
         year: "2012",
         media: "acrylic on canvas",
         image: "/images/2012-2021/Apt3_2012.jpg",
-        arrangement: "2",
+        arrangement: 2,
         isHomePage: false,
         price: "250",
         grouping: []
@@ -19,7 +19,7 @@ export const artworks2012: Array<Artwork> =
         media: "acrylic on board",
         image: "/images/2012-2021/KHL2012.jpg",
         buyerID: "131",
-        arrangement: "6",
+        arrangement: 6,
         isHomePage: false,
         price: "0",
         grouping: [],
@@ -32,7 +32,7 @@ export const artworks2012: Array<Artwork> =
         year: "2012",
         media: "acrylic on board",
         image: "/images/2012-2021/TurtlesAndSwansInCentralPark2012.jpg",
-        arrangement: "8",
+        arrangement: 8,
         isHomePage: false,
         price: "0",
         grouping: []
@@ -43,7 +43,7 @@ export const artworks2012: Array<Artwork> =
         year: "2012",
         media: "acrylic on board",
         image: "/images/2012-2021/UnionElementary2012.jpg",
-        arrangement: "9",
+        arrangement: 9,
         isHomePage: false,
         price: "0",
         grouping: []

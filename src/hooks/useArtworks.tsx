@@ -65,11 +65,11 @@ const useArtworks = () => {
             newArtworks = newArtworks.filter(x => x.isHomePage);
         }
         newArtworks = newArtworks.sort((a, b) => {
-            if (a.arrangement && b.arrangement) {
-                return a.arrangement.localeCompare(b.arrangement);
-            }
-            return 0;
+            const aArrangement = a.arrangement || 1000;
+            const bArrangement = b.arrangement || 1000;
+            return aArrangement - bArrangement;
         });
+        console.log('sorted artworks', newArtworks.map(x => x.arrangement));
         setArtworks(newArtworks);
     }, [allArtworks]);
 

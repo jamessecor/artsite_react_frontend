@@ -26,16 +26,16 @@ const ContactForm = () => {
         e.preventDefault();
         setIsSubmitted(true);
         emailjs.sendForm(process.env.REACT_APP_SERVICE_ID ?? '', process.env.REACT_APP_TEMPLATE_ID ?? '', formRef.current ?? '', process.env.REACT_APP_PUBLIC_KEY ?? '')
-        .then((result) => {
-            console.log(result.text);
-        }, (error) => {
-            console.log(error.text);
-        });
+            .then((result) => {
+                // console.log(result.text);
+            }, (error) => {
+                // console.log(error.text);
+            });
     }
 
     return (
         <BackgroundColorContext.Consumer>
-            {({color, setColor}) => (
+            {({ color, setColor }) => (
                 <Container className={`align-items-center ${textColor(color.r, color.g, color.b)}`}>
                     <Row xs={1}>
                         <Col>
@@ -43,7 +43,7 @@ const ContactForm = () => {
                                 isSubmitted
                                     ? (
                                         <Toast
-                                            
+
                                             className={'position-absolute top-50 start-50 translate-middle'}
                                             onClose={() => navigateTo('/artworks?year=2022')}
                                             bg='success'
@@ -53,31 +53,31 @@ const ContactForm = () => {
                                             </Toast.Header>
                                             <Toast.Body>
                                                 {'You\'re message has been sent directly to, and only to, James.'}
-                                                <br/><br/>
+                                                <br /><br />
                                                 {'Thanks for reaching out!'}
                                             </Toast.Body>
-                                        </Toast>                
+                                        </Toast>
                                     )
                                     : (
                                         <Form ref={formRef} noValidate validated={isSubmitted} className={'bg-dark rounded p-5 col-lg-6 offset-lg-3'} onSubmit={handleSubmit}>
                                             <h5 className="pb-4 d-flex justify-content-center">join email list / leave a message</h5>
                                             <Form.Group className="mb-3" controlId="firstname">
                                                 <Form.Label>First Name</Form.Label>
-                                                <Form.Control name='firstname' type="text" value={firstname} onChange={handleChange}/>
+                                                <Form.Control name='firstname' type="text" value={firstname} onChange={handleChange} />
                                             </Form.Group>
                                             <Form.Group className="mb-3" controlId="lastname">
                                                 <Form.Label>Last Name</Form.Label>
-                                                <Form.Control name='lastname' type="text" value={lastname} onChange={handleChange}/>
+                                                <Form.Control name='lastname' type="text" value={lastname} onChange={handleChange} />
                                             </Form.Group>
                                             <Form.Group className="mb-3" controlId="email">
                                                 <Form.Label>Email</Form.Label>
-                                                <Form.Control required name='email' type="email" value={email} onChange={handleChange}/>
+                                                <Form.Control required name='email' type="email" value={email} onChange={handleChange} />
                                             </Form.Group>
                                             <Form.Group className="mb-3" controlId="message">
                                                 <Form.Label>Message</Form.Label>
-                                                <Form.Control rows={3} as="textarea" name='message' value={message} onChange={handleChange}/>
+                                                <Form.Control rows={3} as="textarea" name='message' value={message} onChange={handleChange} />
                                             </Form.Group>
-                                            <Button type='submit' variant={'success'} disabled={isSubmitted}>Submit</Button>
+                                            <Button className={'w-100'} type='submit' variant={'success'} disabled={isSubmitted}>Submit</Button>
                                         </Form>
                                     )
                             }
@@ -88,22 +88,6 @@ const ContactForm = () => {
         </BackgroundColorContext.Consumer>
 
     );
-/*
-    return {
-        isSubmitted // && errors.length === 0
-        ? (
-            <div>
-                <div className="mt-2 d-flex justify-content-center">
-                    <h4>Success!</h4>
-                </div>
-                <div className="mt-2 d-flex justify-content-center">
-                    <div>Thanks for your message.</div>
-                </div>
-            </div>
-        ) : ( Form goes here )
-    }
-    */
-             
 }
 
 export default ContactForm;

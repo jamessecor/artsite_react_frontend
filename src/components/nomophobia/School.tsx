@@ -25,7 +25,7 @@ interface ICheckedAnswers {
 
 type IBuffer = number | null;
 
-const TIME_TO_COMPLETE = 25000;
+const TIME_TO_COMPLETE = 15000;
 
 const getRandomZeroToNine = () => Math.round(Math.random() * 10) - 1;
 

@@ -25,7 +25,7 @@ export interface Artwork {
     image: string;
     isHomePage?: boolean;
     price: string;
-    arrangement?: string;
+    arrangement?: number;
     grouping?: Array<Groupings>;
     buyerID?: string;
     saleDate?: string;

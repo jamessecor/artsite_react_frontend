@@ -8,7 +8,7 @@ export const artworks2015: Array<Artwork> =
         media: "acrylic on board",
         image: "/images/2012-2021/MorseBlock2015.jpg",
         buyerID: "44",
-        arrangement: "1",
+        arrangement: 1,
         isHomePage: false,
         price: "300",
         grouping: [],
@@ -22,7 +22,7 @@ export const artworks2015: Array<Artwork> =
         media: "mixed media on canvas",
         image: "/images/2012-2021/MysteryCow2015.jpg",
 
-        arrangement: "8",
+        arrangement: 8,
         isHomePage: false,
         price: "125",
         grouping: []
@@ -34,7 +34,7 @@ export const artworks2015: Array<Artwork> =
         media: "acrylic on paper",
         image: "/images/2012-2021/WatchingbytheRiver2015.jpg",
         buyerID: "140",
-        arrangement: "2",
+        arrangement: 2,
         isHomePage: false,
         price: "250",
         grouping: [],
@@ -48,7 +48,7 @@ export const artworks2015: Array<Artwork> =
         media: "acrylic on board",
         image: "/images/2012-2021/BlackBridges2015.jpg",
 
-        arrangement: "6",
+        arrangement: 6,
         isHomePage: false,
         price: "275",
         grouping: []
@@ -60,7 +60,7 @@ export const artworks2015: Array<Artwork> =
         media: "acrylic on paper",
         image: "/images/2012-2021/BlueLight2015.jpg",
 
-        arrangement: "11",
+        arrangement: 11,
         isHomePage: false,
         price: "125",
         grouping: []
@@ -72,7 +72,7 @@ export const artworks2015: Array<Artwork> =
         media: "acrylic on board",
         image: "/images/2012-2021/DownToTheBridge2015.jpg",
 
-        arrangement: "5",
+        arrangement: 5,
         isHomePage: false,
         price: "300",
         grouping: []
@@ -83,7 +83,7 @@ export const artworks2015: Array<Artwork> =
         year: "2015",
         media: "acrylic on board",
         image: "/images/2012-2021/FossilFuels2_2015.jpg",
-        arrangement: "6",
+        arrangement: 6,
         isHomePage: false,
         price: "300",
         grouping: []
@@ -94,7 +94,7 @@ export const artworks2015: Array<Artwork> =
         year: "2015",
         media: "acrylic on paper",
         image: "/images/2012-2021/FossilFuels2015.jpg",
-        arrangement: "9",
+        arrangement: 9,
         isHomePage: false,
         price: "90",
         grouping: []
@@ -105,7 +105,7 @@ export const artworks2015: Array<Artwork> =
         year: "2015",
         media: "acrylic on paper",
         image: "/images/2012-2021/HisPermission2015.jpg",
-        arrangement: "7",
+        arrangement: 7,
         isHomePage: false,
         price: "0",
         grouping: []
@@ -117,7 +117,7 @@ export const artworks2015: Array<Artwork> =
         media: "acrylic on canvas",
         image: "/images/2012-2021/MoreheadKY2015.jpg",
         buyerID: "139",
-        arrangement: "3",
+        arrangement: 3,
         isHomePage: false,
         price: "275",
         grouping: [],
@@ -130,7 +130,7 @@ export const artworks2015: Array<Artwork> =
         year: "2015",
         media: "acrylic on paper",
         image: "/images/2012-2021/MSU2015.jpg",
-        arrangement: "14",
+        arrangement: 14,
         isHomePage: false,
         price: "90",
         grouping: []
@@ -142,7 +142,7 @@ export const artworks2015: Array<Artwork> =
         media: "acrylic on board",
         image: "/images/2012-2021/Painters2015.jpg",
         buyerID: "71",
-        arrangement: "12",
+        arrangement: 12,
         isHomePage: false,
         price: "300",
         grouping: [],
@@ -156,7 +156,7 @@ export const artworks2015: Array<Artwork> =
         media: "acrylic on board",
         image: "/images/2012-2021/Painters2015_2.jpg",
         buyerID: "71",
-        arrangement: "13",
+        arrangement: 13,
         isHomePage: false,
         price: "125",
         grouping: [],
@@ -169,7 +169,7 @@ export const artworks2015: Array<Artwork> =
         year: "2015",
         media: "acrylic on canvas",
         image: "/images/2012-2021/PlayOfTriangles2015.jpg",
-        arrangement: "16",
+        arrangement: 16,
         isHomePage: false,
         price: "145",
         grouping: []
@@ -180,7 +180,7 @@ export const artworks2015: Array<Artwork> =
         year: "2015",
         media: "acrylic on board",
         image: "/images/2012-2021/RestrictTheRightToBearArms2015.jpg",
-        arrangement: "10",
+        arrangement: 10,
         isHomePage: false,
         price: "275",
         grouping: []
@@ -191,7 +191,7 @@ export const artworks2015: Array<Artwork> =
         year: "2015",
         media: "acrylic on board",
         image: "/images/2012-2021/Sunrise2015.jpg",
-        arrangement: "15",
+        arrangement: 15,
         isHomePage: false,
         price: "300",
         grouping: []
@@ -203,7 +203,7 @@ export const artworks2015: Array<Artwork> =
         media: "acrylic on canvas",
         image: "/images/2012-2021/Untitled2015_2.jpg",
         buyerID: "2",
-        arrangement: "17",
+        arrangement: 17,
         isHomePage: false,
         price: "0",
         grouping: [],
@@ -216,7 +216,7 @@ export const artworks2015: Array<Artwork> =
         year: "2015",
         media: "digitally edited painting",
         image: "/images/2012-2021/IMG_20150315_165252.jpg",
-        arrangement: "1",
+        arrangement: 1,
         isHomePage: false,
         price: "5",
         grouping: ["digital_edits"]
@@ -227,7 +227,7 @@ export const artworks2015: Array<Artwork> =
         year: "2015",
         media: "digitally edited painting",
         image: "/images/2012-2021/IMG_20150315_165913.jpg",
-        arrangement: "2",
+        arrangement: 2,
         isHomePage: false,
         price: "5",
         grouping: ["digital_edits"]
@@ -238,7 +238,7 @@ export const artworks2015: Array<Artwork> =
         year: "2015",
         media: "digitally edited painting",
         image: "/images/2012-2021/IMG_20150315_211425.jpg",
-        arrangement: "3",
+        arrangement: 3,
         isHomePage: false,
         price: "5",
         grouping: ["digital_edits"]
@@ -249,7 +249,7 @@ export const artworks2015: Array<Artwork> =
         year: "2015",
         media: "digitally edited painting",
         image: "/images/2012-2021/IMG_20150315_212140.jpg",
-        arrangement: "4",
+        arrangement: 4,
         isHomePage: false,
         price: "5",
         grouping: ["digital_edits"]
@@ -260,7 +260,7 @@ export const artworks2015: Array<Artwork> =
         year: "2015",
         media: "digitally edited painting",
         image: "/images/2012-2021/IMG_20150316_185624.jpg",
-        arrangement: "5",
+        arrangement: 5,
         isHomePage: false,
         price: "5",
         grouping: ["digital_edits"]
@@ -271,7 +271,7 @@ export const artworks2015: Array<Artwork> =
         year: "2015",
         media: "digitally edited painting",
         image: "/images/2012-2021/IMG_20150317_093824.jpg",
-        arrangement: "6",
+        arrangement: 6,
         isHomePage: false,
         price: "5",
         grouping: ["digital_edits"]
@@ -282,7 +282,7 @@ export const artworks2015: Array<Artwork> =
         year: "2015",
         media: "digitally edited painting",
         image: "/images/2012-2021/IMG_20150317_185321.jpg",
-        arrangement: "7",
+        arrangement: 7,
         isHomePage: false,
         price: "5",
         grouping: ["digital_edits"]
@@ -293,7 +293,7 @@ export const artworks2015: Array<Artwork> =
         year: "2015",
         media: "digitally edited painting",
         image: "/images/2012-2021/IMG_20150318_070909.jpg",
-        arrangement: "8",
+        arrangement: 8,
         isHomePage: false,
         price: "5",
         grouping: ["digital_edits"]
@@ -304,7 +304,7 @@ export const artworks2015: Array<Artwork> =
         year: "2015",
         media: "digitally edited painting",
         image: "/images/2012-2021/IMG_20150318_071744.jpg",
-        arrangement: "9",
+        arrangement: 9,
         isHomePage: false,
         price: "5",
         grouping: ["digital_edits"]
@@ -315,7 +315,7 @@ export const artworks2015: Array<Artwork> =
         year: "2015",
         media: "digitally edited painting",
         image: "/images/2012-2021/IMG_20150322_213123.jpg",
-        arrangement: "10",
+        arrangement: 10,
         isHomePage: false,
         price: "5",
         grouping: ["digital_edits"]
@@ -326,7 +326,7 @@ export const artworks2015: Array<Artwork> =
         year: "2015",
         media: "digitally edited painting",
         image: "/images/2012-2021/IMG_20150323_201000.jpg",
-        arrangement: "11",
+        arrangement: 11,
         isHomePage: false,
         price: "5",
         grouping: ["digital_edits"]
@@ -337,7 +337,7 @@ export const artworks2015: Array<Artwork> =
         year: "2015",
         media: "digitally edited painting",
         image: "/images/2012-2021/IMG_20150323_202945.jpg",
-        arrangement: "12",
+        arrangement: 12,
         isHomePage: false,
         price: "5",
         grouping: ["digital_edits"]
@@ -348,7 +348,7 @@ export const artworks2015: Array<Artwork> =
         year: "2015",
         media: "digitally edited painting",
         image: "/images/2012-2021/IMG_20150323_204504.jpg",
-        arrangement: "13",
+        arrangement: 13,
         isHomePage: false,
         price: "5",
         grouping: ["digital_edits"]
@@ -359,7 +359,7 @@ export const artworks2015: Array<Artwork> =
         year: "2015",
         media: "digitally edited painting",
         image: "/images/2012-2021/IMG_20150327_073542.jpg",
-        arrangement: "13",
+        arrangement: 13,
         isHomePage: false,
         price: "5",
         grouping: ["digital_edits"]
@@ -370,7 +370,7 @@ export const artworks2015: Array<Artwork> =
         year: "2015",
         media: "digitally edited painting",
         image: "/images/2012-2021/IMG_20150328_085130.jpg",
-        arrangement: "14",
+        arrangement: 14,
         isHomePage: false,
         price: "5",
         grouping: ["digital_edits"]
@@ -381,7 +381,7 @@ export const artworks2015: Array<Artwork> =
         year: "2015",
         media: "digitally edited painting",
         image: "/images/2012-2021/IMG_20150329_221639.jpg",
-        arrangement: "15",
+        arrangement: 15,
         isHomePage: false,
         price: "5",
         grouping: ["digital_edits"]
@@ -392,7 +392,7 @@ export const artworks2015: Array<Artwork> =
         year: "2015",
         media: "digitally edited painting",
         image: "/images/2012-2021/IMG_20150330_211256.jpg",
-        arrangement: "16",
+        arrangement: 16,
         isHomePage: false,
         price: "5",
         grouping: ["digital_edits"]

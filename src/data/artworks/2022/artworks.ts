@@ -2,6 +2,14 @@ import { Artwork } from '../../../models/Artwork';
 
 export const artworks2022: Array<Artwork> =
     [{
+        id: "2022-026",
+        title: "Cascades",
+        price: "225",
+        year: "2022",
+        media: "acrylic on panel",
+        image: "/images/2022/cascades2022.jpg"
+    },
+    {
         id: "2022-025",
         title: "Typewriter",
         price: "350",
@@ -15,6 +23,7 @@ export const artworks2022: Array<Artwork> =
     {
         id: "2022-024",
         title: "Cover",
+        arrangement: 2,
         price: "250",
         year: "2022",
         media: "gouache on paper",
@@ -25,6 +34,7 @@ export const artworks2022: Array<Artwork> =
     {
         id: "2022-023",
         title: "Inside Cover",
+        arrangement: 3,
         price: "250",
         year: "2022",
         media: "gouache on paper",
@@ -61,7 +71,7 @@ export const artworks2022: Array<Artwork> =
         grouping: ["merica"]
     }, {
         id: "2022-019",
-        title: "Proud Palette",
+        title: "Proud Pallet",
         price: "325",
         year: "2022",
         media: "gouache on paper",
@@ -232,6 +242,7 @@ export const artworks2022: Array<Artwork> =
     {
         id: "00000004",
         title: "Excavator",
+        arrangement: 5,
         price: "300",
         year: "2022",
         media: "acrylic on panel",
@@ -240,8 +251,10 @@ export const artworks2022: Array<Artwork> =
     {
         id: "1",
         title: "Yak",
+        arrangement: 4,
         price: "250",
         year: "2022",
+        isNFS: true,
         image: "/images/2022/wallabies/03.JPG",
         grouping: ["wallabies"],
         media: "gouache on paper"
@@ -249,6 +262,7 @@ export const artworks2022: Array<Artwork> =
     {
         id: "2",
         title: "Crickets",
+        arrangement: 1,
         price: "250",
         year: "2022",
         image: "/images/2022/wallabies/04.JPG",
@@ -269,6 +283,7 @@ export const artworks2022: Array<Artwork> =
         title: "Eland",
         price: "250",
         year: "2022",
+        isNFS: true,
         image: "/images/2022/wallabies/06.JPG",
         grouping: ["wallabies"],
         media: "gouache on paper"
@@ -287,6 +302,7 @@ export const artworks2022: Array<Artwork> =
         title: "Grouse",
         price: "250",
         year: "2022",
+        isNFS: true,
         image: "/images/2022/wallabies/08.JPG",
         grouping: ["wallabies"],
         media: "gouache on paper"
@@ -442,6 +458,7 @@ export const artworks2022: Array<Artwork> =
         title: "Curtsie",
         price: "250",
         year: "2022",
+        isNFS: true,
         image: "/images/2022/wallabies/24.JPG",
         grouping: ["wallabies"],
         media: "gouache on paper"
