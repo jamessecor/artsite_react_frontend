@@ -543,7 +543,7 @@ export const artworks2018: Array<Artwork> =
     },
     {
         id: "148",
-        title: "MÃ©saventures au QuÃ©bec",
+        title: "Mésaventures au Québec",
         year: "2018",
         media: "acrylic on board",
         image: "/images/2012-2021/MesaventureAuQuebec2018.jpg",
