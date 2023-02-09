@@ -12,7 +12,7 @@ const HomePage = () => {
     const artwork = useMemo(() => artworks[0], [artworks]);
 
     React.useEffect(() => {
-        setEm('2022', 'merica', 'Claimed Land Errupting');
+        setEm('2022', 'merica', 'Claimed Land Erupting');
     }, [setEm]);
 
     const enterSite = () => {

@@ -52,7 +52,7 @@ export const artworks2022: Array<Artwork> =
         grouping: ["merica"]
     }, {
         id: "2022-021",
-        title: "Claimed Land Errupting",
+        title: "Claimed Land Erupting",
         price: "325",
         year: "2022",
         isHomePage: true,
