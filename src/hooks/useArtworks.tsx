@@ -10,11 +10,12 @@ import { artworks2019 } from '../data/artworks/2019/artworks';
 import { artworks2020 } from '../data/artworks/2020/artworks';
 import { artworks2021 } from '../data/artworks/2021/artworks';
 import { artworks2022 } from '../data/artworks/2022/artworks';
+import { artworks2023 } from '../data/artworks/2023/artworks';
 import { Artwork, Groupings, GroupingsLabelsOrder } from '../models/Artwork';
 
 const useArtworks = () => {
     const [artworks, setArtworks] = useState<Array<Artwork>>([]);
-    
+
     const allArtworks: Array<Artwork> = useMemo(() => [
         ...artworks2012,
         ...artworks2013,
@@ -26,7 +27,8 @@ const useArtworks = () => {
         ...artworks2019,
         ...artworks2020,
         ...artworks2021,
-        ...artworks2022
+        ...artworks2022,
+        ...artworks2023
     ], [artworks2012,
         artworks2013,
         artworks2014,
@@ -37,7 +39,8 @@ const useArtworks = () => {
         artworks2019,
         artworks2020,
         artworks2021,
-        artworks2022]);
+        artworks2022,
+        artworks2023]);
 
     const allYears = useMemo(() => [...new Set(allArtworks.map((artwork) => artwork.year))].sort().reverse(), [allArtworks]);
     const allGroupings = useMemo(() => {
@@ -47,7 +50,7 @@ const useArtworks = () => {
         });
         return [...new Set(groupings)].sort((a, b) => GroupingsLabelsOrder[a] - GroupingsLabelsOrder[b]);
     }, [allArtworks]);
-    
+
     const setEm = useCallback((year = '', grouping: Groupings = '', searchTerm = '', current = false) => {
         let newArtworks = allArtworks;
         if (year) {
