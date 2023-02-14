@@ -7,7 +7,7 @@ import {residencies} from "../data/cv";
 import {education} from "../data/cv";
 import {press} from "../data/cv";
 import {links} from "../data/cv";
-import { BackgroundColorContext, textColor } from "./BackgroundColorProvider";
+import { BackgroundColorContext, textColor } from "./providers/BackgroundColorProvider";
 import './Cv.css';
 
 const Cv = () => {

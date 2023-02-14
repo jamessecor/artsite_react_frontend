@@ -1,6 +1,6 @@
-import { Artwork } from '../../../models/Artwork';
+import { IArtwork } from '../../../models/Artwork';
 
-export const artworks2020: Array<Artwork> =
+export const artworks2020: Array<IArtwork> =
     [{
         id: "191",
         title: "Modern Social Hour II",

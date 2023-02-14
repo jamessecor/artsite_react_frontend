@@ -17,7 +17,7 @@ export enum GroupingsLabelsOrder {
     storage = 5
 };
 
-export interface Artwork {
+export interface IArtwork {
     id: string;
     title: string;
     year: string;

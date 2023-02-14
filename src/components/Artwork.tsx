@@ -5,7 +5,7 @@ import PriceFormatter from "./PriceFormatter";
 import { ImInfo } from 'react-icons/im';
 import { Col, Stack } from 'react-bootstrap';
 import { ArtworkShowingInfoContext } from './Navigation';
-import { BackgroundColorContext, isTooLightForDarkTheme } from "./BackgroundColorProvider";
+import { BackgroundColorContext, isTooLightForDarkTheme } from "./providers/BackgroundColorProvider";
 
 const Artwork = ({attributes}) => {
     const [isShowingThisInfo, setIsShowingThisInfo] = useState(false);

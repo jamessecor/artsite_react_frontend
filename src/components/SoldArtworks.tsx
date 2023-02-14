@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useMemo, useState } from 'react';
-import { BackgroundColorContext, isTooLightForDarkTheme } from "./BackgroundColorProvider";
+import { BackgroundColorContext, isTooLightForDarkTheme } from "./providers/BackgroundColorProvider";
 import Artwork from "./Artwork";
 import { Col, Container, Row } from 'react-bootstrap';
 import useArtworks from '../hooks/useArtworks';

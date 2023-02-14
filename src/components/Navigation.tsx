@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useState, createContext } from 'react';
 import { useNavigate, Outlet } from 'react-router-dom';
 import NavigationLinks from './NavigationLinks';
-import { BackgroundColorContext } from './BackgroundColorProvider';
+import { BackgroundColorContext } from './providers/BackgroundColorProvider';
 import Navbar from 'react-bootstrap/Navbar';
 import Badge from 'react-bootstrap/Badge';
 import Container from 'react-bootstrap/Container';

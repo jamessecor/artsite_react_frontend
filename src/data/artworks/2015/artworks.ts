@@ -1,6 +1,6 @@
-import { Artwork } from '../../../models/Artwork';
+import { IArtwork } from '../../../models/Artwork';
 
-export const artworks2015: Array<Artwork> =
+export const artworks2015: Array<IArtwork> =
     [{
         id: "2",
         title: "Morse Block",

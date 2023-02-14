@@ -2,7 +2,7 @@ import * as React from "react";
 import { useCallback, useMemo, useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Button, Spinner } from "react-bootstrap";
-import { BackgroundColorContext, textColor } from "../BackgroundColorProvider";
+import { BackgroundColorContext, textColor } from "../providers/BackgroundColorProvider";
 import './Nomophobia.css';
 import Canvas from './Canvas';
 import PhoneApp from './PhoneApp';

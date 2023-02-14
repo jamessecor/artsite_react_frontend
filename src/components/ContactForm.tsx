@@ -3,7 +3,7 @@ import { useRef, useState } from "react";
 import { Container, Button, Row, Col, Toast, Spinner } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 import { useNavigate } from "react-router-dom";
-import { BackgroundColorContext, textColor } from "./BackgroundColorProvider";
+import { BackgroundColorContext, textColor } from "./providers/BackgroundColorProvider";
 
 const ContactForm = () => {
     const [firstname, setFirstname] = useState('');

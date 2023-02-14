@@ -1,6 +1,6 @@
-import { Artwork } from '../../../models/Artwork';
+import { IArtwork } from '../../../models/Artwork';
 
-export const artworks2021: Array<Artwork> =
+export const artworks2021: Array<IArtwork> =
     [{
         id: "204",
         title: "Intricate Purposeful Structures Hold Us Apart",

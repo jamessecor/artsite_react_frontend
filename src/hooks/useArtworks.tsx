@@ -1,46 +1,17 @@
+import { useQuery } from '@tanstack/react-query';
 import { useCallback, useMemo, useState } from 'react';
-import { artworks2012 } from '../data/artworks/2012/artworks';
-import { artworks2013 } from '../data/artworks/2013/artworks';
-import { artworks2014 } from '../data/artworks/2014/artworks';
-import { artworks2015 } from '../data/artworks/2015/artworks';
-import { artworks2016 } from '../data/artworks/2016/artworks';
-import { artworks2017 } from '../data/artworks/2017/artworks';
-import { artworks2018 } from '../data/artworks/2018/artworks';
-import { artworks2019 } from '../data/artworks/2019/artworks';
-import { artworks2020 } from '../data/artworks/2020/artworks';
-import { artworks2021 } from '../data/artworks/2021/artworks';
-import { artworks2022 } from '../data/artworks/2022/artworks';
-import { artworks2023 } from '../data/artworks/2023/artworks';
-import { Artwork, Groupings, GroupingsLabelsOrder } from '../models/Artwork';
+import { IArtwork, Groupings, GroupingsLabelsOrder } from '../models/Artwork';
+import axios from 'axios';
+
+const getArtworks = async () => {
+    return axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/artworks`);
+};
 
 const useArtworks = () => {
-    const [artworks, setArtworks] = useState<Array<Artwork>>([]);
+    const { data, isLoading } = useQuery({ queryKey: ['artworks'], queryFn: getArtworks });
+    const allArtworks = useMemo(() => (!isLoading ? data?.data.results : []) as Array<IArtwork>, [data, isLoading]);
 
-    const allArtworks: Array<Artwork> = useMemo(() => [
-        ...artworks2012,
-        ...artworks2013,
-        ...artworks2014,
-        ...artworks2015,
-        ...artworks2016,
-        ...artworks2017,
-        ...artworks2018,
-        ...artworks2019,
-        ...artworks2020,
-        ...artworks2021,
-        ...artworks2022,
-        ...artworks2023
-    ], [artworks2012,
-        artworks2013,
-        artworks2014,
-        artworks2015,
-        artworks2016,
-        artworks2017,
-        artworks2018,
-        artworks2019,
-        artworks2020,
-        artworks2021,
-        artworks2022,
-        artworks2023]);
+    const [artworks, setArtworks] = useState<Array<IArtwork>>([]);
 
     const allYears = useMemo(() => [...new Set(allArtworks.map((artwork) => artwork.year))].sort().reverse(), [allArtworks]);
     const allGroupings = useMemo(() => {
@@ -72,7 +43,6 @@ const useArtworks = () => {
             const bArrangement = b.arrangement || 1000;
             return aArrangement - bArrangement;
         });
-        console.log('sorted artworks', newArtworks.map(x => x.arrangement));
         setArtworks(newArtworks);
     }, [allArtworks]);
 
@@ -95,7 +65,8 @@ const useArtworks = () => {
         allGroupings,
         setArtworks,
         setEm,
-        soldArtworkByQuarter
+        soldArtworkByQuarter,
+        isLoading
     };
 };
 

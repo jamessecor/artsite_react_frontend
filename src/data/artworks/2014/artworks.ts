@@ -1,6 +1,6 @@
-import { Artwork } from '../../../models/Artwork';
+import { IArtwork } from '../../../models/Artwork';
 
-export const artworks2014: Array<Artwork> =
+export const artworks2014: Array<IArtwork> =
     [{
         id: "41",
         title: "Barre Street",
