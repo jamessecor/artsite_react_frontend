@@ -11,6 +11,10 @@ import { IArtwork } from "../models/Artwork";
 import { useMutation } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 
+interface IArtworkFormData extends IArtwork {
+    file?: File;
+}
+
 interface IArtworkFormResponse {
     data: {
         message: string;
@@ -25,10 +29,11 @@ const ArtworkForm: React.FC<IArtworkFormProps> = ({ attributes }) => {
     const [title, setTitle] = useState(attributes.title);
     const [year, setYear] = useState(attributes.year);
     const [media, setMedia] = useState(attributes.media);
-    const [image, setImage] = useState(attributes.image);
     const [price, setPrice] = useState(attributes.price);
+    const image = attributes.image; // Can't manually change filepath
+    const [file, setFile] = useState<File>();
 
-    const { reset, isSuccess, isLoading, mutate } = useMutation<IArtworkFormResponse, AxiosError, IArtwork>(formData => {
+    const { reset, isSuccess, isLoading, mutate } = useMutation<IArtworkFormResponse, AxiosError, IArtworkFormData>(formData => {
         return axios.put(`${process.env.REACT_APP_API_BASE_URL}/api/artworks/${attributes._id}`, formData);
     });
 
@@ -38,19 +43,19 @@ const ArtworkForm: React.FC<IArtworkFormProps> = ({ attributes }) => {
 
     const handleSubmit = useCallback((e) => {
         e.preventDefault();
-        mutate({ title, year, media, image, price });
-    }, [title, year, media, image, price]);
+        mutate({ title, year, media, image, price, file });
+    }, [title, year, media, image, price, file]);
 
     return (
         <BackgroundColorContext.Consumer>
             {({ color, setColor }) => (
                 <Col xs='12'>
-                    <Stack>
-                        <Form className={`${textColor(color.r, color.g, color.b)} bg-dark rounded p-2`} onSubmit={handleSubmit}>
+                    <Stack className={`${textColor(color.r, color.g, color.b)} bg-dark rounded p-2`}>
+                        <Form onSubmit={handleSubmit}>
                             <MovingColorImage src={attributes.image} title={attributes.title} />
                             <Form.Group className="mb-3" controlId="image">
-                                <Form.Label>image</Form.Label>
-                                <Form.Control onChange={(e) => setImage(e.target.value)} type="file" />
+                                <Form.Label>file</Form.Label>
+                                <input type={'file'} onChange={(e) => e.target?.files?.length ? setFile(e.target.files[0]) : null} />
                             </Form.Group>
                             <Form.Group className="mb-3" controlId="title">
                                 <Form.Label>title</Form.Label>
