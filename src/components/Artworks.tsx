@@ -40,7 +40,7 @@ const Artworks = ({ current = false }: IArtworkProps) => {
                                 {artworks.length
                                     ? (artworks.filter(x => isShowingSold || !(x.isNFS || x.saleDate)).sort((a, b) => parseInt(b.year) - parseInt(a.year)).map((artwork, i) => {
                                         return (
-                                            <Col key={`${artwork.id}-${artwork.title}`} className="my-4 px-4">
+                                            <Col key={`${artwork._id}-${artwork.title}`} className="my-4 px-4">
                                                 {isLoggedIn
                                                     ? <ArtworkForm attributes={artwork} />
                                                     : <Artwork attributes={artwork} />

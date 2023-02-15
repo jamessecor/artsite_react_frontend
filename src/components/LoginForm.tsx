@@ -21,17 +21,17 @@ interface ILoginFormResponse {
 const LoginForm = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
     const navigateTo = useNavigate();
 
     const { mutate } = useMutation<ILoginFormResponse, AxiosError, ILoginFormData>(formData => {
         return axios.post(`${process.env.REACT_APP_API_BASE_URL}/api/users`, formData);
     }, {
         onSuccess: (data, variables, context) => {
-            console.log('data', data, variables, context);
             sessionStorage.setItem('artsite-token', data.data.token);
             navigateTo(-1);
         },
-        onError: (error) => console.error(error)
+        onError: (data) => setError(data.message)
     });
 
     const handleSubmit = async (e) => {
@@ -59,6 +59,9 @@ const LoginForm = () => {
                                         <Form.Group className="mb-3" controlId="password">
                                             <Form.Label>password</Form.Label>
                                             <Form.Control onChange={(e) => setPassword(e.target.value)} type="password" />
+                                            <Form.Label>
+                                                {error}
+                                            </Form.Label>
                                         </Form.Group>
                                         <Button type={'submit'}>
                                             {'Login'}

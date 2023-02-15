@@ -18,7 +18,7 @@ export enum GroupingsLabelsOrder {
 };
 
 export interface IArtwork {
-    id: string;
+    _id?: string;
     title: string;
     year: string;
     media: string;
