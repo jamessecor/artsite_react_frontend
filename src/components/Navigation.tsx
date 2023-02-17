@@ -9,8 +9,10 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import { BsToggle2Off, BsToggle2On } from 'react-icons/bs';
+import { RiLoginCircleLine } from 'react-icons/ri';
 import { SketchPicker, HuePicker } from 'react-color';
 import './Navigation.css';
+import { Button } from 'react-bootstrap';
 
 export const ArtworkShowingInfoContext = createContext(true);
 export const ArtworkShowingSoldContext = createContext(true);
@@ -100,6 +102,17 @@ const Navigation = () => {
                                                                 />
                                                             )
                                                             : null}
+                                                </Nav>
+                                                <Nav className={'position-absolute bottom-0 end-0 mb-1 me-1'}>
+                                                    <Button
+                                                        variant={'outline-secondary'}
+                                                        onClick={() => {
+                                                            navigateTo('/login');
+                                                            setShowOffcanvas(false);
+                                                        }}
+                                                    >
+                                                        <RiLoginCircleLine />
+                                                    </Button>
                                                 </Nav>
                                             </Offcanvas.Body>
                                         </Navbar.Offcanvas>
