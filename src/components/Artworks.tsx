@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import Artwork from "./Artwork";
-import { Groupings, IArtwork } from "../models/Artwork";
+import { ArtworkAttributes, Groupings, IArtwork } from "../models/Artwork";
 import { Col, Container, Row, Spinner, Toast } from 'react-bootstrap';
 import useArtworks from '../hooks/useArtworks';
 import { useNavigate } from "react-router-dom";
@@ -22,6 +22,7 @@ const Artworks = ({ current = false }: IArtworkProps) => {
     const grouping = searchParams.get('grouping') as Groupings ?? '';
     const searchTerm = searchParams.get('search') ?? '';
     const { artworks, setEm, isLoading } = useArtworks();
+    const [newArtworks, setNewArtworks] = useState<Array<IArtwork>>([]);
     const navigateTo = useNavigate();
 
     useEffect(() => {
@@ -30,13 +31,30 @@ const Artworks = ({ current = false }: IArtworkProps) => {
 
     const enterSite = () => navigateTo('/artworks?year=2022');
 
+    const addNewArtwork = useCallback(() => {
+        setNewArtworks([...newArtworks, ArtworkAttributes.create()]);
+    }, [newArtworks]);
+
+    const removeNewArtwork = useCallback(() => {
+        setNewArtworks(newArtworks.slice(0, -1));
+    }, [newArtworks]);
+
     return (
         <AuthenticationContext.Consumer>
             {({ isLoggedIn, setIsLoggedIn }) => (
                 <ArtworkShowingSoldContext.Consumer>
                     {(isShowingSold) => (
                         <Container fluid={'sm'} className="align-items-center">
+                            {isLoggedIn
+                                ? (
+                                    <Row xs={1}>
+                                        <Button onClick={addNewArtwork}>{'+'}</Button>
+                                        <Button onClick={removeNewArtwork}>{'-'}</Button>
+                                    </Row>
+                                )
+                                : null}
                             <Row xs={1} lg={4} className={'d-flex align-items-center justify-content-center'}>
+                                {newArtworks.length !== 0 && (newArtworks.map((newArtwork, index) => <ArtworkForm key={index} attributes={newArtwork} />))}
                                 {artworks.length
                                     ? (artworks.filter(x => isShowingSold || !(x.isNFS || x.saleDate)).sort((a, b) => parseInt(b.year) - parseInt(a.year)).map((artwork, i) => {
                                         return (

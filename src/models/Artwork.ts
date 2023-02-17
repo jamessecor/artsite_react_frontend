@@ -34,3 +34,13 @@ export interface IArtwork {
     saleRevenue?: string;
     isNFS?: boolean;
 };
+
+export const ArtworkAttributes = {
+    create: (): IArtwork => ({
+        title: '',
+        year: '',
+        media: '',
+        image: '',
+        price: ''
+    })
+}
