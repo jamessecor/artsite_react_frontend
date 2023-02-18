@@ -170,7 +170,7 @@ const ArtworkForm: React.FC<IArtworkFormProps> = ({ attributes }) => {
                                 />
                             </Form.Group>
                             <Form.Group className="mb-3" controlId="grouping">
-                                <Form.Label>{`grouping ${GroupingsLabels}`}</Form.Label>
+                                <Form.Label>{`${Object.keys(GroupingsLabels)}`}</Form.Label>
                                 <Form.Control
                                     onChange={(e) => setCurrentAttributes({
                                         ...currentAttributes,
