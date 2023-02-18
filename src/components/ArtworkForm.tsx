@@ -3,16 +3,13 @@ import { useCallback, useState } from "react"
 import MovingColorImage from "./MovingColorImage";
 import { Button, Col, Form, Spinner, Stack, Toast, ToastContainer } from 'react-bootstrap';
 import { BackgroundColorContext, isTooLightForDarkTheme, textColor } from "./providers/BackgroundColorProvider";
-import { IArtwork } from "../models/Artwork";
+import { ArtworkAttributes, Groupings, GroupingsLabels, IArtwork } from "../models/Artwork";
 import { useMutation } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
+import { Variant } from "react-bootstrap/esm/types";
 
 interface IArtworkFormData extends IArtwork {
     file?: File;
-}
-
-interface IArtworkDeleteFromData {
-    _id: string;
 }
 
 interface IArtworkFormResponse {
@@ -35,35 +32,23 @@ interface IArtworkFormProps {
 
 interface IResponseType {
     text?: string;
-    variant?: 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark';
+    variant?: Variant;
 }
 
 const ArtworkForm: React.FC<IArtworkFormProps> = ({ attributes }) => {
-    const [id, setId] = useState(attributes._id);
-    const [title, setTitle] = useState(attributes.title);
-    const [year, setYear] = useState(attributes.year);
-    const [media, setMedia] = useState(attributes.media);
-    const [price, setPrice] = useState(attributes.price);
-    const [image, setImage] = useState(attributes.image);
-    const [file, setFile] = useState<File>();
-
+    const [currentAttributes, setCurrentAttributes] = useState<IArtworkFormData>(attributes);
     const [responseToast, setResponseToast] = useState<IResponseType>({});
 
     const deleteMutation = useMutation<IArtworkDeleteFormResponse, AxiosError>(_ => {
         axios.defaults.headers.delete['Authorization'] = sessionStorage.getItem('artsite-token');
-        return axios.delete(`${process.env.REACT_APP_API_BASE_URL}/api/artworks/${id}`);
+        return axios.delete(`${process.env.REACT_APP_API_BASE_URL}/api/artworks/${currentAttributes._id}`);
     }, {
         onSuccess: (data) => {
             setResponseToast({
                 text: data.data.message,
                 variant: 'success'
             });
-            setId('');
-            setTitle('');
-            setYear('');
-            setMedia('');
-            setPrice('');
-            setImage('');
+            setCurrentAttributes(ArtworkAttributes.create());
             reset();
         }
     });
@@ -76,33 +61,39 @@ const ArtworkForm: React.FC<IArtworkFormProps> = ({ attributes }) => {
         axios.defaults.headers.put['Content-Type'] = 'multipart/form-data';
         axios.defaults.headers.post['Content-Type'] = 'multipart/form-data';
 
-        return id
-            ? axios.put(`${process.env.REACT_APP_API_BASE_URL}/api/artworks/${id}`, formData)
+        return currentAttributes._id
+            ? axios.put(`${process.env.REACT_APP_API_BASE_URL}/api/artworks/${currentAttributes._id}`, formData)
             : axios.post(`${process.env.REACT_APP_API_BASE_URL}/api/artworks`, formData);
     }, {
-        onSuccess: (data, variables) => {
+        onSuccess: (data) => {
             setResponseToast({
                 text: data.data.message,
                 variant: 'success'
             });
-            setImage(data.data.image);
-            setId(data.data._id);
+            setCurrentAttributes({
+                ...currentAttributes,
+                image: data.data.image,
+                _id: data.data._id
+            });
         }
     });
 
     const handleDelete = useCallback((e) => {
         e.preventDefault();
-        console.log('id', id);
-        if (id) {
+        if (currentAttributes._id) {
             // TODO: Alert
             deleteMutation.mutate();
         }
-    }, [id]);
+    }, [currentAttributes._id]);
 
     const handleSubmit = useCallback((e) => {
         e.preventDefault();
-        mutate({ title, year, media, image, price, file });
-    }, [title, year, media, image, price, file]);
+        const attributesToSubmit = {
+            ...currentAttributes,
+            _id: undefined
+        }
+        mutate(attributesToSubmit);
+    }, [currentAttributes]);
 
     return (
         <BackgroundColorContext.Consumer>
@@ -129,26 +120,65 @@ const ArtworkForm: React.FC<IArtworkFormProps> = ({ attributes }) => {
                     )}
                     <Stack className={`${textColor(color.r, color.g, color.b)} bg-dark rounded p-2`}>
                         <Form onSubmit={handleSubmit}>
-                            <MovingColorImage src={image} title={title} />
+                            <MovingColorImage src={currentAttributes.image} title={currentAttributes.title} />
                             <Form.Group className="mb-3" controlId="image">
                                 <Form.Label>file</Form.Label>
-                                <input type={'file'} onChange={(e) => e.target?.files?.length ? setFile(e.target.files[0]) : null} />
+                                <input type={'file'} onChange={(e) => e.target?.files?.length ? setCurrentAttributes({...currentAttributes, file: e.target.files[0]}) : null} />
                             </Form.Group>
                             <Form.Group className="mb-3" controlId="title">
                                 <Form.Label>title</Form.Label>
-                                <Form.Control onChange={(e) => setTitle(e.target.value)} value={title} type="text" />
+                                <Form.Control
+                                    onChange={(e) => setCurrentAttributes({
+                                        ...currentAttributes,
+                                        title: e.target.value
+                                    })}
+                                    value={currentAttributes.title}
+                                    type="text"
+                                />
                             </Form.Group>
                             <Form.Group className="mb-3" controlId="year">
                                 <Form.Label>year</Form.Label>
-                                <Form.Control onChange={(e) => setYear(e.target.value)} value={year} type="text" />
+                                <Form.Control
+                                    onChange={(e) => setCurrentAttributes({
+                                        ...currentAttributes,
+                                        year: e.target.value
+                                    })}
+                                    value={currentAttributes.year}
+                                    type="text"
+                                />
                             </Form.Group>
                             <Form.Group className="mb-3" controlId="media">
                                 <Form.Label>media</Form.Label>
-                                <Form.Control onChange={(e) => setMedia(e.target.value)} value={media} type="text" />
+                                <Form.Control
+                                    onChange={(e) => setCurrentAttributes({
+                                        ...currentAttributes,
+                                        media: e.target.value
+                                    })}
+                                    value={currentAttributes.media}
+                                    type="text"
+                                />
                             </Form.Group>
                             <Form.Group className="mb-3" controlId="price">
                                 <Form.Label>price</Form.Label>
-                                <Form.Control onChange={(e) => setPrice(e.target.value)} value={price} type="text" />
+                                <Form.Control
+                                    onChange={(e) => setCurrentAttributes({
+                                        ...currentAttributes,
+                                        price: e.target.value
+                                    })}
+                                    value={currentAttributes.price}
+                                    type="text"
+                                />
+                            </Form.Group>
+                            <Form.Group className="mb-3" controlId="grouping">
+                                <Form.Label>{`grouping ${GroupingsLabels}`}</Form.Label>
+                                <Form.Control
+                                    onChange={(e) => setCurrentAttributes({
+                                        ...currentAttributes,
+                                        grouping: e.target.value.split(',') as Array<Groupings>
+                                    })}
+                                    value={currentAttributes.grouping}
+                                    type="text"
+                                />
                             </Form.Group>
                             {isSuccess
                                 ? (
@@ -167,13 +197,13 @@ const ArtworkForm: React.FC<IArtworkFormProps> = ({ attributes }) => {
                                     <Button disabled={isLoading} className={'w-100'} type={'submit'}>
                                         {isLoading
                                             ? <Spinner variant={'info'} animation={'border'} className={'text-center'} />
-                                            : 'Update'
+                                            : (currentAttributes._id ? 'Update' : 'Add New Artwork')
                                         }
                                     </Button>
                                 )
                             }
                         </Form>
-                        {id
+                        {currentAttributes._id
                             ? (
                                 <Form onSubmit={handleDelete}>
                                     <Button disabled={deleteMutation.isLoading} className={'w-100 mt-2'} type={'submit'} variant={'danger'}>
