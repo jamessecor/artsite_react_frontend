@@ -31,8 +31,8 @@ const App = () => {
     return (
         <React.StrictMode>
             <QueryClientProvider client={queryClient}>
-                <BackgroundColorProvider>
-                    <AuthenticationProvider>
+                <AuthenticationProvider>
+                    <BackgroundColorProvider>
                         <BrowserRouter>
                             <Routes>
                                 <Route path={'/'} element={<HomePage />} />
@@ -52,8 +52,8 @@ const App = () => {
                                 <Route path={'*'} element={<HomePage />} />
                             </Routes>
                         </BrowserRouter>
-                    </AuthenticationProvider>
-                </BackgroundColorProvider>
+                    </BackgroundColorProvider>
+                </AuthenticationProvider>
                 <ReactQueryDevtools initialIsOpen={false} />
             </QueryClientProvider>
         </React.StrictMode>
