@@ -47,9 +47,13 @@ const Artworks = ({ current = false }: IArtworkProps) => {
                         <Container fluid={'sm'} className="align-items-center">
                             {isLoggedIn
                                 ? (
-                                    <Row xs={1}>
-                                        <Button onClick={addNewArtwork}>{'+'}</Button>
-                                        <Button onClick={removeNewArtwork}>{'-'}</Button>
+                                    <Row xs={2} className={'mb-2'}>
+                                        <Col>
+                                            <Button variant={'success'} className={'w-100'} onClick={addNewArtwork}>{'+'}</Button>
+                                        </Col>
+                                        <Col>
+                                            <Button variant={'secondary'} className={'w-100'} onClick={removeNewArtwork}>{'-'}</Button>
+                                        </Col>
                                     </Row>
                                 )
                                 : null}

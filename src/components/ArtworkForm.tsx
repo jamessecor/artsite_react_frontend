@@ -11,6 +11,10 @@ interface IArtworkFormData extends IArtwork {
     file?: File;
 }
 
+interface IArtworkDeleteFromData {
+    _id: string;
+}
+
 interface IArtworkFormResponse {
     data: {
         message: string;
@@ -19,8 +23,19 @@ interface IArtworkFormResponse {
     }
 }
 
+interface IArtworkDeleteFormResponse {
+    data: {
+        message: string;
+    }
+}
+
 interface IArtworkFormProps {
     attributes: IArtwork;
+}
+
+interface IResponseType {
+    text?: string;
+    variant?: 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark';
 }
 
 const ArtworkForm: React.FC<IArtworkFormProps> = ({ attributes }) => {
@@ -32,7 +47,26 @@ const ArtworkForm: React.FC<IArtworkFormProps> = ({ attributes }) => {
     const [image, setImage] = useState(attributes.image);
     const [file, setFile] = useState<File>();
 
-    const [responseMessage, setResponseMessage] = useState('');
+    const [responseToast, setResponseToast] = useState<IResponseType>({});
+
+    const deleteMutation = useMutation<IArtworkDeleteFormResponse, AxiosError>(_ => {
+        axios.defaults.headers.delete['Authorization'] = sessionStorage.getItem('artsite-token');
+        return axios.delete(`${process.env.REACT_APP_API_BASE_URL}/api/artworks/${id}`);
+    }, {
+        onSuccess: (data) => {
+            setResponseToast({
+                text: data.data.message,
+                variant: 'success'
+            });
+            setId('');
+            setTitle('');
+            setYear('');
+            setMedia('');
+            setPrice('');
+            setImage('');
+            reset();
+        }
+    });
 
     const { reset, isSuccess, isLoading, mutate } = useMutation<IArtworkFormResponse, AxiosError, IArtworkFormData>(formData => {
         axios.defaults.headers.put['Authorization'] = sessionStorage.getItem('artsite-token');
@@ -47,11 +81,23 @@ const ArtworkForm: React.FC<IArtworkFormProps> = ({ attributes }) => {
             : axios.post(`${process.env.REACT_APP_API_BASE_URL}/api/artworks`, formData);
     }, {
         onSuccess: (data, variables) => {
-            setResponseMessage(data.data.message);
+            setResponseToast({
+                text: data.data.message,
+                variant: 'success'
+            });
             setImage(data.data.image);
             setId(data.data._id);
         }
     });
+
+    const handleDelete = useCallback((e) => {
+        e.preventDefault();
+        console.log('id', id);
+        if (id) {
+            // TODO: Alert
+            deleteMutation.mutate();
+        }
+    }, [id]);
 
     const handleSubmit = useCallback((e) => {
         e.preventDefault();
@@ -62,13 +108,14 @@ const ArtworkForm: React.FC<IArtworkFormProps> = ({ attributes }) => {
         <BackgroundColorContext.Consumer>
             {({ color, setColor }) => (
                 <Col xs='12'>
-                    {responseMessage && (
+                    {responseToast.text && (
                         <Toast
-                            onClose={() => setResponseMessage('')}
+                            onClose={() => setResponseToast({})}
                             style={{ zIndex: 1000 }}
                             className={'mb-2 me-2 position-fixed bottom-0 end-0'}
                             autohide
                             delay={3000}
+                            bg={responseToast.variant ?? ''}
                         >
                             <Toast.Header>
                                 <strong className='me-auto'>
@@ -76,7 +123,7 @@ const ArtworkForm: React.FC<IArtworkFormProps> = ({ attributes }) => {
                                 </strong>
                             </Toast.Header>
                             <Toast.Body>
-                                {responseMessage}
+                                {responseToast.text}
                             </Toast.Body>
                         </Toast>
                     )}
@@ -126,6 +173,18 @@ const ArtworkForm: React.FC<IArtworkFormProps> = ({ attributes }) => {
                                 )
                             }
                         </Form>
+                        {id
+                            ? (
+                                <Form onSubmit={handleDelete}>
+                                    <Button disabled={deleteMutation.isLoading} className={'w-100 mt-2'} type={'submit'} variant={'danger'}>
+                                        {deleteMutation.isLoading
+                                            ? <Spinner variant={'info'} animation={'border'} className={'text-center'} />
+                                            : 'Delete'
+                                        }
+                                    </Button>
+                                </Form>
+                            )
+                            : null}
                     </Stack>
                 </Col>
             )}

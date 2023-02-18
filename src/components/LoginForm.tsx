@@ -25,6 +25,9 @@ const LoginForm = () => {
     const navigateTo = useNavigate();
 
     const { mutate } = useMutation<ILoginFormResponse, AxiosError, ILoginFormData>(formData => {
+        axios.defaults.headers.post['Accept'] = 'application/json';
+        axios.defaults.headers.post['Content-Type'] = 'application/json';
+
         return axios.post(`${process.env.REACT_APP_API_BASE_URL}/api/users`, formData);
     }, {
         onSuccess: (data, variables, context) => {
