@@ -54,7 +54,10 @@ const LoginForm = () => {
                             <Row xs={1}>
                                 <Col>
                                     <Form className="bg-dark rounded p-5 col-lg-6 offset-lg-3" onSubmit={handleSubmit}>
-                                        <h2>{'Login'}</h2>
+                                        <h2 className={'d-flex w-100 justify-content-between'}>
+                                            <span>{'Login'}</span>
+                                            <span>{'🙈🙈🙊🙈'}</span>
+                                        </h2>
                                         <Form.Group className="mb-3" controlId="username">
                                             <Form.Label>username</Form.Label>
                                             <Form.Control onChange={(e) => setUsername(e.target.value)} type="username" />
@@ -66,9 +69,11 @@ const LoginForm = () => {
                                                 {error}
                                             </Form.Label>
                                         </Form.Group>
-                                        <Button type={'submit'}>
-                                            {'Login'}
-                                        </Button>
+                                        <div className={'d-flex w-100 justify-content-center'}>
+                                            <Button className={'w-75'} type={'submit'}>
+                                                {'Login'}
+                                            </Button>
+                                        </div>
                                     </Form>
                                 </Col>
                             </Row>
