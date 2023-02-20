@@ -58,7 +58,7 @@ const Artworks = ({ current = false }: IArtworkProps) => {
                                 )
                                 : null}
                             <Row xs={1} lg={4} className={'d-flex align-items-center justify-content-center'}>
-                                {newArtworks.length !== 0 && (newArtworks.map((newArtwork, index) => <ArtworkForm key={index} attributes={newArtwork} />))}
+                                {isLoggedIn && newArtworks.length !== 0 && (newArtworks.map((newArtwork, index) => <ArtworkForm key={index} attributes={newArtwork} />))}
                                 {artworks.length
                                     ? (artworks.filter(x => isShowingSold || !(x.isNFS || x.saleDate)).sort((a, b) => parseInt(b.year) - parseInt(a.year)).map((artwork, i) => {
                                         return (
