@@ -6,10 +6,12 @@ import { BackgroundColorContext, textColor } from "./providers/BackgroundColorPr
 import { useMutation } from '@tanstack/react-query';
 import axios, { AxiosError } from 'axios';
 import { AuthenticationContext } from "./providers/AuthenticationProvider";
+import { waitFor } from "@testing-library/react";
 
 interface ILoginFormData {
     username: string;
     password: string;
+    setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 interface ILoginFormResponse {
@@ -32,16 +34,18 @@ const LoginForm = () => {
     }, {
         onSuccess: (data, variables, context) => {
             sessionStorage.setItem('artsite-token', data.data.token);
-            navigateTo(-1);
+            navigateTo('/artworks/current');
+            variables.setIsLoggedIn(true);
         },
         onError: (data) => setError(data.message)
     });
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e, setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>) => {
         e.preventDefault();
         mutate({
             username: username,
-            password: password
+            password: password,
+            setIsLoggedIn: setIsLoggedIn
         });
     }
 
@@ -53,7 +57,10 @@ const LoginForm = () => {
                         <Container className={`align-items-center ${textColor(color.r, color.g, color.b)}`}>
                             <Row xs={1}>
                                 <Col>
-                                    <Form className="bg-dark rounded p-5 col-lg-6 offset-lg-3" onSubmit={handleSubmit}>
+                                    <Form
+                                        className="bg-dark rounded p-5 col-lg-6 offset-lg-3" 
+                                        onSubmit={(e) => handleSubmit(e, setIsLoggedIn)}
+                                    >
                                         <h2 className={'d-flex w-100 justify-content-between'}>
                                             <span>{'Login'}</span>
                                             <span>{'🙈🙈🙊🙈'}</span>

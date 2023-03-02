@@ -50,6 +50,12 @@ const ArtworkForm: React.FC<IArtworkFormProps> = ({ attributes }) => {
             });
             setCurrentAttributes(ArtworkAttributes.create());
             reset();
+        },
+        onError: (data) => {
+            setResponseToast({
+                text: `${data.code} - ${data.message}`,
+                variant: 'danger'
+            })
         }
     });
 
@@ -75,14 +81,21 @@ const ArtworkForm: React.FC<IArtworkFormProps> = ({ attributes }) => {
                 image: data.data.image,
                 _id: data.data._id
             });
+        },
+        onError: (data) => {
+            setResponseToast({
+                text: `${data.code} - ${data.message}`,
+                variant: 'danger'
+            })
         }
     });
 
     const handleDelete = useCallback((e) => {
         e.preventDefault();
         if (currentAttributes._id) {
-            // TODO: Alert
-            deleteMutation.mutate();
+            if (window.confirm('DELETE?!')) {
+                deleteMutation.mutate();
+            }
         }
     }, [currentAttributes._id]);
 
