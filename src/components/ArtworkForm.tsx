@@ -93,10 +93,9 @@ const ArtworkForm: React.FC<IArtworkFormProps> = ({ attributes }) => {
     const handleDelete = useCallback((e) => {
         e.preventDefault();
         if (currentAttributes._id) {
-            // TODO: confirm before delete
-            // if (window.confirm('DELETE?!')) {
-            deleteMutation.mutate();
-            // }
+            if (window.confirm('DELETE?!')) {
+                deleteMutation.mutate();
+            }
         }
     }, [currentAttributes._id]);
 

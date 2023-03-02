@@ -15,8 +15,8 @@ const useArtworks = () => {
 
     const allYears = useMemo(() => [...new Set(allArtworks.map((artwork) => artwork.year))].sort().reverse(), [allArtworks]);
     const allGroupings = useMemo(() => {
-        const groupings = new Array<string>;
-        allArtworks.map((artwork) => {
+        const groupings = new Array<string>();
+        allArtworks.forEach((artwork) => {
             if (artwork.grouping && artwork.grouping.length > 0) groupings.push(...artwork.grouping);
         });
         return [...new Set(groupings)].sort((a, b) => GroupingsLabelsOrder[a] - GroupingsLabelsOrder[b]);
