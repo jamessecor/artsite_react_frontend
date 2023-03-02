@@ -8,7 +8,6 @@ import useArtworks from '../hooks/useArtworks';
 import { useNavigate } from "react-router-dom";
 import Button from 'react-bootstrap/Button';
 import { ArtworkShowingSoldContext } from './Navigation';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { AuthenticationContext } from './providers/AuthenticationProvider';
 import ArtworkForm from './ArtworkForm';
 

@@ -51,8 +51,8 @@ const NavigationLinks = ({ setShowOffcanvas }) => {
                                 </NavDropdown.Item>
                             );
                         }
-
-                    })}
+                        return null;
+                    }).filter((grouping) => grouping !== null)}
                     <NavDropdown.Divider />
                     {allYears.map((year) => (
                         <NavDropdown.Item
