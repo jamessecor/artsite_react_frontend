@@ -39,7 +39,7 @@ const LoginForm = () => {
         onError: (data) => setError(data.message)
     });
 
-    const handleSubmit = async (e, setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>, setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>) => {
         e.preventDefault();
         mutate({
             username: username,
