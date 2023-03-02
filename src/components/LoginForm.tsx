@@ -10,7 +10,7 @@ import { AuthenticationContext } from "./providers/AuthenticationProvider";
 interface ILoginFormData {
     username: string;
     password: string;
-    setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
+    // setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 interface ILoginFormResponse {
@@ -34,17 +34,17 @@ const LoginForm = () => {
         onSuccess: (data, variables, context) => {
             sessionStorage.setItem('artsite-token', data.data.token);
             navigateTo('/artworks/current');
-            variables.setIsLoggedIn(true);
+            // variables.setIsLoggedIn(true);
         },
         onError: (data) => setError(data.message)
     });
 
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>, setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => { //, setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>) => {
         e.preventDefault();
         mutate({
             username: username,
             password: password,
-            setIsLoggedIn: setIsLoggedIn
+            // setIsLoggedIn: setIsLoggedIn
         });
     }
 
@@ -57,8 +57,8 @@ const LoginForm = () => {
                             <Row xs={1}>
                                 <Col>
                                     <Form
-                                        className="bg-dark rounded p-5 col-lg-6 offset-lg-3" 
-                                        onSubmit={(e) => handleSubmit(e, setIsLoggedIn)}
+                                        className="bg-dark rounded p-5 col-lg-6 offset-lg-3"
+                                        onSubmit={(e) => handleSubmit(e)}
                                     >
                                         <h2 className={'d-flex w-100 justify-content-between'}>
                                             <span>{'Login'}</span>
