@@ -4,6 +4,7 @@ import { IArtwork, Groupings, GroupingsLabelsOrder } from '../models/Artwork';
 import axios from 'axios';
 
 const getArtworks = async () => {
+    console.log('base', process.env.REACT_APP_API_BASE_URL);
     return axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/artworks`);
 };
 
