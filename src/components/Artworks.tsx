@@ -71,8 +71,8 @@ const Artworks = ({ current = false }: IArtworkProps) => {
                                     ? (artworks.filter(x => isShowingSold || !(x.isNFS || x.saleDate)).sort((a, b) => (a.arrangement ?? 9999) - (b.arrangement ?? 9999)).map((artwork, i) => {
                                         return (
                                             <Col key={`${artwork._id}-${artwork.title}`} className="my-4 px-4">
-                                                {isLoggedIn && isInFormMode
-                                                    ? <ArtworkForm attributes={artwork} />
+                                                {isLoggedIn
+                                                    ? <ArtworkForm attributes={artwork} isEveryoneInFormMode={isInFormMode} />
                                                     : <Artwork attributes={artwork} />
                                                 }
 
