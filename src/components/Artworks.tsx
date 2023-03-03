@@ -48,21 +48,21 @@ const Artworks = ({ current = false }: IArtworkProps) => {
                         <Container fluid={'sm'} className="align-items-center">
                             {isLoggedIn
                                 ? (
-                                    <Row xs={3} className={'mb-2'}>
-                                        <Col>
-                                            <Button variant={'success'} className={'w-100'} onClick={addNewArtwork}>{'+'}</Button>
-                                        </Col>
-                                        <Col>
-                                            <Button variant={'secondary'} className={'w-100'} onClick={removeNewArtwork}>{'-'}</Button>
-                                        </Col>
-                                        <Col>
-                                            <Button variant={'info'} className={'w-100'} onClick={() => setIsInFormMode(!isInFormMode)}>
-                                                {isInFormMode 
-                                                    ? <MdViewComfy />
-                                                    : <MdEdit />}
-                                            </Button>
-                                        </Col>
-                                    </Row>
+                                    <React.Fragment>
+                                        <Row xs={2} className={'mb-2'}>
+                                            <Col>
+                                                <Button variant={'success'} className={'w-100'} onClick={addNewArtwork}>{'+'}</Button>
+                                            </Col>
+                                            <Col>
+                                                <Button variant={'secondary'} className={'w-100'} onClick={removeNewArtwork}>{'-'}</Button>
+                                            </Col>
+                                        </Row>
+                                        <Button variant={'outline-info'} className={'position-fixed bottom-0 end-0 mb-2 me-2'} onClick={() => setIsInFormMode(!isInFormMode)}>
+                                            {isInFormMode
+                                                ? <MdViewComfy />
+                                                : <MdEdit />}
+                                        </Button>
+                                    </React.Fragment>
                                 )
                                 : null}
                             <Row xs={1} lg={4} className={'d-flex align-items-center justify-content-center'}>
