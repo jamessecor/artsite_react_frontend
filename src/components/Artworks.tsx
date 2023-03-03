@@ -10,6 +10,7 @@ import Button from 'react-bootstrap/Button';
 import { ArtworkShowingSoldContext } from './Navigation';
 import { AuthenticationContext } from './providers/AuthenticationProvider';
 import ArtworkForm from './ArtworkForm';
+import { MdEdit, MdViewComfy } from 'react-icons/md';
 
 interface IArtworkProps {
     current?: boolean;
@@ -22,6 +23,7 @@ const Artworks = ({ current = false }: IArtworkProps) => {
     const searchTerm = searchParams.get('search') ?? '';
     const { artworks, setEm, isLoading } = useArtworks();
     const [newArtworks, setNewArtworks] = useState<Array<IArtwork>>([]);
+    const [isInFormMode, setIsInFormMode] = useState(true);
     const navigateTo = useNavigate();
 
     useEffect(() => {
@@ -46,12 +48,19 @@ const Artworks = ({ current = false }: IArtworkProps) => {
                         <Container fluid={'sm'} className="align-items-center">
                             {isLoggedIn
                                 ? (
-                                    <Row xs={2} className={'mb-2'}>
+                                    <Row xs={3} className={'mb-2'}>
                                         <Col>
                                             <Button variant={'success'} className={'w-100'} onClick={addNewArtwork}>{'+'}</Button>
                                         </Col>
                                         <Col>
                                             <Button variant={'secondary'} className={'w-100'} onClick={removeNewArtwork}>{'-'}</Button>
+                                        </Col>
+                                        <Col>
+                                            <Button variant={'info'} className={'w-100'} onClick={() => setIsInFormMode(!isInFormMode)}>
+                                                {isInFormMode 
+                                                    ? <MdViewComfy />
+                                                    : <MdEdit />}
+                                            </Button>
                                         </Col>
                                     </Row>
                                 )
@@ -59,10 +68,10 @@ const Artworks = ({ current = false }: IArtworkProps) => {
                             <Row xs={1} lg={4} className={'d-flex align-items-center justify-content-center'}>
                                 {isLoggedIn && newArtworks.length !== 0 && (newArtworks.map((newArtwork, index) => <ArtworkForm key={index} attributes={newArtwork} />))}
                                 {artworks.length
-                                    ? (artworks.filter(x => isShowingSold || !(x.isNFS || x.saleDate)).sort((a, b) => parseInt(b.year) - parseInt(a.year)).map((artwork, i) => {
+                                    ? (artworks.filter(x => isShowingSold || !(x.isNFS || x.saleDate)).sort((a, b) => (a.arrangement ?? 9999) - (b.arrangement ?? 9999)).map((artwork, i) => {
                                         return (
                                             <Col key={`${artwork._id}-${artwork.title}`} className="my-4 px-4">
-                                                {isLoggedIn
+                                                {isLoggedIn && isInFormMode
                                                     ? <ArtworkForm attributes={artwork} />
                                                     : <Artwork attributes={artwork} />
                                                 }

@@ -4,7 +4,7 @@ import MovingColorImage from "./MovingColorImage";
 import { Button, Col, Form, Spinner, Stack, Toast, ToastContainer } from 'react-bootstrap';
 import { BackgroundColorContext, isTooLightForDarkTheme, textColor } from "./providers/BackgroundColorProvider";
 import { ArtworkAttributes, Groupings, GroupingsLabels, IArtwork } from "../models/Artwork";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { Variant } from "react-bootstrap/esm/types";
 
@@ -39,7 +39,8 @@ const ArtworkForm: React.FC<IArtworkFormProps> = ({ attributes }) => {
     const [currentAttributes, setCurrentAttributes] = useState<IArtworkFormData>(attributes);
     const [responseToast, setResponseToast] = useState<IResponseType>({});
 
-    React.useEffect(() => (currentAttributes.title === 'Crickets') ? console.log('att', currentAttributes.isNFS) : console.log(''), [currentAttributes]);
+    const queryClient = useQueryClient();
+
     const deleteMutation = useMutation<IArtworkDeleteFormResponse, AxiosError>(_ => {
         axios.defaults.headers.delete['Authorization'] = sessionStorage.getItem('artsite-token');
         return axios.delete(`${process.env.REACT_APP_API_BASE_URL}/api/artworks/${currentAttributes._id}`);
@@ -51,6 +52,7 @@ const ArtworkForm: React.FC<IArtworkFormProps> = ({ attributes }) => {
             });
             setCurrentAttributes(ArtworkAttributes.create());
             reset();
+            queryClient.invalidateQueries({ queryKey: ['artworks'] });
         },
         onError: (data) => {
             setResponseToast({
@@ -82,6 +84,7 @@ const ArtworkForm: React.FC<IArtworkFormProps> = ({ attributes }) => {
                 image: data.data.image,
                 _id: data.data._id
             });
+            queryClient.invalidateQueries({ queryKey: ['artworks'] });
         },
         onError: (data) => {
             setResponseToast({
@@ -214,6 +217,28 @@ const ArtworkForm: React.FC<IArtworkFormProps> = ({ attributes }) => {
                                     })}
                                     checked={currentAttributes.isNFS}
                                     type="switch"
+                                />
+                            </Form.Group>
+                            <Form.Group className="mb-3" controlId="isHomePage">
+                                <Form.Check
+                                    label={'Home Page'}
+                                    onChange={(e) => setCurrentAttributes({
+                                        ...currentAttributes,
+                                        isHomePage: !currentAttributes.isHomePage
+                                    })}
+                                    checked={currentAttributes.isHomePage}
+                                    type="switch"
+                                />
+                            </Form.Group>
+                            <Form.Group className="mb-3" controlId="arrangement">
+                                <Form.Label>{'Arrangement'}</Form.Label>
+                                <Form.Control
+                                    onChange={(e) => setCurrentAttributes({
+                                        ...currentAttributes,
+                                        arrangement: parseInt(e.target.value)
+                                    })}
+                                    value={currentAttributes.arrangement}
+                                    type="number"
                                 />
                             </Form.Group>
                             {isSuccess
