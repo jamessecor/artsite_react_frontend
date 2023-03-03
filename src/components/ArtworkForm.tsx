@@ -7,6 +7,7 @@ import { ArtworkAttributes, Groupings, GroupingsLabels, IArtwork } from "../mode
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { Variant } from "react-bootstrap/esm/types";
+import useArtworks from "../hooks/useArtworks";
 
 interface IArtworkFormData extends IArtwork {
     file?: File;
@@ -40,6 +41,7 @@ const ArtworkForm: React.FC<IArtworkFormProps> = ({ attributes }) => {
     const [responseToast, setResponseToast] = useState<IResponseType>({});
 
     const queryClient = useQueryClient();
+    const { allGroupings } = useArtworks();
 
     const deleteMutation = useMutation<IArtworkDeleteFormResponse, AxiosError>(_ => {
         axios.defaults.headers.delete['Authorization'] = sessionStorage.getItem('artsite-token');
@@ -187,7 +189,7 @@ const ArtworkForm: React.FC<IArtworkFormProps> = ({ attributes }) => {
                                 />
                             </Form.Group>
                             <Form.Group className="mb-3" controlId="grouping">
-                                <Form.Label className={'text-break'}>{`${Object.keys(GroupingsLabels)}`}</Form.Label>
+                                <Form.Label className={'text-break'}>{allGroupings.toString()}</Form.Label>
                                 <Form.Control
                                     onChange={(e) => setCurrentAttributes({
                                         ...currentAttributes,
