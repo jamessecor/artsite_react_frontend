@@ -37,22 +37,19 @@ const NavigationLinks = ({ setShowOffcanvas }) => {
             <NavDropdown.Divider />
             <Nav className="me-auto">
                 <NavDropdown title="artwork" id="basic-nav-dropdown" className={pathname === "/artworks" ? "border border-2 border-primary rounded" : "rounded"}>
-                    {allGroupings.map((grouping) => {
-                        if (GroupingsLabels[grouping] !== undefined) {
-                            return (
-                                <NavDropdown.Item
-                                    key={grouping}
-                                    data-filter={grouping}
-                                    data-page-id="grouping"
-                                    className={grouping === urlGrouping ? "border border-2 border-primary rounded" : "rounded"}
-                                    onClick={() => HideOffcanvasAndNavigateTo(`/artworks?grouping=${grouping}`)}
-                                >
-                                    {GroupingsLabels[grouping]}
-                                </NavDropdown.Item>
-                            );
-                        }
-                        return null;
-                    }).filter((grouping) => grouping !== null)}
+                    {allGroupings.map((grouping) => (
+                        <NavDropdown.Item
+                            key={grouping}
+                            data-filter={grouping}
+                            data-page-id="grouping"
+                            className={grouping === urlGrouping ? "border border-2 border-primary rounded" : "rounded"}
+                            onClick={() => HideOffcanvasAndNavigateTo(`/artworks?grouping=${grouping}`)}
+                        >
+                            {GroupingsLabels[grouping] !== undefined
+                                ? GroupingsLabels[grouping]
+                                : grouping}
+                        </NavDropdown.Item>
+                    ))}
                     <NavDropdown.Divider />
                     {allYears.map((year) => (
                         <NavDropdown.Item

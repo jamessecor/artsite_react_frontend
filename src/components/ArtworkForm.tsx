@@ -39,6 +39,7 @@ const ArtworkForm: React.FC<IArtworkFormProps> = ({ attributes }) => {
     const [currentAttributes, setCurrentAttributes] = useState<IArtworkFormData>(attributes);
     const [responseToast, setResponseToast] = useState<IResponseType>({});
 
+    React.useEffect(() => (currentAttributes.title === 'Crickets') ? console.log('att', currentAttributes.isNFS) : console.log(''), [currentAttributes]);
     const deleteMutation = useMutation<IArtworkDeleteFormResponse, AxiosError>(_ => {
         axios.defaults.headers.delete['Authorization'] = sessionStorage.getItem('artsite-token');
         return axios.delete(`${process.env.REACT_APP_API_BASE_URL}/api/artworks/${currentAttributes._id}`);
@@ -104,7 +105,7 @@ const ArtworkForm: React.FC<IArtworkFormProps> = ({ attributes }) => {
         const attributesToSubmit = {
             ...currentAttributes,
             _id: undefined
-        }
+        };
         mutate(attributesToSubmit);
     }, [currentAttributes]);
 
@@ -136,7 +137,7 @@ const ArtworkForm: React.FC<IArtworkFormProps> = ({ attributes }) => {
                             <MovingColorImage src={currentAttributes.image} title={currentAttributes.title} />
                             <Form.Group className="mb-3" controlId="image">
                                 <Form.Label>file</Form.Label>
-                                <input type={'file'} onChange={(e) => e.target?.files?.length ? setCurrentAttributes({...currentAttributes, file: e.target.files[0]}) : null} />
+                                <input type={'file'} onChange={(e) => e.target?.files?.length ? setCurrentAttributes({ ...currentAttributes, file: e.target.files[0] }) : null} />
                             </Form.Group>
                             <Form.Group className="mb-3" controlId="title">
                                 <Form.Label>title</Form.Label>
@@ -191,6 +192,28 @@ const ArtworkForm: React.FC<IArtworkFormProps> = ({ attributes }) => {
                                     })}
                                     value={currentAttributes.grouping}
                                     type="text"
+                                />
+                            </Form.Group>
+                            <Form.Group className="mb-3" controlId="saleDate">
+                                <Form.Label>{'Sale Date'}</Form.Label>
+                                <Form.Control
+                                    onChange={(e) => setCurrentAttributes({
+                                        ...currentAttributes,
+                                        saleDate: e.target.value
+                                    })}
+                                    value={currentAttributes.saleDate}
+                                    type="date"
+                                />
+                            </Form.Group>
+                            <Form.Group className="mb-3" controlId="isNFS">
+                                <Form.Check
+                                    label={'NFS'}
+                                    onChange={(e) => setCurrentAttributes({
+                                        ...currentAttributes,
+                                        isNFS: !currentAttributes.isNFS
+                                    })}
+                                    checked={currentAttributes.isNFS}
+                                    type="switch"
                                 />
                             </Form.Group>
                             {isSuccess
