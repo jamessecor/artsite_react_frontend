@@ -121,7 +121,7 @@ const Nomophobia = () => {
                         className={'justify-content-center p-0 phone-screen'}
                         style={{
                             boxShadow: currentPage === Pages.Off ? '' : '0px 0px 25px 10px rgba(205, 255, 205, 0.3)',
-                            backgroundImage: `linear-gradient(rgba(${color.r ?? 10}, ${color.g ?? 210}, ${color.b ?? 200}, ${color.a ?? 1}), rgba(184, 255, 184, 0.3)), url(${artwork.image})`
+                            background: 'lightblue'
                         }}
                     >
                         {isLoading

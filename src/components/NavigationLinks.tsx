@@ -36,13 +36,13 @@ const NavigationLinks = ({ setShowOffcanvas }) => {
         <React.Fragment>
             <NavDropdown.Divider />
             <Nav className="me-auto">
-                <NavDropdown title="artwork" id="basic-nav-dropdown" className={pathname === "/artworks" ? "border border-2 border-primary rounded" : "rounded"}>
+                <NavDropdown title="artwork" id="basic-nav-dropdown" className={pathname === "/artworks" ? "border border-2 border-secondary rounded" : "rounded"}>
                     {allGroupings.map((grouping) => (
                         <NavDropdown.Item
                             key={grouping}
                             data-filter={grouping}
                             data-page-id="grouping"
-                            className={grouping === urlGrouping ? "border border-2 border-primary rounded" : "rounded"}
+                            className={grouping === urlGrouping ? "border border-2 border-secondary rounded" : "rounded"}
                             onClick={() => HideOffcanvasAndNavigateTo(`/artworks?grouping=${grouping}`)}
                         >
                             {GroupingsLabels[grouping] !== undefined
@@ -56,21 +56,21 @@ const NavigationLinks = ({ setShowOffcanvas }) => {
                             key={year}
                             data-filter={year}
                             data-page-id="artwork"
-                            className={year === urlYear ? "border border-2 border-primary rounded" : "rounded"}
+                            className={year === urlYear ? "border border-2 border-secondary rounded" : "rounded"}
                             onClick={() => HideOffcanvasAndNavigateTo(`/artworks?year=${year}`)}
                         >
                             {year}
                         </NavDropdown.Item>
                     ))}
                 </NavDropdown>
-                <Nav.Link className={pathname === "/cv" ? "border border-2 border-primary rounded" : "rounded"} onClick={() => HideOffcanvasAndNavigateTo('/cv')}>
+                <Nav.Link className={pathname === "/cv" ? "border border-2 border-secondary rounded" : "rounded"} onClick={() => HideOffcanvasAndNavigateTo('/cv')}>
                     {'cv'}
                 </Nav.Link>
                 {/* <Nav.Link className={pathname === "colors" ? "active" : ""} onClick={() => HideOffcanvasAndNavigateTo('/colors')}>colors</Nav.Link> */}
-                <Nav.Link className={pathname === "/contact" ? "border border-2 border-primary rounded" : "rounded"} onClick={() => HideOffcanvasAndNavigateTo('/contact')}>
+                <Nav.Link className={pathname === "/contact" ? "border border-2 border-secondary rounded" : "rounded"} onClick={() => HideOffcanvasAndNavigateTo('/contact')}>
                     {'contact'}
                 </Nav.Link>
-                <Nav.Link className={pathname === "/nomophobia" ? "border border-2 border-primary rounded" : "rounded"} onClick={() => HideOffcanvasAndNavigateTo('/nomophobia')}>
+                <Nav.Link className={pathname === "/nomophobia" ? "border border-2 border-secondary rounded" : "rounded"} onClick={() => HideOffcanvasAndNavigateTo('/nomophobia')}>
                     <em>{'#nomophobia'}</em>
                 </Nav.Link>
                 {/* <Nav.Link className={pathname === "store" ? "active" : ""} onClick={() => HideOffcanvasAndNavigateTo('/store')}>store</Nav.Link> */}
