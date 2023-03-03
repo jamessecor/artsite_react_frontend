@@ -1,10 +1,10 @@
-export type Groupings = '' | "nomophobia" | "digital_edits" | "storage" | "mug_dish_glass" | "merica" | "wallabies";
+export type Groupings = string | "nomophobia" | "digital_edits" | "storage" | "mug_dish_glass" | "merica" | "wallabies";
 
 export enum GroupingsLabels {
     wallabies = "Off the Wallabies",
     merica = "Freedom Fries",
     nomophobia = "#nomophobia",
-    // digital_edits = "digital_edits",
+    digital_edits = "digital_edits",
     mug_dish_glass = "animal mug, dish, and glass",
     storage = "as not seen"
 };
@@ -14,7 +14,8 @@ export enum GroupingsLabelsOrder {
     merica = 2,
     nomophobia = 3,
     mug_dish_glass = 4,
-    storage = 5
+    storage = 5,
+    digital_edits = 6
 };
 
 export interface IArtwork {
