@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useState } from "react";
-import { Form, Container, Button, Row, Col } from 'react-bootstrap';
+import { Form, Container, Button, Row, Col, Spinner } from 'react-bootstrap';
 import { useNavigate } from "react-router-dom";
 import { BackgroundColorContext, textColor } from "./providers/BackgroundColorProvider";
 import { useMutation } from '@tanstack/react-query';
@@ -25,7 +25,7 @@ const LoginForm = () => {
     const [error, setError] = useState('');
     const navigateTo = useNavigate();
 
-    const { mutate } = useMutation<ILoginFormResponse, AxiosError, ILoginFormData>(formData => {
+    const { isLoading, mutate } = useMutation<ILoginFormResponse, AxiosError, ILoginFormData>(formData => {
         axios.defaults.headers.post['Accept'] = 'application/json';
         axios.defaults.headers.post['Content-Type'] = 'application/json';
 
@@ -76,8 +76,8 @@ const LoginForm = () => {
                                             </Form.Label>
                                         </Form.Group>
                                         <div className={'d-flex w-100 justify-content-center'}>
-                                            <Button className={'w-75'} type={'submit'}>
-                                                {'Login'}
+                                            <Button disabled={isLoading} className={'w-75'} type={'submit'}>
+                                                {isLoading ? <Spinner variant={'info'} animation={'border'} /> : 'Login'}
                                             </Button>
                                         </div>
                                     </Form>
