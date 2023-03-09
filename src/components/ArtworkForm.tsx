@@ -273,7 +273,7 @@ const ArtworkForm: React.FC<IArtworkFormProps> = ({ attributes, isEveryoneInForm
                                 )
                             }
                         </Form>
-                        {currentAttributes._id
+                        {currentAttributes._id && isEveryoneInFormMode
                             ? (
                                 <Form onSubmit={handleDelete}>
                                     <Button disabled={deleteMutation.isLoading} className={'w-100 mt-2'} type={'submit'} variant={'danger'}>

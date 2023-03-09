@@ -65,7 +65,7 @@ const Artworks = ({ current = false }: IArtworkProps) => {
                                     </React.Fragment>
                                 )
                                 : null}
-                            <Row xs={1} lg={4} className={'d-flex align-items-center justify-content-center'}>
+                            <Row xs={1} lg={isLoggedIn && !isInFormMode ? 6 : 4} className={'d-flex align-items-center justify-content-center'}>
                                 {isLoggedIn && newArtworks.length !== 0
                                     && newArtworks.map((newArtwork, index) => (
                                         <ArtworkForm
