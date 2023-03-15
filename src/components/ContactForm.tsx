@@ -26,7 +26,7 @@ const ContactForm = () => {
         e.preventDefault();
         setIsSubmitted(true);
 
-        const emailResponse = await fetch(`${process.env.REACT_APP_API_URL}/api/email`, {
+        const emailResponse = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/email`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
