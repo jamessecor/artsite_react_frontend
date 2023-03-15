@@ -43,7 +43,12 @@ const Navigation = () => {
                                             <Offcanvas.Header className={'pb-0'} onHide={() => setShowOffcanvas(false)} closeButton>
                                                 <Offcanvas.Title>
                                                     <Nav>
-                                                        <Nav.Link className={'px-2'} onClick={() => navigateTo('/')}>James Secor</Nav.Link>
+                                                        <Nav.Link className={'px-2'} onClick={() => {
+                                                            navigateTo('/');
+                                                            setShowOffcanvas(false);
+                                                        }}>
+                                                            {'James Secor'}
+                                                        </Nav.Link>
                                                     </Nav>
                                                 </Offcanvas.Title>
                                             </Offcanvas.Header>
