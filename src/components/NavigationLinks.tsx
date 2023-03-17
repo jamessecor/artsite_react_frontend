@@ -18,7 +18,7 @@ const NavigationLinks = ({ setShowOffcanvas }) => {
     const urlYear = searchParams.get('year') ?? '';
     const urlGrouping = searchParams.get('grouping');
 
-    const { allGroupings, allYears } = useArtworks();
+    const { allGroupings, hiddenGroupings, allYears } = useArtworks();
 
     const HideOffcanvasAndNavigateTo = (newPath) => {
         setShowOffcanvas(false);
@@ -37,7 +37,7 @@ const NavigationLinks = ({ setShowOffcanvas }) => {
             <NavDropdown.Divider />
             <Nav className="me-auto">
                 <NavDropdown title="artwork" id="basic-nav-dropdown" className={pathname === "/artworks" ? "border border-2 border-secondary rounded" : "rounded"}>
-                    {allGroupings.map((grouping) => (
+                    {allGroupings.filter((x) => !hiddenGroupings.includes(x)).map((grouping) => (
                         <NavDropdown.Item
                             key={grouping}
                             data-filter={grouping}

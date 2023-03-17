@@ -1,5 +1,7 @@
 export type Groupings = string | "nomophobia" | "digital_edits" | "storage" | "mug_dish_glass" | "merica" | "wallabies";
 
+export type GroupingsToHide = Partial<Groupings>;
+
 export enum GroupingsLabels {
     wallabies = "Off the Wallabies",
     merica = "Freedom Fries",

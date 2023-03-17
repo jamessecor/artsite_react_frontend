@@ -21,6 +21,8 @@ const useArtworks = () => {
         return [...new Set(groupings)].sort((a, b) => GroupingsLabelsOrder[a] - GroupingsLabelsOrder[b]);
     }, [allArtworks]);
 
+    const hiddenGroupings = ['digital_edits'];
+
     const setEm = useCallback((year = '', grouping: Groupings = '', searchTerm = '', current = false) => {
         let newArtworks = allArtworks;
         if (year) {
@@ -62,6 +64,7 @@ const useArtworks = () => {
         randomArtwork,
         allYears,
         allGroupings,
+        hiddenGroupings,
         setArtworks,
         setEm,
         soldArtworkByQuarter,
