@@ -1,21 +1,10 @@
 import * as React from "react";
-import { useCallback, useMemo, useEffect, useState } from 'react';
-import { Outlet, useNavigate, useSearchParams } from 'react-router-dom';
-import { Button, Spinner } from "react-bootstrap";
-import { BackgroundColorContext, textColor } from "../providers/BackgroundColorProvider";
+import { useEffect, useState } from 'react';
 import './Nomophobia.css';
-import Canvas from './Canvas';
 import PhoneApp from './PhoneApp';
-import School from './School';
-import News from './News';
-import GalleryTour from './GalleryTour';
 import { MdOutlineSchool } from 'react-icons/md';
 import { BsFillPencilFill, BsInstagram, BsNewspaper, BsSpotify } from 'react-icons/bs';
 import { HiBuildingLibrary } from 'react-icons/hi2'
-import { PHONE_HEIGHT, PHONE_WIDTH } from "./PhoneSize";
-import useArtworks from "../../hooks/useArtworks";
-import SchoolInstructions from "./SchoolInstructions";
-import { chirpingInTheThicketsTour } from "../../data/gallery-tour/chirping-in-the-thickets";
 import { Pages } from "./Nomophobia";
 
 const load = () => 0; // TODO

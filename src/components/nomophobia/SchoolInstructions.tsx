@@ -1,8 +1,6 @@
 import * as React from 'react';
-import { useState } from 'react';
 import { Toast, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import { Pages } from './Nomophobia';
 
 interface SchoolInstructionsParams {
     isLoading?: boolean;
