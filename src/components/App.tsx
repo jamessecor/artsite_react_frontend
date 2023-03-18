@@ -16,6 +16,15 @@ import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import LoginForm from './LoginForm';
 import AuthenticationProvider from './providers/AuthenticationProvider';
+import PhoneHome from './nomophobia/PhoneHome';
+import Canvas from './nomophobia/Canvas';
+import News from './nomophobia/News';
+import Spotify from './nomophobia/Spotify';
+import Instagram from './nomophobia/Instagram';
+import SchoolInstructions from './nomophobia/SchoolInstructions';
+import School from './nomophobia/School';
+import GalleryTour from './nomophobia/GalleryTour';
+import { chirpingInTheThicketsTour } from '../data/gallery-tour/chirping-in-the-thickets';
 
 const fourHoursInMs = 1000 * 60 * 60 * 4;
 
@@ -41,7 +50,16 @@ const App = () => {
                                     <Route path={'/artworks/sold'} element={<SoldArtworks />} />
                                     <Route path={'/artworks'} element={<Artworks />} />
                                     <Route path={'/cv'} element={<Cv />} />
-                                    <Route path={'/nomophobia/*'} element={<Nomophobia />} />
+                                    <Route element={<Nomophobia />}>
+                                        <Route path={'/nomophobia/canvas'} element={<Canvas />} />
+                                        <Route path={'/nomophobia/spotify'} element={<Spotify />} />
+                                        <Route path={'/nomophobia/instagram'} element={<Instagram />} />
+                                        <Route path={'/nomophobia/school-instructions'} element={<SchoolInstructions />} />
+                                        <Route path={'/nomophobia/school'} element={<School />} />
+                                        <Route path={'/nomophobia/gallery-tour'} element={<GalleryTour images={chirpingInTheThicketsTour} />} />
+                                        <Route path={'/nomophobia/news'} element={<News />} />
+                                        <Route path={'/nomophobia*'} element={<PhoneHome />} />
+                                    </Route>
                                     <Route path={'/colors'} element={<Colors />} />
                                     <Route path={'/contact'} element={<ContactForm />} />
                                     <Route path={'/store'} element={<Store />}>

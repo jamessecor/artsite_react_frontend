@@ -29,7 +29,11 @@ const TIME_TO_COMPLETE = 15000;
 
 const getRandomZeroToNine = () => Math.round(Math.random() * 10) - 1;
 
-const School = ({isLoading}) => {
+interface SchoolParams {
+    isLoading?: boolean;
+}
+
+const School: React.FC<SchoolParams> = ({isLoading}) => {
     const [completed, setCompleted] = useState(false);
     const [timesUp, setTimesUp] = useState(false);
     const [timeRemaining, setTimeRemaining] = useState(TIME_TO_COMPLETE);

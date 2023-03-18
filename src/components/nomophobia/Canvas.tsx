@@ -2,13 +2,19 @@ import React, { useRef, useState, useEffect } from 'react';
 import { Button } from 'react-bootstrap';
 import { TfiEraser } from 'react-icons/tfi'
 import './Canvas.css';
+import { PHONE_HEIGHT, PHONE_WIDTH } from "./PhoneSize";
 
 interface ICoords {
     x: number;
     y: number;
 };
 
-const Canvas = ({ isLoading, clear, setClear, width, height}) => {
+interface CanvasParams {
+    isLoading?: boolean;
+}
+
+const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
+    const [clear, setClear] = useState(true);
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const [previousCoords, setPreviousCoords] = useState<ICoords>({x: -1, y: -1});
     const [isClickingOrTouching, setIsClickingOrTouching] = useState(false);
@@ -78,8 +84,8 @@ const Canvas = ({ isLoading, clear, setClear, width, height}) => {
     return (
         <div className={'d-flex w-100'}>
             <canvas
-                width={width}
-                height={height}
+                width={PHONE_WIDTH}
+                height={PHONE_HEIGHT}
                 onMouseDown={(e) => {
                     if (canvasRef?.current !== null) {
                         const rect = canvasRef?.current.getBoundingClientRect();
