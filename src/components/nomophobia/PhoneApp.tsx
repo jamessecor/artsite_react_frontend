@@ -3,16 +3,17 @@ import { useCallback } from 'react';
 import { Button } from 'react-bootstrap';
 import './PhoneApp.css';
 import { Pages } from './Nomophobia';
+import { useNavigate } from 'react-router-dom';
 
 interface PhoneAppProps {
     page: Pages;
-    setCurrentPage: React.Dispatch<React.SetStateAction<Pages>>;
+    routePath: string;
     icon: React.ReactElement;
     load: (timeToLoad: number) => void;
 };
 
-const PhoneApp = ({load, page, setCurrentPage, icon}: PhoneAppProps) => {
-
+const PhoneApp = ({load, page, routePath, icon}: PhoneAppProps) => {
+    const navigateTo = useNavigate();
     const pageToAppName = useCallback((page: Pages) => {
         switch(page) {
             case Pages.Instagram:
@@ -40,7 +41,7 @@ const PhoneApp = ({load, page, setCurrentPage, icon}: PhoneAppProps) => {
             onClick={(e) => {
                 const timeToLoad = Math.random() * 3000;
                 load(timeToLoad);
-                setTimeout(() => setCurrentPage(page), timeToLoad - 2500);
+                setTimeout(() => navigateTo(`/nomophobia/${routePath}`), timeToLoad - 2500);
             }}
         >
             <h3>{icon}</h3>
