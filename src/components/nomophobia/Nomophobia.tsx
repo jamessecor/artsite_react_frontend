@@ -1,10 +1,9 @@
 import * as React from "react";
-import { useCallback, useMemo, useState } from 'react';
-import { Outlet, useNavigate, useSearchParams } from 'react-router-dom';
+import { useCallback, useState } from 'react';
+import { Outlet, useNavigate } from 'react-router-dom';
 import { Button, Spinner } from "react-bootstrap";
 import { BackgroundColorContext } from "../providers/BackgroundColorProvider";
 import './Nomophobia.css';
-import useArtworks from "../../hooks/useArtworks";
 
 export enum Pages {
     Off = 'off',
@@ -20,19 +19,13 @@ export enum Pages {
 
 const Nomophobia = () => {
     const navigateTo = useNavigate();
-    const { randomArtwork } = useArtworks();
-    const artwork = useMemo(() => randomArtwork(), [randomArtwork]);
 
-    const [searchParams, setSearchParams] = useSearchParams();
     const [isLoading, setIsLoading] = useState(false);
-    const [currentPage, setCurrentPage] = useState<Pages>(searchParams.get('p') as Pages ?? Pages.Off);
 
     const load = useCallback((timeToLoad: number) => {
         setIsLoading(true);
         setTimeout(() => setIsLoading(false), timeToLoad);
     }, []);
-
-    
 
     return (
         <BackgroundColorContext.Consumer>
@@ -42,7 +35,7 @@ const Nomophobia = () => {
                     {/* POWER BUTTON */}
                     <Button
                         className={'power-button position-absolute m-0 p-0 end-0 top-0'}
-                        onClick={() => navigateTo(`/nomophobia/${currentPage === Pages.Off ? '' : Pages.Off}`)}
+                        onClick={() => navigateTo(`/nomophobia/${window.location.pathname === '/nomophobia' ? Pages.Home : ''}`)}
                     />
                     {/* SPEAKER */}
                     <div className={'d-flex justify-content-center align-items-center phone-header'}>
@@ -52,7 +45,7 @@ const Nomophobia = () => {
                     <div
                         className={'justify-content-center p-0 phone-screen'}
                         style={{
-                            boxShadow: currentPage === Pages.Off ? '' : '0px 0px 25px 10px rgba(205, 255, 205, 0.3)',
+                            // boxShadow: currentPage === Pages.Off ? '' : '0px 0px 25px 10px rgba(205, 255, 205, 0.3)',
                             background: 'lightblue'
                         }}
                     >
@@ -68,7 +61,7 @@ const Nomophobia = () => {
                     <div className={'d-flex justify-content-center align-items-center phone-footer'}>
                         <Button
                             className={'btn btn-dark phone-bottom-button'}
-                            onClick={() => navigateTo('/nomophobia')}
+                            onClick={() => navigateTo('/nomophobia/home')}
                         />
                     </div>
                 </div>

@@ -4,10 +4,10 @@ import './Nomophobia.css';
 import PhoneApp from './PhoneApp';
 import { MdOutlineSchool } from 'react-icons/md';
 import { BsFillPencilFill, BsInstagram, BsNewspaper, BsSpotify } from 'react-icons/bs';
-import { HiBuildingLibrary } from 'react-icons/hi2'
+import { TbBuilding } from 'react-icons/tb';
 import { Pages } from "./Nomophobia";
 
-const load = () => 0; // TODO
+const load = () => 100; // TODO
 
 const PhoneHome = () => {
     const [currentTime, setCurrentTime] = useState(new Date());
@@ -33,7 +33,7 @@ const PhoneHome = () => {
                 <div className={'d-flex justify-content-between p-3'}>
                     <PhoneApp load={load} page={Pages.SchoolInstructions} routePath={Pages.SchoolInstructions} icon={<MdOutlineSchool />} />
                     <PhoneApp load={load} page={Pages.News} routePath={Pages.News} icon={<BsNewspaper />} />
-                    <PhoneApp load={load} page={Pages.GalleryTour} routePath={Pages.GalleryTour} icon={<HiBuildingLibrary />} />
+                    <PhoneApp load={load} page={Pages.GalleryTour} routePath={Pages.GalleryTour} icon={<TbBuilding />} />
                 </div>
             </div>
         </div>

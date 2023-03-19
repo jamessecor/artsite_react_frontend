@@ -25,6 +25,7 @@ import SchoolInstructions from './nomophobia/SchoolInstructions';
 import School from './nomophobia/School';
 import GalleryTour from './nomophobia/GalleryTour';
 import { chirpingInTheThicketsTour } from '../data/gallery-tour/chirping-in-the-thickets';
+import PhoneOff from './nomophobia/PhoneOff';
 
 const fourHoursInMs = 1000 * 60 * 60 * 4;
 
@@ -58,7 +59,8 @@ const App = () => {
                                         <Route path={'/nomophobia/school'} element={<School />} />
                                         <Route path={'/nomophobia/gallery-tour'} element={<GalleryTour images={chirpingInTheThicketsTour} />} />
                                         <Route path={'/nomophobia/news'} element={<News />} />
-                                        <Route path={'/nomophobia*'} element={<PhoneHome />} />
+                                        <Route path={'/nomophobia/home'} element={<PhoneHome />} />
+                                        <Route path={'/nomophobia*'} element={<PhoneOff />} />
                                     </Route>
                                     <Route path={'/colors'} element={<Colors />} />
                                     <Route path={'/contact'} element={<ContactForm />} />
