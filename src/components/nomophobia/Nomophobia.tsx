@@ -35,7 +35,7 @@ const Nomophobia = () => {
                     {/* POWER BUTTON */}
                     <Button
                         className={'power-button position-absolute m-0 p-0 end-0 top-0'}
-                        onClick={() => navigateTo(/nomophobia[^a-z]$/i.test(window.location.pathname) ? Pages.Home : '')}
+                        onClick={() => navigateTo(/nomophobia[^a-z]$/i.test(window.location.pathname) ? `/nomophobia/${Pages.Home}` : '/nomophobia')}
                     />
                     {/* SPEAKER */}
                     <div className={'d-flex justify-content-center align-items-center phone-header'}>
