@@ -9,6 +9,7 @@ import { BackgroundColorContext, isTooLightForDarkTheme } from "./providers/Back
 import { BsHeart, BsHeartFill } from "react-icons/bs";
 import { IArtwork } from "../models/Artwork";
 import axios from "axios";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 interface ArtworkParams {
     attributes: IArtwork;
@@ -21,6 +22,7 @@ const Artwork: React.FC<ArtworkParams> = ({ attributes }) => {
     const [isShowingThisInfo, setIsShowingThisInfo] = useState(false);
     const likes: Array<IArtwork> = useMemo(() => JSON.parse(sessionStorage.getItem(likesSessionName) ?? '[]') ?? [], [sessionStorage.getItem(likesSessionName)]);
     const [isLiked, setIsLiked] = useState(likes.filter((like) => like._id === attributes._id).length > 0);
+    const client = useQueryClient();
 
     useEffect(() => {
         if (isLiked) {
@@ -36,6 +38,9 @@ const Artwork: React.FC<ArtworkParams> = ({ attributes }) => {
             timestamp: new Date().toISOString(),
             amount: isLiked ? 1 : -1
         });
+        // TODO update artworks in react-query
+        // TODO - useMutation!
+        // client.setQueryData(['artworks', { _id: attributes._id }], attributes)
     }, [isLiked]);
 
     return (
@@ -64,7 +69,7 @@ const Artwork: React.FC<ArtworkParams> = ({ attributes }) => {
                                                     setIsLiked(!isLiked);
                                                     sendLike();
                                                 }}
-                                                className={'mt-1 me-1 d-none'}
+                                                className={'mt-1 me-1'}
                                                 style={{ alignItems: 'end' }}
                                             >
                                                 {isLiked
