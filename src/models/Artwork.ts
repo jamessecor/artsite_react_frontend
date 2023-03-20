@@ -20,6 +20,11 @@ export enum GroupingsLabelsOrder {
     digital_edits = 6
 };
 
+interface ILike {
+    timestamp: string;
+    amount: number;
+};
+
 export interface IArtwork {
     _id?: string;
     title: string;
@@ -36,6 +41,8 @@ export interface IArtwork {
     salePrice?: string;
     saleRevenue?: string;
     isNFS?: boolean;
+    likes?: Array<ILike>;
+    totalLikes?: number;
 };
 
 export const ArtworkAttributes = {

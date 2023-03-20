@@ -1,5 +1,5 @@
 import * as React from "react"
-import { useEffect, useMemo, useState } from "react"
+import { useCallback, useEffect, useMemo, useState } from "react"
 import MovingColorImage from "./MovingColorImage";
 import PriceFormatter from "./PriceFormatter";
 import { ImInfo } from 'react-icons/im';
@@ -8,12 +8,14 @@ import { ArtworkShowingInfoContext } from './Navigation';
 import { BackgroundColorContext, isTooLightForDarkTheme } from "./providers/BackgroundColorProvider";
 import { BsHeart, BsHeartFill } from "react-icons/bs";
 import { IArtwork } from "../models/Artwork";
+import axios from "axios";
 
 interface ArtworkParams {
     attributes: IArtwork;
 }
 
 const likesSessionName = 'likes';
+const likesHeartColor = '#cc7766';
 
 const Artwork: React.FC<ArtworkParams> = ({ attributes }) => {
     const [isShowingThisInfo, setIsShowingThisInfo] = useState(false);
@@ -21,13 +23,19 @@ const Artwork: React.FC<ArtworkParams> = ({ attributes }) => {
     const [isLiked, setIsLiked] = useState(likes.filter((like) => like._id === attributes._id).length > 0);
 
     useEffect(() => {
-        // TODO: update likes on server
         if (isLiked) {
             sessionStorage.setItem(likesSessionName, JSON.stringify([...likes, attributes]));
         }
         else {
             sessionStorage.setItem(likesSessionName, JSON.stringify(likes.filter((like) => like._id != attributes._id)));
         }
+    }, [isLiked, attributes]);
+
+    const sendLike = useCallback(() => {
+        axios.put(`${process.env.REACT_APP_API_BASE_URL}/api/artworks/${attributes._id}/likes`, {
+            timestamp: new Date().toISOString(),
+            amount: isLiked ? 1 : -1
+        });
     }, [isLiked]);
 
     return (
@@ -52,14 +60,29 @@ const Artwork: React.FC<ArtworkParams> = ({ attributes }) => {
                                                 <PriceFormatter classes={''} price={attributes.price} isSold={Boolean(attributes.saleDate ?? attributes.isNFS)} />
                                             </Stack>
                                             <Stack
-                                                onClick={() => setIsLiked(!isLiked)}
-                                                className={'mt-1 me-1'}
+                                                onClick={() => {
+                                                    setIsLiked(!isLiked);
+                                                    sendLike();
+                                                }}
+                                                className={'mt-1 me-1 d-none'}
                                                 style={{ alignItems: 'end' }}
                                             >
                                                 {isLiked
-                                                    ? <BsHeartFill size={'20'} color={'#7755cc'} />
-                                                    : <BsHeart size={'20'} color={'#7755cc'} />
-                                                }
+                                                    ? (
+                                                        <Stack className={'align-items-end'} style={{ color: likesHeartColor }}>
+                                                            <BsHeartFill size={'20'} color={likesHeartColor} />
+                                                            <div style={{ fontSize: '.75rem' }}>
+                                                                {attributes.totalLikes}
+                                                            </div>
+                                                        </Stack>
+                                                    ) : (
+                                                        <Stack className={'align-items-end'} style={{ color: likesHeartColor }}>
+                                                            <BsHeart size={'20'} color={likesHeartColor} />
+                                                            <div style={{ fontSize: '.75rem' }}>
+                                                                {attributes.totalLikes}
+                                                            </div>
+                                                        </Stack>
+                                                    )}
                                             </Stack>
                                         </React.Fragment>
                                     ) : null}

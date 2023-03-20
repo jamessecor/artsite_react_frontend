@@ -82,7 +82,6 @@ const Artworks = ({ current = false }: IArtworkProps) => {
                                                     ? <ArtworkForm attributes={artwork} isEveryoneInFormMode={isInFormMode} />
                                                     : <Artwork attributes={artwork} />
                                                 }
-
                                             </Col>
                                         )
                                     }))
