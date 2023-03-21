@@ -20,7 +20,7 @@ export enum GroupingsLabelsOrder {
     digital_edits = 6
 };
 
-interface ILike {
+export interface ILike {
     timestamp: string;
     amount: number;
 };

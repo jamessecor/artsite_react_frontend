@@ -7,12 +7,20 @@ import { Col, Stack } from 'react-bootstrap';
 import { ArtworkShowingInfoContext } from './Navigation';
 import { BackgroundColorContext, isTooLightForDarkTheme } from "./providers/BackgroundColorProvider";
 import { BsHeart, BsHeartFill } from "react-icons/bs";
-import { IArtwork } from "../models/Artwork";
-import axios from "axios";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { IArtwork, ILike } from "../models/Artwork";
+import axios, { AxiosError } from "axios";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 interface ArtworkParams {
     attributes: IArtwork;
+}
+
+interface IArtworkPutLikeResponse {
+    data: {
+        message: string;
+        likes: Array<ILike>;
+        totalLikes: number;
+    }
 }
 
 const likesSessionName = 'likes';
@@ -22,6 +30,8 @@ const Artwork: React.FC<ArtworkParams> = ({ attributes }) => {
     const [isShowingThisInfo, setIsShowingThisInfo] = useState(false);
     const likes: Array<IArtwork> = useMemo(() => JSON.parse(sessionStorage.getItem(likesSessionName) ?? '[]') ?? [], [sessionStorage.getItem(likesSessionName)]);
     const [isLiked, setIsLiked] = useState(likes.filter((like) => like._id === attributes._id).length > 0);
+    const [totalLikes, setTotalLikes] = useState(attributes.totalLikes);
+    const amount = useMemo(() => isLiked ? -1 : 1, [isLiked]);
     const client = useQueryClient();
 
     useEffect(() => {
@@ -33,15 +43,26 @@ const Artwork: React.FC<ArtworkParams> = ({ attributes }) => {
         }
     }, [isLiked, attributes]);
 
-    const sendLike = useCallback(() => {
-        axios.put(`${process.env.REACT_APP_API_BASE_URL}/api/artworks/${attributes._id}/likes`, {
+    const { mutate } = useMutation<IArtworkPutLikeResponse, AxiosError>(_ => {
+        return axios.put(`${process.env.REACT_APP_API_BASE_URL}/api/artworks/${attributes._id}/likes`, {
             timestamp: new Date().toISOString(),
-            amount: isLiked ? 1 : -1
+            amount: amount
         });
-        // TODO update artworks in react-query
-        // TODO - useMutation!
-        // client.setQueryData(['artworks', { _id: attributes._id }], attributes)
-    }, [isLiked]);
+    }, {
+        onSuccess: (data) => {
+            // update artwork
+            setTotalLikes(data.data.totalLikes);
+            client.setQueryData(['artworks', { _id: attributes._id }], {
+                ...attributes,
+                likes: data.data.likes,
+                totalLikes: data.data.totalLikes
+            });
+        },
+        onError: (data) => {
+            // hmm, set it back?
+            setIsLiked(!isLiked);
+        }
+    });
 
     return (
         <BackgroundColorContext.Consumer>
@@ -66,8 +87,8 @@ const Artwork: React.FC<ArtworkParams> = ({ attributes }) => {
                                             </Stack>
                                             <Stack
                                                 onClick={() => {
+                                                    mutate();
                                                     setIsLiked(!isLiked);
-                                                    sendLike();
                                                 }}
                                                 className={'mt-1 me-1'}
                                                 style={{ alignItems: 'end' }}
@@ -77,14 +98,14 @@ const Artwork: React.FC<ArtworkParams> = ({ attributes }) => {
                                                         <Stack className={'align-items-end'} style={{ color: likesHeartColor }}>
                                                             <BsHeartFill size={'20'} color={likesHeartColor} />
                                                             <div style={{ fontSize: '.75rem' }}>
-                                                                {attributes.totalLikes}
+                                                                {totalLikes}
                                                             </div>
                                                         </Stack>
                                                     ) : (
                                                         <Stack className={'align-items-end'} style={{ color: likesHeartColor }}>
                                                             <BsHeart size={'20'} color={likesHeartColor} />
                                                             <div style={{ fontSize: '.75rem' }}>
-                                                                {attributes.totalLikes}
+                                                                {totalLikes}
                                                             </div>
                                                         </Stack>
                                                     )}
