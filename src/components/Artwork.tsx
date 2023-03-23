@@ -24,7 +24,7 @@ interface IArtworkPutLikeResponse {
 }
 
 const likesSessionName = 'likes';
-const likesHeartColor = '#cc7766';
+const likesHeartColor = '#bb9999';
 
 const Artwork: React.FC<ArtworkParams> = ({ attributes }) => {
     const [isShowingThisInfo, setIsShowingThisInfo] = useState(false);
@@ -83,7 +83,7 @@ const Artwork: React.FC<ArtworkParams> = ({ attributes }) => {
                                                 <div className='fw-bold'>{attributes.title}</div>
                                                 <div>{attributes.year}</div>
                                                 <div>{attributes.media}</div>
-                                                <PriceFormatter classes={''} price={attributes.price} isSold={Boolean(attributes.saleDate ?? attributes.isNFS)} />
+                                                <PriceFormatter price={attributes.price} isSold={Boolean(attributes.saleDate ?? attributes.isNFS)} />
                                             </Stack>
                                             <Stack
                                                 onClick={() => {
@@ -95,14 +95,14 @@ const Artwork: React.FC<ArtworkParams> = ({ attributes }) => {
                                             >
                                                 {isLiked
                                                     ? (
-                                                        <Stack className={'align-items-end'} style={{ color: likesHeartColor }}>
+                                                        <Stack className={'ms-auto align-items-center'} style={{ color: likesHeartColor }}>
                                                             <BsHeartFill size={'20'} color={likesHeartColor} />
                                                             <div style={{ fontSize: '.75rem' }}>
                                                                 {totalLikes}
                                                             </div>
                                                         </Stack>
                                                     ) : (
-                                                        <Stack className={'align-items-end'} style={{ color: likesHeartColor }}>
+                                                        <Stack className={'ms-auto align-items-center'} style={{ color: likesHeartColor }}>
                                                             <BsHeart size={'20'} color={likesHeartColor} />
                                                             <div style={{ fontSize: '.75rem' }}>
                                                                 {totalLikes}
