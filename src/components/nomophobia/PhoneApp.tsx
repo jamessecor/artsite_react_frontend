@@ -12,10 +12,10 @@ interface PhoneAppProps {
     load: (timeToLoad: number) => void;
 };
 
-const PhoneApp = ({load, page, routePath, icon}: PhoneAppProps) => {
+const PhoneApp = ({ load, page, routePath, icon }: PhoneAppProps) => {
     const navigateTo = useNavigate();
     const pageToAppName = useCallback((page: Pages) => {
-        switch(page) {
+        switch (page) {
             case Pages.Instagram:
                 return 'insta';
             case Pages.Spotify:
@@ -30,6 +30,8 @@ const PhoneApp = ({load, page, routePath, icon}: PhoneAppProps) => {
                 return 'news';
             case Pages.GalleryTour:
                 return 'tour';
+            case Pages.Likes:
+                return 'likes';
             default:
                 return 'app';
         }

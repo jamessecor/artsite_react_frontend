@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import './Nomophobia.css';
 import PhoneApp from './PhoneApp';
 import { MdOutlineSchool } from 'react-icons/md';
-import { BsFillPencilFill, BsInstagram, BsNewspaper, BsSpotify } from 'react-icons/bs';
+import { BsFillPencilFill, BsHeartFill, BsInstagram, BsNewspaper, BsSpotify } from 'react-icons/bs';
 import { TbBuilding } from 'react-icons/tb';
 import { Pages } from "./Nomophobia";
 
@@ -25,6 +25,9 @@ const PhoneHome = () => {
                 <span className={'py-1 px-2 border border-2 border-light text-light rounded-pill'}>{currentTime.toLocaleTimeString()}</span>
             </div>
             <div>
+                <div className={'d-flex justify-content-between p-3'}>
+                    <PhoneApp load={load} page={Pages.Likes} routePath={Pages.Likes} icon={<BsHeartFill />} />
+                </div>
                 <div className={'d-flex justify-content-between p-3'}>
                     <PhoneApp load={load} page={Pages.Canvas} routePath={Pages.Canvas} icon={<BsFillPencilFill />} />
                     <PhoneApp load={load} page={Pages.Instagram} routePath={Pages.Instagram} icon={<BsInstagram />} />

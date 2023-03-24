@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { useCallback, useMemo, useState } from 'react';
 import { IArtwork, Groupings, GroupingsLabelsOrder } from '../models/Artwork';
-import axios from 'axios';
+import axios, { all } from 'axios';
 
 const useArtworks = () => {
     const { data, isLoading } = useQuery({ 
@@ -59,6 +59,8 @@ const useArtworks = () => {
         return soldArtworks;
     }, [allArtworks, setEm]);
 
+    const likedArtworks = useMemo(() => allArtworks.filter((artwork) => artwork.totalLikes ?? 0 > 0), [allArtworks]);
+
     return {
         artworks,
         randomArtwork,
@@ -68,6 +70,7 @@ const useArtworks = () => {
         setArtworks,
         setEm,
         soldArtworkByQuarter,
+        likedArtworks,
         isLoading
     };
 };
