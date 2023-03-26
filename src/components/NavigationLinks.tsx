@@ -9,6 +9,7 @@ import Button from 'react-bootstrap/Button';
 import './Navigation.css';
 import { GroupingsLabels } from '../models/Artwork';
 import useArtworks from '../hooks/useArtworks';
+import { Spinner } from 'react-bootstrap';
 
 const NavigationLinks = ({ setShowOffcanvas }) => {
     const navigateTo = useNavigate();
@@ -18,7 +19,7 @@ const NavigationLinks = ({ setShowOffcanvas }) => {
     const urlYear = searchParams.get('year') ?? '';
     const urlGrouping = searchParams.get('grouping');
 
-    const { allGroupings, hiddenGroupings, allYears } = useArtworks();
+    const { allGroupings, hiddenGroupings, allYears, isLoading } = useArtworks();
 
     const HideOffcanvasAndNavigateTo = (newPath) => {
         setShowOffcanvas(false);
@@ -50,7 +51,9 @@ const NavigationLinks = ({ setShowOffcanvas }) => {
                                 : grouping}
                         </NavDropdown.Item>
                     ))}
-                    <NavDropdown.Divider />
+                    {isLoading
+                        ? <Spinner variant={'info'} animation={'border'} className={'ms-3'} />
+                        : <NavDropdown.Divider />}
                     {allYears.map((year) => (
                         <NavDropdown.Item
                             key={year}
