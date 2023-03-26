@@ -14,7 +14,8 @@ export enum Pages {
     SchoolInstructions = 'school-instructions',
     School = 'school',
     News = 'news',
-    GalleryTour = 'gallery-tour'
+    GalleryTour = 'gallery-tour',
+    Likes = 'likes'
 };
 
 const Nomophobia = () => {
