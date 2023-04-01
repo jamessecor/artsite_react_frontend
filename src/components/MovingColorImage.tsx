@@ -5,6 +5,7 @@ import { ArtworkRotatingContext } from './Navigation';
 import { AlphaPicker } from 'react-color';
 
 const MovingColorImage = ({src, title, isFullHeightAndWidth = false, startsWithRotating = false}) => {
+    // const screenWidth = window.innerWidth;
     const widthOrHeightClass = isFullHeightAndWidth ? 'vh-100 w-100' : 'w-100';
     
     const [isRotating, setIsRotating] = useState(false);

@@ -104,7 +104,7 @@ const ArtworkForm: React.FC<IArtworkFormProps> = ({ attributes, isEveryoneInForm
                 deleteMutation.mutate();
             }
         }
-    }, [currentAttributes._id]);
+    }, [currentAttributes._id, deleteMutation]);
 
     const handleSubmit = useCallback((e) => {
         e.preventDefault();
@@ -113,7 +113,7 @@ const ArtworkForm: React.FC<IArtworkFormProps> = ({ attributes, isEveryoneInForm
             _id: undefined
         };
         mutate(attributesToSubmit);
-    }, [currentAttributes]);
+    }, [currentAttributes, mutate]);
 
     return (
         <BackgroundColorContext.Consumer>
@@ -193,7 +193,7 @@ const ArtworkForm: React.FC<IArtworkFormProps> = ({ attributes, isEveryoneInForm
                                             />
                                         </Form.Group>
                                         <Form.Group className="mb-3" controlId="grouping">
-                                            <Form.Label className={'text-break'}>{allGroupings.toString()}</Form.Label>
+                                            <Form.Label className={'text-break'}>{allGroupings.length ? allGroupings.toString() : 'tags'}</Form.Label>
                                             <Form.Control
                                                 onChange={(e) => setCurrentAttributes({
                                                     ...currentAttributes,
