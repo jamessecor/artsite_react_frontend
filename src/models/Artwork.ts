@@ -31,7 +31,7 @@ export interface IArtwork {
     year: string;
     media: string;
     image: string;
-    thumbnail?: string;
+    thumbnails?: Map<number, string>;
     isHomePage?: boolean;
     price: string;
     arrangement?: number;
