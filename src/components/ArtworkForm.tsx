@@ -40,8 +40,8 @@ interface IResponseType {
 }
 
 const ArtworkForm: React.FC<IArtworkFormProps> = ({ attributes, isEveryoneInFormMode }) => {
-    const [currentAttributes, setCurrentAttributes] = useState<IArtworkFormData>(attributes);
     const [responseToast, setResponseToast] = useState<IResponseType>({});
+    const [currentAttributes, setCurrentAttributes] = useState<IArtworkFormData>(attributes);
     const imageSrc = useMemo(() => getImageSrc(currentAttributes.images), [currentAttributes]);
 
     const queryClient = useQueryClient();
