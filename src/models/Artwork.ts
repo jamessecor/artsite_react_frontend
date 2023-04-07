@@ -25,13 +25,15 @@ export interface ILike {
     amount: number;
 };
 
+export interface IImages {
+    [k: number]: string;
+}
 export interface IArtwork {
     _id?: string;
     title: string;
     year: string;
     media: string;
-    image: string;
-    thumbnails?: Map<number, string>;
+    images: IImages;
     isHomePage?: boolean;
     price: string;
     arrangement?: number;
@@ -51,7 +53,9 @@ export const ArtworkAttributes = {
         title: '',
         year: '',
         media: '',
-        image: '',
+        images: [],
         price: ''
     })
 }
+
+export const getImageSrc = (images: IImages) => images[2500] ? images[2500] : images[1];

@@ -50,7 +50,6 @@ const Colors = () => {
                 </div>
             </div>
             <div className="row vh-100 g-0 container-fluid">
-                {/* <img src={artwork.image} /> */}
                 {[...Array(336)].map((value, index) => {
                     return (
                         <div key={index} className="col-1">

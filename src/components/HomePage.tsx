@@ -5,11 +5,13 @@ import { Button } from 'react-bootstrap';
 import useArtworks from '../hooks/useArtworks';
 import MovingColorImage from "./MovingColorImage";
 import { BsFillPlayCircleFill, BsPlay, BsPlayCircleFill } from 'react-icons/bs';
+import { getImageSrc } from '../models/Artwork';
 
 const HomePage = () => {
     const navigateTo = useNavigate();
     const { artworks, setEm } = useArtworks();
     const artwork = useMemo(() => artworks[0], [artworks]);
+    const imageSrc = useMemo(() => getImageSrc(artwork.images), [artwork]);
 
     React.useEffect(() => {
         setEm('2022', 'merica', 'Claimed Land Erupting');
@@ -22,7 +24,7 @@ const HomePage = () => {
     return (
         <div className='position-absolute top-0 start-0 w-100' onClick={enterSite}>
             {artwork && (
-                <MovingColorImage isFullHeightAndWidth={true} src={artwork.image} title={artwork.title} startsWithRotating={true} />
+                <MovingColorImage isFullHeightAndWidth={true} src={imageSrc} title={artwork.title} startsWithRotating={true} />
             )}
             <button style={{ background: 'greenyellow', borderRadius: '10px' }} className={'position-absolute top-50 start-50 translate-middle'} onClick={enterSite}>
                 <h1>
@@ -35,7 +37,7 @@ const HomePage = () => {
                 onClose={enterSite}
             >
                 <Toast.Header closeButton={false}>
-                    <img src={artwork.image} className="w-25 rounded me-2" alt="" />
+                    <img src={imageSrc} className="w-25 rounded me-2" alt="" />
                     <strong className='me-auto'>
                         {'James Secor art'}
                     </strong>

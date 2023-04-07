@@ -30,7 +30,7 @@ const Artworks = ({ current = false }: IArtworkProps) => {
         setEm(year, grouping, searchTerm, current);
     }, [setEm, year, grouping, searchTerm, current]);
 
-    const enterSite = () => navigateTo('/artworks?year=2022');
+    const enterSite = () => navigateTo('/artworks?year=2023');
 
     const addNewArtwork = useCallback(() => {
         setNewArtworks([...newArtworks, ArtworkAttributes.create()]);
