@@ -6,7 +6,7 @@ import axios, { all } from 'axios';
 const useArtworks = () => {
     const { data, isLoading } = useQuery({ 
         queryKey: ['artworks'],
-        queryFn: () => axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/artworks`)
+        queryFn: () => axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/artworks`)
     });
     const allArtworks = useMemo(() => (!isLoading ? data?.data.results : []) as Array<IArtwork>, [data, isLoading]);
 

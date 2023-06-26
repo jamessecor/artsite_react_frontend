@@ -49,7 +49,7 @@ const ArtworkForm: React.FC<IArtworkFormProps> = ({ attributes, isEveryoneInForm
 
     const deleteMutation = useMutation<IArtworkDeleteFormResponse, AxiosError>(_ => {
         axios.defaults.headers.delete['Authorization'] = sessionStorage.getItem('artsite-token');
-        return axios.delete(`${process.env.REACT_APP_API_BASE_URL}/api/artworks/${currentAttributes._id}`);
+        return axios.delete(`${import.meta.env.VITE_API_BASE_URL}/api/artworks/${currentAttributes._id}`);
     }, {
         onSuccess: (data) => {
             setResponseToast({
@@ -77,8 +77,8 @@ const ArtworkForm: React.FC<IArtworkFormProps> = ({ attributes, isEveryoneInForm
         axios.defaults.headers.post['Content-Type'] = 'multipart/form-data';
 
         return currentAttributes._id
-            ? axios.put(`${process.env.REACT_APP_API_BASE_URL}/api/artworks/${currentAttributes._id}`, formData)
-            : axios.post(`${process.env.REACT_APP_API_BASE_URL}/api/artworks`, formData);
+            ? axios.put(`${import.meta.env.VITE_API_BASE_URL}/api/artworks/${currentAttributes._id}`, formData)
+            : axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/artworks`, formData);
     }, {
         onSuccess: (data) => {
             setResponseToast({

@@ -45,7 +45,7 @@ const Artwork: React.FC<ArtworkParams> = ({ attributes }) => {
     }, [isLiked, likes, attributes]);
 
     const { mutate } = useMutation<IArtworkPutLikeResponse, AxiosError>(_ => {
-        return axios.put(`${process.env.REACT_APP_API_BASE_URL}/api/artworks/${attributes._id}/likes`, {
+        return axios.put(`${import.meta.env.VITE_API_BASE_URL}/api/artworks/${attributes._id}/likes`, {
             timestamp: new Date().toISOString(),
             amount: amount
         });
