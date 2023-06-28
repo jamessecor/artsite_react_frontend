@@ -3,10 +3,9 @@ import { useCallback, useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import Artwork from "./Artwork";
 import { ArtworkAttributes, Groupings, IArtwork } from "../models/Artwork";
-import { Col, Container, Row, Spinner, Toast } from 'react-bootstrap';
+import { Badge, Button, Col, Container, Row, Spinner, Stack, Toast } from 'react-bootstrap';
 import useArtworks from '../hooks/useArtworks';
 import { useNavigate } from "react-router-dom";
-import Button from 'react-bootstrap/Button';
 import { ArtworkShowingSoldContext } from './Navigation';
 import { AuthenticationContext } from './providers/AuthenticationProvider';
 import ArtworkForm from './ArtworkForm';
@@ -87,7 +86,14 @@ const Artworks = ({ current = false }: IArtworkProps) => {
                                     }))
                                     : (
                                         isLoading
-                                            ? <Spinner variant={'info'} animation={'border'} className={'text-center'} />
+                                            ? (
+                                                <Stack direction={'vertical'} gap={2} style={{ alignItems: 'center' }}>
+                                                    <Spinner variant={'info'} animation={'border'} className={'text-center'} />
+                                                    <h5>
+                                                        <Badge bg={'info'}>{'Loading artworks'}</Badge>
+                                                    </h5>
+                                                </Stack>
+                                            )
                                             : (
                                                 <Container className={'align-items-center'}>
                                                     <Row xs={1}>
