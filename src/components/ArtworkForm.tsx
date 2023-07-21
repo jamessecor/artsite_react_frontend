@@ -3,13 +3,13 @@ import { useCallback, useMemo, useState } from "react"
 import MovingColorImage from "./MovingColorImage";
 import { Button, Col, Form, Spinner, Stack, Toast, ToastContainer } from 'react-bootstrap';
 import { BackgroundColorContext, isTooLightForDarkTheme, textColor } from "./providers/BackgroundColorProvider";
-import { ArtworkAttributes, getImageSrc, Groupings, GroupingsLabels, IArtwork } from "../models/Artwork";
+import { ArtworkAttributes, getImageSrc, Groupings, GroupingsLabels, IArtwork, IImages } from "../models/Artwork";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { Variant } from "react-bootstrap/esm/types";
 import useArtworks from "../hooks/useArtworks";
 
-interface IArtworkFormData extends IArtwork {
+interface IArtworkFormData extends Omit<IArtwork, 'images'> {
     file?: File;
 }
 
@@ -42,7 +42,8 @@ interface IResponseType {
 const ArtworkForm: React.FC<IArtworkFormProps> = ({ attributes, isEveryoneInFormMode }) => {
     const [responseToast, setResponseToast] = useState<IResponseType>({});
     const [currentAttributes, setCurrentAttributes] = useState<IArtworkFormData>(attributes);
-    const imageSrc = useMemo(() => getImageSrc(currentAttributes.images), [currentAttributes]);
+    const [images, setImages] = useState<IImages>(attributes.images);
+    const imageSrc = useMemo(() => getImageSrc(images), [images]);
 
     const queryClient = useQueryClient();
     const { allGroupings } = useArtworks();
@@ -87,9 +88,9 @@ const ArtworkForm: React.FC<IArtworkFormProps> = ({ attributes, isEveryoneInForm
             });
             setCurrentAttributes({
                 ...currentAttributes,
-                images: data.data.images,
                 _id: data.data._id
             });
+            setImages(data.data.images);
             queryClient.invalidateQueries({ queryKey: ['artworks'] });
         },
         onError: (data) => {
