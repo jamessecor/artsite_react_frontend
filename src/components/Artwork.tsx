@@ -1,9 +1,9 @@
 import * as React from "react"
-import { useEffect, useMemo, useState } from "react"
+import { Dispatch, SetStateAction, useEffect, useMemo, useState } from "react"
 import MovingColorImage from "./MovingColorImage";
 import PriceFormatter from "./PriceFormatter";
 import { ImInfo } from 'react-icons/im';
-import { Col, Stack } from 'react-bootstrap';
+import { Button, Col, Form, Modal, Spinner, Stack, Toast, ToastContainer } from 'react-bootstrap';
 import { ArtworkShowingInfoContext } from './Navigation';
 import { BackgroundColorContext, isTooLightForDarkTheme } from "./providers/BackgroundColorProvider";
 import { BsHeart, BsHeartFill } from "react-icons/bs";
@@ -13,6 +13,11 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 interface ArtworkParams {
     attributes: IArtwork;
+};
+
+interface ISentEmailToastParams {
+    showSentEmailToast: boolean;
+    setShowSentEmailToast: Dispatch<SetStateAction<boolean>>;
 }
 
 interface IArtworkPutLikeResponse {
@@ -21,7 +26,19 @@ interface IArtworkPutLikeResponse {
         likes: Array<ILike>;
         totalLikes: number;
     }
-}
+};
+
+interface IBuyEmailFormData {
+    email: string;
+    message: string;
+};
+
+interface IArtworkEmailPostResponse {
+    data: {
+        message: string;
+    }
+
+};
 
 const likesSessionName = 'likes';
 const likesHeartColor = '#bb9999';
@@ -33,6 +50,11 @@ const Artwork: React.FC<ArtworkParams> = ({ attributes }) => {
     const [totalLikes, setTotalLikes] = useState(attributes.totalLikes);
     const amount = useMemo(() => isLiked ? -1 : 1, [isLiked]);
     const imageSrc = useMemo(() => getImageSrc(attributes.images), [attributes]);
+    const isSold = useMemo(() => Boolean(attributes.saleDate ?? attributes.isNFS), [attributes]);
+    const [showBuyModal, setShowBuyModal] = useState(false);
+    const [email, setEmail] = useState('');
+    const [message, setMessage] = useState('');
+    const [showSentEmailToast, setShowSentEmailToast] = useState(false);
     const client = useQueryClient();
 
     useEffect(() => {
@@ -65,12 +87,62 @@ const Artwork: React.FC<ArtworkParams> = ({ attributes }) => {
         }
     });
 
+    const { mutate: buyMutate, isLoading: isSendingBuyEmail, error: errorSendingBuyEmail } = useMutation<IArtworkEmailPostResponse, AxiosError, IBuyEmailFormData>((formData) => {
+        return axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/email`, {
+            email: formData.email,
+            message: formData.message
+        });
+    }, {
+        onSuccess: (data) => {
+            setShowBuyModal(false);
+            setShowSentEmailToast(true);
+        }
+    })
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        buyMutate({ email: email, message: message });
+    }
+
+
     return (
         <BackgroundColorContext.Consumer>
             {({ color, setColor }) => (
                 <ArtworkShowingInfoContext.Consumer>
                     {(isShowingInfo) => (
                         <Col xs='12'>
+                            <SentEmailToast
+                                showSentEmailToast={showSentEmailToast}
+                                setShowSentEmailToast={setShowSentEmailToast}
+                            />
+                            <Modal
+                                show={showBuyModal}
+                                onHide={() => setShowBuyModal(false)}
+                            >
+                                <Modal.Header closeButton>
+                                    {'I\'d like to buy...'}
+                                </Modal.Header>
+                                <Modal.Body>
+                                    <Form onSubmit={handleSubmit}>
+                                        <Form.Group className="mb-3" controlId="email">
+                                            <Form.Label>{'Email Address'}</Form.Label>
+                                            <Form.Control disabled={isSendingBuyEmail} required placeholder={'my-email@example.com'} name='email' type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                                        </Form.Group>
+                                        <Form.Group className="mb-3" controlId="message">
+                                            <Form.Label>{'Message'}</Form.Label>
+                                            <Form.Control disabled={isSendingBuyEmail} rows={3} as="textarea" name='message' value={message} onChange={(e) => setMessage(e.target.value)} />
+                                        </Form.Group>
+                                        <Button className={'w-100'} type='submit' variant={'success'} disabled={isSendingBuyEmail}>
+                                            {isSendingBuyEmail
+                                                ? <Spinner variant={'info'} animation={'border'} />
+                                                : <span>Send Inquiry</span>
+                                            }
+                                        </Button>
+                                        {errorSendingBuyEmail
+                                            ? <small className={'text-warning'}>{'Something went wrong sending your inquiry. Please try again.'}</small>
+                                            : null}
+                                    </Form>
+                                </Modal.Body>
+                            </Modal>
                             <MovingColorImage src={imageSrc} title={attributes.title} />
                             <Stack direction={'horizontal'} className={'mt-2'} style={{ justifyContent: 'space-between' }}>
                                 {isShowingInfo ?
@@ -84,7 +156,26 @@ const Artwork: React.FC<ArtworkParams> = ({ attributes }) => {
                                                 <div className='fw-bold'>{attributes.title}</div>
                                                 <div>{attributes.year}</div>
                                                 <div>{attributes.media}</div>
-                                                <PriceFormatter price={attributes.price} isSold={Boolean(attributes.saleDate ?? attributes.isNFS)} />
+                                                <Stack
+                                                    gap={2}
+                                                    direction={'horizontal'}
+                                                >
+                                                    <PriceFormatter price={attributes.price} isSold={isSold} />
+                                                    {!isSold
+                                                        ? (
+                                                            <Button
+                                                                size={'sm'}
+                                                                variant={'warning'}
+                                                                onClick={() => {
+                                                                    setMessage(`I'm interested in buying ${attributes.title}. . . .`);
+                                                                    setShowBuyModal(true);
+                                                                }}
+                                                            >
+                                                                {'Buy!'}
+                                                            </Button>
+                                                        )
+                                                        : null}
+                                                </Stack>
                                             </Stack>
                                             <Stack
                                                 onClick={() => {
@@ -121,5 +212,25 @@ const Artwork: React.FC<ArtworkParams> = ({ attributes }) => {
         </BackgroundColorContext.Consumer>
     );
 }
+
+const SentEmailToast: React.FC<ISentEmailToastParams> = ({ showSentEmailToast, setShowSentEmailToast }) => (
+    <ToastContainer
+        className="position-fixed pt-5"
+        position="top-center"
+        style={{ zIndex: 1 }}
+    >
+        <Toast
+            bg={'success'}
+            show={showSentEmailToast}
+            onClose={() => setShowSentEmailToast(!showSentEmailToast)}
+            autohide
+        >
+            <Toast.Header>
+                <strong className="me-auto">Email Sent</strong>
+            </Toast.Header>
+            <Toast.Body>Woohoo, your inquiry was sent!</Toast.Body>
+        </Toast>
+    </ToastContainer>
+);
 
 export default Artwork;
