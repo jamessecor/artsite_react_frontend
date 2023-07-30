@@ -1,3 +1,6 @@
+import _ from 'lodash';
+import { IArtworkFormData } from "../components/ArtworkForm";
+
 export type Groupings = string | "nomophobia" | "digital_edits" | "storage" | "mug_dish_glass" | "merica" | "wallabies";
 
 export type GroupingsToHide = Partial<Groupings>;
@@ -58,4 +61,9 @@ export const ArtworkAttributes = {
     })
 }
 
-export const getImageSrc = (images: IImages) => images[2500] ? images[2500] : images[1];
+export const iArtworkToFormData = (iArtwork: IArtwork): IArtworkFormData => {
+    const { images, _id, ...rest } = iArtwork;
+    return rest;
+};
+
+export const getImageSrc = (images: IImages) => _.has(images, 2500) ? images[2500] : images[1];

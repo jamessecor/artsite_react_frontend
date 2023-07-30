@@ -3,13 +3,14 @@ import { useCallback, useMemo, useState } from "react"
 import MovingColorImage from "./MovingColorImage";
 import { Button, Col, Form, Spinner, Stack, Toast, ToastContainer } from 'react-bootstrap';
 import { BackgroundColorContext, isTooLightForDarkTheme, textColor } from "./providers/BackgroundColorProvider";
-import { ArtworkAttributes, getImageSrc, Groupings, GroupingsLabels, IArtwork, IImages } from "../models/Artwork";
+import { ArtworkAttributes, getImageSrc, Groupings, GroupingsLabels, IArtwork, iArtworkToFormData, IImages } from "../models/Artwork";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { Variant } from "react-bootstrap/esm/types";
 import useArtworks from "../hooks/useArtworks";
+import PriceFormatter from "./PriceFormatter";
 
-interface IArtworkFormData extends Omit<IArtwork, 'images'> {
+export interface IArtworkFormData extends Omit<IArtwork, 'images'> {
     file?: File;
 }
 
@@ -41,9 +42,9 @@ interface IResponseType {
 
 const ArtworkForm: React.FC<IArtworkFormProps> = ({ attributes, isEveryoneInFormMode }) => {
     const [responseToast, setResponseToast] = useState<IResponseType>({});
-    const [currentAttributes, setCurrentAttributes] = useState<IArtworkFormData>(attributes);
-    const [images, setImages] = useState<IImages>(attributes.images);
-    const imageSrc = useMemo(() => getImageSrc(images), [images]);
+    const [currentAttributes, setCurrentAttributes] = useState<IArtworkFormData>(iArtworkToFormData(attributes));
+    const [newImages, setNewImages] = useState<IImages | null>(null);
+    const imageSrc = useMemo(() => getImageSrc(newImages ?? attributes.images), [newImages, attributes.images]);
 
     const queryClient = useQueryClient();
     const { allGroupings } = useArtworks();
@@ -77,8 +78,9 @@ const ArtworkForm: React.FC<IArtworkFormProps> = ({ attributes, isEveryoneInForm
         axios.defaults.headers.put['Content-Type'] = 'multipart/form-data';
         axios.defaults.headers.post['Content-Type'] = 'multipart/form-data';
 
-        return currentAttributes._id
-            ? axios.put(`${import.meta.env.VITE_API_BASE_URL}/api/artworks/${currentAttributes._id}`, formData)
+        console.log('formData', formData);
+        return attributes._id
+            ? axios.put(`${import.meta.env.VITE_API_BASE_URL}/api/artworks/${attributes._id}`, formData)
             : axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/artworks`, formData);
     }, {
         onSuccess: (data) => {
@@ -90,7 +92,7 @@ const ArtworkForm: React.FC<IArtworkFormProps> = ({ attributes, isEveryoneInForm
                 ...currentAttributes,
                 _id: data.data._id
             });
-            setImages(data.data.images);
+            setNewImages(data.data.images);
             queryClient.invalidateQueries({ queryKey: ['artworks'] });
         },
         onError: (data) => {
@@ -112,11 +114,7 @@ const ArtworkForm: React.FC<IArtworkFormProps> = ({ attributes, isEveryoneInForm
 
     const handleSubmit = useCallback((e) => {
         e.preventDefault();
-        const attributesToSubmit = {
-            ...currentAttributes,
-            _id: undefined
-        };
-        mutate(attributesToSubmit);
+        mutate(currentAttributes);
     }, [currentAttributes, mutate]);
 
     return (
@@ -144,7 +142,9 @@ const ArtworkForm: React.FC<IArtworkFormProps> = ({ attributes, isEveryoneInForm
                     )}
                     <Stack className={`${textColor(color.r, color.g, color.b)} bg-dark rounded p-2`}>
                         <Form onSubmit={handleSubmit}>
-                            <MovingColorImage src={imageSrc} title={currentAttributes.title} />
+                            {imageSrc
+                                ? <MovingColorImage src={imageSrc} title={currentAttributes.title} />
+                                : null}
                             {isEveryoneInFormMode
                                 ? (
                                     <React.Fragment>
