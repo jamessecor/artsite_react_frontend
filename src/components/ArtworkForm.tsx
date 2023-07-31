@@ -271,7 +271,7 @@ const ArtworkForm: React.FC<IArtworkFormProps> = ({ attributes, isEveryoneInForm
                                     <Button disabled={isLoading} className={'w-100'} type={'submit'}>
                                         {isLoading
                                             ? <Spinner variant={'info'} animation={'border'} className={'text-center'} />
-                                            : (currentAttributes._id ? 'Update' : 'Add New Artwork')
+                                            : (attributes._id ? 'Update' : 'Add New Artwork')
                                         }
                                     </Button>
                                 )
