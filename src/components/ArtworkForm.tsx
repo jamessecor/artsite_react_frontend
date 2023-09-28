@@ -43,6 +43,7 @@ interface IResponseType {
 const ArtworkForm: React.FC<IArtworkFormProps> = ({ attributes, isEveryoneInFormMode }) => {
     const [responseToast, setResponseToast] = useState<IResponseType>({});
     const [currentAttributes, setCurrentAttributes] = useState<IArtworkFormData>(iArtworkToFormData(attributes));
+    const [id, setId] = useState(() => currentAttributes._id ?? attributes._id, [attributes, currentAttributes]);
     const [newImages, setNewImages] = useState<IImages | null>(null);
     const imageSrc = useMemo(() => getImageSrc(newImages ?? attributes.images), [newImages, attributes.images]);
 
@@ -51,7 +52,7 @@ const ArtworkForm: React.FC<IArtworkFormProps> = ({ attributes, isEveryoneInForm
 
     const deleteMutation = useMutation<IArtworkDeleteFormResponse, AxiosError>(_ => {
         axios.defaults.headers.delete['Authorization'] = sessionStorage.getItem('artsite-token');
-        return axios.delete(`${import.meta.env.VITE_API_BASE_URL}/api/artworks/${currentAttributes._id}`);
+        return axios.delete(`${import.meta.env.VITE_API_BASE_URL}/api/artworks/${id}`);
     }, {
         onSuccess: (data) => {
             setResponseToast({
@@ -104,7 +105,7 @@ const ArtworkForm: React.FC<IArtworkFormProps> = ({ attributes, isEveryoneInForm
 
     const handleDelete = useCallback((e) => {
         e.preventDefault();
-        if (currentAttributes._id) {
+        if (id) {
             if (window.confirm('DELETE?!')) {
                 deleteMutation.mutate();
             }
@@ -276,7 +277,7 @@ const ArtworkForm: React.FC<IArtworkFormProps> = ({ attributes, isEveryoneInForm
                                 )
                             }
                         </Form>
-                        {attributes._id && isEveryoneInFormMode
+                        {id && isEveryoneInFormMode
                             ? (
                                 <Form onSubmit={handleDelete}>
                                     <Button disabled={deleteMutation.isLoading} className={'w-100 mt-2'} type={'submit'} variant={'danger'}>
