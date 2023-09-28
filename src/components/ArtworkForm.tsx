@@ -78,7 +78,6 @@ const ArtworkForm: React.FC<IArtworkFormProps> = ({ attributes, isEveryoneInForm
         axios.defaults.headers.put['Content-Type'] = 'multipart/form-data';
         axios.defaults.headers.post['Content-Type'] = 'multipart/form-data';
 
-        console.log('formData', formData);
         return attributes._id
             ? axios.put(`${import.meta.env.VITE_API_BASE_URL}/api/artworks/${attributes._id}`, formData)
             : axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/artworks`, formData);
@@ -277,7 +276,7 @@ const ArtworkForm: React.FC<IArtworkFormProps> = ({ attributes, isEveryoneInForm
                                 )
                             }
                         </Form>
-                        {currentAttributes._id && isEveryoneInFormMode
+                        {attributes._id && isEveryoneInFormMode
                             ? (
                                 <Form onSubmit={handleDelete}>
                                     <Button disabled={deleteMutation.isLoading} className={'w-100 mt-2'} type={'submit'} variant={'danger'}>
