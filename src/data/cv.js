@@ -1,5 +1,19 @@
 export const soloShows = [
     {
+        name: 'Eclosion',
+        location: 'The Tunbridge General Store',
+        url: "https://thetunbridgegeneralstore.com/",
+        address: "Montpelier, VT",
+        dates: "Oct-Dec, 2023"
+    },
+    {
+        name: 'Recent Work',
+        location: 'The Drawing Board',
+        url: "https://drawingboardvt.com",
+        address: "Montpelier, VT",
+        dates: "July, 2023"
+    },
+    {
         name: "Chirping in the Thickets",
         location: "the Front",
         url: "https://thefrontvt.com",
@@ -213,6 +227,11 @@ export const education = [
 ]
 
 export const press = [
+    {
+        name: "Times Argus",
+        location: "Chirping in the Thickets",
+        url: "/articles/chirping-in-the-thickets.pdf"
+    },
     {
         name: "Vermont Art Guide #3",
         location: "Artist to Watch",
