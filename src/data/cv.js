@@ -3,7 +3,7 @@ export const soloShows = [
         name: 'Eclosion',
         location: 'The Tunbridge General Store',
         url: "https://thetunbridgegeneralstore.com/",
-        address: "Montpelier, VT",
+        address: "304 VT Route 110, Tunbridge, VT",
         dates: "Oct-Dec, 2023"
     },
     {
