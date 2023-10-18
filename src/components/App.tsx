@@ -27,6 +27,7 @@ import GalleryTour from './nomophobia/GalleryTour';
 import { chirpingInTheThicketsTour } from '../data/gallery-tour/chirping-in-the-thickets';
 import PhoneOff from './nomophobia/PhoneOff';
 import Likes from './nomophobia/Likes';
+import Banner from './Banner';
 
 const fourHoursInMs = 1000 * 60 * 60 * 4;
 
@@ -46,30 +47,32 @@ const App = () => {
                     <BackgroundColorProvider>
                         <BrowserRouter>
                             <Routes>
-                                <Route element={<Navigation />}>
-                                    <Route path={'/'} element={<Artworks current={true} />} />
-                                    <Route path={'/artworks/current'} element={<Artworks current={true} />} />
-                                    <Route path={'/artworks/sold'} element={<SoldArtworks />} />
-                                    <Route path={'/artworks'} element={<Artworks />} />
-                                    <Route path={'/cv'} element={<Cv />} />
-                                    <Route element={<Nomophobia />}>
-                                        <Route path={'/nomophobia/canvas'} element={<Canvas />} />
-                                        <Route path={'/nomophobia/spotify'} element={<Spotify />} />
-                                        <Route path={'/nomophobia/instagram'} element={<Instagram />} />
-                                        <Route path={'/nomophobia/school-instructions'} element={<SchoolInstructions />} />
-                                        <Route path={'/nomophobia/school'} element={<School />} />
-                                        <Route path={'/nomophobia/gallery-tour'} element={<GalleryTour images={chirpingInTheThicketsTour} />} />
-                                        <Route path={'/nomophobia/news'} element={<News />} />
-                                        <Route path={'/nomophobia/home'} element={<PhoneHome />} />
-                                        <Route path={'/nomophobia/likes'} element={<Likes />} />
-                                        <Route path={'/nomophobia*'} element={<PhoneOff />} />
+                                <Route element={<Banner />}>
+                                    <Route element={<Navigation />}>
+                                        <Route path={'/'} element={<Artworks current={true} />} />
+                                        <Route path={'/artworks/current'} element={<Artworks current={true} />} />
+                                        <Route path={'/artworks/sold'} element={<SoldArtworks />} />
+                                        <Route path={'/artworks'} element={<Artworks />} />
+                                        <Route path={'/cv'} element={<Cv />} />
+                                        <Route element={<Nomophobia />}>
+                                            <Route path={'/nomophobia/canvas'} element={<Canvas />} />
+                                            <Route path={'/nomophobia/spotify'} element={<Spotify />} />
+                                            <Route path={'/nomophobia/instagram'} element={<Instagram />} />
+                                            <Route path={'/nomophobia/school-instructions'} element={<SchoolInstructions />} />
+                                            <Route path={'/nomophobia/school'} element={<School />} />
+                                            <Route path={'/nomophobia/gallery-tour'} element={<GalleryTour images={chirpingInTheThicketsTour} />} />
+                                            <Route path={'/nomophobia/news'} element={<News />} />
+                                            <Route path={'/nomophobia/home'} element={<PhoneHome />} />
+                                            <Route path={'/nomophobia/likes'} element={<Likes />} />
+                                            <Route path={'/nomophobia*'} element={<PhoneOff />} />
+                                        </Route>
+                                        <Route path={'/colors'} element={<Colors />} />
+                                        <Route path={'/contact'} element={<ContactForm />} />
+                                        <Route path={'/store'} element={<Store />}>
+                                            <Route path={'postcards'} element={<Store />} />
+                                        </Route>
+                                        <Route path={'/login'} element={<LoginForm />} />
                                     </Route>
-                                    <Route path={'/colors'} element={<Colors />} />
-                                    <Route path={'/contact'} element={<ContactForm />} />
-                                    <Route path={'/store'} element={<Store />}>
-                                        <Route path={'postcards'} element={<Store />} />
-                                    </Route>
-                                    <Route path={'/login'} element={<LoginForm />} />
                                 </Route>
                                 <Route path={'*'} element={<HomePage />} />
                             </Routes>

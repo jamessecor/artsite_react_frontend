@@ -1,0 +1,11 @@
+.outer-container {
+    width: 98%;
+}
+
+.btn-close {
+    right: 2px;
+}
+
+.toast-container, .toast {
+    width: 100%;
+}
