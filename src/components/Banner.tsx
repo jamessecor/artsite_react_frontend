@@ -15,7 +15,7 @@ const Banner = () => {
 
     return (
         <div className={'outer-container m-auto'}>
-            <ToastContainer>
+            <ToastContainer className={'position-static'}>
                 <Toast
                     bg={'secondary'}
                     show={isVisible}
