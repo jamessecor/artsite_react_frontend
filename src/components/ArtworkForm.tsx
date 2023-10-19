@@ -43,7 +43,7 @@ interface IResponseType {
 const ArtworkForm: React.FC<IArtworkFormProps> = ({ attributes, isEveryoneInFormMode }) => {
     const [responseToast, setResponseToast] = useState<IResponseType>({});
     const [currentAttributes, setCurrentAttributes] = useState<IArtworkFormData>(iArtworkToFormData(attributes));
-    const [id, setId] = useState(() => currentAttributes._id ?? attributes._id, [attributes, currentAttributes]);
+    const id = useMemo(() => currentAttributes._id ?? attributes._id, [attributes, currentAttributes]);
     const [newImages, setNewImages] = useState<IImages | null>(null);
     const imageSrc = useMemo(() => getImageSrc(newImages ?? attributes.images), [newImages, attributes.images]);
 
