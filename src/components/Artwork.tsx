@@ -118,10 +118,13 @@ const Artwork: React.FC<ArtworkParams> = ({ attributes }) => {
                                 show={showBuyModal}
                                 onHide={() => setShowBuyModal(false)}
                             >
-                                <Modal.Header closeButton>
+                                <Modal.Header
+                                    closeButton
+                                    className={'light-text'}
+                                >
                                     {'I\'d like to buy...'}
                                 </Modal.Header>
-                                <Modal.Body>
+                                <Modal.Body className={'light-text'}>
                                     <Form onSubmit={handleSubmit}>
                                         <Form.Group className="mb-3" controlId="email">
                                             <Form.Label>{'Email Address'}</Form.Label>
