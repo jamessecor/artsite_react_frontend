@@ -1,5 +1,6 @@
 .outer-container {
-    width: 98%;
+    width: 98% !important;
+    z-index: 100 !important;
 }
 
 .btn-close {
@@ -7,5 +8,5 @@
 }
 
 .toast-container, .toast {
-    width: 99%;
+    width: 100% !important;
 }

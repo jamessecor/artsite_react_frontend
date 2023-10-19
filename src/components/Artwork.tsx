@@ -171,7 +171,7 @@ const Artwork: React.FC<ArtworkParams> = ({ attributes }) => {
                                                                     setShowBuyModal(true);
                                                                 }}
                                                             >
-                                                                {'Buy!'}
+                                                                {'Buy'}
                                                             </Button>
                                                         )
                                                         : null}
