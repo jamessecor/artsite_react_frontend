@@ -10,9 +10,12 @@ import './Navigation.css';
 import { GroupingsLabels } from '../models/Artwork';
 import useArtworks from '../hooks/useArtworks';
 import { Spinner } from 'react-bootstrap';
+import useScreenSize from '../hooks/useScreenSize';
+import { BsSearch } from 'react-icons/bs';
 
 const NavigationLinks = ({ setShowOffcanvas }) => {
     const navigateTo = useNavigate();
+    const { isMobile } = useScreenSize();
     const { pathname } = useLocation();
 
     const [searchParams, _] = useSearchParams();
@@ -78,16 +81,6 @@ const NavigationLinks = ({ setShowOffcanvas }) => {
                 </Nav.Link>
                 {/* <Nav.Link className={pathname === "store" ? "active" : ""} onClick={() => HideOffcanvasAndNavigateTo('/store')}>store</Nav.Link> */}
             </Nav>
-            <Form onSubmit={handleSearchSubmit} className="d-flex my-1">
-                <FormControl
-                    type="search"
-                    ref={searchTerm}
-                    placeholder={'Search Artworks'}
-                    className="me-2"
-                    aria-label="Search"
-                />
-                <Button type="submit" variant="outline-success">Search</Button>
-            </Form>
             <Nav>
                 <Nav.Link target="_blank" rel="noopener noreferrer"
                     href="https://www.instagram.com/jamessecor/"
@@ -101,6 +94,16 @@ const NavigationLinks = ({ setShowOffcanvas }) => {
                 </Nav.Link>
                 <Nav.Link className='mt-auto' disabled>James Secor &copy; 2022</Nav.Link>
             </Nav>
+            <Form onSubmit={handleSearchSubmit} className="d-flex my-1">
+                <FormControl
+                    type="search"
+                    ref={searchTerm}
+                    placeholder={'Search Artworks'}
+                    className="me-2"
+                    aria-label="Search"
+                />
+                <Button type="submit" variant="success"><BsSearch /></Button>
+            </Form>
         </React.Fragment>
     );
 
