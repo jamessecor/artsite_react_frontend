@@ -4,12 +4,12 @@ import MovingColorImage from "./MovingColorImage";
 import PriceFormatter from "./PriceFormatter";
 import { ImInfo } from 'react-icons/im';
 import { Button, Col, Form, Modal, Spinner, Stack, Toast, ToastContainer } from 'react-bootstrap';
-import { ArtworkShowingInfoContext } from './Navigation';
 import { BackgroundColorContext, isTooLightForDarkTheme } from "./providers/BackgroundColorProvider";
 import { BsHeart, BsHeartFill } from "react-icons/bs";
 import { getImageSrc, IArtwork, ILike } from "../models/Artwork";
 import axios, { AxiosError } from "axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { SettingsContext } from "./providers/SettingsProvider";
 
 interface ArtworkParams {
     attributes: IArtwork;
@@ -107,8 +107,8 @@ const Artwork: React.FC<ArtworkParams> = ({ attributes }) => {
     return (
         <BackgroundColorContext.Consumer>
             {({ color, setColor }) => (
-                <ArtworkShowingInfoContext.Consumer>
-                    {(isShowingInfo) => (
+                <SettingsContext.Consumer>
+                    {({ isShowingInfo }) => (
                         <Col xs='12'>
                             <SentEmailToast
                                 showSentEmailToast={showSentEmailToast}
@@ -210,7 +210,7 @@ const Artwork: React.FC<ArtworkParams> = ({ attributes }) => {
                             </Stack>
                         </Col>
                     )}
-                </ArtworkShowingInfoContext.Consumer>
+                </SettingsContext.Consumer>
             )}
         </BackgroundColorContext.Consumer>
     );

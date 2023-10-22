@@ -6,10 +6,10 @@ import { ArtworkAttributes, Groupings, IArtwork } from "../models/Artwork";
 import { Badge, Button, Col, Container, Row, Spinner, Stack, Toast } from 'react-bootstrap';
 import useArtworks from '../hooks/useArtworks';
 import { useNavigate } from "react-router-dom";
-import { ArtworkShowingSoldContext } from './Navigation';
 import { AuthenticationContext } from './providers/AuthenticationProvider';
 import ArtworkForm from './ArtworkForm';
 import { MdEdit, MdViewComfy } from 'react-icons/md';
+import { SettingsContext } from './providers/SettingsProvider';
 
 interface IArtworkProps {
     current?: boolean;
@@ -42,8 +42,8 @@ const Artworks = ({ current = false }: IArtworkProps) => {
     return (
         <AuthenticationContext.Consumer>
             {({ isLoggedIn, setIsLoggedIn }) => (
-                <ArtworkShowingSoldContext.Consumer>
-                    {(isShowingSold) => (
+                <SettingsContext.Consumer>
+                    {({ isShowingSold }) => (
                         <Container fluid={'sm'} className="align-items-center">
                             {isLoggedIn
                                 ? (
@@ -122,7 +122,7 @@ const Artworks = ({ current = false }: IArtworkProps) => {
                             </Row>
                         </Container>
                     )}
-                </ArtworkShowingSoldContext.Consumer>
+                </SettingsContext.Consumer>
             )}
         </AuthenticationContext.Consumer>
     );

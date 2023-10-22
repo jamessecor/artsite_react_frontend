@@ -1,27 +1,27 @@
 import * as React from 'react';
 import { useState } from 'react';
 import './MovingColorImage.css';
-import { ArtworkRotatingContext } from './Navigation';
 import { AlphaPicker } from 'react-color';
+import { SettingsContext } from './providers/SettingsProvider';
 
 const MovingColorImage = ({src, title, isFullHeightAndWidth = false, startsWithRotating = false}) => {
     // const screenWidth = window.innerWidth;
     const widthOrHeightClass = isFullHeightAndWidth ? 'vh-100 w-100' : 'w-100';
     
-    const [isRotating, setIsRotating] = useState(false);
+    const [isShowingSlider, setIsShowingSlider] = useState(false);
     const [hueRotateAmount, setHueRotateAmount] = useState(0.0);
     
     return (
-        <ArtworkRotatingContext.Consumer>
-            {(isRotatingSetting) => (
+        <SettingsContext.Consumer>
+            {({ isRotating }) => (
                 <React.Fragment>
                     <img
                         alt={title}
                         style={{ filter: `hue-rotate(${hueRotateAmount * 360}deg)` }}
-                        onClick={() => setIsRotating(!isRotating)}
-                        className={startsWithRotating || isRotatingSetting ? `${widthOrHeightClass} rotating` : widthOrHeightClass}
+                        onClick={() => setIsShowingSlider(!isShowingSlider)}
+                        className={startsWithRotating || isRotating ? `${widthOrHeightClass} rotating` : widthOrHeightClass}
                         src={src}/>
-                    {isRotating ? (
+                    {isShowingSlider ? (
                         <AlphaPicker
                             className={'w-100'}
                             color={{ a: hueRotateAmount }}
@@ -31,7 +31,7 @@ const MovingColorImage = ({src, title, isFullHeightAndWidth = false, startsWithR
                     ) : null}
                 </React.Fragment>
             )}
-        </ArtworkRotatingContext.Consumer>
+        </SettingsContext.Consumer>
     )
 }
 
