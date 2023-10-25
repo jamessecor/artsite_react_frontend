@@ -107,7 +107,7 @@ const School: React.FC<SchoolParams> = ({isLoading}) => {
     }, []);
 
     return (
-        <div className={'overflow-auto phone-screen-off bg-success'}>
+        <div className={'phone-screen-off bg-success'}>
             {!isLoading && (isBuffering && isBuffering > 0) && (
                 <div style={{zIndex: 10000}} className={'d-flex flex-column justify-content-center align-items-center position-absolute top-50 start-50 translate-middle'}>
                     <Spinner variant={'info'} animation={'border'} />

@@ -29,6 +29,7 @@
     width: 275px;
     height: 450px;
     background-size: cover;
+    overflow: auto;
     z-index: 3;
 }
 
