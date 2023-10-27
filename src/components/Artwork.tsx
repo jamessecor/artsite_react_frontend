@@ -2,7 +2,6 @@ import * as React from "react"
 import { Dispatch, SetStateAction, useEffect, useMemo, useState } from "react"
 import MovingColorImage from "./MovingColorImage";
 import PriceFormatter from "./PriceFormatter";
-import { ImInfo } from 'react-icons/im';
 import { Button, Col, Form, Modal, Spinner, Stack, Toast, ToastContainer } from 'react-bootstrap';
 import { BackgroundColorContext, isTooLightForDarkTheme } from "./providers/BackgroundColorProvider";
 import { BsHeart, BsHeartFill } from "react-icons/bs";
@@ -44,7 +43,6 @@ const likesSessionName = 'likes';
 const likesHeartColor = '#bb9999';
 
 const Artwork: React.FC<ArtworkParams> = ({ attributes }) => {
-    const [isShowingThisInfo, setIsShowingThisInfo] = useState(false);
     const likes: Array<IArtwork> = useMemo(() => JSON.parse(sessionStorage.getItem(likesSessionName) ?? '[]') ?? [], []);
     const [isLiked, setIsLiked] = useState(likes.filter((like) => like._id === attributes._id).length > 0);
     const [totalLikes, setTotalLikes] = useState(attributes.totalLikes);
@@ -148,12 +146,8 @@ const Artwork: React.FC<ArtworkParams> = ({ attributes }) => {
                             </Modal>
                             <MovingColorImage src={imageSrc} title={attributes.title} />
                             <Stack direction={'horizontal'} className={'mt-2'} style={{ justifyContent: 'space-between' }}>
-                                {isShowingInfo ?
-                                    null : (
-                                        <h3 onClick={() => setIsShowingThisInfo(!isShowingThisInfo)} className={'ms-auto'}><ImInfo /></h3>
-                                    )}
-                                {isShowingInfo || isShowingThisInfo ?
-                                    (
+                                {isShowingInfo
+                                    ? (
                                         <React.Fragment>
                                             <Stack className={isTooLightForDarkTheme(color.r, color.g, color.b) ? 'dark-text' : 'light-text'}>
                                                 <div className='fw-bold'>{attributes.title}</div>
