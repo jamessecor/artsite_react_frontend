@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Form, Container, Button, Row, Col, Spinner } from 'react-bootstrap';
 import { useNavigate } from "react-router-dom";
 import { BackgroundColorContext, textColor } from "./providers/BackgroundColorProvider";
@@ -20,6 +20,8 @@ interface ILoginFormResponse {
 }
 
 const LoginForm = () => {
+    const { setIsLoggedIn } = useContext(AuthenticationContext);
+    const { color } = useContext(BackgroundColorContext);
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -49,46 +51,38 @@ const LoginForm = () => {
     }
 
     return (
-        <AuthenticationContext.Consumer>
-            {({ isLoggedIn, setIsLoggedIn }) => (
-                <BackgroundColorContext.Consumer>
-                    {({ color, setColor }) => (
-                        <Container className={`align-items-center ${textColor(color.r, color.g, color.b)}`}>
-                            <Row xs={1}>
-                                <Col>
-                                    <Form
-                                        className="bg-dark rounded p-5 col-lg-6 offset-lg-3"
-                                        onSubmit={(e) => handleSubmit(e, setIsLoggedIn)}
-                                    >
-                                        <h2 className={'d-flex w-100 justify-content-between'}>
-                                            <span>{'Login'}</span>
-                                            <span>{'🙈🙈🙊🙈'}</span>
-                                        </h2>
-                                        <Form.Group className="mb-3" controlId="username">
-                                            <Form.Label>username</Form.Label>
-                                            <Form.Control onChange={(e) => setUsername(e.target.value)} type="username" />
-                                        </Form.Group>
-                                        <Form.Group className="mb-3" controlId="password">
-                                            <Form.Label>password</Form.Label>
-                                            <Form.Control onChange={(e) => setPassword(e.target.value)} type="password" />
-                                            <Form.Label>
-                                                {error}
-                                            </Form.Label>
-                                        </Form.Group>
-                                        <div className={'d-flex w-100 justify-content-center'}>
-                                            <Button disabled={isLoading} className={'w-75'} type={'submit'}>
-                                                {isLoading ? <Spinner variant={'info'} animation={'border'} /> : 'Login'}
-                                            </Button>
-                                        </div>
-                                    </Form>
-                                </Col>
-                            </Row>
-                        </Container>
-                    )}
-                </BackgroundColorContext.Consumer>
-            )}
-        </AuthenticationContext.Consumer>
-    )
-}
+        <Container className={`align-items-center ${textColor(color.r, color.g, color.b)}`}>
+            <Row xs={1}>
+                <Col>
+                    <Form
+                        className="bg-dark rounded p-5 col-lg-6 offset-lg-3"
+                        onSubmit={(e) => handleSubmit(e, setIsLoggedIn)}
+                    >
+                        <h2 className={'d-flex w-100 justify-content-between'}>
+                            <span>{'Login'}</span>
+                            <span>{'🙈🙈🙊🙈'}</span>
+                        </h2>
+                        <Form.Group className="mb-3" controlId="username">
+                            <Form.Label>username</Form.Label>
+                            <Form.Control onChange={(e) => setUsername(e.target.value)} type="username" />
+                        </Form.Group>
+                        <Form.Group className="mb-3" controlId="password">
+                            <Form.Label>password</Form.Label>
+                            <Form.Control onChange={(e) => setPassword(e.target.value)} type="password" />
+                            <Form.Label>
+                                {error}
+                            </Form.Label>
+                        </Form.Group>
+                        <div className={'d-flex w-100 justify-content-center'}>
+                            <Button disabled={isLoading} className={'w-75'} type={'submit'}>
+                                {isLoading ? <Spinner variant={'info'} animation={'border'} /> : 'Login'}
+                            </Button>
+                        </div>
+                    </Form>
+                </Col>
+            </Row>
+        </Container>
+    );
+};
 
 export default LoginForm;

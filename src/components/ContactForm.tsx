@@ -1,11 +1,12 @@
 import * as React from "react";
-import { useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { Container, Button, Row, Col, Toast, Spinner } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 import { useNavigate } from "react-router-dom";
 import { BackgroundColorContext, textColor } from "./providers/BackgroundColorProvider";
 
 const ContactForm = () => {
+    const { color } = useContext(BackgroundColorContext);
     const [firstname, setFirstname] = useState('');
     const [lastname, setLastname] = useState('');
     const [email, setEmail] = useState('');
@@ -44,65 +45,61 @@ const ContactForm = () => {
     }
 
     return (
-        <BackgroundColorContext.Consumer>
-            {({ color, setColor }) => (
-                <Container className={`align-items-center ${textColor(color.r, color.g, color.b)}`}>
-                    <Row xs={1}>
-                        <Col>
-                            {
-                                isSuccessful
-                                    ? (
-                                        <Toast
 
-                                            className={'position-absolute top-50 start-50 translate-middle'}
-                                            onClose={() => navigateTo('/artworks?year=2022')}
-                                            bg='success'
-                                        >
-                                            <Toast.Header>
-                                                <strong className="me-auto">{'Success!'}</strong>
-                                            </Toast.Header>
-                                            <Toast.Body>
-                                                {'Thanks for reaching out!'}
-                                                <br /><br />
-                                                {'You\'re message has been sent to James.'}
-                                            </Toast.Body>
-                                        </Toast>
-                                    )
-                                    : (
-                                        <Form ref={formRef} noValidate validated={isSubmitted} className={'bg-dark rounded p-5 col-lg-6 offset-lg-3'} onSubmit={handleSubmit}>
-                                            <h5 className="pb-4 d-flex justify-content-center">join email list / leave a message</h5>
-                                            <Form.Group className="mb-3" controlId="firstname">
-                                                <Form.Label>First Name</Form.Label>
-                                                <Form.Control disabled={isSubmitted} name='firstname' type="text" value={firstname} onChange={handleChange} />
-                                            </Form.Group>
-                                            <Form.Group className="mb-3" controlId="lastname">
-                                                <Form.Label>Last Name</Form.Label>
-                                                <Form.Control disabled={isSubmitted} name='lastname' type="text" value={lastname} onChange={handleChange} />
-                                            </Form.Group>
-                                            <Form.Group className="mb-3" controlId="email">
-                                                <Form.Label>Email</Form.Label>
-                                                <Form.Control disabled={isSubmitted} required name='email' type="email" value={email} onChange={handleChange} />
-                                            </Form.Group>
-                                            <Form.Group className="mb-3" controlId="message">
-                                                <Form.Label>Message</Form.Label>
-                                                <Form.Control disabled={isSubmitted} rows={3} as="textarea" name='message' value={message} onChange={handleChange} />
-                                            </Form.Group>
-                                            <Button className={'w-100'} type='submit' variant={'success'} disabled={isSubmitted}>
-                                                {isSubmitted
-                                                    ? <Spinner variant={'info'} animation={'border'} />
-                                                    : <span>Submit</span>
-                                                }
-                                            </Button>
-                                        </Form>
-                                    )
-                            }
-                        </Col>
-                    </Row>
-                </Container>
-            )}
-        </BackgroundColorContext.Consumer>
+        <Container className={`align-items-center ${textColor(color.r, color.g, color.b)}`}>
+            <Row xs={1}>
+                <Col>
+                    {
+                        isSuccessful
+                            ? (
+                                <Toast
 
+                                    className={'position-absolute top-50 start-50 translate-middle'}
+                                    onClose={() => navigateTo('/artworks?year=2022')}
+                                    bg='success'
+                                >
+                                    <Toast.Header>
+                                        <strong className="me-auto">{'Success!'}</strong>
+                                    </Toast.Header>
+                                    <Toast.Body>
+                                        {'Thanks for reaching out!'}
+                                        <br /><br />
+                                        {'You\'re message has been sent to James.'}
+                                    </Toast.Body>
+                                </Toast>
+                            )
+                            : (
+                                <Form ref={formRef} noValidate validated={isSubmitted} className={'bg-dark rounded p-5 col-lg-6 offset-lg-3'} onSubmit={handleSubmit}>
+                                    <h5 className="pb-4 d-flex justify-content-center">join email list / leave a message</h5>
+                                    <Form.Group className="mb-3" controlId="firstname">
+                                        <Form.Label>First Name</Form.Label>
+                                        <Form.Control disabled={isSubmitted} name='firstname' type="text" value={firstname} onChange={handleChange} />
+                                    </Form.Group>
+                                    <Form.Group className="mb-3" controlId="lastname">
+                                        <Form.Label>Last Name</Form.Label>
+                                        <Form.Control disabled={isSubmitted} name='lastname' type="text" value={lastname} onChange={handleChange} />
+                                    </Form.Group>
+                                    <Form.Group className="mb-3" controlId="email">
+                                        <Form.Label>Email</Form.Label>
+                                        <Form.Control disabled={isSubmitted} required name='email' type="email" value={email} onChange={handleChange} />
+                                    </Form.Group>
+                                    <Form.Group className="mb-3" controlId="message">
+                                        <Form.Label>Message</Form.Label>
+                                        <Form.Control disabled={isSubmitted} rows={3} as="textarea" name='message' value={message} onChange={handleChange} />
+                                    </Form.Group>
+                                    <Button className={'w-100'} type='submit' variant={'success'} disabled={isSubmitted}>
+                                        {isSubmitted
+                                            ? <Spinner variant={'info'} animation={'border'} />
+                                            : <span>Submit</span>
+                                        }
+                                    </Button>
+                                </Form>
+                            )
+                    }
+                </Col>
+            </Row>
+        </Container>
     );
-}
+};
 
 export default ContactForm;

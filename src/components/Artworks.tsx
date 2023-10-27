@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import Artwork from "./Artwork";
 import { ArtworkAttributes, Groupings, IArtwork } from "../models/Artwork";
@@ -16,6 +16,8 @@ interface IArtworkProps {
 }
 
 const Artworks = ({ current = false }: IArtworkProps) => {
+    const { isLoggedIn } = useContext(AuthenticationContext);
+    const { isShowingSold } = useContext(SettingsContext);
     const [searchParams, _] = useSearchParams();
     const year = searchParams.get('year') ?? '';
     const grouping = searchParams.get('grouping') as Groupings ?? '';
@@ -40,91 +42,84 @@ const Artworks = ({ current = false }: IArtworkProps) => {
     }, [newArtworks]);
 
     return (
-        <AuthenticationContext.Consumer>
-            {({ isLoggedIn, setIsLoggedIn }) => (
-                <SettingsContext.Consumer>
-                    {({ isShowingSold }) => (
-                        <Container fluid={'sm'} className="align-items-center">
-                            {isLoggedIn
-                                ? (
-                                    <React.Fragment>
-                                        <Row xs={2} className={'mb-2'}>
-                                            <Col>
-                                                <Button variant={'success'} className={'w-100'} onClick={addNewArtwork}>{'+'}</Button>
-                                            </Col>
-                                            <Col>
-                                                <Button variant={'secondary'} className={'w-100'} onClick={removeNewArtwork}>{'-'}</Button>
-                                            </Col>
-                                        </Row>
-                                        <Button variant={'outline-info'} className={'position-fixed bottom-0 end-0 mb-2 me-2'} onClick={() => setIsInFormMode(!isInFormMode)}>
-                                            {isInFormMode
-                                                ? <MdViewComfy />
-                                                : <MdEdit />}
-                                        </Button>
-                                    </React.Fragment>
-                                )
-                                : null}
-                            <Row xs={1} lg={isLoggedIn && !isInFormMode ? 6 : 4} className={'d-flex align-items-center justify-content-center'}>
-                                {isLoggedIn && newArtworks.length !== 0
-                                    && newArtworks.map((newArtwork, index) => (
-                                        <ArtworkForm
-                                            key={index}
-                                            isEveryoneInFormMode={isInFormMode}
-                                            attributes={newArtwork}
-                                        />
-                                    ))}
-                                {artworks.length
-                                    ? (artworks.filter(x => isShowingSold || !(x.isNFS || x.saleDate)).sort((a, b) => (a.arrangement ?? 9999) - (b.arrangement ?? 9999)).map((artwork, i) => {
-                                        return (
-                                            <Col key={`${artwork._id}-${artwork.title}`} className="my-4 px-4">
-                                                {isLoggedIn
-                                                    ? <ArtworkForm attributes={artwork} isEveryoneInFormMode={isInFormMode} />
-                                                    : <Artwork attributes={artwork} />
-                                                }
-                                            </Col>
-                                        )
-                                    }))
-                                    : (
-                                        isLoading
-                                            ? (
-                                                <Stack direction={'vertical'} gap={2} style={{ alignItems: 'center' }}>
-                                                    <Spinner variant={'info'} animation={'border'} className={'text-center'} />
-                                                    <h5>
-                                                        <Badge bg={'info'}>{'Loading artworks'}</Badge>
-                                                    </h5>
-                                                </Stack>
-                                            )
-                                            : (
-                                                <Container className={'align-items-center'}>
-                                                    <Row xs={1}>
-                                                        <Col>
-                                                            <Toast
-                                                                className={'position-absolute top-50 start-50 translate-middle'}
-                                                                onClose={enterSite}
-                                                                bg='primary'
-                                                            >
-                                                                <Toast.Header>
-                                                                    <strong className='me-auto'>
-                                                                        {'No artworks found :('}
-                                                                    </strong>
-                                                                </Toast.Header>
-                                                                <Toast.Body className="d-flex flex-column justify-content-center">
-                                                                    {'Please try another search or select a different menu option.'}
-                                                                    <Button variant='outline-info' size='lg' className={'mt-2'} onClick={enterSite}>Return Home</Button>
-                                                                </Toast.Body>
-                                                            </Toast>
-                                                        </Col>
-                                                    </Row>
-                                                </Container>
 
-                                            )
-                                    )}
-                            </Row>
-                        </Container>
+        <Container fluid={'sm'} className="align-items-center">
+            {isLoggedIn
+                ? (
+                    <React.Fragment>
+                        <Row xs={2} className={'mb-2'}>
+                            <Col>
+                                <Button variant={'success'} className={'w-100'} onClick={addNewArtwork}>{'+'}</Button>
+                            </Col>
+                            <Col>
+                                <Button variant={'secondary'} className={'w-100'} onClick={removeNewArtwork}>{'-'}</Button>
+                            </Col>
+                        </Row>
+                        <Button variant={'outline-info'} className={'position-fixed bottom-0 end-0 mb-2 me-2'} onClick={() => setIsInFormMode(!isInFormMode)}>
+                            {isInFormMode
+                                ? <MdViewComfy />
+                                : <MdEdit />}
+                        </Button>
+                    </React.Fragment>
+                )
+                : null}
+            <Row xs={1} lg={isLoggedIn && !isInFormMode ? 6 : 4} className={'d-flex align-items-center justify-content-center'}>
+                {isLoggedIn && newArtworks.length !== 0
+                    && newArtworks.map((newArtwork, index) => (
+                        <ArtworkForm
+                            key={index}
+                            isEveryoneInFormMode={isInFormMode}
+                            attributes={newArtwork}
+                        />
+                    ))}
+                {artworks.length
+                    ? (artworks.filter(x => isShowingSold || !(x.isNFS || x.saleDate)).sort((a, b) => (a.arrangement ?? 9999) - (b.arrangement ?? 9999)).map((artwork, i) => {
+                        return (
+                            <Col key={`${artwork._id}-${artwork.title}`} className="my-4 px-4">
+                                {isLoggedIn
+                                    ? <ArtworkForm attributes={artwork} isEveryoneInFormMode={isInFormMode} />
+                                    : <Artwork attributes={artwork} />
+                                }
+                            </Col>
+                        )
+                    }))
+                    : (
+                        isLoading
+                            ? (
+                                <Stack direction={'vertical'} gap={2} style={{ alignItems: 'center' }}>
+                                    <Spinner variant={'info'} animation={'border'} className={'text-center'} />
+                                    <h5>
+                                        <Badge bg={'info'}>{'Loading artworks'}</Badge>
+                                    </h5>
+                                </Stack>
+                            )
+                            : (
+                                <Container className={'align-items-center'}>
+                                    <Row xs={1}>
+                                        <Col>
+                                            <Toast
+                                                className={'position-absolute top-50 start-50 translate-middle'}
+                                                onClose={enterSite}
+                                                bg='primary'
+                                            >
+                                                <Toast.Header>
+                                                    <strong className='me-auto'>
+                                                        {'No artworks found :('}
+                                                    </strong>
+                                                </Toast.Header>
+                                                <Toast.Body className="d-flex flex-column justify-content-center">
+                                                    {'Please try another search or select a different menu option.'}
+                                                    <Button variant='outline-info' size='lg' className={'mt-2'} onClick={enterSite}>Return Home</Button>
+                                                </Toast.Body>
+                                            </Toast>
+                                        </Col>
+                                    </Row>
+                                </Container>
+
+                            )
                     )}
-                </SettingsContext.Consumer>
-            )}
-        </AuthenticationContext.Consumer>
+            </Row>
+        </Container>
     );
 };
 

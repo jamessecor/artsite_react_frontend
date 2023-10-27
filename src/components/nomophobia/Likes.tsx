@@ -21,7 +21,11 @@ const Likes = () => {
                     </div>
                 ) : (
                     likedArtworks.map((likedArtwork, index) => (
-                        <Stack direction={'horizontal'} style={{ justifyContent: 'space-between' }}>
+                        <Stack
+                            key={`${likedArtwork.title}-${likedArtwork._id?.toString()}-${index}`}
+                            direction={'horizontal'}
+                            style={{ justifyContent: 'space-between' }}
+                        >
                             <Stack direction={'horizontal'}>
                                 {index + 1}.
                                 <div className={'w-25'}>
