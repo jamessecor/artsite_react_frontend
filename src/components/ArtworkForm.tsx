@@ -8,6 +8,8 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { Variant } from "react-bootstrap/esm/types";
 import useArtworks from "../hooks/useArtworks";
+import { GiElephant } from "react-icons/gi";
+import { MdLandscape } from "react-icons/md";
 
 export interface IArtworkFormData extends Omit<IArtwork, 'images'> {
     file?: File;
@@ -45,7 +47,8 @@ const ArtworkForm: React.FC<IArtworkFormProps> = ({ attributes, isEveryoneInForm
     const [currentAttributes, setCurrentAttributes] = useState<IArtworkFormData>(iArtworkToFormData(attributes));
     const id = useMemo(() => currentAttributes._id ?? attributes._id, [attributes, currentAttributes]);
     const [newImages, setNewImages] = useState<IImages | null>(null);
-    const imageSrc = useMemo(() => getImageSrc(newImages ?? attributes.images), [newImages, attributes.images]);
+    const images = useMemo(() => newImages ?? attributes.images, [newImages, attributes.images]);
+    const imageSrc = useMemo(() => getImageSrc(images), [images]);
 
     const queryClient = useQueryClient();
     const { allGroupings } = useArtworks();
@@ -142,7 +145,26 @@ const ArtworkForm: React.FC<IArtworkFormProps> = ({ attributes, isEveryoneInForm
             <Stack className={`${textColor(color.r, color.g, color.b)} bg-dark rounded p-2`}>
                 <Form onSubmit={handleSubmit}>
                     {imageSrc
-                        ? <MovingColorImage src={imageSrc} title={currentAttributes.title} />
+                        ? (
+                            <div style={{ position: 'relative' }}>
+                                <MovingColorImage src={imageSrc} title={currentAttributes.title} />
+                                <div style={{ top: 0, right: 0, position: 'absolute', display: 'd-flex flex-row' }}>
+                                    {Object.entries(images).map((image) => (
+                                        <Button
+                                            onClick={() => window.open(image[1])}
+                                            variant={'dark'}
+                                            key={image[0]}
+                                            className={'m-1'}
+                                        >
+                                            {parseInt(image[0]) === 1 ? <GiElephant /> : <MdLandscape />}
+                                            <span className={'ms-1'} >
+                                                {parseInt(image[0]) === 1 ? '' : image[0]}
+                                            </span>
+                                        </Button>
+                                    ))}
+                                </div>
+                            </div>
+                        )
                         : null}
                     {isEveryoneInFormMode
                         ? (
