@@ -155,7 +155,7 @@ const Artwork: React.FC<ArtworkParams> = ({ attributes }) => {
                                     direction={'horizontal'}
                                 >
                                     <PriceFormatter price={attributes.price} isSold={isSold} />
-                                    {!isSold
+                                    {/* {!isSold
                                         ? (
                                             <Button
                                                 size={'sm'}
@@ -168,7 +168,7 @@ const Artwork: React.FC<ArtworkParams> = ({ attributes }) => {
                                                 {'Buy'}
                                             </Button>
                                         )
-                                        : null}
+                                        : null} */}
                                 </Stack>
                             </Stack>
                             <Stack
