@@ -6,6 +6,7 @@ import './Banner.css';
 
 const Banner = () => {
     const navigateTo = useNavigate();
+    const isEnabled = Boolean(import.meta.env.IS_BANNER_ENABLED);
     const [isVisible, setIsVisible] = useState(Boolean(!sessionStorage.getItem('artsite-cleared-banner')));
 
     const onCloseBanner = () => {
@@ -18,7 +19,7 @@ const Banner = () => {
             <ToastContainer className={'position-static'}>
                 <Toast
                     bg={'secondary'}
-                    show={isVisible}
+                    show={isEnabled && isVisible}
                     onClose={onCloseBanner}
                 >
                     <Toast.Header>
