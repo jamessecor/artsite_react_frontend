@@ -3,35 +3,33 @@ import { useState } from 'react';
 import './Color.css';
 
 const Color = ({ highlightColor }) => {
-    const [red, setRed] = useState(Math.random() * 255);
-    const [green, setGreen] = useState(Math.random() * 255);
-    const [blue, setBlue] = useState(Math.random() * 255);
+    const [color, setColor] = useState({
+        red: Math.random() * 255,
+        green: Math.random() * 255,
+        blue: Math.random() * 255,
+    });
+
     const [isRotating, setIsRotating] = useState(true);
 
-    const handleMouseEnter = () => {
+    const highlight = () => {
         setIsRotating(false);
-        setRed(highlightColor.r);
-        setGreen(highlightColor.g);
-        setBlue(highlightColor.b);
-    };
-
-    const handleMouseLeave = () => {
-
+        setColor(highlightColor);
     };
 
     return (
-        <div 
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-            // onTouchStart={this.clearIntervalAndSetColor}
-            // onTouchEnd={this.setInterval}
+        <div
+            onMouseEnter={highlight}
+            onMouseLeave={highlight}
+            onMouseOver={highlight}
+            onTouchStart={highlight}
+            onTouchEnd={highlight}
             style={{
                 filter: 'blur(25px)',
-                background: `rgb(${red},${green},${blue}`
+                background: `rgb(${color.red},${color.green},${color.blue}`
             }}
             className={`${isRotating ? 'rotatingColor' : ''} color w-50`}
         /> // w-50 so 2 fit per col
-    )    
+    )
 }
 
 export default Color;
