@@ -25,9 +25,10 @@ const Color = ({ highlightColor }) => {
             onTouchEnd={highlight}
             style={{
                 filter: 'blur(25px)',
-                background: `rgb(${color.red},${color.green},${color.blue}`
+                background: `rgb(${color.red},${color.green},${color.blue}`,
+                borderRadius: '2rem'
             }}
-            className={`${isRotating ? 'rotatingColor' : ''} color w-50`}
+            className={`${isRotating ? 'rotatingColor' : ''} color w-100`}
         /> // w-50 so 2 fit per col
     )
 }

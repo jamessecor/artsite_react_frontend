@@ -32,6 +32,8 @@ const PhoneApp = ({ load, page, routePath, icon }: PhoneAppProps) => {
                 return 'tour';
             case Pages.Likes:
                 return 'likes';
+            case Pages.Colors:
+                return 'colors'
             default:
                 return 'app';
         }

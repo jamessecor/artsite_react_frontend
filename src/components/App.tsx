@@ -66,6 +66,7 @@ const App = () => {
                                                 <Route path={'/nomophobia/news'} element={<News />} />
                                                 <Route path={'/nomophobia/home'} element={<PhoneHome />} />
                                                 <Route path={'/nomophobia/likes'} element={<Likes />} />
+                                                <Route path={'/nomophobia/colors'} element={<Colors />} />
                                                 <Route path={'/nomophobia*'} element={<PhoneOff />} />
                                             </Route>
                                             <Route path={'/colors'} element={<Colors />} />
