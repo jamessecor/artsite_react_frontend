@@ -69,7 +69,6 @@ const App = () => {
                                                 <Route path={'/nomophobia/colors'} element={<Colors />} />
                                                 <Route path={'/nomophobia*'} element={<PhoneOff />} />
                                             </Route>
-                                            <Route path={'/colors'} element={<Colors />} />
                                             <Route path={'/contact'} element={<ContactForm />} />
                                             <Route path={'/store'} element={<Store />}>
                                                 <Route path={'postcards'} element={<Store />} />
