@@ -1,14 +1,23 @@
 .rotatingColor {
-    filter: grayscale(0%);
+    /* filter: grayscale(0%); */
     animation-name: color;
-    animation-duration: 1s;
+    animation-duration: 3s;
     animation-iteration-count: infinite;
 }
 
 @keyframes color {
     0%   {filter: hue-rotate(0);}
-    25%  {filter: hue-rotate(45deg);}
-    50%  {filter: hue-rotate(90deg);}
-    75%  {filter: hue-rotate(125deg);}
-    100% {filter: hue-rotate(180deg);}
+    8%   {filter: hue-rotate(30deg);}
+    16%  {filter: hue-rotate(60deg);}
+    24%   {filter: hue-rotate(90deg);}
+    32%   {filter: hue-rotate(120deg);}
+    40%   {filter: hue-rotate(150deg);}
+    48%   {filter: hue-rotate(180deg);}
+    56%  {filter: hue-rotate(210deg);}
+    64%  {filter: hue-rotate(240deg);}
+    72% {filter: hue-rotate(270deg);}
+    80% {filter: hue-rotate(300deg);}
+    88% {filter: hue-rotate(330deg);}
+    96% {filter: hue-rotate(360deg);}
+    100% {filter: hue-rotate(360deg);}
 }
