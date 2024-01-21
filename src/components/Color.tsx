@@ -1,5 +1,7 @@
 import * as React from 'react';
 import { useState } from 'react';
+import { useSpring, animated } from '@react-spring/web'
+import { useDrag } from '@use-gesture/react'
 import './Color.css';
 
 const Color = ({ highlightColor }) => {
@@ -11,22 +13,31 @@ const Color = ({ highlightColor }) => {
 
     const [isRotating, setIsRotating] = useState(true);
 
-    const highlight = () => {
-        setIsRotating(false);
-        setColor(highlightColor);
-    };
+    const [{ x, y }, api] = useSpring(() => ({ x: 0, y: 0 }))
 
+    // Set the drag hook and define component movement based on gesture data
+    const bind = useDrag(({ event, down, movement: [mx, my] }) => {
+        event.preventDefault();
+        setIsRotating(false);
+        setColor({
+            red: 255,
+            green: 0,
+            blue: 0
+        });
+        api.start({ x: down ? mx : 0, y: down ? my : 0, immediate: down });
+    });
+
+    // Bind it to a component
     return (
-        <div
-            onMouseEnter={highlight}
-            onMouseLeave={highlight}
-            onMouseOver={highlight}
-            onTouchStart={highlight}
-            onTouchEnd={highlight}
+        <animated.div
+            {...bind()}
             style={{
-                filter: 'blur(25px)',
+                x,
+                y,
+                touchAction: 'none',
                 background: `rgb(${color.red},${color.green},${color.blue}`,
-                borderRadius: '2rem'
+                borderRadius: '4px',
+                margin: '1px'
             }}
             className={`${isRotating ? 'rotatingColor' : ''} color w-100`}
         /> // w-50 so 2 fit per col
