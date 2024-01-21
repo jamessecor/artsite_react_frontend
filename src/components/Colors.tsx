@@ -2,7 +2,7 @@ import * as React from 'react';
 import Color from "./Color";
 
 const Colors = () => {
-  const highlightColor = { r: 200, g: 200, b: 255 };
+  const highlightColor = { red: 250, green: 50, blue: 50 };
 
   return (
     <div className="bg-dark phone-screen row g-0 container-fluid">

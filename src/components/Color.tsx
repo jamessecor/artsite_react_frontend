@@ -4,7 +4,14 @@ import { useSpring, animated } from '@react-spring/web'
 import { useDrag } from '@use-gesture/react'
 import './Color.css';
 
-const Color = ({ highlightColor }) => {
+interface IColorProps {
+    highlightColor: {
+        red: number;
+        green: number;
+        blue: number;
+    }
+}
+const Color: React.FC<IColorProps> = ({ highlightColor }) => {
     const [color, setColor] = useState({
         red: Math.random() * 255,
         green: Math.random() * 255,
@@ -12,18 +19,16 @@ const Color = ({ highlightColor }) => {
     });
 
     const [isRotating, setIsRotating] = useState(true);
+    const [zIndex, setZIndex] = useState(1);
 
     const [{ x, y }, api] = useSpring(() => ({ x: 0, y: 0 }))
 
     // Set the drag hook and define component movement based on gesture data
     const bind = useDrag(({ event, down, movement: [mx, my] }) => {
         event.preventDefault();
+        setColor(highlightColor);
         setIsRotating(false);
-        setColor({
-            red: 255,
-            green: 0,
-            blue: 0
-        });
+        setZIndex(5);
         api.start({ x: down ? mx : 0, y: down ? my : 0, immediate: down });
     });
 
@@ -36,11 +41,10 @@ const Color = ({ highlightColor }) => {
                 y,
                 touchAction: 'none',
                 background: `rgb(${color.red},${color.green},${color.blue}`,
-                borderRadius: '4px',
-                margin: '1px'
+                zIndex: zIndex
             }}
             className={`${isRotating ? 'rotatingColor' : ''} color w-100`}
-        /> // w-50 so 2 fit per col
+        />
     )
 }
 
