@@ -6,9 +6,9 @@ const Colors = () => {
 
   return (
     <div className="bg-dark phone-screen row g-0 container-fluid">
-      {[...Array(264)].map((value, index) => {
+      {[...Array(36)].map((value, index) => {
         return (
-          <div key={index} className="col-1">
+          <div key={index} className="col-2">
             <div className="d-flex h-100">
               <Color key={`color-${index}`} highlightColor={highlightColor} />
             </div>
