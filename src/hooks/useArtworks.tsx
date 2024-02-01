@@ -15,9 +15,11 @@ const useArtworks = () => {
     const allYears = useMemo(() => allArtworks?.length ? [...new Set(allArtworks.map((artwork) => artwork.year))].sort().reverse() : [], [allArtworks]);
     const allGroupings = useMemo(() => {
         const groupings = new Array<string>();
-        allArtworks.forEach((artwork) => {
-            if (artwork.grouping && artwork.grouping.length > 0) groupings.push(...artwork.grouping);
-        });
+        if (allArtworks) {
+            allArtworks.forEach((artwork) => {
+                if (artwork.grouping && artwork.grouping.length > 0) groupings.push(...artwork.grouping);
+            });
+        }
         return [...new Set(groupings)].sort((a, b) => GroupingsLabelsOrder[a] - GroupingsLabelsOrder[b]);
     }, [allArtworks]);
 
