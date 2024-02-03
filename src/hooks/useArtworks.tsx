@@ -61,7 +61,7 @@ const useArtworks = () => {
         return soldArtworks;
     }, [allArtworks, setEm]);
 
-    const likedArtworks = useMemo(() => allArtworks.filter((artwork) => artwork.totalLikes ?? 0 > 0).sort((a, b) => (b.totalLikes ?? 0) - (a.totalLikes ?? 0)), [allArtworks]);
+    const likedArtworks = useMemo(() => allArtworks ? allArtworks.filter((artwork) => artwork.totalLikes ?? 0 > 0).sort((a, b) => (b.totalLikes ?? 0) - (a.totalLikes ?? 0)) : [], [allArtworks]);
 
     return {
         artworks,
