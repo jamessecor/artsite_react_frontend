@@ -8,7 +8,7 @@ const useArtworks = () => {
         queryKey: ['artworks'],
         queryFn: () => axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/artworks`)
     });
-    const allArtworks = useMemo(() => (!isLoading ? data?.data.results : []) as Array<IArtwork>, [data, isLoading]);
+    const allArtworks = useMemo(() => (!isLoading && data?.data ? data.data.results : []) as Array<IArtwork>, [data, isLoading]);
 
     const [artworks, setArtworks] = useState<Array<IArtwork>>([]);
 
@@ -26,7 +26,7 @@ const useArtworks = () => {
     const hiddenGroupings = ['digital_edits'];
 
     const setEm = useCallback((year = '', grouping: Groupings = '', searchTerm = '', current = false) => {
-        let newArtworks = allArtworks;
+        let newArtworks = allArtworks ?? [];
         if (year) {
             newArtworks = newArtworks.filter(x => x.year.toString() === year.toString());
         }
