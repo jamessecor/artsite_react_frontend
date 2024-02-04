@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useCallback, useContext, useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import Artwork from "./Artwork";
-import { ArtworkAttributes, Groupings, IArtwork } from "../models/Artwork";
+import { ArtworkAttributes, Groupings, IArtwork, getImageSrc } from "../models/Artwork";
 import { Badge, Button, Col, Container, Row, Spinner, Stack, Toast } from 'react-bootstrap';
 import useArtworks from '../hooks/useArtworks';
 import { useNavigate } from "react-router-dom";
@@ -10,6 +10,7 @@ import { AuthenticationContext } from './providers/AuthenticationProvider';
 import ArtworkForm from './ArtworkForm';
 import { MdEdit, MdViewComfy } from 'react-icons/md';
 import { SettingsContext } from './providers/SettingsProvider';
+import ArtworksModal from './modals/ArtworksModal';
 
 interface IArtworkProps {
     current?: boolean;
@@ -22,16 +23,18 @@ const Artworks = ({ current = false }: IArtworkProps) => {
     const year = searchParams.get('year') ?? '';
     const grouping = searchParams.get('grouping') as Groupings ?? '';
     const searchTerm = searchParams.get('search') ?? '';
-    const { artworks, setEm, isLoading } = useArtworks();
+    const { artworks, allYears, setEm, isLoading } = useArtworks();
     const [newArtworks, setNewArtworks] = useState<Array<IArtwork>>([]);
     const [isInFormMode, setIsInFormMode] = useState(true);
+    const [isShowingModal, setIsShowingModal] = useState(false);
+    const [initialIndex, setInitialIndex] = useState(0);
     const navigateTo = useNavigate();
 
     useEffect(() => {
         setEm(year, grouping, searchTerm, current);
     }, [setEm, year, grouping, searchTerm, current]);
 
-    const enterSite = () => navigateTo('/artworks?year=2023');
+    const enterSite = () => navigateTo(`/artworks?year=${allYears[0]}`);
 
     const addNewArtwork = useCallback(() => {
         setNewArtworks([...newArtworks, ArtworkAttributes.create()]);
@@ -42,8 +45,13 @@ const Artworks = ({ current = false }: IArtworkProps) => {
     }, [newArtworks]);
 
     return (
-
         <Container fluid={'sm'} className="align-items-center">
+            <ArtworksModal
+                isOpen={isShowingModal}
+                setIsOpen={setIsShowingModal}
+                initialIndex={initialIndex}
+                artworks={artworks}
+            />
             {isLoggedIn
                 ? (
                     <React.Fragment>
@@ -73,16 +81,27 @@ const Artworks = ({ current = false }: IArtworkProps) => {
                         />
                     ))}
                 {artworks.length
-                    ? (artworks.filter(x => isShowingSold || !(x.isNFS || x.saleDate)).sort((a, b) => (a.arrangement ?? 9999) - (b.arrangement ?? 9999)).map((artwork, i) => {
-                        return (
-                            <Col key={`${artwork._id}-${artwork.title}`} className="my-4 px-4">
-                                {isLoggedIn
-                                    ? <ArtworkForm attributes={artwork} isEveryoneInFormMode={isInFormMode} />
-                                    : <Artwork attributes={artwork} />
-                                }
-                            </Col>
-                        )
-                    }))
+                    ? (artworks.filter(x => isShowingSold || !(x.isNFS || x.saleDate))
+                        .sort((a, b) => (a.arrangement ?? 9999) - (b.arrangement ?? 9999))
+                        .map((artwork, i) => {
+                            return (
+                                <Col key={`${artwork._id}-${artwork.title}`} className="my-4 px-4">
+                                    {isLoggedIn
+                                        ? <ArtworkForm attributes={artwork} isEveryoneInFormMode={isInFormMode} />
+                                        : (
+                                            <img
+                                                onClick={() => {
+                                                    setInitialIndex(i);
+                                                    setIsShowingModal(true);
+                                                }}
+                                                src={getImageSrc(artwork.images)}
+                                                className={'w-100'}
+                                            />
+                                        )
+                                    }
+                                </Col>
+                            )
+                        }))
                     : (
                         isLoading
                             ? (

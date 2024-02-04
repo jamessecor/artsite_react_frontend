@@ -67,3 +67,5 @@ export const iArtworkToFormData = (iArtwork: IArtwork): IArtworkFormData => {
 };
 
 export const getImageSrc = (images: IImages) => _.has(images, 2500) ? images[2500] : images[1];
+
+export const isSold = (artwork: IArtwork) => Boolean(artwork.saleDate ?? artwork.isNFS);

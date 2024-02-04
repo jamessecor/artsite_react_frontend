@@ -13,6 +13,7 @@ const useArtworks = () => {
     const [artworks, setArtworks] = useState<Array<IArtwork>>([]);
 
     const allYears = useMemo(() => allArtworks?.length ? [...new Set(allArtworks.map((artwork) => artwork.year))].sort().reverse() : [], [allArtworks]);
+    
     const allGroupings = useMemo(() => {
         const groupings = new Array<string>();
         if (allArtworks) {

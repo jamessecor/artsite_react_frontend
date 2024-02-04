@@ -22,6 +22,7 @@ const Likes = () => {
                 ) : (
                     likedArtworks.map((likedArtwork, index) => (
                         <Stack
+                            gap={3}
                             key={`${likedArtwork.title}-${likedArtwork._id?.toString()}-${index}`}
                             direction={'horizontal'}
                             style={{ justifyContent: 'space-between' }}

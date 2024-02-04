@@ -6,7 +6,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Artworks from './Artworks';
 import SoldArtworks from './SoldArtworks';
 import Cv from './Cv';
-import Colors from './Colors';
+import Colors from './nomophobia/Colors';
 import Navigation from './navigation/Navigation';
 import Store from './store/Store';
 import ContactForm from './ContactForm';
