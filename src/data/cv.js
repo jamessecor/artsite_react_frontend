@@ -104,6 +104,20 @@ export const soloShows = [
 
 export const groupShows = [
     {
+        name: "Views from Prospect St.",
+        location: "T.W. Wood Gallery",
+        url: "https://www.twwoodgallery.org/nuquist-gallery.html",
+        address: "Montpelier, VT",
+        dates: "Feb-Mar 2024"
+    },
+    {
+        name: "Head for the Hills",
+        location: "Studio Place Arts",
+        url: "https://studioplacearts.com",
+        address: "Barre, VT",
+        dates: "Jan-Mar 2024"
+    },
+    {
         name: "Interplay",
         location: "Art at the Kent",
         url: "https://www.kentscorner.org/interplay",
@@ -119,12 +133,14 @@ export const groupShows = [
     {
         name: "Up & Away",
         location: "Studio Place Arts",
+        url: "https://studioplacearts.com",
         address: "Barre, VT",
         dates: "Mar-May 2021"
     },
     {
         name: "Rolling On",
         location: "Studio Place Arts",
+        url: "https://studioplacearts.com",
         address: "Barre, VT",
         dates: "Jan-Mar 2021"
     },
@@ -137,6 +153,7 @@ export const groupShows = [
     {
         name: "Futures",
         location: "Studio Place Arts",
+        url: "https://studioplacearts.com",
         address: "Barre, VT",
         dates: "2020"
     },
@@ -155,6 +172,7 @@ export const groupShows = [
     {
         name: "Encountering Yellow",
         location: "Studio Place Arts",
+        url: "https://studioplacearts.com",
         address: "Barre, VT",
         dates: "2016"
     },
@@ -167,6 +185,7 @@ export const groupShows = [
     {
         name: "CELEBRATE!",
         location: "Studio Place Arts",
+        url: "https://studioplacearts.com",
         address: "Barre, VT",
         dates: "2015 & 2016"
     },
