@@ -1,7 +1,6 @@
 import * as React from 'react';
-import { useState } from 'react';
-import { useSpring, animated } from '@react-spring/web'
-import { useDrag } from '@use-gesture/react'
+import { useRef, useState } from 'react';
+import Draggable from 'react-draggable';
 import './Color.css';
 
 interface IColorProps {
@@ -13,46 +12,45 @@ interface IColorProps {
 }
 
 const Color: React.FC<IColorProps> = ({ highlightColor }) => {
-    const [color, setColor] = useState({
+    const initialColor = {
         red: Math.random() * 255,
         green: Math.random() * 255,
         blue: Math.random() * 255,
-    });
+    };
 
+    const draggableRef = useRef(null);
+
+    const [color, setColor] = useState(initialColor);
     const [isRotating, setIsRotating] = useState(true);
-    const [zIndex, setZIndex] = useState(0);
-    const [currentX, setCurrentX] = useState(0);
-    const [currentY, setCurrentY] = useState(0);
+    const [timesMoved, setTimesMoved] = useState(0);
 
-    const [{ x, y }, api] = useSpring(() => ({ x: 0, y: 0 }))
-
-    // Set the drag hook and define component movement based on gesture data
-    const bind = useDrag(({ event, down, movement: [mx, my] }) => {
-        event.preventDefault();
-        setColor(highlightColor);
+    const handleStart = () => {
+        setColor({ red: 200, green: 10, blue: 10 })
+        setTimesMoved((prev) => prev + 1);
         setIsRotating(false);
-        setZIndex(1);
-        api.start({ x: currentX + mx, y: currentY + my, immediate: down });
-        if (!down) {
-            setCurrentX((prev) => mx + prev);
-            setCurrentY((prev) => my + prev);
-        }
-        // api.start({ x: down ? mx : 0, y: down ? my : 0, immediate: down });
-    });
+    }
 
-    // Bind it to a component
+    const handleStop = () => {
+        setColor(initialColor);
+        setIsRotating(true);
+    }
+
     return (
-        <animated.div
-            {...bind()}
-            style={{
-                x,
-                y,
-                touchAction: 'none',
-                background: `rgb(${color.red},${color.green},${color.blue}`,
-                zIndex: zIndex
-            }}
-            className={`${isRotating ? 'rotatingColor' : ''} color w-100`}
-        />
+        <Draggable
+            onStart={handleStart}
+            onStop={handleStop}
+            nodeRef={draggableRef}
+        >
+            <div
+                ref={draggableRef}
+                className={`${isRotating ? 'rotatingColor' : ''} color w-100`}
+                style={{
+                    touchAction: 'none',
+                    background: `rgb(${color.red}, ${color.green}, ${color.blue})`,
+                    zIndex: timesMoved
+                }}
+            />
+        </Draggable>
     )
 }
 
