@@ -4,19 +4,11 @@ import Draggable from 'react-draggable';
 import './Color.css';
 
 interface IColorProps {
-    highlightColor: {
-        red: number;
-        green: number;
-        blue: number;
-    }
+    highlightColorHex: string;
 }
 
-const Color: React.FC<IColorProps> = ({ highlightColor }) => {
-    const initialColor = {
-        red: Math.random() * 255,
-        green: Math.random() * 255,
-        blue: Math.random() * 255,
-    };
+const Color: React.FC<IColorProps> = ({ highlightColorHex }) => {
+    const initialColor = `#${(Math.random() * 0xFFFFFF << 0).toString(16).padStart(6, '0')}`;
 
     const draggableRef = useRef(null);
 
@@ -25,7 +17,7 @@ const Color: React.FC<IColorProps> = ({ highlightColor }) => {
     const [timesMoved, setTimesMoved] = useState(0);
 
     const handleStart = () => {
-        setColor({ red: 200, green: 10, blue: 10 })
+        setColor(highlightColorHex);
         setTimesMoved((prev) => prev + 1);
         setIsRotating(false);
     }
@@ -43,10 +35,10 @@ const Color: React.FC<IColorProps> = ({ highlightColor }) => {
         >
             <div
                 ref={draggableRef}
-                className={`${isRotating ? 'rotatingColor' : ''} color w-100`}
+                className={`${isRotating ? 'rotatingColor' : 'notRotatingColor'} color w-100`}
                 style={{
                     touchAction: 'none',
-                    background: `rgb(${color.red}, ${color.green}, ${color.blue})`,
+                    background: color,
                     zIndex: timesMoved
                 }}
             />

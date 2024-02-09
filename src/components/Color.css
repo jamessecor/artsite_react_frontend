@@ -1,8 +1,12 @@
 .rotatingColor {
     /* filter: grayscale(0%); */
     animation-name: color;
-    animation-duration: 4s;
+    animation-duration: 6s;
     animation-iteration-count: infinite;
+}
+
+.notRotatingColor {
+    border-radius: 5%;
 }
 
 @keyframes color {
