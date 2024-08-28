@@ -141,7 +141,7 @@ const Artwork: React.FC<ArtworkParams> = ({ attributes }) => {
                     </Form>
                 </Modal.Body>
             </Modal>
-            <MovingColorImage src={imageSrc} title={attributes.title} />
+            <MovingColorImage src={imageSrc} attributes={attributes} />
             <Stack direction={'horizontal'} className={'mt-2'} style={{ justifyContent: 'space-between' }}>
                 {isShowingInfo
                     ? (

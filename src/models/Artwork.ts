@@ -49,6 +49,7 @@ export interface IArtwork {
     isNFS?: boolean;
     likes?: Array<ILike>;
     totalLikes?: number;
+    hueRotationAmount?: number;
 };
 
 export const ArtworkAttributes = {
