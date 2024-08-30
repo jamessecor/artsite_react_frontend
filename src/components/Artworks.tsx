@@ -10,8 +10,6 @@ import { AuthenticationContext } from './providers/AuthenticationProvider';
 import ArtworkForm from './ArtworkForm';
 import { MdEdit, MdViewComfy } from 'react-icons/md';
 import { SettingsContext } from './providers/SettingsProvider';
-import { IoImage } from "react-icons/io5";
-import { FaWpforms } from "react-icons/fa";
 
 interface IArtworkProps {
     current?: boolean;
@@ -26,8 +24,7 @@ const Artworks = ({ current = false }: IArtworkProps) => {
     const searchTerm = searchParams.get('search') ?? '';
     const { artworks, setEm, isLoading } = useArtworks();
     const [newArtworks, setNewArtworks] = useState<Array<IArtwork>>([]);
-    const [isInArrangementMode, setIsInArrangementMode] = useState(false);
-    const [isInFormMode, setIsInFormMode] = useState(false);
+    const [isInFormMode, setIsInFormMode] = useState(true);
     const navigateTo = useNavigate();
 
     useEffect(() => {
@@ -58,28 +55,20 @@ const Artworks = ({ current = false }: IArtworkProps) => {
                                 <Button variant={'secondary'} className={'w-100'} onClick={removeNewArtwork}>{'-'}</Button>
                             </Col>
                         </Row>
-                        <Stack gap={2} className={'position-fixed bottom-0 end-0 mb-2 me-2'}>
-                            <Button variant={'outline-info'} onClick={() => setIsInArrangementMode(!isInArrangementMode)}>
-                                {isInArrangementMode
-                                    ? <MdViewComfy />
-                                    : <MdEdit />}
-                            </Button>
-                            <Button variant={'outline-info'} onClick={() => setIsInFormMode(!isInFormMode)}>
-                                {isInFormMode
-                                    ? <IoImage />
-                                    : <FaWpforms />}
-                            </Button>
-                        </Stack>
+                        <Button variant={'outline-info'} className={'position-fixed bottom-0 end-0 mb-2 me-2'} onClick={() => setIsInFormMode(!isInFormMode)}>
+                            {isInFormMode
+                                ? <MdViewComfy />
+                                : <MdEdit />}
+                        </Button>
                     </React.Fragment>
                 )
                 : null}
-            <Row xs={1} lg={isLoggedIn && !isInArrangementMode ? 6 : 4} className={'d-flex align-items-center justify-content-center'}>
+            <Row xs={1} lg={isLoggedIn && !isInFormMode ? 6 : 4} className={'d-flex align-items-center justify-content-center'}>
                 {isLoggedIn && newArtworks.length !== 0
                     && newArtworks.map((newArtwork, index) => (
                         <ArtworkForm
                             key={index}
-                            isInArrangementMode={isInArrangementMode}
-                            isInFormMode={isInFormMode}
+                            isEveryoneInFormMode={isInFormMode}
                             attributes={newArtwork}
                         />
                     ))}
@@ -88,7 +77,7 @@ const Artworks = ({ current = false }: IArtworkProps) => {
                         return (
                             <Col key={`${artwork._id}-${artwork.title}`} className="my-4 px-4">
                                 {isLoggedIn
-                                    ? <ArtworkForm attributes={artwork} isInFormMode={isInFormMode} isInArrangementMode={isInArrangementMode} />
+                                    ? <ArtworkForm attributes={artwork} isEveryoneInFormMode={isInFormMode} />
                                     : <Artwork attributes={artwork} />
                                 }
                             </Col>
