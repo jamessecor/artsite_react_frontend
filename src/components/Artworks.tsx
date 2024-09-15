@@ -12,6 +12,7 @@ import { MdEdit, MdViewComfy } from 'react-icons/md';
 import { SettingsContext } from './providers/SettingsProvider';
 import { IoImage } from "react-icons/io5";
 import { FaWpforms } from "react-icons/fa";
+import useScreenSize from '../hooks/useScreenSize';
 
 interface IArtworkProps {
     current?: boolean;
@@ -29,6 +30,9 @@ const Artworks = ({ current = false }: IArtworkProps) => {
     const [isInArrangementMode, setIsInArrangementMode] = useState(false);
     const [isInFormMode, setIsInFormMode] = useState(false);
     const navigateTo = useNavigate();
+
+    const { isMobile } = useScreenSize();
+    const adminButtonsMarginBottom = isMobile ? 1 : 5;
 
     useEffect(() => {
         setEm(year, grouping, searchTerm, current);
@@ -58,7 +62,7 @@ const Artworks = ({ current = false }: IArtworkProps) => {
                                 <Button variant={'secondary'} className={'w-100'} onClick={removeNewArtwork}>{'-'}</Button>
                             </Col>
                         </Row>
-                        <Stack gap={2} className={'position-fixed bottom-0 end-0 mb-2 me-2'}>
+                        <Stack gap={2} className={`position-fixed bottom-0 end-0 mb-${adminButtonsMarginBottom} me-1`}>
                             <Button variant={'outline-info'} onClick={() => setIsInArrangementMode(!isInArrangementMode)}>
                                 {isInArrangementMode
                                     ? <MdViewComfy />
