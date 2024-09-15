@@ -4,7 +4,7 @@ import { IArtwork, Groupings, GroupingsLabelsOrder } from '../models/Artwork';
 import axios, { all } from 'axios';
 
 const useArtworks = () => {
-    const { data, isLoading } = useQuery({ 
+    const { data, isLoading } = useQuery({
         queryKey: ['artworks'],
         queryFn: () => axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/artworks`)
     });
@@ -28,7 +28,9 @@ const useArtworks = () => {
     const setEm = useCallback((year = '', grouping: Groupings = '', searchTerm = '', current = false) => {
         let newArtworks = allArtworks ?? [];
         if (year) {
-            newArtworks = newArtworks.filter(x => x.year.toString() === year.toString());
+            newArtworks = newArtworks
+                .filter(x => !x.grouping?.length || x.grouping?.length === 0)
+                .filter(x => x.year.toString() === year.toString());
         }
         if (grouping) {
             newArtworks = newArtworks.filter(x => x.grouping?.includes(grouping));
