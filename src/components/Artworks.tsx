@@ -38,7 +38,7 @@ const Artworks = ({ current = false }: IArtworkProps) => {
         setEm(year, grouping, searchTerm, current);
     }, [setEm, year, grouping, searchTerm, current]);
 
-    const enterSite = () => navigateTo('/artworks?year=2023');
+    const enterSite = () => navigateTo('/artworks?year=2024');
 
     const addNewArtwork = useCallback(() => {
         setNewArtworks([...newArtworks, ArtworkAttributes.create()]);
@@ -109,11 +109,10 @@ const Artworks = ({ current = false }: IArtworkProps) => {
                                 </Stack>
                             )
                             : (
-                                <Container className={'align-items-center'}>
-                                    <Row xs={1}>
-                                        <Col>
+                                <Container className={'d-flex justify-content-center text-center w-100 position-absolute top-50 start-50 translate-middle'}>
+                                    <Row>
+                                        <Col xs={12}>
                                             <Toast
-                                                className={'position-absolute top-50 start-50 translate-middle'}
                                                 onClose={enterSite}
                                                 bg='primary'
                                             >
@@ -130,7 +129,6 @@ const Artworks = ({ current = false }: IArtworkProps) => {
                                         </Col>
                                     </Row>
                                 </Container>
-
                             )
                     )}
             </Row>
