@@ -92,7 +92,6 @@ const ArtworkForm: React.FC<IArtworkFormProps> = ({ attributes, isInFormMode, is
                 text: data.data.message,
                 variant: 'success'
             });
-            console.log('data', data.data);
             setId(data.data.artwork._id);
             queryClient.invalidateQueries({ queryKey: ['artworks'] });
         },
