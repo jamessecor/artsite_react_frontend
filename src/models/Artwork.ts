@@ -36,6 +36,8 @@ export interface IArtwork {
     title: string;
     year: string;
     media: string;
+    width: string;
+    height: string;
     images: IImages;
     isHomePage?: boolean;
     price: string;
@@ -57,7 +59,9 @@ export const ArtworkAttributes = {
         year: '',
         media: '',
         images: [],
-        price: ''
+        price: '',
+        width: '',
+        height: ''
     })
 }
 

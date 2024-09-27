@@ -10,17 +10,14 @@ import useArtworks from "../hooks/useArtworks";
 import { GiElephant } from "react-icons/gi";
 import { MdLandscape } from "react-icons/md";
 
-export interface IArtworkFormData extends Omit<IArtwork, 'images'> {
+export interface IArtworkFormData extends Omit<IArtwork, '_id' | 'images'> {
     file?: File;
 }
 
 interface IArtworkFormResponse {
     data: {
-        _id: string;
         message: string;
-        images: {
-            [size: number]: string;
-        };
+        artwork: IArtwork;
     }
 }
 
@@ -44,14 +41,15 @@ interface IResponseType {
 const ArtworkForm: React.FC<IArtworkFormProps> = ({ attributes, isInFormMode, isInArrangementMode }) => {
     const { color } = useContext(BackgroundColorContext);
     const [isShowingForm, setIsShowingForm] = useState(isInFormMode);
-    useEffect(() => setIsShowingForm(isInFormMode), [isInFormMode]);
-    console.log('iii', isInFormMode, isShowingForm, attributes.title);
     const [responseToast, setResponseToast] = useState<IResponseType>({});
     const [currentAttributes, setCurrentAttributes] = useState<IArtworkFormData>(iArtworkToFormData(attributes));
-    const id = useMemo(() => currentAttributes._id ?? attributes._id, [attributes, currentAttributes]);
+    const [id, setId] = useState(attributes._id);
     const [newImages, setNewImages] = useState<IImages | null>(null);
     const images = useMemo(() => newImages ?? attributes.images, [newImages, attributes.images]);
     const imageSrc = useMemo(() => getImageSrc(images), [images]);
+    console.log('id', currentAttributes.title, id);
+
+    useEffect(() => setIsShowingForm(isInFormMode), [isInFormMode]);
 
     const queryClient = useQueryClient();
     const { allGroupings } = useArtworks();
@@ -85,8 +83,8 @@ const ArtworkForm: React.FC<IArtworkFormProps> = ({ attributes, isInFormMode, is
         axios.defaults.headers.put['Content-Type'] = 'multipart/form-data';
         axios.defaults.headers.post['Content-Type'] = 'multipart/form-data';
 
-        return attributes._id
-            ? axios.put(`${import.meta.env.VITE_API_BASE_URL}/api/artworks/${attributes._id}`, formData)
+        return id
+            ? axios.put(`${import.meta.env.VITE_API_BASE_URL}/api/artworks/${id}`, formData)
             : axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/artworks`, formData);
     }, {
         onSuccess: (data) => {
@@ -94,11 +92,8 @@ const ArtworkForm: React.FC<IArtworkFormProps> = ({ attributes, isInFormMode, is
                 text: data.data.message,
                 variant: 'success'
             });
-            setCurrentAttributes({
-                ...currentAttributes,
-                _id: data.data._id
-            });
-            setNewImages(data.data.images);
+            console.log('data', data.data);
+            setId(data.data.artwork._id);
             queryClient.invalidateQueries({ queryKey: ['artworks'] });
         },
         onError: (data) => {
@@ -116,7 +111,7 @@ const ArtworkForm: React.FC<IArtworkFormProps> = ({ attributes, isInFormMode, is
                 deleteMutation.mutate();
             }
         }
-    }, [currentAttributes._id, deleteMutation]);
+    }, [id, deleteMutation]);
 
     const handleSubmit = useCallback((e) => {
         e.preventDefault();
@@ -224,6 +219,28 @@ const ArtworkForm: React.FC<IArtworkFormProps> = ({ attributes, isInFormMode, is
                                                 type="text"
                                             />
                                         </Form.Group>
+                                        <Form.Group className="mb-3" controlId="width">
+                                            <Form.Label>{'width'}</Form.Label>
+                                            <Form.Control
+                                                onChange={(e) => setCurrentAttributes({
+                                                    ...currentAttributes,
+                                                    width: e.target.value
+                                                })}
+                                                value={currentAttributes.width}
+                                                type="text"
+                                            />
+                                        </Form.Group>
+                                        <Form.Group className="mb-3" controlId="height">
+                                            <Form.Label>{'height'}</Form.Label>
+                                            <Form.Control
+                                                onChange={(e) => setCurrentAttributes({
+                                                    ...currentAttributes,
+                                                    height: e.target.value
+                                                })}
+                                                value={currentAttributes.height}
+                                                type="text"
+                                            />
+                                        </Form.Group>
                                         <Form.Group className="mb-3" controlId="grouping">
                                             <Form.Label className={'text-break'}>{allGroupings.length ? allGroupings.toString() : 'tags'}</Form.Label>
                                             <Form.Control
@@ -299,7 +316,7 @@ const ArtworkForm: React.FC<IArtworkFormProps> = ({ attributes, isInFormMode, is
                                     <Button disabled={isLoading} className={'w-100'} type={'submit'}>
                                         {isLoading
                                             ? <Spinner variant={'info'} animation={'border'} className={'text-center'} />
-                                            : (attributes._id ? 'Update' : 'Add New Artwork')
+                                            : (id ? 'Update' : 'Add New Artwork')
                                         }
                                     </Button>
                                 )

@@ -8,7 +8,8 @@ const useArtworks = () => {
         queryKey: ['artworks'],
         queryFn: () => axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/artworks`)
     });
-    const allArtworks = useMemo(() => (!isLoading && data?.data ? data.data.results : []) as Array<IArtwork>, [data, isLoading]);
+
+    const allArtworks = useMemo(() => (!isLoading && data?.data ? data.data : []) as Array<IArtwork>, [data, isLoading]);
 
     const [artworks, setArtworks] = useState<Array<IArtwork>>([]);
 
