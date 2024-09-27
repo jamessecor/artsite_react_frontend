@@ -28,8 +28,9 @@ export interface ILike {
     amount: number;
 };
 
-export interface IImages {
-    [k: number]: string;
+export interface IImage {
+    size: number;
+    url: string;
 }
 export interface IArtwork {
     _id?: string;
@@ -38,7 +39,7 @@ export interface IArtwork {
     media: string;
     width: string;
     height: string;
-    images: IImages;
+    images: Array<IImage>;
     isHomePage?: boolean;
     price: string;
     arrangement?: number;
@@ -70,4 +71,7 @@ export const iArtworkToFormData = (iArtwork: IArtwork): IArtworkFormData => {
     return rest;
 };
 
-export const getImageSrc = (images: IImages) => _.has(images, 2500) ? images[2500] : images[1];
+export const getImageSrc = (images: Array<IImage>) => {
+    const sortedImages = images.sort((a, b) => b.size - a.size);
+    return sortedImages.length > 0 ? sortedImages[0].url : undefined;
+}

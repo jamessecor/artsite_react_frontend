@@ -2,7 +2,7 @@ import * as React from "react"
 import { useCallback, useEffect, useContext, useMemo, useState } from "react"
 import { Button, Col, Form, Spinner, Stack, Toast } from 'react-bootstrap';
 import { BackgroundColorContext, textColor } from "./providers/BackgroundColorProvider";
-import { ArtworkAttributes, getImageSrc, Groupings, IArtwork, iArtworkToFormData, IImages } from "../models/Artwork";
+import { ArtworkAttributes, getImageSrc, Groupings, IArtwork, iArtworkToFormData, IImage } from "../models/Artwork";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { Variant } from "react-bootstrap/esm/types";
@@ -44,10 +44,9 @@ const ArtworkForm: React.FC<IArtworkFormProps> = ({ attributes, isInFormMode, is
     const [responseToast, setResponseToast] = useState<IResponseType>({});
     const [currentAttributes, setCurrentAttributes] = useState<IArtworkFormData>(iArtworkToFormData(attributes));
     const [id, setId] = useState(attributes._id);
-    const [newImages, setNewImages] = useState<IImages | null>(null);
+    const [newImages, setNewImages] = useState<Array<IImage> | null>(null);
     const images = useMemo(() => newImages ?? attributes.images, [newImages, attributes.images]);
     const imageSrc = useMemo(() => getImageSrc(images), [images]);
-    console.log('id', currentAttributes.title, id);
 
     useEffect(() => setIsShowingForm(isInFormMode), [isInFormMode]);
 
@@ -148,16 +147,16 @@ const ArtworkForm: React.FC<IArtworkFormProps> = ({ attributes, isInFormMode, is
                         onClick={() => setIsShowingForm(!isShowingForm)}
                     />
                     <div style={{ top: 0, right: 0, position: 'absolute', display: 'd-flex flex-row' }}>
-                        {Object.entries(images).map((image) => (
+                        {images.map((image) => (
                             <Button
-                                onClick={() => window.open(image[1])}
+                                onClick={() => window.open(image.url)}
                                 variant={'dark'}
-                                key={image[0]}
+                                key={image.size}
                                 className={'m-1'}
                             >
-                                {parseInt(image[0]) === 1 ? <GiElephant /> : <MdLandscape />}
+                                {image.size === 1 ? <GiElephant /> : <MdLandscape />}
                                 <span className={'ms-1'} >
-                                    {parseInt(image[0]) === 1 ? '' : image[0]}
+                                    {image.size === 1 ? '' : image.size}
                                 </span>
                             </Button>
                         ))}
