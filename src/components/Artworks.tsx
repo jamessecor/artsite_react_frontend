@@ -3,7 +3,7 @@ import { useCallback, useContext, useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import Artwork from "./Artwork";
 import { ArtworkAttributes, Groupings, IArtwork } from "../models/Artwork";
-import { Badge, Button, Col, Container, Row, Spinner, Stack, Toast } from 'react-bootstrap';
+import { Badge, Button, Col, Container, Row, Spinner, Stack, Toast, ToastContainer } from 'react-bootstrap';
 import useArtworks from '../hooks/useArtworks';
 import { useNavigate } from "react-router-dom";
 import { AuthenticationContext } from './providers/AuthenticationProvider';
@@ -13,9 +13,15 @@ import { SettingsContext } from './providers/SettingsProvider';
 import { IoImage } from "react-icons/io5";
 import { FaWpforms } from "react-icons/fa";
 import useScreenSize from '../hooks/useScreenSize';
+import { Variant } from 'react-bootstrap/esm/types';
 
 interface IArtworkProps {
     current?: boolean;
+}
+
+export interface IResponseType {
+    text?: string;
+    variant?: Variant;
 }
 
 const Artworks = ({ current = false }: IArtworkProps) => {
@@ -29,6 +35,7 @@ const Artworks = ({ current = false }: IArtworkProps) => {
     const [newArtworks, setNewArtworks] = useState<Array<IArtwork>>([]);
     const [isInArrangementMode, setIsInArrangementMode] = useState(false);
     const [isInFormMode, setIsInFormMode] = useState(false);
+    const [responseToast, setResponseToast] = useState<IResponseType>({});
     const navigateTo = useNavigate();
 
     const { isMobile } = useScreenSize();
@@ -49,8 +56,30 @@ const Artworks = ({ current = false }: IArtworkProps) => {
     }, [newArtworks]);
 
     return (
-
         <Container fluid={'sm'} className="align-items-center">
+            {responseToast.text && (
+                <ToastContainer
+                    position="bottom-center"
+                    className="p-3 position-fixed"
+                    style={{ zIndex: 1000 }}
+                >
+                    <Toast
+                        onClose={() => setResponseToast({})}
+                        autohide={true}
+                        delay={3000}
+                        bg={responseToast.variant ?? ''}
+                    >
+                        <Toast.Header>
+                            <strong className='me-auto'>
+                                {'Update Message'}
+                            </strong>
+                        </Toast.Header>
+                        <Toast.Body>
+                            {responseToast.text}
+                        </Toast.Body>
+                    </Toast>
+                </ToastContainer>
+            )}
             {isLoggedIn
                 ? (
                     <React.Fragment>
@@ -85,19 +114,18 @@ const Artworks = ({ current = false }: IArtworkProps) => {
                             isInArrangementMode={isInArrangementMode}
                             isInFormMode={isInFormMode}
                             attributes={newArtwork}
+                            onResponse={setResponseToast}
                         />
                     ))}
                 {artworks.length
-                    ? (artworks.filter(x => isShowingSold || !(x.isNFS || x.saleDate)).sort((a, b) => (a.arrangement ?? 9999) - (b.arrangement ?? 9999)).map((artwork, i) => {
-                        return (
-                            <Col key={`${artwork._id}-${artwork.title}`} className="my-4 px-4">
-                                {isLoggedIn
-                                    ? <ArtworkForm attributes={artwork} isInFormMode={isInFormMode} isInArrangementMode={isInArrangementMode} />
-                                    : <Artwork attributes={artwork} />
-                                }
-                            </Col>
-                        )
-                    }))
+                    ? (artworks.filter(x => isShowingSold || !(x.isNFS || x.saleDate)).sort((a, b) => (a.arrangement ?? 9999) - (b.arrangement ?? 9999)).map((artwork, i) => (
+                        <Col key={`${artwork._id}-${artwork.title}`} className="my-4 px-4">
+                            {isLoggedIn
+                                ? <ArtworkForm attributes={artwork} isInFormMode={isInFormMode} isInArrangementMode={isInArrangementMode} onResponse={setResponseToast} />
+                                : <Artwork attributes={artwork} />
+                            }
+                        </Col>
+                    )))
                     : (
                         isLoading
                             ? (
