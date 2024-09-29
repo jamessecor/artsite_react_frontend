@@ -35,7 +35,7 @@ const Artworks = ({ current = false }: IArtworkProps) => {
     const [newArtworks, setNewArtworks] = useState<Array<IArtwork>>([]);
     const [isInArrangementMode, setIsInArrangementMode] = useState(false);
     const [isInFormMode, setIsInFormMode] = useState(false);
-    const [responseToast, setResponseToast] = useState<IResponseType>({});
+    const [responseToasts, setResponseToasts] = useState<Array<IResponseType>>([]);
     const navigateTo = useNavigate();
 
     const { isMobile } = useScreenSize();
@@ -55,19 +55,30 @@ const Artworks = ({ current = false }: IArtworkProps) => {
         setNewArtworks(newArtworks.slice(0, -1));
     }, [newArtworks]);
 
+    const addResponseToast = useCallback((responseToast: IResponseType) => {
+        setResponseToasts([...responseToasts, responseToast])
+    }, [responseToasts]);
+
     return (
         <Container fluid={'sm'} className="align-items-center">
-            {responseToast.text && (
-                <ToastContainer
-                    position="bottom-center"
-                    className="p-3 position-fixed"
-                    style={{ zIndex: 1000 }}
-                >
+            <ToastContainer
+                position="bottom-end"
+                className="p-3 position-fixed"
+                style={{ zIndex: 1000 }}
+            >
+                {responseToasts.map((toast) => (
                     <Toast
-                        onClose={() => setResponseToast({})}
+                        key={`${toast.text}-${toast.variant}`}
+                        bg={toast.variant ?? ''}
                         autohide={true}
                         delay={3000}
-                        bg={responseToast.variant ?? ''}
+                        onClose={() => setResponseToasts((prev) => {
+                            if (prev.length <= 1) {
+                                return [];
+                            }
+                            const [_, ...rest] = prev;
+                            return rest;
+                        })}
                     >
                         <Toast.Header>
                             <strong className='me-auto'>
@@ -75,11 +86,11 @@ const Artworks = ({ current = false }: IArtworkProps) => {
                             </strong>
                         </Toast.Header>
                         <Toast.Body>
-                            {responseToast.text}
+                            {toast.text}
                         </Toast.Body>
                     </Toast>
-                </ToastContainer>
-            )}
+                ))}
+            </ToastContainer>
             {isLoggedIn
                 ? (
                     <React.Fragment>
@@ -114,14 +125,14 @@ const Artworks = ({ current = false }: IArtworkProps) => {
                             isInArrangementMode={isInArrangementMode}
                             isInFormMode={isInFormMode}
                             attributes={newArtwork}
-                            onResponse={setResponseToast}
+                            onResponse={addResponseToast}
                         />
                     ))}
                 {artworks.length
                     ? (artworks.filter(x => isShowingSold || !(x.isNFS || x.saleDate)).sort((a, b) => (a.arrangement ?? 9999) - (b.arrangement ?? 9999)).map((artwork, i) => (
                         <Col key={`${artwork._id}-${artwork.title}`} className="my-4 px-4">
                             {isLoggedIn
-                                ? <ArtworkForm attributes={artwork} isInFormMode={isInFormMode} isInArrangementMode={isInArrangementMode} onResponse={setResponseToast} />
+                                ? <ArtworkForm attributes={artwork} isInFormMode={isInFormMode} isInArrangementMode={isInArrangementMode} onResponse={addResponseToast} />
                                 : <Artwork attributes={artwork} />
                             }
                         </Col>
