@@ -9,13 +9,14 @@ import { getImageSrc } from '../models/Artwork';
 
 const HomePage = () => {
     const navigateTo = useNavigate();
-    const { artworks, setEm } = useArtworks();
-    const artwork = useMemo(() => artworks[0], [artworks]);
-    const imageSrc = useMemo(() => getImageSrc(artwork.images), [artwork]);
+    const { artworks, isLoadingArtworks } = useArtworks({
+        year: '2022',
+        grouping: 'merica',
+        search: 'Claimed Land Erupting'
+    });
 
-    React.useEffect(() => {
-        setEm('2022', 'merica', 'Claimed Land Erupting');
-    }, [setEm]);
+    const artwork = useMemo(() => !isLoadingArtworks && artworks ? artworks[0] : null, [artworks]);
+    const imageSrc = useMemo(() => artwork ? getImageSrc(artwork.images) : '', [artwork]);
 
     const enterSite = () => {
         navigateTo('/artworks/current');

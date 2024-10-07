@@ -12,6 +12,7 @@ import useArtworks from '../../hooks/useArtworks';
 import { Spinner } from 'react-bootstrap';
 import useScreenSize from '../../hooks/useScreenSize';
 import { BsSearch } from 'react-icons/bs';
+import useArtworksMetadata from '../../hooks/useArtworksMetadata';
 
 const NavigationLinks = ({ setShowOffcanvas }) => {
     const navigateTo = useNavigate();
@@ -22,7 +23,7 @@ const NavigationLinks = ({ setShowOffcanvas }) => {
     const urlYear = searchParams.get('year') ?? '';
     const urlGrouping = searchParams.get('grouping');
 
-    const { allGroupings, hiddenGroupings, allYears, isLoading } = useArtworks();
+    const { artworksMetaData, isLoadingArtworksMetaData } = useArtworksMetadata();
 
     const HideOffcanvasAndNavigateTo = (newPath) => {
         setShowOffcanvas(false);
@@ -41,33 +42,38 @@ const NavigationLinks = ({ setShowOffcanvas }) => {
             <NavDropdown.Divider />
             <Nav className="me-auto">
                 <NavDropdown title="artwork" id="basic-nav-dropdown" className={pathname === "/artworks" ? "border border-2 border-secondary rounded" : "rounded"}>
-                    {allGroupings.filter((x) => !hiddenGroupings.includes(x)).map((grouping) => (
-                        <NavDropdown.Item
-                            key={grouping}
-                            data-filter={grouping}
-                            data-page-id="grouping"
-                            className={grouping === urlGrouping ? "border border-2 border-secondary rounded" : "rounded"}
-                            onClick={() => HideOffcanvasAndNavigateTo(`/artworks?grouping=${grouping}`)}
-                        >
-                            {GroupingsLabels[grouping] !== undefined
-                                ? GroupingsLabels[grouping]
-                                : grouping}
-                        </NavDropdown.Item>
-                    ))}
-                    {isLoading
-                        ? <Spinner variant={'info'} animation={'border'} className={'ms-3'} />
-                        : <NavDropdown.Divider />}
-                    {allYears.map((year) => (
-                        <NavDropdown.Item
-                            key={year}
-                            data-filter={year}
-                            data-page-id="artwork"
-                            className={year === urlYear ? "border border-2 border-secondary rounded" : "rounded"}
-                            onClick={() => HideOffcanvasAndNavigateTo(`/artworks?year=${year}`)}
-                        >
-                            {year}
-                        </NavDropdown.Item>
-                    ))}
+                    {isLoadingArtworksMetaData
+                        ? (
+                            <Spinner variant={'info'} animation={'border'} className={'ms-3'} />
+                        ) : (
+                            <React.Fragment>
+                                {artworksMetaData?.groupings?.map((grouping) => (
+                                    <NavDropdown.Item
+                                        key={grouping}
+                                        data-filter={grouping}
+                                        data-page-id="grouping"
+                                        className={grouping === urlGrouping ? "border border-2 border-secondary rounded" : "rounded"}
+                                        onClick={() => HideOffcanvasAndNavigateTo(`/artworks?grouping=${grouping}`)}
+                                    >
+                                        {GroupingsLabels[grouping] !== undefined
+                                            ? GroupingsLabels[grouping]
+                                            : grouping}
+                                    </NavDropdown.Item>
+                                ))}
+                                <NavDropdown.Divider />
+                                {artworksMetaData?.years?.map((year) => (
+                                    <NavDropdown.Item
+                                        key={year}
+                                        data-filter={year}
+                                        data-page-id="artwork"
+                                        className={year === urlYear ? "border border-2 border-secondary rounded" : "rounded"}
+                                        onClick={() => HideOffcanvasAndNavigateTo(`/artworks?year=${year}`)}
+                                    >
+                                        {year}
+                                    </NavDropdown.Item>
+                                ))}
+                            </React.Fragment>
+                        )}
                 </NavDropdown>
                 <Nav.Link className={pathname === "/cv" ? "border border-2 border-secondary rounded" : "rounded"} onClick={() => HideOffcanvasAndNavigateTo('/cv')}>
                     {'cv'}

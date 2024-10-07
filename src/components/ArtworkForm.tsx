@@ -9,6 +9,7 @@ import useArtworks from "../hooks/useArtworks";
 import { GiElephant } from "react-icons/gi";
 import { MdLandscape } from "react-icons/md";
 import { IResponseType } from "./Artworks";
+import useArtworksMetadata from "../hooks/useArtworksMetadata";
 
 export interface IArtworkFormData extends Omit<IArtwork, '_id' | 'images'> {
     file?: File;
@@ -46,7 +47,7 @@ const ArtworkForm: React.FC<IArtworkFormProps> = ({ attributes, isInFormMode, is
     useEffect(() => setIsShowingForm(isInFormMode), [isInFormMode]);
 
     const queryClient = useQueryClient();
-    const { allGroupings } = useArtworks();
+    const { artworksMetaData, isLoadingArtworksMetaData } = useArtworksMetadata();
 
     const deleteMutation = useMutation<IArtworkDeleteFormResponse, AxiosError>(_ => {
         axios.defaults.headers.delete['Authorization'] = sessionStorage.getItem('artsite-token');
@@ -224,7 +225,11 @@ const ArtworkForm: React.FC<IArtworkFormProps> = ({ attributes, isInFormMode, is
                                                 />
                                             </Form.Group>
                                             <Form.Group className="mb-3" controlId="grouping">
-                                                <Form.Label className={'text-break'}>{allGroupings.length ? allGroupings.toString() : 'tags'}</Form.Label>
+                                                <Form.Label className={'text-break'}>
+                                                    {isLoadingArtworksMetaData
+                                                        ? 'tags'
+                                                        : artworksMetaData?.groupings}
+                                                </Form.Label>
                                                 <Form.Control
                                                     onChange={(e) => setCurrentAttributes({
                                                         ...currentAttributes,

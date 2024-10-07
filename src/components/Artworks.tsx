@@ -31,7 +31,12 @@ const Artworks = ({ current = false }: IArtworkProps) => {
     const year = searchParams.get('year') ?? '';
     const grouping = searchParams.get('grouping') as Groupings ?? '';
     const searchTerm = searchParams.get('search') ?? '';
-    const { artworks, setEm, isLoading } = useArtworks();
+    const { artworks, isLoadingArtworks } = useArtworks({
+        isHomePage: current.toString(),
+        year: year,
+        grouping: grouping,
+        search: searchTerm
+    });
     const [newArtworks, setNewArtworks] = useState<Array<IArtwork>>([]);
     const [isInArrangementMode, setIsInArrangementMode] = useState(false);
     const [isInFormMode, setIsInFormMode] = useState(false);
@@ -40,10 +45,6 @@ const Artworks = ({ current = false }: IArtworkProps) => {
 
     const { isMobile } = useScreenSize();
     const adminButtonsMarginBottom = isMobile ? 1 : 5;
-
-    useEffect(() => {
-        setEm(year, grouping, searchTerm, current);
-    }, [setEm, year, grouping, searchTerm, current]);
 
     const enterSite = () => navigateTo('/artworks?year=2024');
 
@@ -128,25 +129,25 @@ const Artworks = ({ current = false }: IArtworkProps) => {
                             onResponse={addResponseToast}
                         />
                     ))}
-                {artworks.length
-                    ? (artworks.filter(x => isShowingSold || !(x.isNFS || x.saleDate)).sort((a, b) => (a.arrangement ?? 9999) - (b.arrangement ?? 9999)).map((artwork, i) => (
-                        <Col key={`${artwork._id}-${artwork.title}`} className="my-4 px-4">
-                            {isLoggedIn
-                                ? <ArtworkForm attributes={artwork} isInFormMode={isInFormMode} isInArrangementMode={isInArrangementMode} onResponse={addResponseToast} />
-                                : <Artwork attributes={artwork} />
-                            }
-                        </Col>
-                    )))
+                {isLoadingArtworks
+                    ? (
+                        <Stack direction={'vertical'} gap={2} style={{ alignItems: 'center' }}>
+                            <Spinner variant={'info'} animation={'border'} className={'text-center'} />
+                            <h5>
+                                <Badge bg={'info'}>{'Loading artworks'}</Badge>
+                            </h5>
+                        </Stack>
+                    )
                     : (
-                        isLoading
-                            ? (
-                                <Stack direction={'vertical'} gap={2} style={{ alignItems: 'center' }}>
-                                    <Spinner variant={'info'} animation={'border'} className={'text-center'} />
-                                    <h5>
-                                        <Badge bg={'info'}>{'Loading artworks'}</Badge>
-                                    </h5>
-                                </Stack>
-                            )
+                        artworks?.length
+                            ? (artworks.filter(x => isShowingSold || !(x.isNFS || x.saleDate)).sort((a, b) => (a.arrangement ?? 9999) - (b.arrangement ?? 9999)).map((artwork, i) => (
+                                <Col key={`${artwork._id}-${artwork.title}`} className="my-4 px-4">
+                                    {isLoggedIn
+                                        ? <ArtworkForm attributes={artwork} isInFormMode={isInFormMode} isInArrangementMode={isInArrangementMode} onResponse={addResponseToast} />
+                                        : <Artwork attributes={artwork} />
+                                    }
+                                </Col>
+                            )))
                             : (
                                 <Container className={'d-flex justify-content-center text-center w-100 position-absolute top-50 start-50 translate-middle'}>
                                     <Row>
@@ -168,8 +169,7 @@ const Artworks = ({ current = false }: IArtworkProps) => {
                                         </Col>
                                     </Row>
                                 </Container>
-                            )
-                    )}
+                            ))}
             </Row>
         </Container>
     );

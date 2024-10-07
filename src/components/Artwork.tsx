@@ -150,6 +150,9 @@ const Artwork: React.FC<ArtworkParams> = ({ attributes }) => {
                                 <div className='fw-bold'>{attributes.title}</div>
                                 <div>{attributes.year}</div>
                                 <div>{attributes.media}</div>
+                                {attributes.width && attributes.height
+                                    ? <div>{`${attributes.height}x${attributes.width}`}</div>
+                                    : null}
                                 <Stack
                                     gap={2}
                                     direction={'horizontal'}
@@ -171,7 +174,7 @@ const Artwork: React.FC<ArtworkParams> = ({ attributes }) => {
                                         : null} */}
                                 </Stack>
                             </Stack>
-                            <Stack
+                            {/* <Stack
                                 onClick={() => {
                                     mutate();
                                     setIsLiked(!isLiked);
@@ -195,7 +198,7 @@ const Artwork: React.FC<ArtworkParams> = ({ attributes }) => {
                                             </div>
                                         </Stack>
                                     )}
-                            </Stack>
+                            </Stack> */}
                         </React.Fragment>
                     ) : null}
             </Stack>
