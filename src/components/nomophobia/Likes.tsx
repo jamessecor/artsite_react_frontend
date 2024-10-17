@@ -6,7 +6,8 @@ import { getImageSrc } from '../../models/Artwork';
 import MovingColorImage from '../MovingColorImage';
 
 const Likes = () => {
-    const { likedArtworks, isLoading } = useArtworks();
+    const { artworksQuery: { data: artworks, isLoading } } = useArtworks({});
+    const likedArtworks = isLoading ? [] : artworks?.filter((artwork) => (artwork?.likes?.length ?? 0 > 0) || (artwork?.totalLikes ?? 0 > 0)) ?? [];
 
     return (
         <Stack className={'phone-screen'}>

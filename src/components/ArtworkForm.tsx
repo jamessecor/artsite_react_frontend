@@ -47,7 +47,7 @@ const ArtworkForm: React.FC<IArtworkFormProps> = ({ attributes, isInFormMode, is
     useEffect(() => setIsShowingForm(isInFormMode), [isInFormMode]);
 
     const queryClient = useQueryClient();
-    const { artworksMetaData, isLoadingArtworksMetaData } = useArtworksMetadata();
+    const { data: artworksMetaData, isLoading: isLoadingArtworksMetaData } = useArtworksMetadata();
 
     const deleteMutation = useMutation<IArtworkDeleteFormResponse, AxiosError>(_ => {
         axios.defaults.headers.delete['Authorization'] = sessionStorage.getItem('artsite-token');

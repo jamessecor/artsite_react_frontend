@@ -31,7 +31,7 @@ const Artworks = ({ current = false }: IArtworkProps) => {
     const year = searchParams.get('year') ?? '';
     const grouping = searchParams.get('grouping') as Groupings ?? '';
     const searchTerm = searchParams.get('search') ?? '';
-    const { artworks, isLoadingArtworks } = useArtworks({
+    const { artworksQuery: { data: artworks, isLoading: isLoadingArtworks } } = useArtworks({
         isHomePage: current.toString(),
         year: year,
         grouping: grouping,
