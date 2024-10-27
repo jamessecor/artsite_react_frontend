@@ -65,15 +65,19 @@ const SoldArtworks = () => {
                     : soldArtworks?.map((artwork, i) => {
                         const price = parseFloat(artwork.salePrice ?? artwork.price);
                         return (
-                            <Stack gap={2} direction={'horizontal'} className={'mb-1'}>
+                            <Stack
+                                gap={2}
+                                direction={'horizontal'}
+                                className={'mb-1'}
+                                onClick={() => mutate({
+                                    id: artwork._id!,
+                                    taxStatus: artwork.taxStatus === 'paid' ? 'unpaid' : 'paid'
+                                })}
+                            >
                                 <h3 className={'mb-1 pe-2'}>
                                     {artwork.taxStatus === 'paid'
-                                        ? <BsToggle2On
-                                            onClick={() => mutate({ id: artwork._id!, taxStatus: 'unpaid' })}
-                                        />
-                                        : <BsToggle2Off
-                                            onClick={() => mutate({ id: artwork._id!, taxStatus: 'paid' })}
-                                        />
+                                        ? <BsToggle2On />
+                                        : <BsToggle2Off />
                                     }
                                 </h3>
                                 {/* Total without tax */}
