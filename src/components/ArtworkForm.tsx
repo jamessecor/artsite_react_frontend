@@ -243,7 +243,7 @@ const ArtworkForm: React.FC<IArtworkFormProps> = ({ attributes, isInFormMode, is
                                                 <Form.Control
                                                     onChange={(e) => setCurrentAttributes({
                                                         ...currentAttributes,
-                                                        saleDate: new Date(e.target.value)
+                                                        saleDate: e.target.value === '' ? null : new Date(e.target.value)
                                                     })}
                                                     value={currentAttributes.saleDate ? new Date(currentAttributes.saleDate).toISOString()?.substring(0, 10) : ''}
                                                     type="date"

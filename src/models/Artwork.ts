@@ -47,7 +47,7 @@ export interface IArtwork {
     arrangement?: number;
     grouping?: Array<Groupings>;
     buyerID?: string;
-    saleDate?: Date;
+    saleDate?: Date | null;
     taxStatus?: TaxStatus;
     salePrice?: string;
     saleRevenue?: string;

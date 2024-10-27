@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useRef } from 'react';
+import { useContext, useRef } from 'react';
 import { useNavigate, useLocation, useSearchParams } from 'react-router-dom';
 import Nav from 'react-bootstrap/Nav'
 import NavDropdown from 'react-bootstrap/NavDropdown'
@@ -13,11 +13,12 @@ import { Spinner } from 'react-bootstrap';
 import useScreenSize from '../../hooks/useScreenSize';
 import { BsSearch } from 'react-icons/bs';
 import useArtworksMetadata from '../../hooks/useArtworksMetadata';
+import { AuthenticationContext } from '../providers/AuthenticationProvider';
 
 const NavigationLinks = ({ setShowOffcanvas }) => {
     const navigateTo = useNavigate();
-    const { isMobile } = useScreenSize();
     const { pathname } = useLocation();
+    const { isLoggedIn } = useContext(AuthenticationContext);
 
     const [searchParams, _] = useSearchParams();
     const urlYear = searchParams.get('year') ?? '';
@@ -75,6 +76,13 @@ const NavigationLinks = ({ setShowOffcanvas }) => {
                             </React.Fragment>
                         )}
                 </NavDropdown>
+                {isLoggedIn
+                    ? (
+                        <Nav.Link className={pathname === "/artworks/sold" ? "border border-2 border-secondary rounded" : "rounded"} onClick={() => HideOffcanvasAndNavigateTo('/artworks/sold')}>
+                            {'Sold Artworks'}
+                        </Nav.Link>
+                    )
+                    : null}
                 <Nav.Link className={pathname === "/cv" ? "border border-2 border-secondary rounded" : "rounded"} onClick={() => HideOffcanvasAndNavigateTo('/cv')}>
                     {'cv'}
                 </Nav.Link>
