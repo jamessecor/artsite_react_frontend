@@ -5,7 +5,6 @@ import { BackgroundColorContext, textColor } from "./providers/BackgroundColorPr
 import { ArtworkAttributes, getImageSrc, Groupings, IArtwork, iArtworkToFormData, IImage } from "../models/Artwork";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
-import useArtworks from "../hooks/useArtworks";
 import { GiElephant } from "react-icons/gi";
 import { MdLandscape } from "react-icons/md";
 import { IResponseType } from "./Artworks";
@@ -244,9 +243,9 @@ const ArtworkForm: React.FC<IArtworkFormProps> = ({ attributes, isInFormMode, is
                                                 <Form.Control
                                                     onChange={(e) => setCurrentAttributes({
                                                         ...currentAttributes,
-                                                        saleDate: e.target.value
+                                                        saleDate: new Date(e.target.value)
                                                     })}
-                                                    value={currentAttributes.saleDate}
+                                                    value={currentAttributes.saleDate ? new Date(currentAttributes.saleDate).toISOString()?.substring(0, 10) : ''}
                                                     type="date"
                                                 />
                                             </Form.Group>

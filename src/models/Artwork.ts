@@ -23,6 +23,8 @@ export enum GroupingsLabelsOrder {
     digital_edits = 6
 };
 
+export type TaxStatus = 'paid' | 'unpaid';
+
 export interface ILike {
     timestamp: string;
     amount: number;
@@ -45,8 +47,8 @@ export interface IArtwork {
     arrangement?: number;
     grouping?: Array<Groupings>;
     buyerID?: string;
-    saleDate?: string;
-    taxStatus?: string;
+    saleDate?: Date;
+    taxStatus?: TaxStatus;
     salePrice?: string;
     saleRevenue?: string;
     isNFS?: boolean;
