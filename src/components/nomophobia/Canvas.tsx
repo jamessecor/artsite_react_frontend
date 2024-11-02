@@ -16,9 +16,9 @@ interface CanvasParams {
 const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
     const [clear, setClear] = useState(true);
     const canvasRef = useRef<HTMLCanvasElement>(null);
-    const [previousCoords, setPreviousCoords] = useState<ICoords>({x: -1, y: -1});
+    const [previousCoords, setPreviousCoords] = useState<ICoords>({ x: -1, y: -1 });
     const [isClickingOrTouching, setIsClickingOrTouching] = useState(false);
-    
+
     const onMove = (canvasRef: React.RefObject<HTMLCanvasElement>, x: number, y: number) => {
         const canvas = canvasRef.current;
         if (canvas !== null) {
@@ -29,6 +29,8 @@ const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
                 ctx.beginPath();
                 ctx.moveTo(previousCoords.x, previousCoords.y);
                 if (isClickingOrTouching) {
+                    ctx.lineWidth = 20;
+                    ctx.strokeStyle = '#ee3333';
                     ctx.lineTo(x - rect.left, y - rect.top)
                     ctx.stroke();
                 }
@@ -43,7 +45,7 @@ const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
     const onTouchMove = (canvasRef: React.RefObject<HTMLCanvasElement>, e: React.TouchEvent<HTMLCanvasElement>) => {
         onMove(canvasRef, e.targetTouches[0].clientX, e.targetTouches[0].clientY);
     }
-    
+
     const onMouseMove = (canvasRef: React.RefObject<HTMLCanvasElement>, e: React.MouseEvent<HTMLCanvasElement>) => {
         e.preventDefault();
         onMove(canvasRef, e.clientX, e.clientY);
@@ -53,9 +55,9 @@ const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
         const canvas = canvasRef.current;
         if (canvas !== null) {
             // ...then set the internal size to match
-            canvas.width  = canvas.offsetWidth;
+            canvas.width = canvas.offsetWidth;
             canvas.height = canvas.offsetHeight;
-            
+
             const ctx = canvas.getContext('2d');
             if (ctx !== null) {
                 ctx.fillStyle = 'lightgreen';
@@ -89,7 +91,7 @@ const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
                 onMouseDown={(e) => {
                     if (canvasRef?.current !== null) {
                         const rect = canvasRef?.current.getBoundingClientRect();
-                        setPreviousCoords({x: e.clientX - rect.left, y: e.clientY - rect.top});
+                        setPreviousCoords({ x: e.clientX - rect.left, y: e.clientY - rect.top });
                     }
                     setIsClickingOrTouching(true);
                 }}
@@ -98,7 +100,7 @@ const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
                 onTouchStart={(e) => {
                     if (canvasRef?.current !== null) {
                         const rect = canvasRef?.current.getBoundingClientRect();
-                        setPreviousCoords({x: e.targetTouches[0].clientX - rect.left, y: e.targetTouches[0].clientY - rect.top});
+                        setPreviousCoords({ x: e.targetTouches[0].clientX - rect.left, y: e.targetTouches[0].clientY - rect.top });
                     }
                     setIsClickingOrTouching(true);
                 }}
