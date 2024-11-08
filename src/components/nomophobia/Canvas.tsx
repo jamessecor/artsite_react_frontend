@@ -1,8 +1,9 @@
-import React, { useRef, useState, useEffect } from 'react';
-import { Button } from 'react-bootstrap';
+import React, { useRef, useState, useEffect, useMemo } from 'react';
+import { Button, Form, Stack } from 'react-bootstrap';
 import { TfiEraser } from 'react-icons/tfi'
 import './Canvas.css';
 import { PHONE_HEIGHT, PHONE_WIDTH } from "./PhoneSize";
+import { MdUpload } from 'react-icons/md';
 
 interface ICoords {
     x: number;
@@ -15,6 +16,13 @@ interface CanvasParams {
 
 const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
     const [clear, setClear] = useState(true);
+    const [imageFile, setImageFile] = useState<File | null>(null);
+    const imageSrc = useMemo(() => imageFile !== null ? window.URL.createObjectURL(imageFile) : '', [imageFile]);;
+    const image = useMemo(() => {
+        const i = new Image();
+        i.src = imageSrc;
+        return i;
+    }, [imageSrc]);
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const [previousCoords, setPreviousCoords] = useState<ICoords>({ x: -1, y: -1 });
     const [isClickingOrTouching, setIsClickingOrTouching] = useState(false);
@@ -80,6 +88,19 @@ const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
     };
 
     useEffect(() => {
+        const canvas = canvasRef.current;
+        if (canvas !== null) {
+            image.width = canvas.width;
+            image.height = canvas.height;
+            const ctx = canvas.getContext('2d');
+            if (ctx !== null) {
+                ctx.clearRect(0, 0, 400, 400);
+                image.onload = () => ctx.drawImage(image, 0, 0, PHONE_WIDTH, PHONE_HEIGHT);
+            }
+        }
+    }, [image, canvasRef]);
+
+    useEffect(() => {
         initializeCanvas();
     }, [canvasRef]);
 
@@ -108,9 +129,16 @@ const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
                 onTouchMove={(e) => isLoading ? {} : onTouchMove(canvasRef, e)}
                 ref={canvasRef}
             />
-            <Button className={'position-absolute btn btn-warning m-3'} onClick={() => resetCanvas()}>
-                <h4><TfiEraser /></h4>
-            </Button>
+            <Stack gap={1} className={'position-absolute m-3'}>
+                <Button onClick={() => resetCanvas()}>
+                    <h4><TfiEraser /></h4>
+                </Button>
+
+                {/* TODO: maybe move this outside of nomophobia??? */}
+                <Form.Group>
+                    <Form.Control type="file" onChange={(e: React.ChangeEvent<HTMLInputElement>) => e.target?.files?.length ? setImageFile(e.target.files[0]) : null} />
+                </Form.Group>
+            </Stack>
         </div>
     )
 };
