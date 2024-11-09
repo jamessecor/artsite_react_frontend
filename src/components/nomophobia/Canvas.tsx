@@ -5,6 +5,7 @@ import './Canvas.css';
 import { PHONE_HEIGHT, PHONE_WIDTH } from "./PhoneSize";
 import { MdUpload } from 'react-icons/md';
 import DrawingUtilities from '../Drawing/DrawingUtilities';
+import useScreenSize from '../../hooks/useScreenSize';
 
 interface ICoords {
     x: number;
@@ -13,13 +14,17 @@ interface ICoords {
 
 interface CanvasParams {
     isLoading?: boolean;
+    fullWidthAndHeight?: boolean;
 }
 
-const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
+const Canvas: React.FC<CanvasParams> = ({ isLoading, fullWidthAndHeight = false }) => {
     const [clear, setClear] = useState(true);
     const [lineWidth, setLineWidth] = useState(20);
     const [color, setColor] = useState('blue');
     const [imageFile, setImageFile] = useState<File | null>(null);
+    const { height: screenHeight, width: screenWidth } = useScreenSize();
+    const height = fullWidthAndHeight ? screenHeight : PHONE_HEIGHT;
+    const width = fullWidthAndHeight ? screenWidth : PHONE_WIDTH;
     const imageSrc = useMemo(() => imageFile !== null ? window.URL.createObjectURL(imageFile) : '', [imageFile]);;
     const image = useMemo(() => {
         const i = new Image();
@@ -80,7 +85,7 @@ const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
                 ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
                 // ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
                 if (image !== null) {
-                    ctx.drawImage(image, 0, 0, PHONE_WIDTH, PHONE_HEIGHT);
+                    ctx.drawImage(image, 0, 0, width, height);
                 }
             }
         }
@@ -95,7 +100,7 @@ const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
             const ctx = canvas.getContext('2d');
             if (ctx !== null) {
                 ctx.clearRect(0, 0, 400, 400);
-                image.onload = () => ctx.drawImage(image, 0, 0, PHONE_WIDTH, PHONE_HEIGHT);
+                image.onload = () => ctx.drawImage(image, 0, 0, width, height);
             }
         }
     }, [image, canvasRef]);
@@ -105,10 +110,10 @@ const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
     }, [canvasRef]);
 
     return (
-        <div className={'d-flex w-100'}>
+        <div>
             <canvas
-                width={PHONE_WIDTH}
-                height={PHONE_HEIGHT}
+                width={width}
+                height={height}
                 onMouseDown={(e) => {
                     if (canvasRef?.current !== null) {
                         const rect = canvasRef?.current.getBoundingClientRect();
@@ -128,8 +133,12 @@ const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
                 onTouchEnd={(e) => setIsClickingOrTouching(false)}
                 onTouchMove={(e) => isLoading ? {} : onTouchMove(canvasRef, e)}
                 ref={canvasRef}
+                style={{
+                    border: '2px solid turquoise',
+                    overflow: 'hidden'
+                }}
             />
-            <Stack gap={1} className={'position-absolute m-3'}>
+            <Stack gap={1} className={'m-3'}>
                 <Button onClick={() => resetCanvas()}>
                     <h4><TfiEraser /></h4>
                 </Button>

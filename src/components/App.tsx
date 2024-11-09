@@ -56,6 +56,7 @@ const App = () => {
                                             <Route path={'/artworks/sold'} element={<SoldArtworks />} />
                                             <Route path={'/artworks'} element={<Artworks />} />
                                             <Route path={'/cv'} element={<Cv />} />
+                                            <Route path={'/canvas'} element={<Canvas fullWidthAndHeight={true} />} />
                                             <Route element={<Nomophobia />}>
                                                 <Route path={'/nomophobia/canvas'} element={<Canvas />} />
                                                 <Route path={'/nomophobia/spotify'} element={<Spotify />} />
