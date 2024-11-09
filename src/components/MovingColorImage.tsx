@@ -23,8 +23,8 @@ const MovingColorImage = ({ src, title, isFullHeightAndWidth = false, startsWith
                 <AlphaPicker
                     className={'w-100'}
                     color={{ a: hueRotateAmount }}
-                    onChange={(newColor) => setHueRotateAmount(newColor.rgb.a)}
-                    onChangeComplete={(newColor) => setHueRotateAmount(newColor.rgb.a)}
+                    onChange={(newColor) => setHueRotateAmount(newColor.rgb.a ?? 0.0)}
+                    onChangeComplete={(newColor) => setHueRotateAmount(newColor.rgb.a ?? 0.0)}
                 />
             ) : null}
         </React.Fragment>

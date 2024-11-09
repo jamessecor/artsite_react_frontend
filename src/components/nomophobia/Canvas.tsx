@@ -4,6 +4,7 @@ import { TfiEraser } from 'react-icons/tfi'
 import './Canvas.css';
 import { PHONE_HEIGHT, PHONE_WIDTH } from "./PhoneSize";
 import { MdUpload } from 'react-icons/md';
+import DrawingUtilities from '../Drawing/DrawingUtilities';
 
 interface ICoords {
     x: number;
@@ -16,6 +17,8 @@ interface CanvasParams {
 
 const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
     const [clear, setClear] = useState(true);
+    const [lineWidth, setLineWidth] = useState(20);
+    const [color, setColor] = useState('blue');
     const [imageFile, setImageFile] = useState<File | null>(null);
     const imageSrc = useMemo(() => imageFile !== null ? window.URL.createObjectURL(imageFile) : '', [imageFile]);;
     const image = useMemo(() => {
@@ -33,12 +36,12 @@ const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
             const rect = canvas.getBoundingClientRect();
             const ctx = canvas.getContext('2d');
             if (ctx !== null) {
-                ctx.fillStyle = '#dd4488';
+                ctx.fillStyle = color;
                 ctx.beginPath();
                 ctx.moveTo(previousCoords.x, previousCoords.y);
                 if (isClickingOrTouching) {
-                    ctx.lineWidth = 20;
-                    ctx.strokeStyle = '#ee3333';
+                    ctx.lineWidth = lineWidth;
+                    ctx.strokeStyle = color;
                     ctx.lineTo(x - rect.left, y - rect.top)
                     ctx.stroke();
                 }
@@ -65,12 +68,6 @@ const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
             // ...then set the internal size to match
             canvas.width = canvas.offsetWidth;
             canvas.height = canvas.offsetHeight;
-
-            const ctx = canvas.getContext('2d');
-            if (ctx !== null) {
-                ctx.fillStyle = 'lightgreen';
-                ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-            }
         }
     };
 
@@ -79,9 +76,12 @@ const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
         if (canvas !== null) {
             const ctx = canvas.getContext('2d');
             if (ctx !== null) {
-                ctx.fillStyle = isLoading ? 'grey' : `rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255})`;
+                // ctx.fillStyle = isLoading ? 'grey' : `rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255})`;
                 ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-                ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+                // ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+                if (image !== null) {
+                    ctx.drawImage(image, 0, 0, PHONE_WIDTH, PHONE_HEIGHT);
+                }
             }
         }
         setClear(false);
@@ -138,6 +138,11 @@ const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
                 <Form.Group>
                     <Form.Control type="file" onChange={(e: React.ChangeEvent<HTMLInputElement>) => e.target?.files?.length ? setImageFile(e.target.files[0]) : null} />
                 </Form.Group>
+                <DrawingUtilities
+                    color={color}
+                    onColorChange={setColor}
+                    onWidthChange={setLineWidth}
+                />
             </Stack>
         </div>
     )
