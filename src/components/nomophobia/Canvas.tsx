@@ -1,11 +1,12 @@
 import React, { useRef, useState, useEffect, useMemo } from 'react';
-import { Button, Form, Modal, Stack } from 'react-bootstrap';
+import { Button, Form, Modal, OverlayTrigger, Popover, Stack } from 'react-bootstrap';
 import { TfiEraser } from 'react-icons/tfi'
 import './Canvas.css';
 import { PHONE_HEIGHT, PHONE_WIDTH } from "./PhoneSize";
 import { MdUpload } from 'react-icons/md';
 import DrawingUtilities from '../Drawing/DrawingUtilities';
 import useScreenSize from '../../hooks/useScreenSize';
+import { RiSettings5Fill } from 'react-icons/ri';
 
 interface ICoords {
     x: number;
@@ -20,8 +21,9 @@ interface CanvasParams {
 const Canvas: React.FC<CanvasParams> = ({ isLoading, fullWidthAndHeight = false }) => {
     // TODO: Keep track of each stroke so we can recreate after clear on undo/redo buttons
     const [clear, setClear] = useState(true);
-    const [lineWidth, setLineWidth] = useState(20);
+    const [lineWidth, setLineWidth] = useState(8);
     const [color, setColor] = useState('blue');
+    const [showDrawingUtilities, setShowDrawingUtilities] = useState(false);
     const [isShowingModal, setIsShowingModal] = useState(true);
     const [imageFile, setImageFile] = useState<File | null>(null);
     const { height: screenHeight, width: screenWidth } = useScreenSize();
@@ -152,22 +154,40 @@ const Canvas: React.FC<CanvasParams> = ({ isLoading, fullWidthAndHeight = false 
                         overflow: 'hidden'
                     }}
                 />
-                <Stack gap={1} className={' position-fixed m-3'}>
-                    <Button onClick={() => resetCanvas()}>
-                        <h4><TfiEraser /></h4>
-                    </Button>
+                <OverlayTrigger
+                    placement={'top'}
+                    trigger={'click'}
+                    overlay={(
+                        <Popover>
+                            <Popover.Body>
+                                <Stack gap={1}>
+                                    <Button onClick={() => resetCanvas()}>
+                                        <h4><TfiEraser /></h4>
+                                    </Button>
 
-                    {/* TODO: maybe move this outside of nomophobia??? */}
-                    <Form.Group>
-                        <Form.Control type="file" onChange={(e: React.ChangeEvent<HTMLInputElement>) => e.target?.files?.length ? setImageFile(e.target.files[0]) : null} />
-                    </Form.Group>
-                    <DrawingUtilities
-                        color={color}
-                        onColorChange={setColor}
-                        width={lineWidth}
-                        onWidthChange={setLineWidth}
-                    />
-                </Stack>
+                                    {/* TODO: maybe move this outside of nomophobia??? */}
+                                    <Form.Group>
+                                        <Form.Control type="file" onChange={(e: React.ChangeEvent<HTMLInputElement>) => e.target?.files?.length ? setImageFile(e.target.files[0]) : null} />
+                                    </Form.Group>
+                                    <DrawingUtilities
+                                        color={color}
+                                        onColorChange={setColor}
+                                        width={lineWidth}
+                                        onWidthChange={setLineWidth}
+                                    />
+                                </Stack>
+                            </Popover.Body>
+                        </Popover>
+                    )}
+                >
+                    <Button
+                        className={'position-fixed bottom-0 end-0 m-1'}
+                        onClick={() => setShowDrawingUtilities(!showDrawingUtilities)}
+                        variant={'outline-secondary'}
+                    >
+                        <RiSettings5Fill />
+                    </Button>
+                </OverlayTrigger>
             </Modal>
         </React.Fragment>
     )

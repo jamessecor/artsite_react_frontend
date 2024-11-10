@@ -1,6 +1,6 @@
 import React from "react"
-import { Button, ButtonGroup, Stack, ToggleButton } from "react-bootstrap"
-import { HuePicker } from 'react-color';
+import { ButtonGroup, Stack, ToggleButton } from "react-bootstrap"
+import { SketchPicker } from 'react-color';
 
 interface IDrawingUtilitiesProps {
     width: number;
@@ -27,7 +27,8 @@ const DrawingUtilities: React.FC<IDrawingUtilitiesProps> = ({ color, width, onWi
                     </ToggleButton>
                 ))}
             </ButtonGroup>
-            <HuePicker
+            <SketchPicker
+                className={'mt-1 align-self-center'}
                 color={color}
                 onChange={(newColor) => onColorChange(newColor.hex)}
                 onChangeComplete={(newColor) => onColorChange(newColor.hex)}
