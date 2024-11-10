@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect, useMemo } from 'react';
-import { Button, Form, Modal, OverlayTrigger, Popover, Stack } from 'react-bootstrap';
+import { Button, Container, Form, Modal, Navbar, Offcanvas, OverlayTrigger, Popover, Stack } from 'react-bootstrap';
 import { TfiEraser } from 'react-icons/tfi'
 import './Canvas.css';
 import { PHONE_HEIGHT, PHONE_WIDTH } from "./PhoneSize";
@@ -7,6 +7,7 @@ import { MdUpload } from 'react-icons/md';
 import DrawingUtilities from '../Drawing/DrawingUtilities';
 import useScreenSize from '../../hooks/useScreenSize';
 import { RiSettings5Fill } from 'react-icons/ri';
+import { useNavigate } from 'react-router-dom';
 
 interface ICoords {
     x: number;
@@ -26,6 +27,7 @@ const Canvas: React.FC<CanvasParams> = ({ isLoading, fullWidthAndHeight = false 
     const [showDrawingUtilities, setShowDrawingUtilities] = useState(false);
     const [isShowingModal, setIsShowingModal] = useState(true);
     const [imageFile, setImageFile] = useState<File | null>(null);
+    const navigateTo = useNavigate();
     const { height: screenHeight, width: screenWidth } = useScreenSize();
     const height = fullWidthAndHeight ? screenHeight : PHONE_HEIGHT;
     const width = fullWidthAndHeight ? screenWidth : PHONE_WIDTH;
@@ -154,40 +156,54 @@ const Canvas: React.FC<CanvasParams> = ({ isLoading, fullWidthAndHeight = false 
                         overflow: 'hidden'
                     }}
                 />
-                <OverlayTrigger
-                    placement={'top'}
-                    trigger={'click'}
-                    overlay={(
-                        <Popover>
-                            <Popover.Body>
-                                <Stack gap={1}>
-                                    <Button onClick={() => resetCanvas()}>
-                                        <h4><TfiEraser /></h4>
-                                    </Button>
-
-                                    {/* TODO: maybe move this outside of nomophobia??? */}
-                                    <Form.Group>
-                                        <Form.Control type="file" onChange={(e: React.ChangeEvent<HTMLInputElement>) => e.target?.files?.length ? setImageFile(e.target.files[0]) : null} />
-                                    </Form.Group>
-                                    <DrawingUtilities
-                                        color={color}
-                                        onColorChange={setColor}
-                                        width={lineWidth}
-                                        onWidthChange={setLineWidth}
-                                    />
-                                </Stack>
-                            </Popover.Body>
-                        </Popover>
-                    )}
+                <Button
+                    className='position-fixed me-auto'
+                    onClick={() => setShowDrawingUtilities(!showDrawingUtilities)}
+                    variant={'outline'}
                 >
-                    <Button
-                        className={'position-fixed bottom-0 end-0 m-1'}
-                        onClick={() => setShowDrawingUtilities(!showDrawingUtilities)}
-                        variant={'outline-secondary'}
+                    <RiSettings5Fill />
+                </Button>
+                <Navbar.Offcanvas
+                    onHide={() => setShowDrawingUtilities(!showDrawingUtilities)}
+                    show={showDrawingUtilities}
+                    scroll={true}
+                    style={{
+                        zIndex: 11111
+                    }}
+                >
+                    <Offcanvas.Header
+                        className={'pb-0'}
+                        onHide={() => setShowDrawingUtilities(!showDrawingUtilities)}
+                        closeButton
                     >
-                        <RiSettings5Fill />
-                    </Button>
-                </OverlayTrigger>
+                        <div className={'me-auto'}>
+                            {'Drawing Settings'}
+                        </div>
+                    </Offcanvas.Header>
+                    <Offcanvas.Body>
+                        <Stack gap={1}>
+                            <Button onClick={() => resetCanvas()}>
+                                <h4><TfiEraser /></h4>
+                            </Button>
+                            <Form.Group>
+                                <Form.Control type="file" onChange={(e: React.ChangeEvent<HTMLInputElement>) => e.target?.files?.length ? setImageFile(e.target.files[0]) : null} />
+                            </Form.Group>
+                            <DrawingUtilities
+                                color={color}
+                                onColorChange={setColor}
+                                width={lineWidth}
+                                onWidthChange={setLineWidth}
+                            />
+                            <Button
+                                className={'m-1 position-absolute bottom-0 end-0'}
+                                size={'sm'}
+                                onClick={() => navigateTo('/nomophobia')}
+                            >
+                                {'Exit to site'}
+                            </Button>
+                        </Stack>
+                    </Offcanvas.Body>
+                </Navbar.Offcanvas>
             </Modal>
         </React.Fragment>
     )

@@ -7,10 +7,12 @@ const useScreenSize = () => {
     }), [window.visualViewport, window.innerHeight, window.innerWidth]);
 
     const isMobile = useMemo(() => screenSize.width < 920, [screenSize.width]);
+    const isLandscape = useMemo(() => screenSize.width > screenSize.height, [screenSize.width, screenSize.height]);
 
     return {
         ...screenSize,
-        isMobile
+        isMobile,
+        isLandscape
     };
 };
 
