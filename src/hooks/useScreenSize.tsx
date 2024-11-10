@@ -1,28 +1,12 @@
 import { useState, useEffect, useMemo } from 'react';
 
 const useScreenSize = () => {
-    const [screenSize, setScreenSize] = useState({
-        width: window.innerWidth,
-        height: window.innerHeight
-    });
+    const screenSize = useMemo(() => ({
+        width: window.visualViewport?.width ?? window.innerWidth,
+        height: window.visualViewport?.height ?? window.innerHeight,
+    }), [window.visualViewport, window.innerHeight, window.innerWidth]);
 
     const isMobile = useMemo(() => screenSize.width < 920, [screenSize.width]);
-
-    useEffect(() => {
-        const handleResize = () => {
-            setScreenSize({
-                width: window.innerWidth,
-                height: window.innerHeight,
-            });
-        };
-
-        window.addEventListener('resize', handleResize);
-
-        // Clean up the event listener when the component unmounts
-        return () => {
-            window.removeEventListener('resize', handleResize);
-        };
-    }, []);
 
     return {
         ...screenSize,
