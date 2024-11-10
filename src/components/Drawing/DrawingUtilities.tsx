@@ -1,23 +1,32 @@
 import React from "react"
-import { Button, Stack } from "react-bootstrap"
+import { Button, ButtonGroup, Stack, ToggleButton } from "react-bootstrap"
 import { HuePicker } from 'react-color';
 
 interface IDrawingUtilitiesProps {
+    width: number;
     onWidthChange: (width: number) => void;
     color: string;
     onColorChange: (color: string) => void;
 }
 
-const DrawingUtilities: React.FC<IDrawingUtilitiesProps> = ({ color, onWidthChange, onColorChange }) => {
+const DrawingUtilities: React.FC<IDrawingUtilitiesProps> = ({ color, width, onWidthChange, onColorChange }) => {
     return (
         <Stack gap={1}>
-            <Stack direction={'horizontal'}>
-                {[2, 4, 8, 16, 50].map((width) => (
-                    <Button onClick={() => onWidthChange(width)}>
-                        {width}
-                    </Button>
+            <ButtonGroup>
+                {[2, 4, 8, 16, 50].map((widthOption) => (
+                    <ToggleButton
+                        id={widthOption.toString()}
+                        key={widthOption}
+                        type={'radio'}
+                        value={widthOption}
+                        variant={'outline-success'}
+                        checked={width === widthOption}
+                        onChange={(e) => onWidthChange(Number(e.currentTarget.value))}
+                    >
+                        {widthOption}
+                    </ToggleButton>
                 ))}
-            </Stack>
+            </ButtonGroup>
             <HuePicker
                 color={color}
                 onChange={(newColor) => onColorChange(newColor.hex)}
