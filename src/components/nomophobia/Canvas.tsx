@@ -1,9 +1,7 @@
 import React, { useRef, useState, useEffect, useMemo } from 'react';
-import { Button, Container, Form, Modal, Navbar, Offcanvas, OverlayTrigger, Popover, Stack } from 'react-bootstrap';
+import { Button, Form, Modal, Navbar, Offcanvas, Stack } from 'react-bootstrap';
 import { TfiEraser } from 'react-icons/tfi'
 import './Canvas.css';
-import { PHONE_HEIGHT, PHONE_WIDTH } from "./PhoneSize";
-import { MdUpload } from 'react-icons/md';
 import DrawingUtilities from '../Drawing/DrawingUtilities';
 import useScreenSize from '../../hooks/useScreenSize';
 import { RiSettings5Fill } from 'react-icons/ri';
@@ -16,21 +14,18 @@ interface ICoords {
 
 interface CanvasParams {
     isLoading?: boolean;
-    fullWidthAndHeight?: boolean;
 }
 
-const Canvas: React.FC<CanvasParams> = ({ isLoading, fullWidthAndHeight = false }) => {
+const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
     // TODO: Keep track of each stroke so we can recreate after clear on undo/redo buttons
     const [clear, setClear] = useState(true);
     const [lineWidth, setLineWidth] = useState(8);
     const [color, setColor] = useState('blue');
     const [showDrawingUtilities, setShowDrawingUtilities] = useState(false);
-    const [isShowingModal, setIsShowingModal] = useState(true);
+    const [isShowingModal, setIsShowingModal] = useState(false);
     const [imageFile, setImageFile] = useState<File | null>(null);
     const navigateTo = useNavigate();
-    const { height: screenHeight, width: screenWidth } = useScreenSize();
-    const height = fullWidthAndHeight ? screenHeight : PHONE_HEIGHT;
-    const width = fullWidthAndHeight ? screenWidth : PHONE_WIDTH;
+    const { height, width } = useScreenSize();
     const imageSrc = useMemo(() => imageFile !== null ? window.URL.createObjectURL(imageFile) : '', [imageFile]);;
     const image = useMemo(() => {
         const i = new Image();
@@ -197,7 +192,7 @@ const Canvas: React.FC<CanvasParams> = ({ isLoading, fullWidthAndHeight = false 
                             <Button
                                 className={'m-1 position-absolute bottom-0 end-0'}
                                 size={'sm'}
-                                onClick={() => navigateTo('/nomophobia')}
+                                onClick={() => navigateTo('/nomophobia/home')}
                             >
                                 {'Exit to site'}
                             </Button>
