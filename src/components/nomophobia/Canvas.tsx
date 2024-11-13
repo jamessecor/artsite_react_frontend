@@ -6,6 +6,7 @@ import DrawingUtilities from '../Drawing/DrawingUtilities';
 import useScreenSize from '../../hooks/useScreenSize';
 import { RiSettings5Fill } from 'react-icons/ri';
 import { useNavigate } from 'react-router-dom';
+import useKeyPress from '../../hooks/useKeyPress';
 
 interface ICoords {
     x: number;
@@ -35,6 +36,7 @@ const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const [previousCoords, setPreviousCoords] = useState<ICoords>({ x: -1, y: -1 });
     const [isClickingOrTouching, setIsClickingOrTouching] = useState(false);
+    const menuHotKeyPressed = useKeyPress('m', true);
 
     const onMove = (canvasRef: React.RefObject<HTMLCanvasElement>, x: number, y: number) => {
         const canvas = canvasRef.current;
@@ -94,6 +96,12 @@ const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
         }
         setClear(false);
     };
+
+    useEffect(() => {
+        if (menuHotKeyPressed) {
+            setShowDrawingUtilities(!showDrawingUtilities);
+        }
+    }, [menuHotKeyPressed]);
 
     useEffect(() => {
         const canvas = canvasRef.current;
@@ -171,9 +179,21 @@ const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
                         onHide={() => setShowDrawingUtilities(!showDrawingUtilities)}
                         closeButton
                     >
-                        <div className={'me-auto'}>
-                            {'Drawing Settings'}
-                        </div>
+                        <Stack
+                            gap={2}
+                            direction={'horizontal'}
+                            className={'me-auto text-center'}
+                        >
+                            <p>
+
+                                {'Drawing Settings'}
+                            </p>
+                            <p>
+
+                                {'[ctrl + m]'}
+                            </p>
+
+                        </Stack>
                     </Offcanvas.Header>
                     <Offcanvas.Body>
                         <Stack gap={1}>
