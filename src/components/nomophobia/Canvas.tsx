@@ -185,14 +185,11 @@ const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
                             className={'me-auto text-center'}
                         >
                             <p>
-
                                 {'Drawing Settings'}
                             </p>
                             <p>
-
                                 {'[ctrl + m]'}
                             </p>
-
                         </Stack>
                     </Offcanvas.Header>
                     <Offcanvas.Body>
