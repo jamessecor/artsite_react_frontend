@@ -7,6 +7,7 @@ import useScreenSize from '../../hooks/useScreenSize';
 import { RiSettings5Fill } from 'react-icons/ri';
 import { useNavigate } from 'react-router-dom';
 import useKeyPress from '../../hooks/useKeyPress';
+import { RGBColor } from 'react-color';
 
 interface ICoords {
     x: number;
@@ -19,9 +20,9 @@ interface CanvasParams {
 
 const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
     // TODO: Keep track of each stroke so we can recreate after clear on undo/redo buttons
-    const [clear, setClear] = useState(true);
     const [lineWidth, setLineWidth] = useState(8);
-    const [color, setColor] = useState('blue');
+    const [color, setColor] = useState<RGBColor>({ r: 0, g: 0, b: 250, a: 1 });
+    const colorString = useMemo(() => `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`, [color]);
     const [showDrawingUtilities, setShowDrawingUtilities] = useState(false);
     const [isShowingModal, setIsShowingModal] = useState(false);
     const [imageFile, setImageFile] = useState<File | null>(null);
@@ -44,12 +45,12 @@ const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
             const rect = canvas.getBoundingClientRect();
             const ctx = canvas.getContext('2d');
             if (ctx !== null) {
-                ctx.fillStyle = color;
+                ctx.fillStyle = colorString;
                 ctx.beginPath();
                 ctx.moveTo(previousCoords.x, previousCoords.y);
                 if (isClickingOrTouching) {
                     ctx.lineWidth = lineWidth;
-                    ctx.strokeStyle = color;
+                    ctx.strokeStyle = colorString;
                     ctx.lineTo(x - rect.left, y - rect.top)
                     ctx.stroke();
                 }
@@ -84,18 +85,25 @@ const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
         if (canvas !== null) {
             const ctx = canvas.getContext('2d');
             if (ctx !== null) {
-                // ctx.fillStyle = isLoading ? 'grey' : `rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255})`;
                 ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-                // ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
                 if (image !== null) {
-                    image.width = ctx.canvas.width
-                    image.height = ctx.canvas.height;
-                    ctx.drawImage(image, 0, 0, image.width, image.height);
+                    drawImageScaled(image, ctx);
                 }
             }
         }
-        setClear(false);
     };
+
+    const drawImageScaled = (img: HTMLImageElement, ctx: CanvasRenderingContext2D) => {
+        var canvas = ctx.canvas;
+        var hRatio = canvas.width / img.width;
+        var vRatio = canvas.height / img.height;
+        var ratio = Math.min(hRatio, vRatio);
+        var centerShift_x = (canvas.width - img.width * ratio) / 2;
+        var centerShift_y = (canvas.height - img.height * ratio) / 2;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(img, 0, 0, img.width, img.height,
+            centerShift_x, centerShift_y, img.width * ratio, img.height * ratio);
+    }
 
     useEffect(() => {
         if (menuHotKeyPressed) {
@@ -109,9 +117,7 @@ const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
             const ctx = canvas.getContext('2d');
             if (ctx !== null) {
                 ctx.clearRect(0, 0, width, height);
-                image.width = ctx.canvas.width
-                image.height = ctx.canvas.height;
-                image.onload = () => ctx.drawImage(image, 0, 0, image.width, image.height);
+                image.onload = () => drawImageScaled(image, ctx);
             }
         }
     }, [image, canvasRef]);

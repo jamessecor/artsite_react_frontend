@@ -1,12 +1,12 @@
 import React from "react"
 import { ButtonGroup, Stack, ToggleButton } from "react-bootstrap"
-import { SketchPicker } from 'react-color';
+import { RGBColor, SketchPicker } from 'react-color';
 
 interface IDrawingUtilitiesProps {
     width: number;
     onWidthChange: (width: number) => void;
-    color: string;
-    onColorChange: (color: string) => void;
+    color: RGBColor;
+    onColorChange: (color: RGBColor) => void;
 }
 
 const DrawingUtilities: React.FC<IDrawingUtilitiesProps> = ({ color, width, onWidthChange, onColorChange }) => {
@@ -30,8 +30,8 @@ const DrawingUtilities: React.FC<IDrawingUtilitiesProps> = ({ color, width, onWi
             <SketchPicker
                 className={'mt-1 align-self-center'}
                 color={color}
-                onChange={(newColor) => onColorChange(newColor.hex)}
-                onChangeComplete={(newColor) => onColorChange(newColor.hex)}
+                onChange={(newColor) => onColorChange(newColor.rgb)}
+                onChangeComplete={(newColor) => onColorChange(newColor.rgb)}
             />
         </Stack>
     )
