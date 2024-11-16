@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect, useMemo } from 'react';
+import React, { useRef, useState, useEffect, useMemo, useCallback } from 'react';
 import { Button, Form, Modal, Navbar, Offcanvas, Stack } from 'react-bootstrap';
 import { TfiEraser } from 'react-icons/tfi'
 import './Canvas.css';
@@ -18,11 +18,19 @@ interface CanvasParams {
     isLoading?: boolean;
 }
 
+interface ILine {
+    color: RGBColor;
+    width: number;
+    from: ICoords;
+    to: ICoords;
+}
+
 const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
     // TODO: Keep track of each stroke so we can recreate after clear on undo/redo buttons
+    const [history, setHistory] = useState<Array<ILine>>([]);
     const [lineWidth, setLineWidth] = useState(8);
     const [color, setColor] = useState<RGBColor>({ r: 0, g: 0, b: 250, a: 1 });
-    const colorString = useMemo(() => `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`, [color]);
+    const getColorString = (rgba: RGBColor) => `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`;
     const [showDrawingUtilities, setShowDrawingUtilities] = useState(false);
     const [isShowingModal, setIsShowingModal] = useState(false);
     const [imageFile, setImageFile] = useState<File | null>(null);
@@ -38,26 +46,36 @@ const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
     const [previousCoords, setPreviousCoords] = useState<ICoords>({ x: -1, y: -1 });
     const [isClickingOrTouching, setIsClickingOrTouching] = useState(false);
     const menuHotKeyPressed = useKeyPress('m', true);
+    const undoPressed = useKeyPress('ArrowLeft', true);
 
     const onMove = (canvasRef: React.RefObject<HTMLCanvasElement>, x: number, y: number) => {
         const canvas = canvasRef.current;
         if (canvas !== null) {
             const rect = canvas.getBoundingClientRect();
+            const newX = x - rect.left;
+            const newY = y - rect.top;
             const ctx = canvas.getContext('2d');
             if (ctx !== null) {
-                ctx.fillStyle = colorString;
+                ctx.fillStyle = getColorString(color);
                 ctx.beginPath();
                 ctx.moveTo(previousCoords.x, previousCoords.y);
                 if (isClickingOrTouching) {
                     ctx.lineWidth = lineWidth;
-                    ctx.strokeStyle = colorString;
-                    ctx.lineTo(x - rect.left, y - rect.top)
+                    ctx.strokeStyle = getColorString(color);
+                    ctx.lineTo(newX, newY);
                     ctx.stroke();
                 }
-                setPreviousCoords({
-                    x: x - rect.left,
-                    y: y - rect.top
-                });
+                const newCoords: ICoords = { x: newX, y: newY };
+                setHistory((prev) => [
+                    ...prev,
+                    {
+                        color: color,
+                        width: lineWidth,
+                        from: previousCoords,
+                        to: newCoords
+                    }
+                ]);
+                setPreviousCoords(newCoords);
             }
         }
     };
@@ -80,7 +98,7 @@ const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
         }
     };
 
-    const resetCanvas = () => {
+    const undo = useCallback((steps = 1) => {
         const canvas = canvasRef.current;
         if (canvas !== null) {
             const ctx = canvas.getContext('2d');
@@ -89,9 +107,20 @@ const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
                 if (image !== null) {
                     drawImageScaled(image, ctx);
                 }
+                const linesToDraw = history.slice(0, -steps);
+                linesToDraw.forEach((line) => {
+                    ctx.fillStyle = getColorString(line.color);
+                    ctx.beginPath();
+                    ctx.moveTo(line.from.x, line.from.y);
+                    ctx.lineWidth = line.width;
+                    ctx.strokeStyle = getColorString(line.color);
+                    ctx.lineTo(line.to.x, line.to.y);
+                    ctx.stroke();
+                });
+                setHistory(linesToDraw);
             }
         }
-    };
+    }, [history, setHistory]);
 
     const drawImageScaled = (img: HTMLImageElement, ctx: CanvasRenderingContext2D) => {
         var canvas = ctx.canvas;
@@ -110,6 +139,13 @@ const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
             setShowDrawingUtilities(!showDrawingUtilities);
         }
     }, [menuHotKeyPressed]);
+
+    useEffect(() => {
+        console.log('hahah');
+        if (undoPressed) {
+            undo(5);
+        }
+    }, [undoPressed]);
 
     useEffect(() => {
         const canvas = canvasRef.current;
@@ -200,7 +236,7 @@ const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
                     </Offcanvas.Header>
                     <Offcanvas.Body>
                         <Stack gap={1}>
-                            <Button onClick={() => resetCanvas()}>
+                            <Button onClick={() => undo(history.length)}>
                                 <h4><TfiEraser /></h4>
                             </Button>
                             <Form.Group>
