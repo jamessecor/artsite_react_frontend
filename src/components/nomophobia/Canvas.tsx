@@ -99,6 +99,7 @@ const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
     };
 
     const onTouchMove = (canvasRef: React.RefObject<HTMLCanvasElement>, e: React.TouchEvent<HTMLCanvasElement>) => {
+        e.preventDefault();
         onMove(canvasRef, e.targetTouches[0].clientX, e.targetTouches[0].clientY);
     }
 
@@ -138,7 +139,7 @@ const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
                 current: newCurrent
             }));
         }
-    }, [history, setHistory]);
+    }, [history, setHistory, canvasRef.current]);
 
     const redo = useCallback((steps = DEFAULT_STEPS) => {
         const stepsForward = steps > history.lines.length - (history.current ?? 0)
@@ -161,7 +162,7 @@ const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
             ...prev,
             current: newCurrent
         }));
-    }, [history, setHistory]);
+    }, [history, setHistory, canvasRef.current]);
 
     const drawImageScaled = (img: HTMLImageElement, ctx: CanvasRenderingContext2D) => {
         var canvas = ctx.canvas;
@@ -202,11 +203,11 @@ const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
                 image.onload = () => drawImageScaled(image, ctx);
             }
         }
-    }, [image, canvasRef]);
+    }, [image, canvasRef.current]);
 
     useEffect(() => {
         initializeCanvas();
-    }, [canvasRef]);
+    }, [canvasRef.current]);
 
     return (
         <React.Fragment>
@@ -244,7 +245,8 @@ const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
                     ref={canvasRef}
                     style={{
                         border: '2px solid turquoise',
-                        overflow: 'hidden'
+                        overflow: 'hidden',
+                        touchAction: 'pinch-zoom'
                     }}
                 />
                 <Stack
