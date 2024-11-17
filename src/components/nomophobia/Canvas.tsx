@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect, useMemo, useCallback } from 'react';
 import { Button, Form, Modal, Navbar, Offcanvas, Stack } from 'react-bootstrap';
 import { TfiEraser } from 'react-icons/tfi'
-import { BiUndo } from 'react-icons/bi'
+import { BiRedo, BiUndo } from 'react-icons/bi'
 import './Canvas.css';
 import DrawingUtilities from '../Drawing/DrawingUtilities';
 import useScreenSize from '../../hooks/useScreenSize';
@@ -32,6 +32,7 @@ interface IHistory {
 }
 
 const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
+    const DEFAULT_STEPS = 10;
     const [history, setHistory] = useState<IHistory>({ lines: [] });
     const [lineWidth, setLineWidth] = useState(8);
     const [color, setColor] = useState<RGBColor>({ r: 0, g: 0, b: 250, a: 1 });
@@ -40,7 +41,7 @@ const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
     const [isShowingModal, setIsShowingModal] = useState(false);
     const [imageFile, setImageFile] = useState<File | null>(null);
     const navigateTo = useNavigate();
-    const { height, width } = useScreenSize();
+    const { height, width, isMobile } = useScreenSize();
     const imageSrc = useMemo(() => imageFile !== null ? window.URL.createObjectURL(imageFile) : '', [imageFile]);;
     const image = useMemo(() => {
         const i = new Image();
@@ -52,6 +53,17 @@ const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
     const [isClickingOrTouching, setIsClickingOrTouching] = useState(false);
     const menuHotKeyPressed = useKeyPress('m', true);
     const undoPressed = useKeyPress('ArrowLeft', true);
+    const redoPressed = useKeyPress('ArrowRight', true);
+
+    const drawLine = (ctx: CanvasRenderingContext2D, line: ILine) => {
+        ctx.fillStyle = line.color;
+        ctx.beginPath();
+        ctx.moveTo(line.from.x, line.from.y);
+        ctx.lineWidth = line.width;
+        ctx.strokeStyle = line.color;
+        ctx.lineTo(line.to.x, line.to.y);
+        ctx.stroke();
+    };
 
     const onMove = (canvasRef: React.RefObject<HTMLCanvasElement>, x: number, y: number) => {
         const canvas = canvasRef.current;
@@ -61,26 +73,19 @@ const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
             const newY = y - rect.top;
             const ctx = canvas.getContext('2d');
             if (ctx !== null) {
-                ctx.fillStyle = getColorString(color);
-                ctx.beginPath();
-                ctx.moveTo(previousCoords.x, previousCoords.y);
-                if (isClickingOrTouching) {
-                    ctx.lineWidth = lineWidth;
-                    ctx.strokeStyle = getColorString(color);
-                    ctx.lineTo(newX, newY);
-                    ctx.stroke();
-                }
                 const newCoords: ICoords = { x: newX, y: newY };
+                const newLine = {
+                    color: getColorString(color),
+                    width: lineWidth,
+                    from: previousCoords,
+                    to: newCoords
+                };
+                drawLine(ctx, newLine);
                 setHistory((prev) => {
                     const lines = prev.lines.filter((_, index) => index <= (prev.current ?? 0));
                     const newLines = [
                         ...lines,
-                        {
-                            color: getColorString(color),
-                            width: lineWidth,
-                            from: previousCoords,
-                            to: newCoords
-                        }
+                        newLine
                     ];
                     return {
                         lines: newLines,
@@ -111,7 +116,7 @@ const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
         }
     };
 
-    const undo = useCallback((steps = 10) => {
+    const undo = useCallback((steps = DEFAULT_STEPS) => {
         if (!history.current || history.current < 0) {
             return;
         }
@@ -126,21 +131,36 @@ const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
                     drawImageScaled(image, ctx);
                 }
                 const linesToDraw = history.lines.filter((_, index) => index <= newCurrent);
-                linesToDraw.forEach((line) => {
-                    ctx.fillStyle = line.color;
-                    ctx.beginPath();
-                    ctx.moveTo(line.from.x, line.from.y);
-                    ctx.lineWidth = line.width;
-                    ctx.strokeStyle = line.color;
-                    ctx.lineTo(line.to.x, line.to.y);
-                    ctx.stroke();
-                });
+                linesToDraw.forEach((line) => drawLine(ctx, line));
             }
             setHistory((prev) => ({
                 ...prev,
                 current: newCurrent
             }));
         }
+    }, [history, setHistory]);
+
+    const redo = useCallback((steps = DEFAULT_STEPS) => {
+        const stepsForward = steps > history.lines.length - (history.current ?? 0)
+            ? history.lines.length - (history.current ?? 0)
+            : steps;
+        const newCurrent = !history.current ? history.lines.length - 1 : history.current + stepsForward;
+        const linesToDraw = history.lines.filter((_, index) => index <= newCurrent);
+        if (linesToDraw.length > 0) {
+            const canvas = canvasRef.current;
+            if (canvas !== null) {
+                const ctx = canvas.getContext('2d');
+                if (ctx !== null) {
+                    linesToDraw.forEach((line) => {
+                        drawLine(ctx, line);
+                    });
+                }
+            }
+        }
+        setHistory((prev) => ({
+            ...prev,
+            current: newCurrent
+        }));
     }, [history, setHistory]);
 
     const drawImageScaled = (img: HTMLImageElement, ctx: CanvasRenderingContext2D) => {
@@ -166,6 +186,12 @@ const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
             undo();
         }
     }, [undoPressed]);
+
+    useEffect(() => {
+        if (redoPressed) {
+            redo();
+        }
+    }, [redoPressed]);
 
     useEffect(() => {
         const canvas = canvasRef.current;
@@ -221,13 +247,35 @@ const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
                         overflow: 'hidden'
                     }}
                 />
-                <Button
-                    className='position-fixed me-auto'
-                    onClick={() => setShowDrawingUtilities(!showDrawingUtilities)}
-                    variant={'outline'}
+                <Stack
+                    direction={'horizontal'}
+                    className={'position-fixed w-100'}
                 >
-                    <RiSettings5Fill />
-                </Button>
+                    <Button
+                        onClick={() => setShowDrawingUtilities(!showDrawingUtilities)}
+                        variant={'outline'}
+                    >
+                        <RiSettings5Fill />
+                    </Button>
+                    {isMobile
+                        ? (
+                            <div className={'ms-auto'}>
+                                <Button
+                                    onClick={() => undo()}
+                                    variant={'outline'}
+                                >
+                                    <BiUndo />
+                                </Button>
+                                <Button
+                                    onClick={() => redo()}
+                                    variant={'outline'}
+                                >
+                                    <BiRedo />
+                                </Button>
+                            </div>
+                        )
+                        : null}
+                </Stack>
                 <Navbar.Offcanvas
                     onHide={() => setShowDrawingUtilities(!showDrawingUtilities)}
                     show={showDrawingUtilities}
@@ -262,6 +310,9 @@ const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
                                 </Button>
                                 <Button onClick={() => undo()}>
                                     <h4><BiUndo /></h4>
+                                </Button>
+                                <Button onClick={() => redo()}>
+                                    <h4><BiRedo /></h4>
                                 </Button>
                             </Stack>
                             <DrawingUtilities
