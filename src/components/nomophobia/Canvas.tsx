@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect, useMemo, useCallback } from 'react';
 import { Button, Form, Modal, Navbar, Offcanvas, Stack } from 'react-bootstrap';
 import { TfiEraser } from 'react-icons/tfi'
+import { BiUndo } from 'react-icons/bi'
 import './Canvas.css';
 import DrawingUtilities from '../Drawing/DrawingUtilities';
 import useScreenSize from '../../hooks/useScreenSize';
@@ -19,15 +20,19 @@ interface CanvasParams {
 }
 
 interface ILine {
-    color: RGBColor;
+    color: string;
     width: number;
     from: ICoords;
     to: ICoords;
 }
 
+interface IHistory {
+    lines: Array<ILine>;
+    current?: number;
+}
+
 const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
-    // TODO: Keep track of each stroke so we can recreate after clear on undo/redo buttons
-    const [history, setHistory] = useState<Array<ILine>>([]);
+    const [history, setHistory] = useState<IHistory>({ lines: [] });
     const [lineWidth, setLineWidth] = useState(8);
     const [color, setColor] = useState<RGBColor>({ r: 0, g: 0, b: 250, a: 1 });
     const getColorString = (rgba: RGBColor) => `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`;
@@ -66,15 +71,23 @@ const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
                     ctx.stroke();
                 }
                 const newCoords: ICoords = { x: newX, y: newY };
-                setHistory((prev) => [
-                    ...prev,
-                    {
-                        color: color,
-                        width: lineWidth,
-                        from: previousCoords,
-                        to: newCoords
+                setHistory((prev) => {
+                    const lines = prev.lines.filter((_, index) => index <= (prev.current ?? 0));
+                    const newLines = [
+                        ...lines,
+                        {
+                            color: getColorString(color),
+                            width: lineWidth,
+                            from: previousCoords,
+                            to: newCoords
+                        }
+                    ];
+                    return {
+                        lines: newLines,
+                        current: newLines.length - 1
                     }
-                ]);
+                });
+
                 setPreviousCoords(newCoords);
             }
         }
@@ -98,7 +111,12 @@ const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
         }
     };
 
-    const undo = useCallback((steps = 1) => {
+    const undo = useCallback((steps = 10) => {
+        if (!history.current || history.current < 0) {
+            return;
+        }
+        const linesToUndo = history.lines.length < steps ? history.lines.length : steps;
+        const newCurrent = history.current - linesToUndo;
         const canvas = canvasRef.current;
         if (canvas !== null) {
             const ctx = canvas.getContext('2d');
@@ -107,18 +125,21 @@ const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
                 if (image !== null) {
                     drawImageScaled(image, ctx);
                 }
-                const linesToDraw = history.slice(0, -steps);
+                const linesToDraw = history.lines.filter((_, index) => index <= newCurrent);
                 linesToDraw.forEach((line) => {
-                    ctx.fillStyle = getColorString(line.color);
+                    ctx.fillStyle = line.color;
                     ctx.beginPath();
                     ctx.moveTo(line.from.x, line.from.y);
                     ctx.lineWidth = line.width;
-                    ctx.strokeStyle = getColorString(line.color);
+                    ctx.strokeStyle = line.color;
                     ctx.lineTo(line.to.x, line.to.y);
                     ctx.stroke();
                 });
-                setHistory(linesToDraw);
             }
+            setHistory((prev) => ({
+                ...prev,
+                current: newCurrent
+            }));
         }
     }, [history, setHistory]);
 
@@ -141,9 +162,8 @@ const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
     }, [menuHotKeyPressed]);
 
     useEffect(() => {
-        console.log('hahah');
         if (undoPressed) {
-            undo(5);
+            undo();
         }
     }, [undoPressed]);
 
@@ -236,18 +256,23 @@ const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
                     </Offcanvas.Header>
                     <Offcanvas.Body>
                         <Stack gap={1}>
-                            <Button onClick={() => undo(history.length)}>
-                                <h4><TfiEraser /></h4>
-                            </Button>
-                            <Form.Group>
-                                <Form.Control type="file" onChange={(e: React.ChangeEvent<HTMLInputElement>) => e.target?.files?.length ? setImageFile(e.target.files[0]) : null} />
-                            </Form.Group>
+                            <Stack direction={'horizontal'} gap={1}>
+                                <Button onClick={() => undo(history.lines.length)}>
+                                    <h4><TfiEraser /></h4>
+                                </Button>
+                                <Button onClick={() => undo()}>
+                                    <h4><BiUndo /></h4>
+                                </Button>
+                            </Stack>
                             <DrawingUtilities
                                 color={color}
                                 onColorChange={setColor}
                                 width={lineWidth}
                                 onWidthChange={setLineWidth}
                             />
+                            <Form.Group>
+                                <Form.Control type="file" onChange={(e: React.ChangeEvent<HTMLInputElement>) => e.target?.files?.length ? setImageFile(e.target.files[0]) : null} />
+                            </Form.Group>
                             <Button
                                 className={'m-1 position-absolute bottom-0 end-0'}
                                 size={'sm'}
