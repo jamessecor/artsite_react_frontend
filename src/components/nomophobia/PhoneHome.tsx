@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import './Nomophobia.css';
 import PhoneApp from './PhoneApp';
 import { MdOutlineSchool } from 'react-icons/md';
-import { BsFillPencilFill, BsHeartFill, BsInstagram, BsNewspaper, BsPaletteFill, BsSpotify } from 'react-icons/bs';
+import { BsCameraVideo, BsFillPencilFill, BsHeartFill, BsInstagram, BsNewspaper, BsPaletteFill, BsSpotify } from 'react-icons/bs';
 import { TbBuilding } from 'react-icons/tb';
 import { Pages } from "./Nomophobia";
 
@@ -27,6 +27,7 @@ const PhoneHome = () => {
             <div>
                 <div className={'d-flex justify-content-between p-3'}>
                     <PhoneApp load={load} page={Pages.Likes} routePath={Pages.Likes} icon={<BsHeartFill />} />
+                    <PhoneApp load={load} page={Pages.Video} routePath={Pages.Video} icon={<BsCameraVideo />} />
                     <PhoneApp load={load} page={Pages.Colors} routePath={Pages.Colors} icon={<BsPaletteFill />} />
                 </div>
                 <div className={'d-flex justify-content-between p-3'}>

@@ -9,6 +9,7 @@ export enum Pages {
     Off = 'off',
     Home = 'home',
     Instagram = 'instagram',
+    Video = 'video',
     Spotify = 'spotify',
     Canvas = 'canvas',
     SchoolInstructions = 'school-instructions',

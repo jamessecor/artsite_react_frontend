@@ -18,6 +18,8 @@ const PhoneApp = ({ load, page, routePath, icon }: PhoneAppProps) => {
         switch (page) {
             case Pages.Instagram:
                 return 'insta';
+            case Pages.Video:
+                return 'video';
             case Pages.Spotify:
                 return 'music';
             case Pages.Canvas:

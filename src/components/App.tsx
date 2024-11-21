@@ -29,6 +29,7 @@ import PhoneOff from './nomophobia/PhoneOff';
 import Likes from './nomophobia/Likes';
 import Banner from './Banner';
 import SettingsProvider from './providers/SettingsProvider';
+import Video from './nomophobia/Video';
 
 const fourHoursInMs = 1000 * 60 * 60 * 4;
 
@@ -60,6 +61,7 @@ const App = () => {
                                                 <Route path={'/nomophobia/canvas'} element={<Canvas />} />
                                                 <Route path={'/nomophobia/spotify'} element={<Spotify />} />
                                                 <Route path={'/nomophobia/instagram'} element={<Instagram />} />
+                                                <Route path={'/nomophobia/video'} element={<Video />} />
                                                 <Route path={'/nomophobia/school-instructions'} element={<SchoolInstructions />} />
                                                 <Route path={'/nomophobia/school'} element={<School />} />
                                                 <Route path={'/nomophobia/gallery-tour'} element={<GalleryTour images={chirpingInTheThicketsTour} />} />
