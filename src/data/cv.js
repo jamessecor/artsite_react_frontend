@@ -1,6 +1,13 @@
 export const soloShows = [
     {
         name: 'Eclosion',
+        location: 'J. Langdon',
+        url: "https://www.jlangdonvermont.com/artwalk",
+        address: "7 Langdon St, Montpelier, VT",
+        dates: "Oct, 2024"
+    },
+    {
+        name: 'Eclosion',
         location: 'The Tunbridge General Store',
         url: "https://thetunbridgegeneralstore.com/",
         address: "304 VT Route 110, Tunbridge, VT",
@@ -103,6 +110,13 @@ export const soloShows = [
 ]
 
 export const groupShows = [
+    {
+        name: "Wanderings | Arista Alanis and James Secor",
+        location: "AVA Gallery",
+        url: "https://avagallery.org/event/arista-alanis-and-james-secor/",
+        address: "Lebanon, NH",
+        dates: "Oct-Nov, 2024"
+    },
     {
         name: "Views from Prospect St.",
         location: "T.W. Wood Gallery",
@@ -247,6 +261,11 @@ export const education = [
 
 export const press = [
     {
+        name: "Seven Days",
+        location: "Magnificent 7",
+        url: "/articles/magnificent7.jpg"
+    },
+    {
         name: "Times Argus",
         location: "Chirping in the Thickets",
         url: "/articles/chirping-in-the-thickets.pdf"
@@ -274,7 +293,7 @@ export const press = [
     {
         name: "Seven Days",
         location: "As Not Seen: Review",
-        url: "/articles/7_best_2017__7Days.pdf"
+        url: "/articles/as-not-seen.pdf"
     }
 ]
 
