@@ -95,10 +95,10 @@ const ArtworkForm: React.FC<IArtworkFormProps> = ({ attributes, isInFormMode, is
             setId(data.data.artwork._id);
             queryClient.invalidateQueries({ queryKey: ['artworks'] });
         },
-        onError: (data) => {
+        onError: (data: AxiosError<{ message?: string }>) => {
             if (onResponse) {
                 onResponse({
-                    text: `${data.code} - ${data.message}`,
+                    text: `${data.code} - ${data.response?.data?.message ?? data.message}`,
                     variant: 'danger'
                 });
             }
