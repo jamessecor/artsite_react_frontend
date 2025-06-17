@@ -8,10 +8,14 @@ import useArtworks from '../hooks/useArtworks';
 import { useNavigate } from "react-router-dom";
 import { AuthenticationContext } from './providers/AuthenticationProvider';
 import ArtworkForm from './ArtworkForm';
-import { MdEdit, MdViewComfy } from 'react-icons/md';
+import { MdEdit as MdEditIcon, MdViewComfy as MdViewComfyIcon } from 'react-icons/md';
+const MdEdit = MdEditIcon as React.ComponentType<any>;
+const MdViewComfy = MdViewComfyIcon as React.ComponentType<any>;
 import { SettingsContext } from './providers/SettingsProvider';
-import { IoImage } from "react-icons/io5";
-import { FaWpforms } from "react-icons/fa";
+import { IoImage as IoImageIcon } from "react-icons/io5";
+const IoImage = IoImageIcon as React.ComponentType<any>;
+import { FaWpforms as FaWpformsIcon } from "react-icons/fa";
+const FaWpforms = FaWpformsIcon as React.ComponentType<any>;
 import useScreenSize from '../hooks/useScreenSize';
 import { Variant } from 'react-bootstrap/esm/types';
 
@@ -31,7 +35,7 @@ const Artworks = ({ current = false }: IArtworkProps) => {
     const year = searchParams.get('year') ?? '';
     const grouping = searchParams.get('grouping') as Groupings ?? '';
     const searchTerm = searchParams.get('search') ?? '';
-    const { artworksQuery: { data: artworks, isLoading: isLoadingArtworks } } = useArtworks({
+    const { artworksQuery: { data: artworks, isPending: isLoadingArtworks } } = useArtworks({
         isHomePage: current.toString(),
         year: year,
         grouping: grouping,

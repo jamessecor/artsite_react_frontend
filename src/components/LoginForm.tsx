@@ -27,12 +27,13 @@ const LoginForm = () => {
     const [error, setError] = useState('');
     const navigateTo = useNavigate();
 
-    const { isLoading, mutate } = useMutation<ILoginFormResponse, AxiosError, ILoginFormData>(formData => {
-        axios.defaults.headers.post['Accept'] = 'application/json';
-        axios.defaults.headers.post['Content-Type'] = 'application/json';
+    const { isPending, mutate } = useMutation<ILoginFormResponse, AxiosError, ILoginFormData>({
+        mutationFn: async (formData: ILoginFormData) => {
+            axios.defaults.headers.post['Accept'] = 'application/json';
+            axios.defaults.headers.post['Content-Type'] = 'application/json';
 
-        return axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/users`, formData);
-    }, {
+            return axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/users`, formData);
+        },
         onSuccess: (data, variables, context) => {
             sessionStorage.setItem('artsite-token', data.data.token);
             navigateTo('/artworks/current');
@@ -74,8 +75,8 @@ const LoginForm = () => {
                             </Form.Label>
                         </Form.Group>
                         <div className={'d-flex w-100 justify-content-center'}>
-                            <Button disabled={isLoading} className={'w-75'} type={'submit'}>
-                                {isLoading ? <Spinner variant={'info'} animation={'border'} /> : 'Login'}
+                            <Button disabled={isPending} className={'w-75'} type={'submit'}>
+                                {isPending ? <Spinner variant={'info'} animation={'border'} /> : 'Login'}
                             </Button>
                         </div>
                     </Form>

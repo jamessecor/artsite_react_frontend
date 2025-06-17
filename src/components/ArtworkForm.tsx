@@ -5,8 +5,10 @@ import { BackgroundColorContext, textColor } from "./providers/BackgroundColorPr
 import { ArtworkAttributes, getImageSrc, Groupings, IArtwork, iArtworkToFormData, IImage } from "../models/Artwork";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
-import { GiElephant } from "react-icons/gi";
-import { MdLandscape } from "react-icons/md";
+import { GiElephant as GiElephantIcon } from "react-icons/gi";
+const GiElephant = GiElephantIcon as React.ComponentType<any>;
+import { MdLandscape as MdLandscapeIcon } from "react-icons/md";
+const MdLandscape = MdLandscapeIcon as React.ComponentType<any>;
 import { IResponseType } from "./Artworks";
 import useArtworksMetadata from "../hooks/useArtworksMetadata";
 
@@ -48,10 +50,11 @@ const ArtworkForm: React.FC<IArtworkFormProps> = ({ attributes, isInFormMode, is
     const queryClient = useQueryClient();
     const { data: artworksMetaData, isLoading: isLoadingArtworksMetaData } = useArtworksMetadata();
 
-    const deleteMutation = useMutation<IArtworkDeleteFormResponse, AxiosError>(_ => {
-        axios.defaults.headers.delete['Authorization'] = sessionStorage.getItem('artsite-token');
-        return axios.delete(`${import.meta.env.VITE_API_BASE_URL}/api/artworks/${id}`);
-    }, {
+    const deleteMutation = useMutation<IArtworkDeleteFormResponse, AxiosError>({
+        mutationFn: async () => {
+            axios.defaults.headers.delete['Authorization'] = sessionStorage.getItem('artsite-token');
+            return axios.delete(`${import.meta.env.VITE_API_BASE_URL}/api/artworks/${id}`);
+        },
         onSuccess: (data) => {
             if (onResponse) {
                 onResponse({
@@ -73,18 +76,19 @@ const ArtworkForm: React.FC<IArtworkFormProps> = ({ attributes, isInFormMode, is
         }
     });
 
-    const { reset, isSuccess, isLoading, mutate } = useMutation<IArtworkFormResponse, AxiosError, IArtworkFormData>(formData => {
-        axios.defaults.headers.put['Authorization'] = sessionStorage.getItem('artsite-token');
-        axios.defaults.headers.post['Authorization'] = sessionStorage.getItem('artsite-token');
-        axios.defaults.headers.put['Accept'] = 'multipart/form-data';
-        axios.defaults.headers.post['Accept'] = 'multipart/form-data';
-        axios.defaults.headers.put['Content-Type'] = 'multipart/form-data';
-        axios.defaults.headers.post['Content-Type'] = 'multipart/form-data';
+    const { reset, isSuccess, isPending, mutate } = useMutation<IArtworkFormResponse, AxiosError, IArtworkFormData>({
+        mutationFn: async (formData: IArtworkFormData) => {
+            axios.defaults.headers.put['Authorization'] = sessionStorage.getItem('artsite-token');
+            axios.defaults.headers.post['Authorization'] = sessionStorage.getItem('artsite-token');
+            axios.defaults.headers.put['Accept'] = 'multipart/form-data';
+            axios.defaults.headers.post['Accept'] = 'multipart/form-data';
+            axios.defaults.headers.put['Content-Type'] = 'multipart/form-data';
+            axios.defaults.headers.post['Content-Type'] = 'multipart/form-data';
 
-        return id
-            ? axios.put(`${import.meta.env.VITE_API_BASE_URL}/api/artworks/${id}`, formData)
-            : axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/artworks`, formData);
-    }, {
+            return id
+                ? axios.put(`${import.meta.env.VITE_API_BASE_URL}/api/artworks/${id}`, formData)
+                : axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/artworks`, formData);
+        },
         onSuccess: (data) => {
             if (onResponse) {
                 onResponse({
@@ -102,7 +106,7 @@ const ArtworkForm: React.FC<IArtworkFormProps> = ({ attributes, isInFormMode, is
                     variant: 'danger'
                 });
             }
-        }
+        }        
     });
 
     const handleDelete = useCallback((e) => {
@@ -299,8 +303,8 @@ const ArtworkForm: React.FC<IArtworkFormProps> = ({ attributes, isInFormMode, is
                                         </Button>
                                     )
                                     : (
-                                        <Button disabled={isLoading} className={'w-100'} type={'submit'}>
-                                            {isLoading
+                                        <Button disabled={isPending} className={'w-100'} type={'submit'}>
+                                            {isPending
                                                 ? <Spinner variant={'info'} animation={'border'} className={'text-center'} />
                                                 : (id ? 'Update' : 'Add New Artwork')
                                             }
@@ -315,8 +319,8 @@ const ArtworkForm: React.FC<IArtworkFormProps> = ({ attributes, isInFormMode, is
                     id && isInArrangementMode && isShowingForm
                         ? (
                             <Form onSubmit={handleDelete}>
-                                <Button disabled={deleteMutation.isLoading} className={'w-100 mt-2'} type={'submit'} variant={'danger'}>
-                                    {deleteMutation.isLoading
+                                <Button disabled={deleteMutation.isPending} className={'w-100 mt-2'} type={'submit'} variant={'danger'}>
+                                    {deleteMutation.isPending
                                         ? <Spinner variant={'info'} animation={'border'} className={'text-center'} />
                                         : 'Delete'
                                     }

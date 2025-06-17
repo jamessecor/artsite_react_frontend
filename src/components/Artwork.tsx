@@ -4,7 +4,9 @@ import MovingColorImage from "./MovingColorImage";
 import PriceFormatter from "./PriceFormatter";
 import { Button, Col, Form, Modal, Spinner, Stack, Toast, ToastContainer } from 'react-bootstrap';
 import { BackgroundColorContext, isTooLightForDarkTheme } from "./providers/BackgroundColorProvider";
-import { BsHeart, BsHeartFill } from "react-icons/bs";
+import { BsHeart as BsHeartIcon, BsHeartFill as BsHeartFillIcon } from "react-icons/bs";
+const BsHeart = BsHeartIcon as React.ComponentType<any>;
+const BsHeartFill = BsHeartFillIcon as React.ComponentType<any>;
 import { getImageSrc, IArtwork, ILike } from "../models/Artwork";
 import axios, { AxiosError } from "axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -20,12 +22,10 @@ interface ISentEmailToastParams {
 }
 
 interface IArtworkPutLikeResponse {
-    data: {
-        message: string;
-        likes: Array<ILike>;
-        totalLikes: number;
-    }
-};
+    message: string;
+    likes: Array<ILike>;
+    totalLikes: number;
+}
 
 interface IBuyEmailFormData {
     email: string;
@@ -42,12 +42,12 @@ interface IArtworkEmailPostResponse {
 const likesSessionName = 'likes';
 const likesHeartColor = '#bb9999';
 
-const Artwork: React.FC<ArtworkParams> = ({ attributes }) => {
+const Artwork: React.FC<ArtworkParams> = ({ attributes }: ArtworkParams) => {
     const { color } = useContext(BackgroundColorContext);
     const { isShowingInfo } = useContext(SettingsContext);
     const likes: Array<IArtwork> = useMemo(() => JSON.parse(sessionStorage.getItem(likesSessionName) ?? '[]') ?? [], []);
     const [isLiked, setIsLiked] = useState(likes.filter((like) => like._id === attributes._id).length > 0);
-    const [totalLikes, setTotalLikes] = useState(attributes.totalLikes);
+    const [totalLikes, setTotalLikes] = useState(attributes.totalLikes ?? 0);
     const amount = useMemo(() => isLiked ? -1 : 1, [isLiked]);
     const imageSrc = useMemo(() => getImageSrc(attributes.images), [attributes]);
     const isSold = useMemo(() => Boolean(attributes.saleDate ?? attributes.isNFS), [attributes]);
@@ -55,8 +55,7 @@ const Artwork: React.FC<ArtworkParams> = ({ attributes }) => {
     const [email, setEmail] = useState('');
     const [message, setMessage] = useState('');
     const [showSentEmailToast, setShowSentEmailToast] = useState(false);
-    const client = useQueryClient();
-
+    const queryClient = useQueryClient();
     useEffect(() => {
         if (isLiked) {
             sessionStorage.setItem(likesSessionName, JSON.stringify([...likes, attributes]));
@@ -65,39 +64,44 @@ const Artwork: React.FC<ArtworkParams> = ({ attributes }) => {
             sessionStorage.setItem(likesSessionName, JSON.stringify(likes.filter((like) => like._id !== attributes._id)));
         }
     }, [isLiked, likes, attributes]);
-
-    const { mutate } = useMutation<IArtworkPutLikeResponse, AxiosError>(_ => {
-        return axios.put(`${import.meta.env.VITE_API_BASE_URL}/api/artworks/${attributes._id}/likes`, {
-            timestamp: new Date().toISOString(),
-            amount: amount
-        });
-    }, {
+    const { mutate } = useMutation<IArtworkPutLikeResponse, AxiosError, void, unknown>({
+        mutationFn: async () => {
+            const response = await axios.put(`${import.meta.env.VITE_API_BASE_URL}/api/artworks/${attributes._id}/likes`, {
+                timestamp: new Date().toISOString(),
+                amount: amount
+            });
+            return response.data;
+        },
         onSuccess: (data) => {
             // update artwork
-            setTotalLikes(data.data.totalLikes);
-            client.setQueryData(['artworks', { _id: attributes._id }], {
+            setTotalLikes(data.totalLikes);
+            queryClient.setQueryData(['artworks', { _id: attributes._id }], {
                 ...attributes,
-                likes: data.data.likes,
-                totalLikes: data.data.totalLikes
+                totalLikes: data.totalLikes
             });
         },
-        onError: (data) => {
+        onError: (error: AxiosError) => {
             // hmm, set it back?
             setIsLiked(!isLiked);
         }
     });
 
-    const { mutate: buyMutate, isLoading: isSendingBuyEmail, error: errorSendingBuyEmail } = useMutation<IArtworkEmailPostResponse, AxiosError, IBuyEmailFormData>((formData) => {
-        return axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/email`, {
-            email: formData.email,
-            message: formData.message
-        });
-    }, {
+    const { mutate: buyMutate, isPending: isSendingBuyEmail, error: errorSendingBuyEmail } = useMutation<IArtworkEmailPostResponse, AxiosError, IBuyEmailFormData, unknown>({
+        mutationFn: async (formData: IBuyEmailFormData) => {
+            const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/email`, {
+                email: formData.email,
+                message: formData.message
+            });
+            return response.data;
+        },
         onSuccess: (data) => {
             setShowBuyModal(false);
             setShowSentEmailToast(true);
+        },
+        onError: (error: AxiosError) => {
+            console.error('Error sending email:', error);
         }
-    })
+    });
     const handleSubmit = async (e) => {
         e.preventDefault();
         buyMutate({ email: email, message: message });
