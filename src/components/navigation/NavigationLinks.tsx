@@ -24,7 +24,7 @@ const NavigationLinks = ({ setShowOffcanvas }) => {
     const urlYear = searchParams.get('year') ?? '';
     const urlGrouping = searchParams.get('grouping');
 
-    const { data: artworksMetaData, isLoading: isLoadingArtworksMetaData } = useArtworksMetadata();
+    const { data: artworksMetaData, isPending: isLoadingArtworksMetaData } = useArtworksMetadata();
 
     const HideOffcanvasAndNavigateTo = (newPath) => {
         setShowOffcanvas(false);

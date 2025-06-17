@@ -9,7 +9,7 @@ import { getImageSrc } from '../models/Artwork';
 
 const HomePage = () => {
     const navigateTo = useNavigate();
-    const { artworksQuery: { data: artworks, isLoading: isLoadingArtworks } } = useArtworks({
+    const { artworksQuery: { data: artworks, isPending: isLoadingArtworks } } = useArtworks({
         year: '2022',
         grouping: 'merica',
         search: 'Claimed Land Erupting'

@@ -5,7 +5,9 @@ import Artwork from "./Artwork";
 import { Col, Container, Row, Spinner, Stack } from 'react-bootstrap';
 import useSoldArtworks from '../hooks/useSoldArtworks';
 import { TaxStatus } from '../models/Artwork';
-import { BsToggle2Off, BsToggle2On } from 'react-icons/bs';
+import { BsToggle2Off as BsToggle2OffIcon, BsToggle2On as BsToggle2OnIcon } from 'react-icons/bs';
+const BsToggle2Off = BsToggle2OffIcon as React.ComponentType<any>;
+const BsToggle2On = BsToggle2OnIcon as React.ComponentType<any>;
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 
@@ -28,7 +30,7 @@ const SoldArtworks = () => {
     const [startDate, setStartDate] = useState(beginningOfMonth);
     const [endDate, setEndDate] = useState(endOfMonth);
 
-    const { soldArtworksQuery: { data: soldArtworks, isLoading: isLoadingArtworks } } = useSoldArtworks({
+    const { soldArtworksQuery: { data: soldArtworks, isPending: isLoadingArtworks } } = useSoldArtworks({
         startDate: startDate,
         endDate: endDate
     });
@@ -39,15 +41,16 @@ const SoldArtworks = () => {
         : 0, [soldArtworks]);
 
     const queryClient = useQueryClient();
-    const { isLoading: isSavingTaxStatus, mutate } = useMutation((artworkTaxStatusUpdateModel: IArtworkTaxStatusUpdateModel) => {
-        axios.defaults.headers.put['Authorization'] = sessionStorage.getItem('artsite-token');
-        axios.defaults.headers.put['Accept'] = 'application/json';
-        axios.defaults.headers.put['Content-Type'] = 'application/json';
+    const { isPending: isSavingTaxStatus, mutate } = useMutation({
+        mutationFn: (artworkTaxStatusUpdateModel: IArtworkTaxStatusUpdateModel) => {
+            axios.defaults.headers.put['Authorization'] = sessionStorage.getItem('artsite-token');
+            axios.defaults.headers.put['Accept'] = 'application/json';
+            axios.defaults.headers.put['Content-Type'] = 'application/json';
 
-        return axios.put(`${import.meta.env.VITE_API_BASE_URL}/api/artworks/${artworkTaxStatusUpdateModel.id}`, {
-            taxStatus: artworkTaxStatusUpdateModel.taxStatus.toLocaleString()
-        });
-    }, {
+            return axios.put(`${import.meta.env.VITE_API_BASE_URL}/api/artworks/${artworkTaxStatusUpdateModel.id}`, {
+                taxStatus: artworkTaxStatusUpdateModel.taxStatus.toLocaleString()
+            });
+        },
         onSuccess: (data) => {
             queryClient.invalidateQueries({ queryKey: ['artworks'] });
         }
