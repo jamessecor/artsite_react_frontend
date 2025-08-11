@@ -1,5 +1,12 @@
 export const soloShows = [
     {
+        name: 'Faulty Harbor',
+        location: 'The Satellite Gallery',
+        url: 'https://thesatellitegalleryvt.weebly.com/',
+        address: '71 Depot St, Lyndonville, VT',
+        dates: 'July-August 2025'
+    },
+    {
         name: 'Eclosion',
         location: 'J. Langdon',
         url: "https://www.jlangdonvermont.com/artwalk",
@@ -110,6 +117,13 @@ export const soloShows = [
 ]
 
 export const groupShows = [
+    {
+        name: "Spaces & Places",
+        location: "Vermont Supreme Court Gallery",
+        url: "https://curator.vermont.gov/vermont-supreme-court-gallery",
+        address: "Montpelier, VT",
+        dates: "July 2 - September 30, 2025"
+    },
     {
         name: "Wanderings | Arista Alanis and James Secor",
         location: "AVA Gallery",
@@ -260,6 +274,11 @@ export const education = [
 ]
 
 export const press = [
+    {
+        name: 'Seven Days',
+        location: '\'Spaces & Places\': A Group Show at the Supreme Court Gallery by Alice Dodge',
+        url: '/articles/spaces-and-places--seven-days.pdf'
+    },
     {
         name: "Seven Days",
         location: "Magnificent 7",
