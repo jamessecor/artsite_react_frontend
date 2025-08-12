@@ -1,7 +1,6 @@
 import * as React from 'react';
 import Color from "./Color";
 
-// TESTING PR
 const Colors = () => {
   const highlightColorHex = '#F62997';
 
