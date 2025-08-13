@@ -24,19 +24,19 @@ const PhoneHome = () => {
             </div>
             <div>
                 <div className={'d-flex justify-content-between p-3'}>
-                    <PhoneApp page={Pages.Likes} routePath={Pages.Likes} icon={<BsHeartFill />} />
-                    <PhoneApp page={Pages.Video} routePath={Pages.Video} icon={<BsCameraVideo />} />
-                    <PhoneApp page={Pages.Colors} routePath={Pages.Colors} icon={<BsPaletteFill />} />
+                    <PhoneApp page={Pages.Likes} routePath={Pages.Likes} icon={BsHeartFill} />
+                    <PhoneApp page={Pages.Video} routePath={Pages.Video} icon={BsCameraVideo} />
+                    <PhoneApp page={Pages.Colors} routePath={Pages.Colors} icon={BsPaletteFill} />
                 </div>
                 <div className={'d-flex justify-content-between p-3'}>
-                    <PhoneApp page={Pages.Canvas} routePath={Pages.Canvas} icon={<BsFillPencilFill />} />
-                    <PhoneApp page={Pages.Instagram} routePath={Pages.Instagram} icon={<BsInstagram />} />
-                    <PhoneApp page={Pages.Spotify} routePath={Pages.Spotify} icon={<BsSpotify />} />
+                    <PhoneApp page={Pages.Canvas} routePath={Pages.Canvas} icon={BsFillPencilFill} />
+                    <PhoneApp page={Pages.Instagram} routePath={Pages.Instagram} icon={BsInstagram} />
+                    <PhoneApp page={Pages.Spotify} routePath={Pages.Spotify} icon={BsSpotify} />
                 </div>
                 <div className={'d-flex justify-content-between p-3'}>
-                    <PhoneApp page={Pages.SchoolInstructions} routePath={Pages.SchoolInstructions} icon={<MdOutlineSchool />} />
-                    <PhoneApp page={Pages.News} routePath={Pages.News} icon={<BsNewspaper />} />
-                    <PhoneApp page={Pages.GalleryTour} routePath={Pages.GalleryTour} icon={<TbBuilding />} />
+                    <PhoneApp page={Pages.SchoolInstructions} routePath={Pages.SchoolInstructions} icon={MdOutlineSchool} />
+                    <PhoneApp page={Pages.News} routePath={Pages.News} icon={BsNewspaper} />
+                    <PhoneApp page={Pages.GalleryTour} routePath={Pages.GalleryTour} icon={TbBuilding} />
                 </div>
             </div>
         </div>

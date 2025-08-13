@@ -4,11 +4,12 @@ import { Button, Spinner } from 'react-bootstrap';
 import './PhoneApp.css';
 import { Pages } from './Nomophobia';
 import { useNavigate } from 'react-router-dom';
+import { IconType } from 'react-icons';
 
 interface PhoneAppProps {
     page: Pages;
     routePath: string;
-    icon: React.ReactElement;
+    icon: IconType;
 };
 
 const getAppName = (page: Pages): string => {
@@ -58,7 +59,7 @@ const PhoneApp = ({ page, routePath, icon }: PhoneAppProps) => {
             {isLoading ? (
                 <Spinner animation="border" role="status" />
             ) : (
-                React.cloneElement(icon, { className: 'app-icon' })
+                icon({ })
             )}
         </Button>
     );
