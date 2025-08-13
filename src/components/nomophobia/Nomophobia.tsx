@@ -54,13 +54,7 @@ const Nomophobia = () => {
                     <div className={'speaker'} />
                 </div>
                 {/* PHONE SCREEN */}
-                <div
-                    className={'justify-content-center p-0 phone-screen'}
-                    style={{
-                        // boxShadow: currentPage === Pages.Off ? '' : '0px 0px 25px 10px rgba(205, 255, 205, 0.3)',
-                        background: '#49f0d5'
-                    }}
-                >
+                <div className={'justify-content-center p-0 phone-screen'}>
                     {isLoading
                         && (
                             <div className={'position-absolute top-50 start-50 translate-middle '}>

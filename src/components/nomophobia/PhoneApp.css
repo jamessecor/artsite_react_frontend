@@ -1,9 +1,53 @@
 .phone-app-button {
-    border: .2rem solid orangered;
-    border-radius: 5px;
+    width: 70px;
+    height: 90px;
+    margin: 10px;
+    padding: 0;
+    border: none;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+    transition: all 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
 }
 
 .phone-app-button:hover {
-    border: .2rem solid white;
-    background: pink;
+    transform: translateY(-2px);
+    box-shadow: 0 7px 14px rgba(0, 0, 0, 0.1), 0 3px 6px rgba(0, 0, 0, 0.08);
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.phone-app-button:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.phone-app-button svg {
+    width: 30px;
+    height: 30px;
+    margin-bottom: 8px;
+    color: white;
+}
+
+.phone-app-button::after {
+    content: attr(data-app-name);
+    position: absolute;
+    bottom: 10px;
+    color: white;
+    font-size: 11px;
+    text-align: center;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 0 5px;
+    font-weight: 500;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }

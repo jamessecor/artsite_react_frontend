@@ -7,8 +7,6 @@ import { BsCameraVideo, BsFillPencilFill, BsHeartFill, BsInstagram, BsNewspaper,
 import { TbBuilding } from 'react-icons/tb';
 import { Pages } from "./Nomophobia";
 
-const load = () => 100; // TODO
-
 const PhoneHome = () => {
     const [currentTime, setCurrentTime] = useState(new Date());
 
@@ -26,19 +24,19 @@ const PhoneHome = () => {
             </div>
             <div>
                 <div className={'d-flex justify-content-between p-3'}>
-                    <PhoneApp load={load} page={Pages.Likes} routePath={Pages.Likes} icon={<BsHeartFill />} />
-                    <PhoneApp load={load} page={Pages.Video} routePath={Pages.Video} icon={<BsCameraVideo />} />
-                    <PhoneApp load={load} page={Pages.Colors} routePath={Pages.Colors} icon={<BsPaletteFill />} />
+                    <PhoneApp page={Pages.Likes} routePath={Pages.Likes} icon={<BsHeartFill />} />
+                    <PhoneApp page={Pages.Video} routePath={Pages.Video} icon={<BsCameraVideo />} />
+                    <PhoneApp page={Pages.Colors} routePath={Pages.Colors} icon={<BsPaletteFill />} />
                 </div>
                 <div className={'d-flex justify-content-between p-3'}>
-                    <PhoneApp load={load} page={Pages.Canvas} routePath={Pages.Canvas} icon={<BsFillPencilFill />} />
-                    <PhoneApp load={load} page={Pages.Instagram} routePath={Pages.Instagram} icon={<BsInstagram />} />
-                    <PhoneApp load={load} page={Pages.Spotify} routePath={Pages.Spotify} icon={<BsSpotify />} />
+                    <PhoneApp page={Pages.Canvas} routePath={Pages.Canvas} icon={<BsFillPencilFill />} />
+                    <PhoneApp page={Pages.Instagram} routePath={Pages.Instagram} icon={<BsInstagram />} />
+                    <PhoneApp page={Pages.Spotify} routePath={Pages.Spotify} icon={<BsSpotify />} />
                 </div>
                 <div className={'d-flex justify-content-between p-3'}>
-                    <PhoneApp load={load} page={Pages.SchoolInstructions} routePath={Pages.SchoolInstructions} icon={<MdOutlineSchool />} />
-                    <PhoneApp load={load} page={Pages.News} routePath={Pages.News} icon={<BsNewspaper />} />
-                    <PhoneApp load={load} page={Pages.GalleryTour} routePath={Pages.GalleryTour} icon={<TbBuilding />} />
+                    <PhoneApp page={Pages.SchoolInstructions} routePath={Pages.SchoolInstructions} icon={<MdOutlineSchool />} />
+                    <PhoneApp page={Pages.News} routePath={Pages.News} icon={<BsNewspaper />} />
+                    <PhoneApp page={Pages.GalleryTour} routePath={Pages.GalleryTour} icon={<TbBuilding />} />
                 </div>
             </div>
         </div>

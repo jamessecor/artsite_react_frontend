@@ -29,6 +29,8 @@
     width: 275px;
     height: 450px;
     background-size: cover;
+    box-shadow: 0px 0px 25px 10px rgba(205, 255, 205, 0.3);
+    background-color: #2c9c89;
     overflow: auto;
     z-index: 3;
 }
