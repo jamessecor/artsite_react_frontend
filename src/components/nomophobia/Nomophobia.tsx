@@ -1,7 +1,7 @@
 import * as React from "react";
-import { useCallback, useContext, useState } from 'react';
-import { Outlet, useNavigate } from 'react-router-dom';
-import { Button, Spinner } from "react-bootstrap";
+import { useContext } from 'react';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { Button } from "react-bootstrap";
 import { BackgroundColorContext } from "../providers/BackgroundColorProvider";
 import './Nomophobia.css';
 
@@ -24,12 +24,8 @@ const Nomophobia = () => {
     const { color } = useContext(BackgroundColorContext);
     const navigateTo = useNavigate();
 
-    const [isLoading, setIsLoading] = useState(false);
-
-    const load = useCallback((timeToLoad: number) => {
-        setIsLoading(true);
-        setTimeout(() => setIsLoading(false), timeToLoad);
-    }, []);
+    const location = useLocation();
+    const isPhoneOff = location.pathname.endsWith('/off') || location.pathname.endsWith('/nomophobia') || location.pathname.endsWith('/nomophobia/');
 
     return (
         <React.Fragment>
@@ -54,13 +50,7 @@ const Nomophobia = () => {
                     <div className={'speaker'} />
                 </div>
                 {/* PHONE SCREEN */}
-                <div className={'justify-content-center p-0 phone-screen'}>
-                    {isLoading
-                        && (
-                            <div className={'position-absolute top-50 start-50 translate-middle '}>
-                                <Spinner variant={'info'} animation={'border'} />
-                            </div>
-                        )}
+                <div className={'justify-content-center p-0 phone-screen' + (isPhoneOff ? ' phone-screen-off' : '')}>
                     <Outlet />
                 </div>
                 {/* BOTTOM BUTTON */}

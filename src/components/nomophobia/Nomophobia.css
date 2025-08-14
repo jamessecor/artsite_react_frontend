@@ -1,7 +1,7 @@
 .phone-header, .phone-footer {
     /* height: 28rem; */
     /* padding: 3.5rem .5rem; */
-    background-color: rgb(58, 20, 20);
+    background-color: rgb(57, 52, 78);
     border: none;
 }
 
@@ -18,8 +18,8 @@
 }
 
 .phone {
-    box-shadow: 0px 0px 30px 20px;
-    border: 1px solid orangered;
+    box-shadow: 0px 0px 70px 80px;
+    border: 1.5px solid rgb(125, 111, 106);
     border-top-right-radius: 20px;
     border-top-left-radius: 20px;
     border-bottom-right-radius: 20px;
@@ -29,8 +29,8 @@
     width: 275px;
     height: 450px;
     background-size: cover;
-    box-shadow: 0px 0px 25px 10px rgba(205, 255, 205, 0.3);
-    background-color: #2c9c89;
+    box-shadow: 0px 0px 25px 10px rgba(62, 249, 62, 0.25);
+    background-color: rgba(62, 249, 62, 0.5);
     overflow: auto;
     z-index: 3;
 }
@@ -38,7 +38,8 @@
 .phone-screen-off {
     width: 275px;
     height: 450px;
-    background: rgb(43, 46, 50);
+    box-shadow: none !important;
+    background-color: rgb(43, 46, 50) !important;
 }
 
 .power-button {
@@ -46,26 +47,26 @@
     height: 10px;
     border-radius: 5px 5px 0 0;
     translate: -25px -10px;
-    background: darkred;
-    border: 1px solid darksalmon;
+    background: rgb(125, 111, 106);
+    border: 1px solid rgb(125, 111, 106);
     border-bottom: none;
 }
 
 .power-button:hover {
-    background: greenyellow;
-    border: 1px solid orangered;
+    background: rgba(107, 186, 208, 0.71);
+    border: 1px solid rgb(125, 111, 106);
 }
 
 .speaker {
     width: 70px;
     height: 10px;
     border-radius: 5px;
-    border: 1px solid orangered;
+    border: 1px solid rgb(125, 111, 106);
     background: gray;
 }
 
 .phone-bottom-button {
-    border: .1rem solid orangered;
+    border: .1rem solid rgb(125, 111, 106);
     border-radius: 50px;
     height: 45px;
     width: 45px;
@@ -73,5 +74,5 @@
 
 .phone-bottom-button:hover {
     border: .1rem solid green;
-    background: darkred;
+    background: rgb(125, 111, 106);
 }
