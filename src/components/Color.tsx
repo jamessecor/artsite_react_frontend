@@ -1,31 +1,18 @@
+// Color.tsx
 import * as React from 'react';
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import Draggable from 'react-draggable';
+import { useColor } from '../hooks/useColor';
 import './Color.css';
 
-interface IColorProps {
+interface ColorProps {
     highlightColorHex: string;
+    initialColor: string;
 }
 
-const Color: React.FC<IColorProps> = ({ highlightColorHex }) => {
-    const initialColor = `#${(Math.random() * 0xFFFFFF << 0).toString(16).padStart(6, '0')}`;
-
+const Color: React.FC<ColorProps> = React.memo(({ highlightColorHex, initialColor }) => {
     const draggableRef = useRef(null);
-
-    const [color, setColor] = useState(initialColor);
-    const [isRotating, setIsRotating] = useState(true);
-    const [timesMoved, setTimesMoved] = useState(0);
-
-    const handleStart = () => {
-        setColor(highlightColorHex);
-        setTimesMoved((prev) => prev + 1);
-        setIsRotating(false);
-    }
-
-    const handleStop = () => {
-        setColor(initialColor);
-        setIsRotating(true);
-    }
+    const { color, isRotating, timesMoved, handleStart, handleStop } = useColor(initialColor, highlightColorHex);
 
     return (
         <Draggable
@@ -35,15 +22,15 @@ const Color: React.FC<IColorProps> = ({ highlightColorHex }) => {
         >
             <div
                 ref={draggableRef}
-                className={`${isRotating ? 'rotatingColor' : 'notRotatingColor'} color w-100`}
+                className={`color ${isRotating ? 'rotating' : ''}`}
                 style={{
                     touchAction: 'none',
-                    background: color,
+                    backgroundColor: color,
                     zIndex: timesMoved
                 }}
             />
         </Draggable>
-    )
-}
+    );
+});
 
 export default Color;

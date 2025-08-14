@@ -1,0 +1,14 @@
+.colors-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15px, 1fr));
+  height: 100%;
+  background-color: #333333;
+  overflow: hidden;
+}
+
+.color-container {
+  aspect-ratio: 1;
+  width: 100%;
+  max-width: 100px;
+  margin: 0 auto;
+}
