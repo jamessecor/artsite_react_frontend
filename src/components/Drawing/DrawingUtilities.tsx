@@ -1,5 +1,5 @@
 import React from "react"
-import { ButtonGroup, Stack, ToggleButton } from "react-bootstrap"
+import { Button, ButtonGroup, Stack, ToggleButton } from "react-bootstrap"
 import { RGBColor, SketchPicker } from 'react-color';
 
 interface IDrawingUtilitiesProps {
@@ -7,11 +7,20 @@ interface IDrawingUtilitiesProps {
     onWidthChange: (width: number) => void;
     color: RGBColor;
     onColorChange: (color: RGBColor) => void;
+    isErasing: boolean;
+    setIsErasing: (isErasing: boolean) => void;
 }
 
-const DrawingUtilities: React.FC<IDrawingUtilitiesProps> = ({ color, width, onWidthChange, onColorChange }) => {
+const DrawingUtilities: React.FC<IDrawingUtilitiesProps> = ({ color, width, onWidthChange, onColorChange, isErasing, setIsErasing }) => {
     return (
         <Stack gap={1}>
+            <Button
+                variant={isErasing ? 'danger' : 'success'}
+                onClick={() => setIsErasing(!isErasing)}
+                className={'w-100'}
+            >
+                {isErasing ? 'Erasing' : 'Drawing'}
+            </Button>
             <ButtonGroup>
                 {[2, 4, 8, 16, 50].map((widthOption) => (
                     <ToggleButton

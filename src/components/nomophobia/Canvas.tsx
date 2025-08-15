@@ -40,6 +40,7 @@ const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
     const [showDrawingUtilities, setShowDrawingUtilities] = useState(false);
     const [isShowingModal, setIsShowingModal] = useState(false);
     const [imageFile, setImageFile] = useState<File | null>(null);
+    const [isErasing, setIsErasing] = useState(false);
     const navigateTo = useNavigate();
     const { height, width, isMobile } = useScreenSize();
     const imageSrc = useMemo(() => imageFile !== null ? window.URL.createObjectURL(imageFile) : '', [imageFile]);;
@@ -65,6 +66,10 @@ const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
         ctx.stroke();
     };
 
+    const eraseLine = (ctx: CanvasRenderingContext2D, line: ILine) => {
+        ctx.clearRect(line.from.x, line.from.y, line.to.x, line.to.y);
+    };
+
     const onMove = (canvasRef: React.RefObject<HTMLCanvasElement>, x: number, y: number) => {
         const canvas = canvasRef.current;
         if (canvas !== null) {
@@ -80,18 +85,22 @@ const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
                     from: previousCoords,
                     to: newCoords
                 };
-                drawLine(ctx, newLine);
-                setHistory((prev) => {
-                    const lines = prev.lines.filter((_, index) => index <= (prev.current ?? 0));
-                    const newLines = [
-                        ...lines,
-                        newLine
-                    ];
-                    return {
-                        lines: newLines,
-                        current: newLines.length - 1
-                    }
-                });
+                if (isErasing) {
+                    eraseLine(ctx, newLine);
+                } else {
+                    drawLine(ctx, newLine);
+                    setHistory((prev) => {
+                        const lines = prev.lines.filter((_, index) => index <= (prev.current ?? 0));
+                        const newLines = [
+                            ...lines,
+                            newLine
+                        ];
+                        return {
+                            lines: newLines,
+                            current: newLines.length - 1
+                        }
+                    });
+                }
 
                 setPreviousCoords(newCoords);
             }
@@ -322,6 +331,8 @@ const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
                                 onColorChange={setColor}
                                 width={lineWidth}
                                 onWidthChange={setLineWidth}
+                                isErasing={isErasing}
+                                setIsErasing={setIsErasing}
                             />
                             <Form.Group>
                                 <Form.Control type="file" onChange={(e: React.ChangeEvent<HTMLInputElement>) => e.target?.files?.length ? setImageFile(e.target.files[0]) : null} />
