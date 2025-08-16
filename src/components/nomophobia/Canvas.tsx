@@ -376,7 +376,10 @@ const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
                     <Offcanvas.Body>
                         <Stack gap={1}>
                             <Stack direction={'horizontal'} gap={1}>
-                                <Button onClick={() => undo(history.lines.length)}>
+                                <Button onClick={() => setHistory((prev) => ({
+                                    actions: [],
+                                    current: 0
+                                }))}>
                                     <h4><TfiEraser /></h4>
                                 </Button>
                                 <Button onClick={() => undo()}>
