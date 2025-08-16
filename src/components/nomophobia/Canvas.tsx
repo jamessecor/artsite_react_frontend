@@ -28,12 +28,13 @@ interface ILine {
 
 interface IHistory {
     lines: Array<ILine>;
+    erasures: Array<ILine>;
     current?: number;
 }
 
 const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
     const DEFAULT_STEPS = 10;
-    const [history, setHistory] = useState<IHistory>({ lines: [] });
+    const [history, setHistory] = useState<IHistory>({ lines: [], erasures: [] });
     const [lineWidth, setLineWidth] = useState(8);
     const [color, setColor] = useState<RGBColor>({ r: 0, g: 0, b: 250, a: 1 });
     const getColorString = (rgba: RGBColor) => `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`;
@@ -67,7 +68,26 @@ const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
     };
 
     const eraseLine = (ctx: CanvasRenderingContext2D, line: ILine) => {
-        ctx.clearRect(line.from.x, line.from.y, line.to.x, line.to.y);
+        // Save the current context state
+        ctx.save();
+
+        // Set the composite operation to 'destination-out' which makes pixels transparent
+        ctx.globalCompositeOperation = 'destination-out';
+
+        // Set the line properties to match the eraser size
+        ctx.strokeStyle = 'rgba(0, 0, 0, 1)'; // The color doesn't matter, but alpha does
+        ctx.lineWidth = line.width;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+
+        // Draw the line
+        ctx.beginPath();
+        ctx.moveTo(line.from.x, line.from.y);
+        ctx.lineTo(line.to.x, line.to.y);
+        ctx.stroke();
+
+        // Restore the context to its original state
+        ctx.restore();
     };
 
     const onMove = (canvasRef: React.RefObject<HTMLCanvasElement>, x: number, y: number) => {
@@ -87,6 +107,18 @@ const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
                 };
                 if (isErasing) {
                     eraseLine(ctx, newLine);
+                    setHistory((prev) => {
+                        const erasures = prev.erasures.filter((_, index) => index <= (prev.current ?? 0));
+                        const newErasures = [
+                            ...erasures,
+                            newLine
+                        ];
+                        return {
+                            lines: prev.lines,
+                            erasures: newErasures,
+                            current: newErasures.length - 1
+                        }
+                    });
                 } else {
                     drawLine(ctx, newLine);
                     setHistory((prev) => {
@@ -97,6 +129,7 @@ const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
                         ];
                         return {
                             lines: newLines,
+                            erasures: prev.erasures,
                             current: newLines.length - 1
                         }
                     });
@@ -144,7 +177,8 @@ const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
                 linesToDraw.forEach((line) => drawLine(ctx, line));
             }
             setHistory((prev) => ({
-                ...prev,
+                lines: prev.lines.filter((_, index) => index <= newCurrent),
+                erasures: prev.erasures,
                 current: newCurrent
             }));
         }
@@ -168,7 +202,8 @@ const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
             }
         }
         setHistory((prev) => ({
-            ...prev,
+            lines: prev.lines.filter((_, index) => index <= newCurrent),
+            erasures: prev.erasures.filter((_, index) => index <= newCurrent),
             current: newCurrent
         }));
     }, [history, setHistory, canvasRef.current]);
