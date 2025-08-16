@@ -22,19 +22,21 @@ interface CanvasParams {
 interface ILine {
     color: string;
     width: number;
+    order: number;
+    type: 'line' | 'eraser';
     from: ICoords;
     to: ICoords;
 }
 
 interface IHistory {
-    lines: Array<ILine>;
-    erasures: Array<ILine>;
-    current?: number;
+    actions: Array<ILine>;
+    current: number;
 }
 
 const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
     const DEFAULT_STEPS = 10;
-    const [history, setHistory] = useState<IHistory>({ lines: [], erasures: [] });
+    const [lineOrder, setLineOrder] = useState(0);
+    const [history, setHistory] = useState<IHistory>({ actions: [], current: 0 });
     const [lineWidth, setLineWidth] = useState(8);
     const [color, setColor] = useState<RGBColor>({ r: 0, g: 0, b: 250, a: 1 });
     const getColorString = (rgba: RGBColor) => `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`;
@@ -53,15 +55,25 @@ const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const [previousCoords, setPreviousCoords] = useState<ICoords>({ x: -1, y: -1 });
     const [isClickingOrTouching, setIsClickingOrTouching] = useState(false);
-    const menuHotKeyPressed = useKeyPress('m', true);
+
+    const menuHotKeyPressed = useKeyPress('g', false);
     const undoPressed = useKeyPress('ArrowLeft', true);
     const redoPressed = useKeyPress('ArrowRight', true);
+    const drawingPressed = useKeyPress('d', false);
+    const eraserPressed = useKeyPress('e', false);
+    const tinyPressed = useKeyPress('1', false);
+    const smallPressed = useKeyPress('2', false);
+    const mediumPressed = useKeyPress('3', false);
+    const largePressed = useKeyPress('4', false);
+    const hugePressed = useKeyPress('5', false);
 
     const drawLine = (ctx: CanvasRenderingContext2D, line: ILine) => {
         ctx.fillStyle = line.color;
         ctx.beginPath();
         ctx.moveTo(line.from.x, line.from.y);
         ctx.lineWidth = line.width;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
         ctx.strokeStyle = line.color;
         ctx.lineTo(line.to.x, line.to.y);
         ctx.stroke();
@@ -97,44 +109,35 @@ const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
             const newX = x - rect.left;
             const newY = y - rect.top;
             const ctx = canvas.getContext('2d');
+            const newLineOrder = lineOrder + 1;
             if (ctx !== null) {
                 const newCoords: ICoords = { x: newX, y: newY };
-                const newLine = {
+                const newLine: ILine = {
                     color: getColorString(color),
                     width: lineWidth,
+                    type: isErasing ? 'eraser' : 'line',
+                    order: newLineOrder,
                     from: previousCoords,
                     to: newCoords
                 };
                 if (isErasing) {
                     eraseLine(ctx, newLine);
-                    setHistory((prev) => {
-                        const erasures = prev.erasures.filter((_, index) => index <= (prev.current ?? 0));
-                        const newErasures = [
-                            ...erasures,
-                            newLine
-                        ];
-                        return {
-                            lines: prev.lines,
-                            erasures: newErasures,
-                            current: newErasures.length - 1
-                        }
-                    });
                 } else {
                     drawLine(ctx, newLine);
-                    setHistory((prev) => {
-                        const lines = prev.lines.filter((_, index) => index <= (prev.current ?? 0));
-                        const newLines = [
-                            ...lines,
-                            newLine
-                        ];
-                        return {
-                            lines: newLines,
-                            erasures: prev.erasures,
-                            current: newLines.length - 1
-                        }
-                    });
                 }
 
+                setHistory((prev: IHistory) => {
+                    const actions = prev.actions.filter((_, index) => index <= (prev.current ?? 0));
+                    const newActions = [
+                        ...actions,
+                        newLine
+                    ];
+                    return {
+                        actions: newActions,
+                        current: newActions.length - 1
+                    }
+                });
+                setLineOrder(newLineOrder);
                 setPreviousCoords(newCoords);
             }
         }
@@ -160,11 +163,20 @@ const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
     };
 
     const undo = useCallback((steps = DEFAULT_STEPS) => {
-        if (!history.current || history.current < 0) {
-            return;
-        }
-        const linesToUndo = history.lines.length < steps ? history.lines.length : steps;
-        const newCurrent = history.current - linesToUndo;
+        setHistory((prev) => ({
+            actions: prev.actions,
+            current: prev.current - steps
+        }));
+    }, [setHistory]);
+
+    const redo = useCallback((steps = DEFAULT_STEPS) => {
+        setHistory((prev) => ({
+            actions: prev.actions,
+            current: prev.current + steps
+        }));
+    }, [setHistory]);
+
+    useEffect(() => {
         const canvas = canvasRef.current;
         if (canvas !== null) {
             const ctx = canvas.getContext('2d');
@@ -173,40 +185,11 @@ const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
                 if (image !== null) {
                     drawImageScaled(image, ctx);
                 }
-                const linesToDraw = history.lines.filter((_, index) => index <= newCurrent);
-                linesToDraw.forEach((line) => drawLine(ctx, line));
-            }
-            setHistory((prev) => ({
-                lines: prev.lines.filter((_, index) => index <= newCurrent),
-                erasures: prev.erasures,
-                current: newCurrent
-            }));
-        }
-    }, [history, setHistory, canvasRef.current]);
-
-    const redo = useCallback((steps = DEFAULT_STEPS) => {
-        const stepsForward = steps > history.lines.length - (history.current ?? 0)
-            ? history.lines.length - (history.current ?? 0)
-            : steps;
-        const newCurrent = !history.current ? history.lines.length - 1 : history.current + stepsForward;
-        const linesToDraw = history.lines.filter((_, index) => index <= newCurrent);
-        if (linesToDraw.length > 0) {
-            const canvas = canvasRef.current;
-            if (canvas !== null) {
-                const ctx = canvas.getContext('2d');
-                if (ctx !== null) {
-                    linesToDraw.forEach((line) => {
-                        drawLine(ctx, line);
-                    });
-                }
+                const actions = history.actions.filter((_, index) => index <= history.current);
+                actions.forEach((line) => line.type === 'line' ? drawLine(ctx, line) : eraseLine(ctx, line));
             }
         }
-        setHistory((prev) => ({
-            lines: prev.lines.filter((_, index) => index <= newCurrent),
-            erasures: prev.erasures.filter((_, index) => index <= newCurrent),
-            current: newCurrent
-        }));
-    }, [history, setHistory, canvasRef.current]);
+    }, [history, canvasRef.current]);
 
     const drawImageScaled = (img: HTMLImageElement, ctx: CanvasRenderingContext2D) => {
         var canvas = ctx.canvas;
@@ -237,6 +220,48 @@ const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
             redo();
         }
     }, [redoPressed]);
+
+    useEffect(() => {
+        if (drawingPressed) {
+            setIsErasing(false);
+        }
+    }, [drawingPressed]);
+
+    useEffect(() => {
+        if (eraserPressed) {
+            setIsErasing(true);
+        }
+    }, [eraserPressed]);
+
+    useEffect(() => {
+        if (tinyPressed) {
+            setLineWidth(2);
+        }
+    }, [tinyPressed]);
+
+    useEffect(() => {
+        if (smallPressed) {
+            setLineWidth(4);
+        }
+    }, [smallPressed]);
+
+    useEffect(() => {
+        if (mediumPressed) {
+            setLineWidth(8);
+        }
+    }, [mediumPressed]);
+
+    useEffect(() => {
+        if (largePressed) {
+            setLineWidth(16);
+        }
+    }, [largePressed]);
+
+    useEffect(() => {
+        if (hugePressed) {
+            setLineWidth(50);
+        }
+    }, [hugePressed]);
 
     useEffect(() => {
         const canvas = canvasRef.current;
