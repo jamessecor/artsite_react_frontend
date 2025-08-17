@@ -53,6 +53,7 @@ const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
         return i;
     }, [imageSrc]);
     const canvasRef = useRef<HTMLCanvasElement>(null);
+    const imageCanvasRef = useRef<HTMLCanvasElement>(null);
     const [previousCoords, setPreviousCoords] = useState<ICoords>({ x: -1, y: -1 });
     const [isClickingOrTouching, setIsClickingOrTouching] = useState(false);
 
@@ -182,9 +183,6 @@ const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
             const ctx = canvas.getContext('2d');
             if (ctx !== null) {
                 ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-                if (image !== null) {
-                    drawImageScaled(image, ctx);
-                }
                 const actions = history.actions.filter((_, index) => index <= history.current);
                 actions.forEach((line) => line.type === 'line' ? drawLine(ctx, line) : eraseLine(ctx, line));
             }
@@ -264,7 +262,7 @@ const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
     }, [hugePressed]);
 
     useEffect(() => {
-        const canvas = canvasRef.current;
+        const canvas = imageCanvasRef.current;
         if (canvas !== null) {
             const ctx = canvas.getContext('2d');
             if (ctx !== null) {
@@ -272,7 +270,7 @@ const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
                 image.onload = () => drawImageScaled(image, ctx);
             }
         }
-    }, [image, canvasRef.current]);
+    }, [image, imageCanvasRef.current]);
 
     useEffect(() => {
         initializeCanvas();
@@ -291,6 +289,13 @@ const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
                 ) : null}
             <Modal show={isShowingModal} onHide={() => setIsShowingModal(false)} fullscreen={true}>
                 <canvas
+                    ref={imageCanvasRef}
+                    width={width}
+                    height={height}
+                    className={'position-absolute w-100 h-100 z-index-0'}
+                />
+                <canvas
+                    ref={canvasRef}
                     width={width}
                     height={height}
                     onMouseDown={(e) => {
@@ -311,9 +316,8 @@ const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
                     }}
                     onTouchEnd={(e) => setIsClickingOrTouching(false)}
                     onTouchMove={(e) => isLoading ? {} : onTouchMove(canvasRef, e)}
-                    ref={canvasRef}
                     style={{
-                        border: '2px solid turquoise',
+                        zIndex: 1,
                         overflow: 'hidden',
                         touchAction: 'pinch-zoom'
                     }}
