@@ -8,9 +8,7 @@ import FormControl from 'react-bootstrap/FormControl'
 import Button from 'react-bootstrap/Button';
 import './Navigation.css';
 import { GroupingsLabels } from '../../models/Artwork';
-import useArtworks from '../../hooks/useArtworks';
 import { Spinner } from 'react-bootstrap';
-import useScreenSize from '../../hooks/useScreenSize';
 import { BsSearch } from 'react-icons/bs';
 import useArtworksMetadata from '../../hooks/useArtworksMetadata';
 import { AuthenticationContext } from '../providers/AuthenticationProvider';

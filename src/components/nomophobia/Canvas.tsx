@@ -325,6 +325,9 @@ const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
                 <Stack
                     direction={'horizontal'}
                     className={'position-fixed w-100'}
+                    style={{
+                        zIndex: 1000
+                    }}
                 >
                     <Button
                         onClick={() => setShowDrawingUtilities(!showDrawingUtilities)}
