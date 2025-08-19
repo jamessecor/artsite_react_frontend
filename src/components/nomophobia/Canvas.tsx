@@ -67,6 +67,7 @@ const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
     const mediumPressed = useKeyPress('3', false);
     const largePressed = useKeyPress('4', false);
     const hugePressed = useKeyPress('5', false);
+    const humongousPressed = useKeyPress('6', false);
 
     const drawLine = (ctx: CanvasRenderingContext2D, line: ILine) => {
         ctx.fillStyle = line.color;
@@ -262,6 +263,12 @@ const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
     }, [hugePressed]);
 
     useEffect(() => {
+        if (humongousPressed) {
+            setLineWidth(200);
+        }
+    }, [humongousPressed]);
+
+    useEffect(() => {
         const canvas = imageCanvasRef.current;
         if (canvas !== null) {
             const ctx = canvas.getContext('2d');
@@ -287,7 +294,11 @@ const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
                         {'Launch'}
                     </Button>
                 ) : null}
-            <Modal show={isShowingModal} onHide={() => setIsShowingModal(false)} fullscreen={true}>
+            <Modal 
+                show={isShowingModal} 
+                onHide={() => setIsShowingModal(false)} 
+                fullscreen={true}
+            >
                 <canvas
                     ref={imageCanvasRef}
                     width={width}
@@ -332,6 +343,7 @@ const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
                     <Button
                         onClick={() => setShowDrawingUtilities(!showDrawingUtilities)}
                         variant={'outline'}
+                        className={'text-light'}
                     >
                         <RiSettings5Fill />
                     </Button>
@@ -341,12 +353,14 @@ const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
                                 <Button
                                     onClick={() => undo()}
                                     variant={'outline'}
+                                    className={'text-light'}
                                 >
                                     <BiUndo />
                                 </Button>
                                 <Button
                                     onClick={() => redo()}
                                     variant={'outline'}
+                                    className={'text-light'}
                                 >
                                     <BiRedo />
                                 </Button>
@@ -368,15 +382,10 @@ const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
                         closeButton
                     >
                         <Stack
-                            gap={2}
-                            direction={'horizontal'}
                             className={'me-auto text-center'}
                         >
                             <p>
-                                {'Drawing Settings'}
-                            </p>
-                            <p>
-                                {'[ctrl + m]'}
+                                {'Drawing Settings [g]'}
                             </p>
                         </Stack>
                     </Offcanvas.Header>
@@ -414,6 +423,39 @@ const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
                             >
                                 {'Exit to site'}
                             </Button>
+                            <h3>
+                                {'Keyboard Shortcuts'}
+                            </h3>
+                            <p>
+                                {'Undo [ctrl + left arrow]'}
+                            </p>
+                            <p>
+                                {'Redo [ctrl + right arrow]'}
+                            </p>
+                            <p>
+                                {'Eraser [ctrl + e]'}
+                            </p>
+                            <p>
+                                {'Drawing [ctrl + d]'}
+                            </p>
+                            <p>
+                                {'Tiny [ctrl + 1]'}
+                            </p>
+                            <p>
+                                {'Small [ctrl + 2]'}
+                            </p>
+                            <p>
+                                {'Medium [ctrl + 3]'}
+                            </p>
+                            <p>
+                                {'Large [ctrl + 4]'}
+                            </p>
+                            <p>
+                                {'Huge [ctrl + 5]'}
+                            </p>
+                            <p>
+                                {'Humongous [ctrl + 6]'}
+                            </p>
                         </Stack>
                     </Offcanvas.Body>
                 </Navbar.Offcanvas>

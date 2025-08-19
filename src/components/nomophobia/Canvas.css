@@ -1,3 +1,7 @@
 canvas {
     cursor: crosshair;
 }
+
+.modal-content {
+    background-color: black !important;
+}

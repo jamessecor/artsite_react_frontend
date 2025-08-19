@@ -22,7 +22,7 @@ const DrawingUtilities: React.FC<IDrawingUtilitiesProps> = ({ color, width, onWi
                 {isErasing ? 'Erasing' : 'Drawing'}
             </Button>
             <ButtonGroup>
-                {[2, 4, 8, 16, 50].map((widthOption) => (
+                {[2, 4, 8, 16, 50, 200].map((widthOption) => (
                     <ToggleButton
                         id={widthOption.toString()}
                         key={widthOption}
