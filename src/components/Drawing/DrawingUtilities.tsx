@@ -41,6 +41,19 @@ const DrawingUtilities: React.FC<IDrawingUtilitiesProps> = ({ color, width, onWi
                 color={color}
                 onChange={(newColor) => onColorChange(newColor.rgb)}
                 onChangeComplete={(newColor) => onColorChange(newColor.rgb)}
+                styles={{
+                    default: {
+                        hue: {
+                            minHeight: '25px'
+                        },
+                        alpha: {
+                            minHeight: '25px'
+                        },
+                        activeColor: {
+                            minHeight: '55px'
+                        }
+                    }
+                }}
             />
         </Stack>
     )

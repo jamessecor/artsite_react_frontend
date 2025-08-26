@@ -433,28 +433,28 @@ const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
                                 {'Redo [ctrl + right arrow]'}
                             </p>
                             <p>
-                                {'Eraser [ctrl + e]'}
+                                {'[e] Eraser'}
                             </p>
                             <p>
-                                {'Drawing [ctrl + d]'}
+                                {'[d] Drawing'}
                             </p>
                             <p>
-                                {'Tiny [ctrl + 1]'}
+                                {'[1] Tiny'}
                             </p>
                             <p>
-                                {'Small [ctrl + 2]'}
+                                {'[2] Small'}
                             </p>
                             <p>
-                                {'Medium [ctrl + 3]'}
+                                {'[3] Medium'}
                             </p>
                             <p>
-                                {'Large [ctrl + 4]'}
+                                {'[4] Large'}
                             </p>
                             <p>
-                                {'Huge [ctrl + 5]'}
+                                {'[5] Huge'}
                             </p>
                             <p>
-                                {'Humongous [ctrl + 6]'}
+                                {'[6] Humongous'}
                             </p>
                         </Stack>
                     </Offcanvas.Body>
