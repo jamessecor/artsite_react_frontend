@@ -205,6 +205,17 @@ const ArtworkForm: React.FC<IArtworkFormProps> = ({ attributes, isInFormMode, is
                                                     type="text"
                                                 />
                                             </Form.Group>
+                                            <Form.Group className="mb-3" controlId="salePrice">
+                                                <Form.Label>sale price (including tax)</Form.Label>
+                                                <Form.Control
+                                                    onChange={(e) => setCurrentAttributes({
+                                                        ...currentAttributes,
+                                                        salePrice: e.target.value
+                                                    })}
+                                                    value={currentAttributes.salePrice}
+                                                    type="text"
+                                                />
+                                            </Form.Group>
                                             <Form.Group className="mb-3" controlId="width">
                                                 <Form.Label>{'width'}</Form.Label>
                                                 <Form.Control
