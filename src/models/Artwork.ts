@@ -74,6 +74,11 @@ export const iArtworkToFormData = (iArtwork: IArtwork): IArtworkFormData => {
 };
 
 export const getImageSrc = (images: Array<IImage>) => {
-    const sortedImages = images.sort((a, b) => b.size - a.size);
-    return sortedImages.length > 0 ? sortedImages[0].url : undefined;
+    if (images.length === 1) {
+        return images[0].url;
+    }
+    if (images.length === 0) {
+        return undefined;
+    }
+    return images.sort((a, b) => Number(a.size) - Number(b.size))[1].url;
 }
