@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useContext, useMemo, useState } from 'react';
 import { BackgroundColorContext, isTooLightForDarkTheme } from "./providers/BackgroundColorProvider";
-import { Col, Container, Row, Spinner } from 'react-bootstrap';
+import { Col, Container, Row, Spinner, ButtonGroup, Button } from 'react-bootstrap';
 import useSoldArtworks from '../hooks/useSoldArtworks';
 import { TaxStatus } from '../models/Artwork';
 import { BsToggle2Off as BsToggle2OffIcon, BsToggle2On as BsToggle2OnIcon } from 'react-icons/bs';
@@ -12,6 +12,7 @@ import axios from 'axios';
 import ArtworkForm from './ArtworkForm';
 import Artwork from './Artwork';
 import { AuthenticationContext } from './providers/AuthenticationProvider';
+import { MdCheck, MdOutlineCheck } from 'react-icons/md';
 
 export const roundToDollar = (n: number) => Math.round(n * 100) / 100;
 
@@ -24,15 +25,42 @@ const SoldArtworks = () => {
     const { isLoggedIn } = useContext(AuthenticationContext);
     const { color } = useContext(BackgroundColorContext);
     const textColorClass = isTooLightForDarkTheme(color.r, color.g, color.b) ? 'dark-text' : 'light-text';
-    const endOfMonth = new Date();
-    endOfMonth.setMonth(endOfMonth.getMonth() + 1);
-    endOfMonth.setDate(-1);
 
-    const beginningOfMonth = new Date();
-    beginningOfMonth.setDate(0);
+    const now = new Date();
+    const currentMonth = now.getMonth();
+    const currentYear = now.getFullYear();
 
-    const [startDate, setStartDate] = useState(beginningOfMonth);
-    const [endDate, setEndDate] = useState(endOfMonth);
+    // Determine the start month of the current quarter (0-based)
+    const currentQuarterStartMonth = Math.floor(currentMonth / 3) * 3;
+
+    // Calculate the start of the last quarter
+    const lastQuarterStartMonth = currentQuarterStartMonth - 3;
+    const lastQuarterYear = lastQuarterStartMonth < 0 ? currentYear - 1 : currentYear;
+    const adjustedLastQuarterStartMonth = (lastQuarterStartMonth + 12) % 12;
+
+    // Set beginning of last quarter (e.g., July 1 for Q3)
+    const beginningOfLastQuarter = new Date(lastQuarterYear, adjustedLastQuarterStartMonth, 1);
+
+    // Set end of last quarter (e.g., September 30 for Q3)
+    const endOfLastQuarter = new Date(lastQuarterYear, adjustedLastQuarterStartMonth + 3, 0);
+
+    const [startDate, setStartDate] = useState(beginningOfLastQuarter);
+    const [endDate, setEndDate] = useState(endOfLastQuarter);
+
+    const [year, setYear] = useState(currentYear);
+    const [quarter, setQuarter] = useState(1);
+
+    const handleQuarterSelect = (quarter: number, year: number) => {
+        // Calculate the start month (0-based: 0=Jan, 3=Apr, 6=Jul, 9=Oct)
+        const startMonth = (quarter - 1) * 3;
+        const startDate = new Date(year, startMonth, 1);
+        const endDate = new Date(year, startMonth + 3, 0); // Last day of the quarter
+
+        setStartDate(startDate);
+        setEndDate(endDate);
+        setQuarter(quarter);
+        setYear(year);
+    };
 
     const { soldArtworksQuery: { data: soldArtworks, isPending: isLoadingArtworks } } = useSoldArtworks({
         startDate: startDate,
@@ -62,6 +90,43 @@ const SoldArtworks = () => {
 
     return (
         <Container fluid={'sm'} className="align-items-center">
+            <Row className={textColorClass}>
+                <Col sm={12} className="mb-3">
+                    <div className="d-flex justify-content-between align-items-center">
+                        <h2>Sales by Quarter</h2>
+                        <div className="d-flex gap-2">
+                            <ButtonGroup size="sm">
+                                {[1, 2, 3, 4].map((q) => (
+                                    <Button
+                                        key={q}
+                                        variant="outline-secondary"
+                                        active={quarter === q}
+                                        onClick={() => handleQuarterSelect(q, year)}
+                                    >
+                                        Q{q}
+                                    </Button>
+                                ))}
+                            </ButtonGroup>
+                            <ButtonGroup size="sm" className="ms-2">
+                                <Button
+                                    active={year === currentYear - 1}
+                                    variant="outline-secondary"
+                                    onClick={() => handleQuarterSelect(quarter, currentYear - 1)}
+                                >
+                                    {currentYear - 1}
+                                </Button>
+                                <Button
+                                    active={year === currentYear}
+                                    variant="outline-secondary"
+                                    onClick={() => handleQuarterSelect(quarter, currentYear)}
+                                >
+                                    {currentYear}
+                                </Button>
+                            </ButtonGroup>
+                        </div>
+                    </div>
+                </Col>
+            </Row>
             <Row className={textColorClass}>
                 <Col sm={4} >
                     Start
@@ -100,7 +165,7 @@ const SoldArtworks = () => {
                                 return (
                                     <tr
                                         key={artwork._id}
-                                        className={artwork.taxStatus === 'paid' ? 'table-success' : ''}
+                                        className={artwork.taxStatus === 'paid' ? '' : 'table-secondary'}
                                     >
                                         <td>{artwork.title}</td>
                                         <td className="text-end">${priceWithoutTax.toFixed(2)}</td>
@@ -108,14 +173,15 @@ const SoldArtworks = () => {
                                         <td className="text-end fw-bold">${totalPrice.toFixed(2)}</td>
                                         <td>
                                             <button
-                                                className={`btn btn-sm ${artwork.taxStatus === 'paid' ? 'btn-success' : 'btn-outline-secondary'}`}
+                                                className={`btn btn-sm ${artwork.taxStatus === 'paid' ? 'btn-success' : 'btn-outline-success'}`}
                                                 onClick={() => mutate({
                                                     id: artwork._id!,
                                                     taxStatus: artwork.taxStatus === 'paid' ? 'unpaid' : 'paid'
                                                 })}
                                                 disabled={isSavingTaxStatus}
                                             >
-                                                {artwork.taxStatus === 'paid' ? 'Tax Paid' : 'Mark as Paid'}
+                                                <span>{artwork.taxStatus === 'paid' ? 'Tax Paid' : 'Mark as Paid'}</span>
+                                                <span className="ms-2">{artwork.taxStatus === 'paid' ? <MdCheck /> : null}</span>
                                             </button>
                                         </td>
                                     </tr>
