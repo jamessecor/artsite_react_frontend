@@ -10,6 +10,8 @@ const BsToggle2On = BsToggle2OnIcon as React.ComponentType<any>;
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import ArtworkForm from './ArtworkForm';
+import Artwork from './Artwork';
+import { AuthenticationContext } from './providers/AuthenticationProvider';
 
 export const roundToDollar = (n: number) => Math.round(n * 100) / 100;
 
@@ -19,6 +21,7 @@ interface IArtworkTaxStatusUpdateModel {
 }
 
 const SoldArtworks = () => {
+    const { isLoggedIn } = useContext(AuthenticationContext);
     const { color } = useContext(BackgroundColorContext);
     const textColorClass = isTooLightForDarkTheme(color.r, color.g, color.b) ? 'dark-text' : 'light-text';
     const endOfMonth = new Date();
@@ -95,7 +98,7 @@ const SoldArtworks = () => {
                                 const tax = artwork.taxStatus === 'paid' ? 0 : priceWithoutTax * taxRate;
 
                                 return (
-                                    <tr 
+                                    <tr
                                         key={artwork._id}
                                         className={artwork.taxStatus === 'paid' ? 'table-success' : ''}
                                     >
@@ -104,7 +107,7 @@ const SoldArtworks = () => {
                                         <td className="text-end">${tax.toFixed(2)}</td>
                                         <td className="text-end fw-bold">${totalPrice.toFixed(2)}</td>
                                         <td>
-                                            <button 
+                                            <button
                                                 className={`btn btn-sm ${artwork.taxStatus === 'paid' ? 'btn-success' : 'btn-outline-secondary'}`}
                                                 onClick={() => mutate({
                                                     id: artwork._id!,
@@ -120,7 +123,7 @@ const SoldArtworks = () => {
                             })
                         )}
                         {soldArtworks && soldArtworks.length > 0 && (
-                            <tr className="table-active fw-bold">
+                            <tr className="table-primary fw-bold">
                                 <td colSpan={2} className="text-end">Subtotal:</td>
                                 <td className="text-end">
                                     ${soldArtworks
@@ -148,7 +151,9 @@ const SoldArtworks = () => {
                     ? (soldArtworks?.map((artwork, i) => {
                         return (
                             <Col key={`${artwork._id}-${artwork.title}`} className="my-4 px-4">
-                                <ArtworkForm attributes={artwork} isInFormMode={false} isInArrangementMode={true} onResponse={() => {}} />
+                                {isLoggedIn
+                                    ? <ArtworkForm attributes={artwork} isInFormMode={false} isInArrangementMode={true} onResponse={() => { }} />
+                                    : <Artwork attributes={artwork} />}
                             </Col>
                         )
                     }))
