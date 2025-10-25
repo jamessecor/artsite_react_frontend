@@ -13,6 +13,7 @@ import ArtworkForm from './ArtworkForm';
 import Artwork from './Artwork';
 import { AuthenticationContext } from './providers/AuthenticationProvider';
 import { MdCheck, MdOutlineCheck } from 'react-icons/md';
+import { getTaxCalculations } from '../utils/taxHelpers';
 
 export const roundToDollar = (n: number) => Math.round(n * 100) / 100;
 
@@ -66,11 +67,6 @@ const SoldArtworks = () => {
         startDate: startDate,
         endDate: endDate
     });
-
-    const total = useMemo(() => soldArtworks
-        ? soldArtworks.map((soldArtwork) => soldArtwork.taxStatus === 'paid' ? '0' : soldArtwork.salePrice ?? soldArtwork.price)
-            .reduce((sum, b) => sum + parseFloat(b), 0)
-        : 0, [soldArtworks]);
 
     const queryClient = useQueryClient();
     const { isPending: isSavingTaxStatus, mutate } = useMutation({
@@ -143,7 +139,8 @@ const SoldArtworks = () => {
                         <tr>
                             <th>Artwork</th>
                             <th className="text-end">Price</th>
-                            <th className="text-end">Tax ({new Date().getFullYear()}%)</th>
+                            <th className="text-end">Tax (VT State 6%)</th>
+                            <th className="text-end">Tax (Local Option 1%)</th>
                             <th className="text-end">Total</th>
                             <th>Tax Status</th>
                         </tr>
@@ -157,10 +154,7 @@ const SoldArtworks = () => {
                             </tr>
                         ) : (
                             soldArtworks?.map((artwork) => {
-                                const totalPrice = parseFloat(artwork.salePrice ?? artwork.price);
-                                const priceWithoutTax = totalPrice / 1.06;
-                                const taxRate = 0.06;
-                                const tax = artwork.taxStatus === 'paid' ? 0 : priceWithoutTax * taxRate;
+                                const { basePrice, stateTax, localTax, totalTax, totalWithTax } = getTaxCalculations(artwork.salePrice ?? artwork.price);
 
                                 return (
                                     <tr
@@ -168,9 +162,10 @@ const SoldArtworks = () => {
                                         className={artwork.taxStatus === 'paid' ? '' : 'table-secondary'}
                                     >
                                         <td>{artwork.title}</td>
-                                        <td className="text-end">${priceWithoutTax.toFixed(2)}</td>
-                                        <td className="text-end">${tax.toFixed(2)}</td>
-                                        <td className="text-end fw-bold">${totalPrice.toFixed(2)}</td>
+                                        <td className="text-end">${basePrice.toFixed(2)}</td>
+                                        <td className="text-end">${stateTax.toFixed(2)}</td>
+                                        <td className="text-end">${localTax.toFixed(2)}</td>
+                                        <td className="text-end fw-bold">${totalWithTax.toFixed(2)}</td>
                                         <td>
                                             <button
                                                 className={`btn btn-sm ${artwork.taxStatus === 'paid' ? 'btn-success' : 'btn-outline-success'}`}
@@ -190,19 +185,30 @@ const SoldArtworks = () => {
                         )}
                         {soldArtworks && soldArtworks.length > 0 && (
                             <tr className="table-primary fw-bold">
-                                <td colSpan={2} className="text-end">Subtotal:</td>
+                                <td className="text-end">Subtotal:</td>
                                 <td className="text-end">
                                     ${soldArtworks
                                         .filter(a => a.taxStatus !== 'paid')
-                                        .reduce((sum, a) => sum + (parseFloat(a.salePrice ?? a.price) * 0.06), 0)
+                                        .reduce((sum, a) => sum + getTaxCalculations(a.salePrice ?? a.price).basePrice, 0)
+                                        .toFixed(2)}
+                                </td>
+                                <td className="text-end">
+                                    ${soldArtworks
+                                        .filter(a => a.taxStatus !== 'paid')
+                                        .reduce((sum, a) => sum + getTaxCalculations(a.salePrice ?? a.price).stateTax, 0)
+                                        .toFixed(2)}
+                                </td>
+                                <td className="text-end">
+                                    ${soldArtworks
+                                        .filter(a => a.taxStatus !== 'paid')
+                                        .reduce((sum, a) => sum + getTaxCalculations(a.salePrice ?? a.price).localTax, 0)
                                         .toFixed(2)}
                                 </td>
                                 <td className="text-end">
                                     ${soldArtworks
                                         .reduce((sum, a) => {
-                                            const price = parseFloat(a.salePrice ?? a.price);
-                                            const tax = a.taxStatus === 'paid' ? 0 : price * 0.06;
-                                            return sum + price + tax;
+                                            const { basePrice, stateTax, localTax, totalTax, totalWithTax } = getTaxCalculations(a.salePrice ?? a.price);
+                                            return sum + totalWithTax;
                                         }, 0)
                                         .toFixed(2)}
                                 </td>
