@@ -57,10 +57,10 @@ export const calculateTotalWithTax = (basePrice: number): number => {
  * @returns Object containing all tax-related calculations
  */
 export const getTaxCalculations = (price: string | number, isPriceWithTax: boolean = true) => {
-    const basePrice = isPriceWithTax 
+    const basePrice = isPriceWithTax
         ? calculatePriceWithoutTax(price)
         : typeof price === 'string' ? parseFloat(price) : price;
-        
+
     const stateTax = calculateStateTax(basePrice);
     const localTax = calculateLocalTax(basePrice);
     const totalTax = calculateTotalTax(basePrice);

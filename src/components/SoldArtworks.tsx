@@ -1,18 +1,15 @@
 import * as React from 'react';
-import { useContext, useMemo, useState } from 'react';
+import { useContext, useState } from 'react';
 import { BackgroundColorContext, isTooLightForDarkTheme } from "./providers/BackgroundColorProvider";
 import { Col, Container, Row, Spinner, ButtonGroup, Button } from 'react-bootstrap';
 import useSoldArtworks from '../hooks/useSoldArtworks';
 import { TaxStatus } from '../models/Artwork';
-import { BsToggle2Off as BsToggle2OffIcon, BsToggle2On as BsToggle2OnIcon } from 'react-icons/bs';
-const BsToggle2Off = BsToggle2OffIcon as React.ComponentType<any>;
-const BsToggle2On = BsToggle2OnIcon as React.ComponentType<any>;
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import ArtworkForm from './ArtworkForm';
 import Artwork from './Artwork';
 import { AuthenticationContext } from './providers/AuthenticationProvider';
-import { MdCheck, MdOutlineCheck } from 'react-icons/md';
+import { MdCheck } from 'react-icons/md';
 import { getTaxCalculations } from '../utils/taxHelpers';
 
 export const roundToDollar = (n: number) => Math.round(n * 100) / 100;
@@ -49,7 +46,7 @@ const SoldArtworks = () => {
     const [endDate, setEndDate] = useState(endOfLastQuarter);
 
     const [year, setYear] = useState(currentYear);
-    const [quarter, setQuarter] = useState(1);
+    const [quarter, setQuarter] = useState(currentQuarterStartMonth / 3 || 1);
 
     const handleQuarterSelect = (quarter: number, year: number) => {
         // Calculate the start month (0-based: 0=Jan, 3=Apr, 6=Jul, 9=Oct)
@@ -141,6 +138,7 @@ const SoldArtworks = () => {
                             <th className="text-end">Price</th>
                             <th className="text-end">Tax (VT State 6%)</th>
                             <th className="text-end">Tax (Local Option 1%)</th>
+                            <th className="text-end">Total Tax</th>
                             <th className="text-end">Total</th>
                             <th>Tax Status</th>
                         </tr>
@@ -165,6 +163,7 @@ const SoldArtworks = () => {
                                         <td className="text-end">${basePrice.toFixed(2)}</td>
                                         <td className="text-end">${stateTax.toFixed(2)}</td>
                                         <td className="text-end">${localTax.toFixed(2)}</td>
+                                        <td className="text-end">${totalTax.toFixed(2)}</td>
                                         <td className="text-end fw-bold">${totalWithTax.toFixed(2)}</td>
                                         <td>
                                             <button
@@ -183,38 +182,37 @@ const SoldArtworks = () => {
                                 );
                             })
                         )}
-                        {soldArtworks && soldArtworks.length > 0 && (
-                            <tr className="table-primary fw-bold">
-                                <td className="text-end">Subtotal:</td>
-                                <td className="text-end">
-                                    ${soldArtworks
-                                        .filter(a => a.taxStatus !== 'paid')
-                                        .reduce((sum, a) => sum + getTaxCalculations(a.salePrice ?? a.price).basePrice, 0)
-                                        .toFixed(2)}
-                                </td>
-                                <td className="text-end">
-                                    ${soldArtworks
-                                        .filter(a => a.taxStatus !== 'paid')
-                                        .reduce((sum, a) => sum + getTaxCalculations(a.salePrice ?? a.price).stateTax, 0)
-                                        .toFixed(2)}
-                                </td>
-                                <td className="text-end">
-                                    ${soldArtworks
-                                        .filter(a => a.taxStatus !== 'paid')
-                                        .reduce((sum, a) => sum + getTaxCalculations(a.salePrice ?? a.price).localTax, 0)
-                                        .toFixed(2)}
-                                </td>
-                                <td className="text-end">
-                                    ${soldArtworks
-                                        .reduce((sum, a) => {
-                                            const { basePrice, stateTax, localTax, totalTax, totalWithTax } = getTaxCalculations(a.salePrice ?? a.price);
-                                            return sum + totalWithTax;
-                                        }, 0)
-                                        .toFixed(2)}
-                                </td>
-                                <td></td>
-                            </tr>
-                        )}
+                        {soldArtworks && soldArtworks.length > 0 && (() => {
+                            // Calculate all totals in a single reduce pass
+                            const { subtotal, stateTaxTotal, localTaxTotal, totalTaxTotal, grandTotal } = soldArtworks.reduce(
+                                (acc, artwork) => {
+                                    const { basePrice, stateTax, localTax, totalTax, totalWithTax } = getTaxCalculations(artwork.salePrice ?? artwork.price);
+
+                                    if (artwork.taxStatus !== 'paid') {
+                                        acc.subtotal += basePrice;
+                                        acc.stateTaxTotal += stateTax;
+                                        acc.localTaxTotal += localTax;
+                                        acc.totalTaxTotal += totalTax;
+                                    }
+                                    acc.grandTotal += totalWithTax;
+
+                                    return acc;
+                                },
+                                { subtotal: 0, stateTaxTotal: 0, localTaxTotal: 0, totalTaxTotal: 0, grandTotal: 0 }
+                            );
+
+                            return (
+                                <tr className="table-primary fw-bold">
+                                    <td className="text-end">Subtotal:</td>
+                                    <td className="text-end">${subtotal.toFixed(2)}</td>
+                                    <td className="text-end">${stateTaxTotal.toFixed(2)}</td>
+                                    <td className="text-end">${localTaxTotal.toFixed(2)}</td>
+                                    <td className="text-end">${totalTaxTotal.toFixed(2)}</td>
+                                    <td className="text-end">${grandTotal.toFixed(2)}</td>
+                                    <td></td>
+                                </tr>
+                            );
+                        })()}
                     </tbody>
                 </table>
             </div>
