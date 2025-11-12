@@ -47,6 +47,9 @@ export interface IArtwork {
     arrangement?: number;
     grouping?: Array<Groupings>;
     buyerID?: string;
+    buyerName?: string;
+    buyerEmail?: string;
+    buyerPhone?: string;
     saleDate?: Date | null;
     taxStatus?: TaxStatus;
     salePrice?: string;
@@ -54,6 +57,7 @@ export interface IArtwork {
     isNFS?: boolean;
     likes?: Array<ILike>;
     totalLikes?: number;
+    location?: string;
 };
 
 export const ArtworkAttributes = {
@@ -64,7 +68,11 @@ export const ArtworkAttributes = {
         images: [],
         price: '',
         width: '',
-        height: ''
+        height: '',
+        buyerName: '',
+        buyerEmail: '',
+        buyerPhone: '',
+        location: '',
     })
 }
 

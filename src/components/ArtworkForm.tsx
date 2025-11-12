@@ -264,6 +264,50 @@ const ArtworkForm: React.FC<IArtworkFormProps> = ({ attributes, isInFormMode, is
                                                     type="date"
                                                 />
                                             </Form.Group>
+                                            <Form.Group className="mb-3" controlId="buyerName">
+                                                <Form.Label>{'Buyer Name'}</Form.Label>
+                                                <Form.Control
+                                                    onChange={(e) => setCurrentAttributes({
+                                                        ...currentAttributes,
+                                                        buyerName: e.target.value
+                                                    })}
+                                                    value={currentAttributes.buyerName}
+                                                    type="text"
+                                                />
+                                            </Form.Group>
+                                            <Form.Group className="mb-3" controlId="buyerEmail">
+                                                <Form.Label>{'Buyer Email'}</Form.Label>
+                                                <Form.Control
+                                                    onChange={(e) => setCurrentAttributes({
+                                                        ...currentAttributes,
+                                                        buyerEmail: e.target.value
+                                                    })}
+                                                    value={currentAttributes.buyerEmail}
+                                                    type="text"
+                                                />
+                                            </Form.Group>
+                                            <Form.Group className="mb-3" controlId="buyerPhone">
+                                                <Form.Label>{'Buyer Phone'}</Form.Label>
+                                                <Form.Control
+                                                    onChange={(e) => setCurrentAttributes({
+                                                        ...currentAttributes,
+                                                        buyerPhone: e.target.value
+                                                    })}
+                                                    value={currentAttributes.buyerPhone}
+                                                    type="text"
+                                                />
+                                            </Form.Group>
+                                            <Form.Group className="mb-3" controlId="location">
+                                                <Form.Label>{'Location'}</Form.Label>
+                                                <Form.Control
+                                                    onChange={(e) => setCurrentAttributes({
+                                                        ...currentAttributes,
+                                                        location: e.target.value
+                                                    })}
+                                                    value={currentAttributes.location}
+                                                    type="text"
+                                                />
+                                            </Form.Group>
                                             <Form.Group className="mb-3" controlId="isNFS">
                                                 <Form.Check
                                                     label={'NFS'}
