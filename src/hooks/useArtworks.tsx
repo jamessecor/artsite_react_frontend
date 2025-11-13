@@ -23,7 +23,10 @@ const useArtworks = ({ year, grouping, isHomePage, search }: IArtworksQuery) => 
 
     const artworksQuery = useQuery<IArtworkResponse, Error, Array<IArtwork>>({
         queryKey: ['artworks', year, grouping, search],
-        queryFn: () => axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/artworks?${searchParams.toString()}`),
+        queryFn: () => {
+            axios.defaults.headers.get['Authorization'] = sessionStorage.getItem('artsite-token');
+            return axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/artworks?${searchParams.toString()}`);
+        },
         select: (responseData) => responseData.data
     });
 
