@@ -318,7 +318,6 @@ const ArtworkInventory: React.FC = () => {
           {selectedArtwork && (
             <ArtworkForm
               attributes={selectedArtwork}
-              isInFormMode={true}
               onResponse={handleSaveSuccess}
             />
           )}

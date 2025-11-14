@@ -1,6 +1,6 @@
 import * as React from "react"
 import { useCallback, useEffect, useContext, useMemo, useState } from "react"
-import { Button, Col, Form, Spinner, Stack } from 'react-bootstrap';
+import { Button, Col, Form, Modal, Spinner, Stack } from 'react-bootstrap';
 import { BackgroundColorContext, textColor } from "./providers/BackgroundColorProvider";
 import { ArtworkAttributes, getImageSrc, Groupings, IArtwork, iArtworkToFormData, IImage } from "../models/Artwork";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -32,20 +32,17 @@ interface IArtworkDeleteFormResponse {
 
 interface IArtworkFormProps {
     attributes: IArtwork;
-    isInFormMode: boolean;
     onResponse: (response: IResponseType) => void;
 }
 
-const ArtworkForm: React.FC<IArtworkFormProps> = ({ attributes, isInFormMode, onResponse }) => {
+const ArtworkForm: React.FC<IArtworkFormProps> = ({ attributes, onResponse }) => {
     const { color } = useContext(BackgroundColorContext);
-    const [isShowingForm, setIsShowingForm] = useState(isInFormMode);
+    const [showModal, setShowModal] = useState(false);
     const [currentAttributes, setCurrentAttributes] = useState<IArtworkFormData>(iArtworkToFormData(attributes));
     const [id, setId] = useState(attributes._id);
     const [newImages, setNewImages] = useState<Array<IImage> | null>(null);
     const images = useMemo(() => newImages ?? attributes.images, [newImages, attributes.images]);
     const imageSrc = useMemo(() => getImageSrc(images), [images]);
-
-    useEffect(() => setIsShowingForm(isInFormMode), [isInFormMode]);
 
     const queryClient = useQueryClient();
 
@@ -130,7 +127,8 @@ const ArtworkForm: React.FC<IArtworkFormProps> = ({ attributes, isInFormMode, on
                         alt={currentAttributes.title}
                         src={imageSrc}
                         width={'100%'}
-                        onClick={() => setIsShowingForm(!isShowingForm)}
+                        onClick={() => setShowModal(true)}
+                        style={{ cursor: 'pointer' }}
                     />
                     <div style={{ top: 0, right: 0, position: 'absolute', display: 'd-flex flex-row' }}>
                         {images.map((image) => (
@@ -148,26 +146,33 @@ const ArtworkForm: React.FC<IArtworkFormProps> = ({ attributes, isInFormMode, on
                         ))}
                     </div>
                 </div>
-                {isShowingForm && (
-                    <Form onSubmit={handleSubmit}>
-                        <ArtworkFormFields
-                            currentAttributes={currentAttributes}
-                            setCurrentAttributes={setCurrentAttributes}
-                            isPending={isPending}
-                            id={id}
-                        />
-                    </Form>
-                )}
-                {id && isShowingForm && (
-                    <Form onSubmit={handleDelete}>
-                        <Button disabled={deleteMutation.isPending} className={'w-100 mt-2'} type={'submit'} variant={'danger'}>
-                            {deleteMutation.isPending
-                                ? <Spinner variant={'info'} animation={'border'} className={'text-center'} />
-                                : 'Delete'
-                            }
-                        </Button>
-                    </Form>
-                )}
+                <Modal className="w-100" show={showModal} onHide={() => setShowModal(false)} size="xl" centered>
+                    <Modal.Header closeButton>
+                        <Modal.Title>{id ? 'Edit Artwork' : 'Add New Artwork'}</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <Form onSubmit={handleSubmit}>
+                            <ArtworkFormFields
+                                currentAttributes={currentAttributes}
+                                setCurrentAttributes={setCurrentAttributes}
+                                isPending={isPending}
+                                id={id}
+                            />
+                            {id && (
+                                <Button
+                                    variant="danger"
+                                    className="w-100 mt-3"
+                                    onClick={handleDelete}
+                                    disabled={deleteMutation.isPending}
+                                >
+                                    {deleteMutation.isPending ? (
+                                        <Spinner variant="light" size="sm" />
+                                    ) : 'Delete'}
+                                </Button>
+                            )}
+                        </Form>
+                    </Modal.Body>
+                </Modal>
             </Stack>
         </Col>
     );

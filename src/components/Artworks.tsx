@@ -42,7 +42,6 @@ const Artworks = ({ current = false }: IArtworkProps) => {
         search: searchTerm
     });
     const [newArtworks, setNewArtworks] = useState<Array<IArtwork>>([]);
-    const [isInFormMode, setIsInFormMode] = useState(false);
     const [responseToasts, setResponseToasts] = useState<Array<IResponseType>>([]);
     const navigateTo = useNavigate();
 
@@ -106,13 +105,6 @@ const Artworks = ({ current = false }: IArtworkProps) => {
                                 <Button variant={'secondary'} className={'w-100'} onClick={removeNewArtwork}>{'-'}</Button>
                             </Col>
                         </Row>
-                        <Stack gap={2} className={`position-fixed bottom-0 end-0 mb-${adminButtonsMarginBottom} me-1`}>
-                            <Button variant={'outline-info'} onClick={() => setIsInFormMode(!isInFormMode)}>
-                                {isInFormMode
-                                    ? <IoImage />
-                                    : <FaWpforms />}
-                            </Button>
-                        </Stack>
                     </React.Fragment>
                 )
                 : null}
@@ -121,7 +113,6 @@ const Artworks = ({ current = false }: IArtworkProps) => {
                     && newArtworks.map((newArtwork, index) => (
                         <ArtworkForm
                             key={index}
-                            isInFormMode={isInFormMode}
                             attributes={newArtwork}
                             onResponse={addResponseToast}
                         />
@@ -140,7 +131,7 @@ const Artworks = ({ current = false }: IArtworkProps) => {
                             ? (artworks.filter(x => isShowingSold || !(x.isNFS || x.saleDate)).sort((a, b) => (a.arrangement ?? 9999) - (b.arrangement ?? 9999)).map((artwork, i) => (
                                 <Col key={`${artwork._id}-${artwork.title}`} className="my-4 px-4">
                                     {isLoggedIn
-                                        ? <ArtworkForm attributes={artwork} isInFormMode={isInFormMode} onResponse={addResponseToast} />
+                                        ? <ArtworkForm attributes={artwork} onResponse={addResponseToast} />
                                         : <Artwork attributes={artwork} />
                                     }
                                 </Col>
