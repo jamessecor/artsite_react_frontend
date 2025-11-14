@@ -42,7 +42,6 @@ const Artworks = ({ current = false }: IArtworkProps) => {
         search: searchTerm
     });
     const [newArtworks, setNewArtworks] = useState<Array<IArtwork>>([]);
-    const [isInArrangementMode, setIsInArrangementMode] = useState(false);
     const [isInFormMode, setIsInFormMode] = useState(false);
     const [responseToasts, setResponseToasts] = useState<Array<IResponseType>>([]);
     const navigateTo = useNavigate();
@@ -108,11 +107,6 @@ const Artworks = ({ current = false }: IArtworkProps) => {
                             </Col>
                         </Row>
                         <Stack gap={2} className={`position-fixed bottom-0 end-0 mb-${adminButtonsMarginBottom} me-1`}>
-                            <Button variant={'outline-info'} onClick={() => setIsInArrangementMode(!isInArrangementMode)}>
-                                {isInArrangementMode
-                                    ? <MdViewComfy />
-                                    : <MdEdit />}
-                            </Button>
                             <Button variant={'outline-info'} onClick={() => setIsInFormMode(!isInFormMode)}>
                                 {isInFormMode
                                     ? <IoImage />
@@ -122,12 +116,11 @@ const Artworks = ({ current = false }: IArtworkProps) => {
                     </React.Fragment>
                 )
                 : null}
-            <Row xs={1} lg={isLoggedIn && !isInArrangementMode ? 6 : 4} className={'d-flex align-items-center justify-content-center'}>
+            <Row xs={1} lg={4} className={'d-flex align-items-center justify-content-center'}>
                 {isLoggedIn && newArtworks.length !== 0
                     && newArtworks.map((newArtwork, index) => (
                         <ArtworkForm
                             key={index}
-                            isInArrangementMode={isInArrangementMode}
                             isInFormMode={isInFormMode}
                             attributes={newArtwork}
                             onResponse={addResponseToast}
@@ -147,7 +140,7 @@ const Artworks = ({ current = false }: IArtworkProps) => {
                             ? (artworks.filter(x => isShowingSold || !(x.isNFS || x.saleDate)).sort((a, b) => (a.arrangement ?? 9999) - (b.arrangement ?? 9999)).map((artwork, i) => (
                                 <Col key={`${artwork._id}-${artwork.title}`} className="my-4 px-4">
                                     {isLoggedIn
-                                        ? <ArtworkForm attributes={artwork} isInFormMode={isInFormMode} isInArrangementMode={isInArrangementMode} onResponse={addResponseToast} />
+                                        ? <ArtworkForm attributes={artwork} isInFormMode={isInFormMode} onResponse={addResponseToast} />
                                         : <Artwork attributes={artwork} />
                                     }
                                 </Col>

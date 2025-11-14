@@ -11,6 +11,7 @@ import { MdLandscape as MdLandscapeIcon } from "react-icons/md";
 const MdLandscape = MdLandscapeIcon as React.ComponentType<any>;
 import { IResponseType } from "./Artworks";
 import useArtworksMetadata from "../hooks/useArtworksMetadata";
+import ArtworkFormFields from "./ArtworkFormFields";
 
 export interface IArtworkFormData extends Omit<IArtwork, '_id' | 'images'> {
     file?: File;
@@ -31,12 +32,11 @@ interface IArtworkDeleteFormResponse {
 
 interface IArtworkFormProps {
     attributes: IArtwork;
-    isInArrangementMode?: boolean;
     isInFormMode: boolean;
     onResponse: (response: IResponseType) => void;
 }
 
-const ArtworkForm: React.FC<IArtworkFormProps> = ({ attributes, isInFormMode, isInArrangementMode, onResponse }) => {
+const ArtworkForm: React.FC<IArtworkFormProps> = ({ attributes, isInFormMode, onResponse }) => {
     const { color } = useContext(BackgroundColorContext);
     const [isShowingForm, setIsShowingForm] = useState(isInFormMode);
     const [currentAttributes, setCurrentAttributes] = useState<IArtworkFormData>(iArtworkToFormData(attributes));
@@ -48,7 +48,6 @@ const ArtworkForm: React.FC<IArtworkFormProps> = ({ attributes, isInFormMode, is
     useEffect(() => setIsShowingForm(isInFormMode), [isInFormMode]);
 
     const queryClient = useQueryClient();
-    const { data: artworksMetaData, isLoading: isLoadingArtworksMetaData } = useArtworksMetadata();
 
     const deleteMutation = useMutation<IArtworkDeleteFormResponse, AxiosError>({
         mutationFn: async () => {
@@ -106,7 +105,7 @@ const ArtworkForm: React.FC<IArtworkFormProps> = ({ attributes, isInFormMode, is
                     variant: 'danger'
                 });
             }
-        }        
+        }
     });
 
     const handleDelete = useCallback((e) => {
@@ -149,243 +148,28 @@ const ArtworkForm: React.FC<IArtworkFormProps> = ({ attributes, isInFormMode, is
                         ))}
                     </div>
                 </div>
-                {
-                    isShowingForm
-                        ? (
-                            <Form onSubmit={handleSubmit}>
-                                {isInArrangementMode
-                                    ? (
-
-                                        <React.Fragment>
-                                            <Form.Group className="mb-3" controlId="image">
-                                                <Form.Label>file</Form.Label>
-                                                <input type={'file'} onChange={(e) => e.target?.files?.length ? setCurrentAttributes({ ...currentAttributes, file: e.target.files[0] }) : null} />
-                                            </Form.Group>
-                                            <Form.Group className="mb-3" controlId="title">
-                                                <Form.Label>title</Form.Label>
-                                                <Form.Control
-                                                    onChange={(e) => setCurrentAttributes({
-                                                        ...currentAttributes,
-                                                        title: e.target.value
-                                                    })}
-                                                    value={currentAttributes.title}
-                                                    type="text"
-                                                />
-                                            </Form.Group>
-                                            <Form.Group className="mb-3" controlId="year">
-                                                <Form.Label>year</Form.Label>
-                                                <Form.Control
-                                                    onChange={(e) => setCurrentAttributes({
-                                                        ...currentAttributes,
-                                                        year: e.target.value
-                                                    })}
-                                                    value={currentAttributes.year}
-                                                    type="text"
-                                                />
-                                            </Form.Group>
-                                            <Form.Group className="mb-3" controlId="media">
-                                                <Form.Label>media</Form.Label>
-                                                <Form.Control
-                                                    onChange={(e) => setCurrentAttributes({
-                                                        ...currentAttributes,
-                                                        media: e.target.value
-                                                    })}
-                                                    value={currentAttributes.media}
-                                                    type="text"
-                                                />
-                                            </Form.Group>
-                                            <Form.Group className="mb-3" controlId="price">
-                                                <Form.Label>price</Form.Label>
-                                                <Form.Control
-                                                    onChange={(e) => setCurrentAttributes({
-                                                        ...currentAttributes,
-                                                        price: e.target.value
-                                                    })}
-                                                    value={currentAttributes.price}
-                                                    type="text"
-                                                />
-                                            </Form.Group>
-                                            <Form.Group className="mb-3" controlId="salePrice">
-                                                <Form.Label>sale price (including tax)</Form.Label>
-                                                <Form.Control
-                                                    onChange={(e) => setCurrentAttributes({
-                                                        ...currentAttributes,
-                                                        salePrice: e.target.value
-                                                    })}
-                                                    value={currentAttributes.salePrice}
-                                                    type="text"
-                                                />
-                                            </Form.Group>
-                                            <Form.Group className="mb-3" controlId="width">
-                                                <Form.Label>{'width'}</Form.Label>
-                                                <Form.Control
-                                                    onChange={(e) => setCurrentAttributes({
-                                                        ...currentAttributes,
-                                                        width: e.target.value
-                                                    })}
-                                                    value={currentAttributes.width}
-                                                    type="text"
-                                                />
-                                            </Form.Group>
-                                            <Form.Group className="mb-3" controlId="height">
-                                                <Form.Label>{'height'}</Form.Label>
-                                                <Form.Control
-                                                    onChange={(e) => setCurrentAttributes({
-                                                        ...currentAttributes,
-                                                        height: e.target.value
-                                                    })}
-                                                    value={currentAttributes.height}
-                                                    type="text"
-                                                />
-                                            </Form.Group>
-                                            <Form.Group className="mb-3" controlId="grouping">
-                                                <Form.Label className={'text-break'}>
-                                                    {isLoadingArtworksMetaData
-                                                        ? 'tags'
-                                                        : artworksMetaData?.groupings}
-                                                </Form.Label>
-                                                <Form.Control
-                                                    onChange={(e) => setCurrentAttributes({
-                                                        ...currentAttributes,
-                                                        grouping: e.target.value.split(',') as Array<Groupings>
-                                                    })}
-                                                    value={currentAttributes.grouping}
-                                                    type="text"
-                                                />
-                                            </Form.Group>
-                                            <Form.Group className="mb-3" controlId="saleDate">
-                                                <Form.Label>{'Sale Date'}</Form.Label>
-                                                <Form.Control
-                                                    onChange={(e) => setCurrentAttributes({
-                                                        ...currentAttributes,
-                                                        saleDate: e.target.value === '' ? null : new Date(e.target.value)
-                                                    })}
-                                                    value={currentAttributes.saleDate ? new Date(currentAttributes.saleDate).toISOString()?.substring(0, 10) : ''}
-                                                    type="date"
-                                                />
-                                            </Form.Group>
-                                            <Form.Group className="mb-3" controlId="buyerName">
-                                                <Form.Label>{'Buyer Name'}</Form.Label>
-                                                <Form.Control
-                                                    onChange={(e) => setCurrentAttributes({
-                                                        ...currentAttributes,
-                                                        buyerName: e.target.value
-                                                    })}
-                                                    value={currentAttributes.buyerName}
-                                                    type="text"
-                                                />
-                                            </Form.Group>
-                                            <Form.Group className="mb-3" controlId="buyerEmail">
-                                                <Form.Label>{'Buyer Email'}</Form.Label>
-                                                <Form.Control
-                                                    onChange={(e) => setCurrentAttributes({
-                                                        ...currentAttributes,
-                                                        buyerEmail: e.target.value
-                                                    })}
-                                                    value={currentAttributes.buyerEmail}
-                                                    type="text"
-                                                />
-                                            </Form.Group>
-                                            <Form.Group className="mb-3" controlId="buyerPhone">
-                                                <Form.Label>{'Buyer Phone'}</Form.Label>
-                                                <Form.Control
-                                                    onChange={(e) => setCurrentAttributes({
-                                                        ...currentAttributes,
-                                                        buyerPhone: e.target.value
-                                                    })}
-                                                    value={currentAttributes.buyerPhone}
-                                                    type="text"
-                                                />
-                                            </Form.Group>
-                                            <Form.Group className="mb-3" controlId="location">
-                                                <Form.Label>{'Location'}</Form.Label>
-                                                <Form.Control
-                                                    onChange={(e) => setCurrentAttributes({
-                                                        ...currentAttributes,
-                                                        location: e.target.value
-                                                    })}
-                                                    value={currentAttributes.location}
-                                                    type="text"
-                                                />
-                                            </Form.Group>
-                                            <Form.Group className="mb-3" controlId="isNFS">
-                                                <Form.Check
-                                                    label={'NFS'}
-                                                    onChange={(e) => setCurrentAttributes({
-                                                        ...currentAttributes,
-                                                        isNFS: !currentAttributes.isNFS
-                                                    })}
-                                                    checked={currentAttributes.isNFS}
-                                                    type="switch"
-                                                />
-                                            </Form.Group>
-                                            <Form.Group className="mb-3" controlId="isHomePage">
-                                                <Form.Check
-                                                    label={'Home Page'}
-                                                    onChange={(e) => setCurrentAttributes({
-                                                        ...currentAttributes,
-                                                        isHomePage: !currentAttributes.isHomePage
-                                                    })}
-                                                    checked={currentAttributes.isHomePage}
-                                                    type="switch"
-                                                />
-                                            </Form.Group>
-                                        </React.Fragment>
-                                    )
-                                    : null}
-                                <Form.Group className="mb-3" controlId="arrangement">
-                                    <Form.Label>{'Arrangement'}</Form.Label>
-                                    <Form.Control
-                                        onChange={(e) => setCurrentAttributes({
-                                            ...currentAttributes,
-                                            arrangement: parseInt(e.target.value)
-                                        })}
-                                        value={currentAttributes.arrangement}
-                                        type="number"
-                                    />
-                                </Form.Group>
-                                {isSuccess
-                                    ? (
-                                        <Button
-                                            onClick={(e) => {
-                                                e.preventDefault();
-                                                reset();
-                                            }}
-                                            variant={'success'}
-                                            className={'w-100'}
-                                        >
-                                            {'Re-Edit'}
-                                        </Button>
-                                    )
-                                    : (
-                                        <Button disabled={isPending} className={'w-100'} type={'submit'}>
-                                            {isPending
-                                                ? <Spinner variant={'info'} animation={'border'} className={'text-center'} />
-                                                : (id ? 'Update' : 'Add New Artwork')
-                                            }
-                                        </Button>
-                                    )
-                                }
-                            </Form>
-                        )
-                        : null
-                }
-                {
-                    id && isInArrangementMode && isShowingForm
-                        ? (
-                            <Form onSubmit={handleDelete}>
-                                <Button disabled={deleteMutation.isPending} className={'w-100 mt-2'} type={'submit'} variant={'danger'}>
-                                    {deleteMutation.isPending
-                                        ? <Spinner variant={'info'} animation={'border'} className={'text-center'} />
-                                        : 'Delete'
-                                    }
-                                </Button>
-                            </Form>
-                        )
-                        : null
-                }
-            </Stack >
-        </Col >
+                {isShowingForm && (
+                    <Form onSubmit={handleSubmit}>
+                        <ArtworkFormFields
+                            currentAttributes={currentAttributes}
+                            setCurrentAttributes={setCurrentAttributes}
+                            isPending={isPending}
+                            id={id}
+                        />
+                    </Form>
+                )}
+                {id && isShowingForm && (
+                    <Form onSubmit={handleDelete}>
+                        <Button disabled={deleteMutation.isPending} className={'w-100 mt-2'} type={'submit'} variant={'danger'}>
+                            {deleteMutation.isPending
+                                ? <Spinner variant={'info'} animation={'border'} className={'text-center'} />
+                                : 'Delete'
+                            }
+                        </Button>
+                    </Form>
+                )}
+            </Stack>
+        </Col>
     );
 };
 
