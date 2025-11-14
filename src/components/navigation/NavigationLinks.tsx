@@ -76,9 +76,14 @@ const NavigationLinks = ({ setShowOffcanvas }) => {
                 </NavDropdown>
                 {isLoggedIn
                     ? (
-                        <Nav.Link className={pathname === "/artworks/sold" ? "border border-2 border-secondary rounded" : "rounded"} onClick={() => HideOffcanvasAndNavigateTo('/artworks/sold')}>
-                            {'Sold Artworks'}
-                        </Nav.Link>
+                        <React.Fragment>
+                            <Nav.Link className={pathname === "/artworks/sold" ? "border border-2 border-secondary rounded" : "rounded"} onClick={() => HideOffcanvasAndNavigateTo('/artworks/sold')}>
+                                {'Sold Artworks'}
+                            </Nav.Link>
+                            <Nav.Link className={pathname === "/artworks/inventory" ? "border border-2 border-secondary rounded" : "rounded"} onClick={() => HideOffcanvasAndNavigateTo('/artworks/inventory')}>
+                                {'Inventory'}
+                            </Nav.Link>
+                        </React.Fragment>
                     )
                     : null}
                 <Nav.Link className={pathname === "/cv" ? "border border-2 border-secondary rounded" : "rounded"} onClick={() => HideOffcanvasAndNavigateTo('/cv')}>
