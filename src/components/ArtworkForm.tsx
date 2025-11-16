@@ -11,6 +11,7 @@ import { MdLandscape as MdLandscapeIcon } from "react-icons/md";
 const MdLandscape = MdLandscapeIcon as React.ComponentType<any>;
 import { IResponseType } from "./Artworks";
 import ArtworkFormFields from "./ArtworkFormFields";
+import MovingColorImage from "./MovingColorImage";
 
 export interface IArtworkFormData extends Omit<IArtwork, '_id' | 'images'> {
     file?: File;
@@ -145,12 +146,44 @@ const ArtworkForm: React.FC<IArtworkFormProps> = ({ attributes, onResponse }) =>
                         ))}
                     </div>
                 </div>
-                <Modal className="w-100" show={showModal} onHide={() => setShowModal(false)} size="xl" centered>
+                <Modal 
+                    className="modal-fixed" 
+                    show={showModal} 
+                    onHide={() => setShowModal(false)} 
+                    size="xl"
+                    style={{
+                        position: 'fixed',
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        width: '95vw',
+                        maxWidth: '1200px',
+                        height: '95vh',
+                        margin: 0,
+                        maxHeight: 'none',
+                    }}
+                    contentClassName="h-100 d-flex flex-column"
+                    dialogClassName="m-0 w-100 h-100"
+                >
                     <Modal.Header closeButton>
-                        <Modal.Title>{id ? 'Edit Artwork' : 'Add New Artwork'}</Modal.Title>
+                        <Modal.Title>
+                            <Stack direction="horizontal" gap={2}>
+                                <img
+                                    src={imageSrc}
+                                    title={currentAttributes.title}
+                                    width="50px"
+                                    height="50px"
+                                />
+                                {id ? 'Edit Artwork' : 'Add New Artwork'}
+                            </Stack>
+                        </Modal.Title>
                     </Modal.Header>
-                    <Modal.Body>
-                        <Form onSubmit={handleSubmit}>
+                    <Modal.Body style={{
+                        overflowY: 'auto',
+                        padding: '20px',
+                        flex: '1 1 auto'
+                    }}>
+                        <Form id="artwork-form" onSubmit={handleSubmit}>
                             <ArtworkFormFields
                                 currentAttributes={currentAttributes}
                                 setCurrentAttributes={setCurrentAttributes}
@@ -158,19 +191,35 @@ const ArtworkForm: React.FC<IArtworkFormProps> = ({ attributes, onResponse }) =>
                                 id={id}
                             />
                             {id && (
-                                <Button
-                                    variant="danger"
-                                    className="w-100 mt-3"
-                                    onClick={handleDelete}
-                                    disabled={deleteMutation.isPending}
-                                >
-                                    {deleteMutation.isPending ? (
-                                        <Spinner variant="light" size="sm" />
-                                    ) : 'Delete'}
-                                </Button>
+                                <div className="d-grid gap-2">
+                                    <Button
+                                        variant="danger"
+                                        onClick={handleDelete}
+                                        disabled={deleteMutation.isPending}
+                                    >
+                                        {deleteMutation.isPending ? (
+                                            <Spinner variant="light" size="sm" />
+                                        ) : 'Delete Artwork'}
+                                    </Button>
+                                </div>
                             )}
                         </Form>
                     </Modal.Body>
+                    <Modal.Footer style={{ borderTop: '1px solid #dee2e6' }}>
+                        <Button variant="secondary" onClick={() => setShowModal(false)}>
+                            Close
+                        </Button>
+                        <Button 
+                            variant="primary" 
+                            type="submit" 
+                            form="artwork-form"
+                            disabled={isPending}
+                        >
+                            {isPending ? (
+                                <Spinner variant="light" size="sm" />
+                            ) : 'Save Changes'}
+                        </Button>
+                    </Modal.Footer>
                 </Modal>
             </Stack>
         </Col>
