@@ -2,6 +2,6 @@ canvas {
     cursor: crosshair;
 }
 
-.modal-content {
+#canvas-modal .modal-content {
     background-color: black !important;
 }

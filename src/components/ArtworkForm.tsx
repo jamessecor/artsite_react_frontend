@@ -10,7 +10,6 @@ const GiElephant = GiElephantIcon as React.ComponentType<any>;
 import { MdLandscape as MdLandscapeIcon } from "react-icons/md";
 const MdLandscape = MdLandscapeIcon as React.ComponentType<any>;
 import { IResponseType } from "./Artworks";
-import useArtworksMetadata from "../hooks/useArtworksMetadata";
 import ArtworkFormFields from "./ArtworkFormFields";
 
 export interface IArtworkFormData extends Omit<IArtwork, '_id' | 'images'> {
