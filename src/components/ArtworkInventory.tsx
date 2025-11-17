@@ -31,8 +31,9 @@ const ArtworkInventory: React.FC = () => {
   const { isLoggedIn } = useContext(AuthenticationContext);
   const { color } = useContext(BackgroundColorContext);
   const queryClient = useQueryClient();
-  const [showEditModal, setShowEditModal] = useState(false);
+  const [showArtworkForm, setShowArtworkForm] = useState(false);
   const [selectedArtwork, setSelectedArtwork] = useState<IArtwork | null>(null);
+
   const [filters, setFilters] = useState<IFilters>({
     search: '',
     status: 'all',
@@ -115,11 +116,11 @@ const ArtworkInventory: React.FC = () => {
 
   const handleEditClick = (artwork: IArtwork) => {
     setSelectedArtwork(artwork);
-    setShowEditModal(true);
+    setShowArtworkForm(true);
   };
 
   const handleSaveSuccess = () => {
-    setShowEditModal(false);
+    setShowArtworkForm(false);
     queryClient.invalidateQueries({ queryKey: ['artworks', 'inventory'] });
   };
 
@@ -309,20 +310,15 @@ const ArtworkInventory: React.FC = () => {
         </Table>
       </div>
 
-      {/* Edit Modal */}
-      <Modal show={showEditModal} onHide={() => setShowEditModal(false)} size="lg">
-        <Modal.Header closeButton>
-          <Modal.Title>Edit Artwork</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          {selectedArtwork && (
-            <ArtworkForm
-              attributes={selectedArtwork}
-              onResponse={handleSaveSuccess}
-            />
-          )}
-        </Modal.Body>
-      </Modal>
+      <ArtworkForm
+        artwork={selectedArtwork}
+        show={showArtworkForm}
+        onClose={() => {
+          setSelectedArtwork(null);
+          setShowArtworkForm(false);
+        }}
+        onResponse={handleSaveSuccess}
+      />
     </Container>
   );
 };

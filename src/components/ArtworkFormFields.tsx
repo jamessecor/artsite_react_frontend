@@ -7,11 +7,9 @@ import useArtworksMetadata from "../hooks/useArtworksMetadata";
 interface IArtworkFormFieldsProps {
     currentAttributes: IArtworkFormData;
     setCurrentAttributes: (attributes: IArtworkFormData) => void;
-    isPending: boolean;
-    id?: string;
 }
 
-const ArtworkFormFields: React.FC<IArtworkFormFieldsProps> = ({ currentAttributes, setCurrentAttributes, isPending, id }) => {
+const ArtworkFormFields: React.FC<IArtworkFormFieldsProps> = ({ currentAttributes, setCurrentAttributes }) => {
     const { data: artworksMetaData, isLoading: isLoadingArtworksMetaData } = useArtworksMetadata();
 
     return (
@@ -229,11 +227,6 @@ const ArtworkFormFields: React.FC<IArtworkFormFieldsProps> = ({ currentAttribute
                     </Form.Group>
                 </div>
             </div>
-            <Button disabled={isPending} className="w-100 mt-3" type="submit" variant="primary">
-                {isPending ? (
-                    <Spinner variant="light" size="sm" />
-                ) : id ? 'Update' : 'Add New Artwork'}
-            </Button>
         </div>
     );
 };

@@ -1,17 +1,11 @@
 import * as React from "react"
-import { useCallback, useEffect, useContext, useMemo, useState } from "react"
-import { Button, Col, Form, Modal, Spinner, Stack } from 'react-bootstrap';
-import { BackgroundColorContext, textColor } from "./providers/BackgroundColorProvider";
-import { ArtworkAttributes, getImageSrc, Groupings, IArtwork, iArtworkToFormData, IImage } from "../models/Artwork";
+import { useCallback, useEffect, useMemo, useState } from "react"
+import { Button, Form, Modal, Spinner } from 'react-bootstrap';
+import { ArtworkAttributes, IArtwork, iArtworkToFormData, IImage } from "../models/Artwork";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
-import { GiElephant as GiElephantIcon } from "react-icons/gi";
-const GiElephant = GiElephantIcon as React.ComponentType<any>;
-import { MdLandscape as MdLandscapeIcon } from "react-icons/md";
-const MdLandscape = MdLandscapeIcon as React.ComponentType<any>;
 import { IResponseType } from "./Artworks";
 import ArtworkFormFields from "./ArtworkFormFields";
-import MovingColorImage from "./MovingColorImage";
 
 export interface IArtworkFormData extends Omit<IArtwork, '_id' | 'images'> {
     file?: File;
@@ -31,18 +25,53 @@ interface IArtworkDeleteFormResponse {
 }
 
 interface IArtworkFormProps {
-    attributes: IArtwork;
+    artwork: IArtwork | null;
+    show: boolean;
+    onClose: () => void;
     onResponse: (response: IResponseType) => void;
 }
 
-const ArtworkForm: React.FC<IArtworkFormProps> = ({ attributes, onResponse }) => {
-    const { color } = useContext(BackgroundColorContext);
-    const [showModal, setShowModal] = useState(false);
-    const [currentAttributes, setCurrentAttributes] = useState<IArtworkFormData>(iArtworkToFormData(attributes));
-    const [id, setId] = useState(attributes._id);
-    const [newImages, setNewImages] = useState<Array<IImage> | null>(null);
-    const images = useMemo(() => newImages ?? attributes.images, [newImages, attributes.images]);
-    const imageSrc = useMemo(() => getImageSrc(images), [images]);
+const ArtworkForm: React.FC<IArtworkFormProps> = ({
+    artwork: initialArtwork,
+    show,
+    onClose,
+    onResponse
+}) => {
+    const defaultArtwork = useMemo(() => ({
+        title: '',
+        year: '',
+        media: '',
+        price: '',
+        salePrice: '',
+        width: '',
+        height: '',
+        grouping: [],
+        isNFS: false,
+        isHomePage: false,
+        images: [],
+        saleDate: null,
+        buyerName: '',
+        buyerEmail: '',
+        buyerPhone: '',
+        location: ''
+    } as IArtwork), []);
+
+    useEffect(() => {
+        setCurrentAttributes(iArtworkToFormData(initialArtwork || defaultArtwork));
+        setId(initialArtwork?._id);
+    }, [initialArtwork, defaultArtwork]);
+
+    const [currentAttributes, setCurrentAttributes] = useState<IArtworkFormData>(
+        iArtworkToFormData(initialArtwork || defaultArtwork)
+    );
+    const [id, setId] = useState(initialArtwork?._id);
+    const images = useMemo(() => initialArtwork?.images || [], [initialArtwork]);
+    const imageSrc = useMemo(() => {
+        if (currentAttributes.file) {
+            return URL.createObjectURL(currentAttributes.file);
+        }
+        return images.length > 0 ? images[0].url : '';
+    }, [images, currentAttributes.file]);
 
     const queryClient = useQueryClient();
 
@@ -86,143 +115,115 @@ const ArtworkForm: React.FC<IArtworkFormProps> = ({ attributes, onResponse }) =>
                 : axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/artworks`, formData);
         },
         onSuccess: (data) => {
-            if (onResponse) {
-                onResponse({
-                    text: data.data.message,
-                    variant: 'success'
-                });
-            }
+            onResponse({
+                text: data.data.message,
+                variant: 'success'
+            });
             setId(data.data.artwork._id);
             queryClient.invalidateQueries({ queryKey: ['artworks'] });
         },
         onError: (data: AxiosError<{ message?: string }>) => {
-            if (onResponse) {
-                onResponse({
-                    text: `${data.code} - ${data.response?.data?.message ?? data.message}`,
-                    variant: 'danger'
-                });
-            }
+            onResponse({
+                text: `${data.code} - ${data.response?.data?.message ?? data.message}`,
+                variant: 'danger'
+            });
         }
     });
 
-    const handleDelete = useCallback((e) => {
+    const handleDelete = useCallback((e: React.MouseEvent) => {
         e.preventDefault();
-        if (id) {
-            if (window.confirm('DELETE?!')) {
-                deleteMutation.mutate();
-            }
+        if (id && window.confirm('Are you sure you want to delete this artwork?')) {
+            deleteMutation.mutate();
         }
     }, [id, deleteMutation]);
 
-    const handleSubmit = useCallback((e) => {
+    const handleSubmit = useCallback((e: React.FormEvent) => {
         e.preventDefault();
         mutate(currentAttributes);
     }, [currentAttributes, mutate]);
 
+    if (!show) return null;
+
     return (
-        <Col xs={12}>
-            <Stack className={`${textColor(color.r, color.g, color.b)} bg-dark rounded p-2`}>
-                <div style={{ position: 'relative' }}>
-                    <img
-                        alt={currentAttributes.title}
-                        src={imageSrc}
-                        width={'100%'}
-                        onClick={() => setShowModal(true)}
-                        style={{ cursor: 'pointer' }}
-                    />
-                    <div style={{ top: 0, right: 0, position: 'absolute', display: 'd-flex flex-row' }}>
-                        {images.map((image) => (
-                            <Button
-                                onClick={() => window.open(image.url)}
-                                variant={'dark'}
-                                key={image.size}
-                                className={'m-1'}
-                            >
-                                {image.size === 1 ? <GiElephant /> : <MdLandscape />}
-                                <span className={'ms-1'} >
-                                    {image.size === 1 ? '' : image.size}
-                                </span>
-                            </Button>
-                        ))}
-                    </div>
-                </div>
-                <Modal 
-                    className="modal-fixed" 
-                    show={showModal} 
-                    onHide={() => setShowModal(false)} 
-                    size="xl"
-                    style={{
-                        position: 'fixed',
-                        top: '50%',
-                        left: '50%',
-                        transform: 'translate(-50%, -50%)',
-                        width: '95vw',
-                        maxWidth: '1200px',
-                        height: '95vh',
-                        margin: 0,
-                        maxHeight: 'none',
-                    }}
-                    contentClassName="h-100 d-flex flex-column"
-                    dialogClassName="m-0 w-100 h-100"
-                >
-                    <Modal.Header closeButton>
-                        <Modal.Title>
-                            <Stack direction="horizontal" gap={2}>
+        <Form id="artwork-form" onSubmit={handleSubmit}>
+            <Modal
+                show={show}
+                onHide={onClose}
+                size="xl"
+                style={{
+                    position: 'fixed',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    width: '95vw',
+                    maxWidth: '1200px',
+                    height: '95vh',
+                    margin: 0,
+                    maxHeight: 'none',
+                }}
+                contentClassName="h-100 d-flex flex-column"
+                dialogClassName="m-0 w-100 h-100"
+            >
+                <Modal.Header closeButton>
+                    <Modal.Title>
+                        <div className="d-flex align-items-center gap-3">
+                            {imageSrc && (
                                 <img
                                     src={imageSrc}
-                                    title={currentAttributes.title}
-                                    width="50px"
-                                    height="50px"
+                                    alt={currentAttributes.title}
+                                    className="rounded"
+                                    style={{ width: '50px', height: '50px', objectFit: 'cover' }}
                                 />
-                                {id ? 'Edit Artwork' : 'Add New Artwork'}
-                            </Stack>
-                        </Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body style={{
-                        overflowY: 'auto',
-                        padding: '20px',
-                        flex: '1 1 auto'
-                    }}>
-                        <Form id="artwork-form" onSubmit={handleSubmit}>
-                            <ArtworkFormFields
-                                currentAttributes={currentAttributes}
-                                setCurrentAttributes={setCurrentAttributes}
-                                isPending={isPending}
-                                id={id}
-                            />
-                            {id && (
-                                <div className="d-grid gap-2">
-                                    <Button
-                                        variant="danger"
-                                        onClick={handleDelete}
-                                        disabled={deleteMutation.isPending}
-                                    >
-                                        {deleteMutation.isPending ? (
-                                            <Spinner variant="light" size="sm" />
-                                        ) : 'Delete Artwork'}
-                                    </Button>
-                                </div>
                             )}
-                        </Form>
-                    </Modal.Body>
-                    <Modal.Footer style={{ borderTop: '1px solid #dee2e6' }}>
-                        <Button variant="secondary" onClick={() => setShowModal(false)}>
-                            Close
-                        </Button>
-                        <Button 
-                            variant="primary" 
-                            type="submit" 
-                            form="artwork-form"
-                            disabled={isPending}
+                            <h5 className="mb-0">{id ? 'Edit Artwork' : 'Add New Artwork'}</h5>
+                        </div>
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body style={{
+                    overflowY: 'auto',
+                    padding: '20px',
+                    flex: '1 1 auto'
+                }}>
+                    <ArtworkFormFields
+                        currentAttributes={currentAttributes}
+                        setCurrentAttributes={setCurrentAttributes}
+                    />
+                </Modal.Body>
+                <Modal.Footer style={{ borderTop: '1px solid #dee2e6' }}>
+                    {id && (
+                        <Button
+                            variant="outline-danger"
+                            onClick={handleDelete}
+                            disabled={deleteMutation.isPending}
+                            className="me-auto"
                         >
-                            {isPending ? (
-                                <Spinner variant="light" size="sm" />
-                            ) : 'Save Changes'}
+                            {deleteMutation.isPending ? (
+                                <Spinner variant="light" size="sm" className="me-2" />
+                            ) : null}
+                            Delete Artwork
                         </Button>
-                    </Modal.Footer>
-                </Modal>
-            </Stack>
-        </Col>
+                    )}
+                    <Button
+                        variant="secondary"
+                        onClick={onClose}
+                        disabled={isPending}
+                    >
+                        Cancel
+                    </Button>
+                    <Button
+                        variant="primary"
+                        type="submit"
+                        form="artwork-form"
+                        disabled={isPending}
+                    >
+                        {isPending ? (
+                            <Spinner variant="light" size="sm" className="me-2" />
+                        ) : null}
+                        {id ? 'Save Changes' : 'Add Artwork'}
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+        </Form>
     );
 };
 

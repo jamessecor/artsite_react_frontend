@@ -14,6 +14,7 @@ import { SettingsContext } from "./providers/SettingsProvider";
 
 interface ArtworkParams {
     attributes: IArtwork;
+    onClick?: () => void;
 };
 
 interface ISentEmailToastParams {
@@ -42,7 +43,7 @@ interface IArtworkEmailPostResponse {
 const likesSessionName = 'likes';
 const likesHeartColor = '#bb9999';
 
-const Artwork: React.FC<ArtworkParams> = ({ attributes }: ArtworkParams) => {
+const Artwork: React.FC<ArtworkParams> = ({ attributes, onClick }: ArtworkParams) => {
     const { color } = useContext(BackgroundColorContext);
     const { isShowingInfo } = useContext(SettingsContext);
     const likes: Array<IArtwork> = useMemo(() => JSON.parse(sessionStorage.getItem(likesSessionName) ?? '[]') ?? [], []);
@@ -145,7 +146,10 @@ const Artwork: React.FC<ArtworkParams> = ({ attributes }: ArtworkParams) => {
                     </Form>
                 </Modal.Body>
             </Modal>
-            <MovingColorImage src={imageSrc} title={attributes.title} />
+            {onClick
+                ? <img onClick={onClick} src={imageSrc} title={attributes.title} className={'w-100'} />
+                : <MovingColorImage src={imageSrc} title={attributes.title} />
+            }
             <Stack direction={'horizontal'} className={'mt-2'} style={{ justifyContent: 'space-between' }}>
                 {isShowingInfo
                     ? (
