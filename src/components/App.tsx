@@ -30,6 +30,7 @@ import Likes from './nomophobia/Likes';
 import Banner from './Banner';
 import SettingsProvider from './providers/SettingsProvider';
 import Video from './nomophobia/Video';
+import ArtworkInventory from './ArtworkInventory';
 
 const fourHoursInMs = 1000 * 60 * 60 * 4;
 
@@ -55,6 +56,7 @@ const App = () => {
                                             <Route path={'/'} element={<Artworks current={true} />} />
                                             <Route path={'/artworks/current'} element={<Artworks current={true} />} />
                                             <Route path={'/artworks/sold'} element={<SoldArtworks />} />
+                                            <Route path={'/artworks/inventory'} element={<ArtworkInventory />} />
                                             <Route path={'/artworks'} element={<Artworks />} />
                                             <Route path={'/cv'} element={<Cv />} />
                                             <Route element={<Nomophobia />}>

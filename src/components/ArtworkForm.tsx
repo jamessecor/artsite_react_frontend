@@ -1,16 +1,11 @@
 import * as React from "react"
-import { useCallback, useEffect, useContext, useMemo, useState } from "react"
-import { Button, Col, Form, Spinner, Stack } from 'react-bootstrap';
-import { BackgroundColorContext, textColor } from "./providers/BackgroundColorProvider";
-import { ArtworkAttributes, getImageSrc, Groupings, IArtwork, iArtworkToFormData, IImage } from "../models/Artwork";
+import { useCallback, useEffect, useMemo, useState } from "react"
+import { Button, Form, Modal, Spinner } from 'react-bootstrap';
+import { ArtworkAttributes, IArtwork, iArtworkToFormData, IImage } from "../models/Artwork";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
-import { GiElephant as GiElephantIcon } from "react-icons/gi";
-const GiElephant = GiElephantIcon as React.ComponentType<any>;
-import { MdLandscape as MdLandscapeIcon } from "react-icons/md";
-const MdLandscape = MdLandscapeIcon as React.ComponentType<any>;
 import { IResponseType } from "./Artworks";
-import useArtworksMetadata from "../hooks/useArtworksMetadata";
+import ArtworkFormFields from "./ArtworkFormFields";
 
 export interface IArtworkFormData extends Omit<IArtwork, '_id' | 'images'> {
     file?: File;
@@ -30,25 +25,55 @@ interface IArtworkDeleteFormResponse {
 }
 
 interface IArtworkFormProps {
-    attributes: IArtwork;
-    isInArrangementMode?: boolean;
-    isInFormMode: boolean;
+    artwork: IArtwork | null;
+    show: boolean;
+    onClose: () => void;
     onResponse: (response: IResponseType) => void;
 }
 
-const ArtworkForm: React.FC<IArtworkFormProps> = ({ attributes, isInFormMode, isInArrangementMode, onResponse }) => {
-    const { color } = useContext(BackgroundColorContext);
-    const [isShowingForm, setIsShowingForm] = useState(isInFormMode);
-    const [currentAttributes, setCurrentAttributes] = useState<IArtworkFormData>(iArtworkToFormData(attributes));
-    const [id, setId] = useState(attributes._id);
-    const [newImages, setNewImages] = useState<Array<IImage> | null>(null);
-    const images = useMemo(() => newImages ?? attributes.images, [newImages, attributes.images]);
-    const imageSrc = useMemo(() => getImageSrc(images), [images]);
+const ArtworkForm: React.FC<IArtworkFormProps> = ({
+    artwork: initialArtwork,
+    show,
+    onClose,
+    onResponse
+}) => {
+    const defaultArtwork = useMemo(() => ({
+        title: '',
+        year: '',
+        media: '',
+        price: '',
+        salePrice: '',
+        width: '',
+        height: '',
+        grouping: [],
+        isNFS: false,
+        isHomePage: false,
+        images: [],
+        saleDate: null,
+        buyerName: '',
+        buyerEmail: '',
+        buyerPhone: '',
+        location: ''
+    } as IArtwork), []);
 
-    useEffect(() => setIsShowingForm(isInFormMode), [isInFormMode]);
+    useEffect(() => {
+        setCurrentAttributes(iArtworkToFormData(initialArtwork || defaultArtwork));
+        setId(initialArtwork?._id);
+    }, [initialArtwork, defaultArtwork]);
+
+    const [currentAttributes, setCurrentAttributes] = useState<IArtworkFormData>(
+        iArtworkToFormData(initialArtwork || defaultArtwork)
+    );
+    const [id, setId] = useState(initialArtwork?._id);
+    const images = useMemo(() => initialArtwork?.images || [], [initialArtwork]);
+    const imageSrc = useMemo(() => {
+        if (currentAttributes.file) {
+            return URL.createObjectURL(currentAttributes.file);
+        }
+        return images.length > 0 ? images[0].url : '';
+    }, [images, currentAttributes.file]);
 
     const queryClient = useQueryClient();
-    const { data: artworksMetaData, isLoading: isLoadingArtworksMetaData } = useArtworksMetadata();
 
     const deleteMutation = useMutation<IArtworkDeleteFormResponse, AxiosError>({
         mutationFn: async () => {
@@ -90,302 +115,115 @@ const ArtworkForm: React.FC<IArtworkFormProps> = ({ attributes, isInFormMode, is
                 : axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/artworks`, formData);
         },
         onSuccess: (data) => {
-            if (onResponse) {
-                onResponse({
-                    text: data.data.message,
-                    variant: 'success'
-                });
-            }
+            onResponse({
+                text: data.data.message,
+                variant: 'success'
+            });
             setId(data.data.artwork._id);
             queryClient.invalidateQueries({ queryKey: ['artworks'] });
         },
         onError: (data: AxiosError<{ message?: string }>) => {
-            if (onResponse) {
-                onResponse({
-                    text: `${data.code} - ${data.response?.data?.message ?? data.message}`,
-                    variant: 'danger'
-                });
-            }
-        }        
+            onResponse({
+                text: `${data.code} - ${data.response?.data?.message ?? data.message}`,
+                variant: 'danger'
+            });
+        }
     });
 
-    const handleDelete = useCallback((e) => {
+    const handleDelete = useCallback((e: React.MouseEvent) => {
         e.preventDefault();
-        if (id) {
-            if (window.confirm('DELETE?!')) {
-                deleteMutation.mutate();
-            }
+        if (id && window.confirm('Are you sure you want to delete this artwork?')) {
+            deleteMutation.mutate();
         }
     }, [id, deleteMutation]);
 
-    const handleSubmit = useCallback((e) => {
+    const handleSubmit = useCallback((e: React.FormEvent) => {
         e.preventDefault();
         mutate(currentAttributes);
     }, [currentAttributes, mutate]);
 
-    return (
-        <Col xs={12}>
-            <Stack className={`${textColor(color.r, color.g, color.b)} bg-dark rounded p-2`}>
-                <div style={{ position: 'relative' }}>
-                    <img
-                        alt={currentAttributes.title}
-                        src={imageSrc}
-                        width={'100%'}
-                        onClick={() => setIsShowingForm(!isShowingForm)}
-                    />
-                    <div style={{ top: 0, right: 0, position: 'absolute', display: 'd-flex flex-row' }}>
-                        {images.map((image) => (
-                            <Button
-                                onClick={() => window.open(image.url)}
-                                variant={'dark'}
-                                key={image.size}
-                                className={'m-1'}
-                            >
-                                {image.size === 1 ? <GiElephant /> : <MdLandscape />}
-                                <span className={'ms-1'} >
-                                    {image.size === 1 ? '' : image.size}
-                                </span>
-                            </Button>
-                        ))}
-                    </div>
-                </div>
-                {
-                    isShowingForm
-                        ? (
-                            <Form onSubmit={handleSubmit}>
-                                {isInArrangementMode
-                                    ? (
+    if (!show) return null;
 
-                                        <React.Fragment>
-                                            <Form.Group className="mb-3" controlId="image">
-                                                <Form.Label>file</Form.Label>
-                                                <input type={'file'} onChange={(e) => e.target?.files?.length ? setCurrentAttributes({ ...currentAttributes, file: e.target.files[0] }) : null} />
-                                            </Form.Group>
-                                            <Form.Group className="mb-3" controlId="title">
-                                                <Form.Label>title</Form.Label>
-                                                <Form.Control
-                                                    onChange={(e) => setCurrentAttributes({
-                                                        ...currentAttributes,
-                                                        title: e.target.value
-                                                    })}
-                                                    value={currentAttributes.title}
-                                                    type="text"
-                                                />
-                                            </Form.Group>
-                                            <Form.Group className="mb-3" controlId="year">
-                                                <Form.Label>year</Form.Label>
-                                                <Form.Control
-                                                    onChange={(e) => setCurrentAttributes({
-                                                        ...currentAttributes,
-                                                        year: e.target.value
-                                                    })}
-                                                    value={currentAttributes.year}
-                                                    type="text"
-                                                />
-                                            </Form.Group>
-                                            <Form.Group className="mb-3" controlId="media">
-                                                <Form.Label>media</Form.Label>
-                                                <Form.Control
-                                                    onChange={(e) => setCurrentAttributes({
-                                                        ...currentAttributes,
-                                                        media: e.target.value
-                                                    })}
-                                                    value={currentAttributes.media}
-                                                    type="text"
-                                                />
-                                            </Form.Group>
-                                            <Form.Group className="mb-3" controlId="price">
-                                                <Form.Label>price</Form.Label>
-                                                <Form.Control
-                                                    onChange={(e) => setCurrentAttributes({
-                                                        ...currentAttributes,
-                                                        price: e.target.value
-                                                    })}
-                                                    value={currentAttributes.price}
-                                                    type="text"
-                                                />
-                                            </Form.Group>
-                                            <Form.Group className="mb-3" controlId="salePrice">
-                                                <Form.Label>sale price (including tax)</Form.Label>
-                                                <Form.Control
-                                                    onChange={(e) => setCurrentAttributes({
-                                                        ...currentAttributes,
-                                                        salePrice: e.target.value
-                                                    })}
-                                                    value={currentAttributes.salePrice}
-                                                    type="text"
-                                                />
-                                            </Form.Group>
-                                            <Form.Group className="mb-3" controlId="width">
-                                                <Form.Label>{'width'}</Form.Label>
-                                                <Form.Control
-                                                    onChange={(e) => setCurrentAttributes({
-                                                        ...currentAttributes,
-                                                        width: e.target.value
-                                                    })}
-                                                    value={currentAttributes.width}
-                                                    type="text"
-                                                />
-                                            </Form.Group>
-                                            <Form.Group className="mb-3" controlId="height">
-                                                <Form.Label>{'height'}</Form.Label>
-                                                <Form.Control
-                                                    onChange={(e) => setCurrentAttributes({
-                                                        ...currentAttributes,
-                                                        height: e.target.value
-                                                    })}
-                                                    value={currentAttributes.height}
-                                                    type="text"
-                                                />
-                                            </Form.Group>
-                                            <Form.Group className="mb-3" controlId="grouping">
-                                                <Form.Label className={'text-break'}>
-                                                    {isLoadingArtworksMetaData
-                                                        ? 'tags'
-                                                        : artworksMetaData?.groupings}
-                                                </Form.Label>
-                                                <Form.Control
-                                                    onChange={(e) => setCurrentAttributes({
-                                                        ...currentAttributes,
-                                                        grouping: e.target.value.split(',') as Array<Groupings>
-                                                    })}
-                                                    value={currentAttributes.grouping}
-                                                    type="text"
-                                                />
-                                            </Form.Group>
-                                            <Form.Group className="mb-3" controlId="saleDate">
-                                                <Form.Label>{'Sale Date'}</Form.Label>
-                                                <Form.Control
-                                                    onChange={(e) => setCurrentAttributes({
-                                                        ...currentAttributes,
-                                                        saleDate: e.target.value === '' ? null : new Date(e.target.value)
-                                                    })}
-                                                    value={currentAttributes.saleDate ? new Date(currentAttributes.saleDate).toISOString()?.substring(0, 10) : ''}
-                                                    type="date"
-                                                />
-                                            </Form.Group>
-                                            <Form.Group className="mb-3" controlId="buyerName">
-                                                <Form.Label>{'Buyer Name'}</Form.Label>
-                                                <Form.Control
-                                                    onChange={(e) => setCurrentAttributes({
-                                                        ...currentAttributes,
-                                                        buyerName: e.target.value
-                                                    })}
-                                                    value={currentAttributes.buyerName}
-                                                    type="text"
-                                                />
-                                            </Form.Group>
-                                            <Form.Group className="mb-3" controlId="buyerEmail">
-                                                <Form.Label>{'Buyer Email'}</Form.Label>
-                                                <Form.Control
-                                                    onChange={(e) => setCurrentAttributes({
-                                                        ...currentAttributes,
-                                                        buyerEmail: e.target.value
-                                                    })}
-                                                    value={currentAttributes.buyerEmail}
-                                                    type="text"
-                                                />
-                                            </Form.Group>
-                                            <Form.Group className="mb-3" controlId="buyerPhone">
-                                                <Form.Label>{'Buyer Phone'}</Form.Label>
-                                                <Form.Control
-                                                    onChange={(e) => setCurrentAttributes({
-                                                        ...currentAttributes,
-                                                        buyerPhone: e.target.value
-                                                    })}
-                                                    value={currentAttributes.buyerPhone}
-                                                    type="text"
-                                                />
-                                            </Form.Group>
-                                            <Form.Group className="mb-3" controlId="location">
-                                                <Form.Label>{'Location'}</Form.Label>
-                                                <Form.Control
-                                                    onChange={(e) => setCurrentAttributes({
-                                                        ...currentAttributes,
-                                                        location: e.target.value
-                                                    })}
-                                                    value={currentAttributes.location}
-                                                    type="text"
-                                                />
-                                            </Form.Group>
-                                            <Form.Group className="mb-3" controlId="isNFS">
-                                                <Form.Check
-                                                    label={'NFS'}
-                                                    onChange={(e) => setCurrentAttributes({
-                                                        ...currentAttributes,
-                                                        isNFS: !currentAttributes.isNFS
-                                                    })}
-                                                    checked={currentAttributes.isNFS}
-                                                    type="switch"
-                                                />
-                                            </Form.Group>
-                                            <Form.Group className="mb-3" controlId="isHomePage">
-                                                <Form.Check
-                                                    label={'Home Page'}
-                                                    onChange={(e) => setCurrentAttributes({
-                                                        ...currentAttributes,
-                                                        isHomePage: !currentAttributes.isHomePage
-                                                    })}
-                                                    checked={currentAttributes.isHomePage}
-                                                    type="switch"
-                                                />
-                                            </Form.Group>
-                                        </React.Fragment>
-                                    )
-                                    : null}
-                                <Form.Group className="mb-3" controlId="arrangement">
-                                    <Form.Label>{'Arrangement'}</Form.Label>
-                                    <Form.Control
-                                        onChange={(e) => setCurrentAttributes({
-                                            ...currentAttributes,
-                                            arrangement: parseInt(e.target.value)
-                                        })}
-                                        value={currentAttributes.arrangement}
-                                        type="number"
-                                    />
-                                </Form.Group>
-                                {isSuccess
-                                    ? (
-                                        <Button
-                                            onClick={(e) => {
-                                                e.preventDefault();
-                                                reset();
-                                            }}
-                                            variant={'success'}
-                                            className={'w-100'}
-                                        >
-                                            {'Re-Edit'}
-                                        </Button>
-                                    )
-                                    : (
-                                        <Button disabled={isPending} className={'w-100'} type={'submit'}>
-                                            {isPending
-                                                ? <Spinner variant={'info'} animation={'border'} className={'text-center'} />
-                                                : (id ? 'Update' : 'Add New Artwork')
-                                            }
-                                        </Button>
-                                    )
-                                }
-                            </Form>
-                        )
-                        : null
-                }
-                {
-                    id && isInArrangementMode && isShowingForm
-                        ? (
-                            <Form onSubmit={handleDelete}>
-                                <Button disabled={deleteMutation.isPending} className={'w-100 mt-2'} type={'submit'} variant={'danger'}>
-                                    {deleteMutation.isPending
-                                        ? <Spinner variant={'info'} animation={'border'} className={'text-center'} />
-                                        : 'Delete'
-                                    }
-                                </Button>
-                            </Form>
-                        )
-                        : null
-                }
-            </Stack >
-        </Col >
+    return (
+        <Form id="artwork-form" onSubmit={handleSubmit}>
+            <Modal
+                show={show}
+                onHide={onClose}
+                size="xl"
+                style={{
+                    position: 'fixed',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    width: '95vw',
+                    maxWidth: '1200px',
+                    height: '95vh',
+                    margin: 0,
+                    maxHeight: 'none',
+                }}
+                contentClassName="h-100 d-flex flex-column"
+                dialogClassName="m-0 w-100 h-100"
+            >
+                <Modal.Header closeButton>
+                    <Modal.Title>
+                        <div className="d-flex align-items-center gap-3">
+                            {imageSrc && (
+                                <img
+                                    src={imageSrc}
+                                    alt={currentAttributes.title}
+                                    className="rounded"
+                                    style={{ width: '50px', height: '50px', objectFit: 'cover' }}
+                                />
+                            )}
+                            <h5 className="mb-0">{id ? 'Edit Artwork' : 'Add New Artwork'}</h5>
+                        </div>
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body style={{
+                    overflowY: 'auto',
+                    padding: '20px',
+                    flex: '1 1 auto'
+                }}>
+                    <ArtworkFormFields
+                        currentAttributes={currentAttributes}
+                        setCurrentAttributes={setCurrentAttributes}
+                    />
+                </Modal.Body>
+                <Modal.Footer style={{ borderTop: '1px solid #dee2e6' }}>
+                    {id && (
+                        <Button
+                            variant="outline-danger"
+                            onClick={handleDelete}
+                            disabled={deleteMutation.isPending}
+                            className="me-auto"
+                        >
+                            {deleteMutation.isPending ? (
+                                <Spinner variant="light" size="sm" className="me-2" />
+                            ) : null}
+                            Delete Artwork
+                        </Button>
+                    )}
+                    <Button
+                        variant="secondary"
+                        onClick={onClose}
+                        disabled={isPending}
+                    >
+                        Cancel
+                    </Button>
+                    <Button
+                        variant="primary"
+                        type="submit"
+                        form="artwork-form"
+                        disabled={isPending}
+                    >
+                        {isPending ? (
+                            <Spinner variant="light" size="sm" className="me-2" />
+                        ) : null}
+                        {id ? 'Save Changes' : 'Add Artwork'}
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+        </Form>
     );
 };
 

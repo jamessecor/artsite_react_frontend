@@ -298,6 +298,7 @@ const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
                 show={isShowingModal} 
                 onHide={() => setIsShowingModal(false)} 
                 fullscreen={true}
+                id="canvas-modal"
             >
                 <canvas
                     ref={imageCanvasRef}

@@ -222,7 +222,7 @@ const SoldArtworks = () => {
                         return (
                             <Col key={`${artwork._id}-${artwork.title}`} className="my-4 px-4">
                                 {isLoggedIn
-                                    ? <ArtworkForm attributes={artwork} isInFormMode={false} isInArrangementMode={true} onResponse={() => { }} />
+                                    ? <ArtworkForm attributes={artwork} onResponse={() => { }} />
                                     : <Artwork attributes={artwork} />}
                             </Col>
                         )
