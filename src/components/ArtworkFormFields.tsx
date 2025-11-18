@@ -61,6 +61,22 @@ const ArtworkFormFields: React.FC<IArtworkFormFieldsProps> = ({ currentAttribute
                             type="text"
                         />
                     </Form.Group>
+                                        <Form.Group className="mb-3" controlId="grouping">
+                        <Form.Label className="text-break">
+                            {isLoadingArtworksMetaData
+                                ? 'Tags'
+                                : artworksMetaData?.groupings}
+                        </Form.Label>
+                        <Form.Control
+                            onChange={(e) => setCurrentAttributes({
+                                ...currentAttributes,
+                                grouping: e.target.value.split(',') as Array<Groupings>
+                            })}
+                            value={currentAttributes.grouping}
+                            type="text"
+                            placeholder="Enter tags separated by commas"
+                            />
+                    </Form.Group>
                 </div>
 
                 {/* Second Column */}
@@ -110,28 +126,23 @@ const ArtworkFormFields: React.FC<IArtworkFormFieldsProps> = ({ currentAttribute
                             type="text"
                         />
                     </Form.Group>
+                    <Form.Group className="mb-3" controlId="arrangement">
+                        <Form.Label>Arrangement</Form.Label>
+                        <Form.Control
+                            onChange={(e) => setCurrentAttributes({
+                                ...currentAttributes,
+                                arrangement: Number(e.target.value)
+                            })}
+                            value={currentAttributes.arrangement}
+                            type="number"
+                            />
+                    </Form.Group>
                 </div>
             </div>
 
             {/* Full Width Fields */}
             <div className="row">
                 <div className="col-12">
-                    <Form.Group className="mb-3" controlId="grouping">
-                        <Form.Label className="text-break">
-                            {isLoadingArtworksMetaData
-                                ? 'Tags'
-                                : artworksMetaData?.groupings}
-                        </Form.Label>
-                        <Form.Control
-                            onChange={(e) => setCurrentAttributes({
-                                ...currentAttributes,
-                                grouping: e.target.value.split(',') as Array<Groupings>
-                            })}
-                            value={currentAttributes.grouping}
-                            type="text"
-                            placeholder="Enter tags separated by commas"
-                        />
-                    </Form.Group>
                     <Form.Group className="mb-3" controlId="saleDate">
                         <Form.Label>Sale Date</Form.Label>
                         <Form.Control
