@@ -119,11 +119,6 @@ const ArtworkInventory: React.FC = () => {
     setShowArtworkForm(true);
   };
 
-  const handleSaveSuccess = () => {
-    setShowArtworkForm(false);
-    queryClient.invalidateQueries({ queryKey: ['artworks', 'inventory'] });
-  };
-
   const getStatusBadge = (artwork: IArtwork) => {
     if (artwork.isNFS) return <Badge bg="secondary">NFS</Badge>;
     return artwork.saleDate
@@ -317,7 +312,6 @@ const ArtworkInventory: React.FC = () => {
           setSelectedArtwork(null);
           setShowArtworkForm(false);
         }}
-        onResponse={handleSaveSuccess}
       />
     </Container>
   );

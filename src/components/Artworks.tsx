@@ -1,22 +1,14 @@
 import * as React from 'react';
-import { useCallback, useContext, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import Artwork from "./Artwork";
-import { ArtworkAttributes, Groupings, IArtwork } from "../models/Artwork";
+import { Groupings, IArtwork } from "../models/Artwork";
 import { Badge, Button, Col, Container, Row, Spinner, Stack, Toast, ToastContainer } from 'react-bootstrap';
 import useArtworks from '../hooks/useArtworks';
 import { useNavigate } from "react-router-dom";
 import { AuthenticationContext } from './providers/AuthenticationProvider';
 import ArtworkForm from './ArtworkForm';
-import { MdEdit as MdEditIcon, MdViewComfy as MdViewComfyIcon } from 'react-icons/md';
-const MdEdit = MdEditIcon as React.ComponentType<any>;
-const MdViewComfy = MdViewComfyIcon as React.ComponentType<any>;
 import { SettingsContext } from './providers/SettingsProvider';
-import { IoImage as IoImageIcon } from "react-icons/io5";
-const IoImage = IoImageIcon as React.ComponentType<any>;
-import { FaWpforms as FaWpformsIcon } from "react-icons/fa";
-const FaWpforms = FaWpformsIcon as React.ComponentType<any>;
-import useScreenSize from '../hooks/useScreenSize';
 import { Variant } from 'react-bootstrap/esm/types';
 
 interface IArtworkProps {
@@ -41,29 +33,12 @@ const Artworks = ({ current = false }: IArtworkProps) => {
         grouping: grouping,
         search: searchTerm
     });
-    const [newArtworks, setNewArtworks] = useState<Array<IArtwork>>([]);
-    const [responseToasts, setResponseToasts] = useState<Array<IResponseType>>([]);
     const [showArtworkForm, setShowArtworkForm] = useState(false);
     const [selectedArtwork, setSelectedArtwork] = useState<IArtwork | null>(null);
 
     const navigateTo = useNavigate();
 
-    const { isMobile } = useScreenSize();
-    const adminButtonsMarginBottom = isMobile ? 1 : 5;
-
     const enterSite = () => navigateTo('/artworks?year=2024');
-
-    const addNewArtwork = useCallback(() => {
-        setNewArtworks([...newArtworks, ArtworkAttributes.create()]);
-    }, [newArtworks]);
-
-    const removeNewArtwork = useCallback(() => {
-        setNewArtworks(newArtworks.slice(0, -1));
-    }, [newArtworks]);
-
-    const addResponseToast = useCallback((responseToast: IResponseType) => {
-        setResponseToasts([...responseToasts, responseToast])
-    }, [responseToasts]);
 
     return (
         <Container fluid={'sm'} className="align-items-center">
@@ -74,41 +49,7 @@ const Artworks = ({ current = false }: IArtworkProps) => {
                     setShowArtworkForm(false);
                     setSelectedArtwork(null);
                 }}
-                onResponse={(response) => {
-                    // Handle response (show toast, etc.)
-                    setResponseToasts(prev => [...prev, response]);
-                }}
             />
-            <ToastContainer
-                position="bottom-end"
-                className="p-3 position-fixed"
-                style={{ zIndex: 1000 }}
-            >
-                {responseToasts.map((toast) => (
-                    <Toast
-                        key={`${toast.text}-${toast.variant}`}
-                        bg={toast.variant ?? ''}
-                        autohide={true}
-                        delay={3000}
-                        onClose={() => setResponseToasts((prev) => {
-                            if (prev.length <= 1) {
-                                return [];
-                            }
-                            const [_, ...rest] = prev;
-                            return rest;
-                        })}
-                    >
-                        <Toast.Header>
-                            <strong className='me-auto'>
-                                {'Update Message'}
-                            </strong>
-                        </Toast.Header>
-                        <Toast.Body>
-                            {toast.text}
-                        </Toast.Body>
-                    </Toast>
-                ))}
-            </ToastContainer>
             {isLoggedIn
                 ? (
                     <Button onClick={() => {
