@@ -1,11 +1,12 @@
 import * as React from "react"
-import { useCallback, useEffect, useMemo, useState } from "react"
-import { Button, Form, Modal, Spinner } from 'react-bootstrap';
+import { useCallback, useContext, useEffect, useMemo, useState } from "react"
+import { Badge, Button, Form, Modal, Spinner, Stack, Toast, ToastContainer } from 'react-bootstrap';
 import { ArtworkAttributes, IArtwork, iArtworkToFormData, IImage } from "../models/Artwork";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { IResponseType } from "./Artworks";
 import ArtworkFormFields from "./ArtworkFormFields";
+import { ToastsContext } from "./providers/ToastsProvider";
 
 export interface IArtworkFormData extends Omit<IArtwork, '_id' | 'images'> {
     file?: File;
@@ -28,15 +29,10 @@ interface IArtworkFormProps {
     artwork: IArtwork | null;
     show: boolean;
     onClose: () => void;
-    onResponse: (response: IResponseType) => void;
 }
 
-const ArtworkForm: React.FC<IArtworkFormProps> = ({
-    artwork: initialArtwork,
-    show,
-    onClose,
-    onResponse
-}) => {
+const ArtworkForm: React.FC<IArtworkFormProps> = ({ artwork: initialArtwork, show, onClose }) => {
+    const { setResponseToasts } = useContext(ToastsContext);
     const defaultArtwork = useMemo(() => ({
         title: '',
         year: '',
@@ -81,23 +77,19 @@ const ArtworkForm: React.FC<IArtworkFormProps> = ({
             return axios.delete(`${import.meta.env.VITE_API_BASE_URL}/api/artworks/${id}`);
         },
         onSuccess: (data) => {
-            if (onResponse) {
-                onResponse({
-                    text: data.data.message,
-                    variant: 'success'
-                });
-            }
+            setResponseToasts(prev => [...prev, {
+                text: data.data.message,
+                variant: 'success'
+            }]);
             setCurrentAttributes(ArtworkAttributes.create());
             reset();
             queryClient.invalidateQueries({ queryKey: ['artworks'] });
         },
         onError: (data) => {
-            if (onResponse) {
-                onResponse({
-                    text: `${data.code} - ${data.message}`,
-                    variant: 'danger'
-                });
-            }
+            setResponseToasts(prev => [...prev, {
+                text: `${data.code} - ${data.message}`,
+                variant: 'danger'
+            }]);
         }
     });
 
@@ -115,18 +107,19 @@ const ArtworkForm: React.FC<IArtworkFormProps> = ({
                 : axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/artworks`, formData);
         },
         onSuccess: (data) => {
-            onResponse({
+            setResponseToasts(prev => [...prev, {
                 text: data.data.message,
                 variant: 'success'
-            });
+            }]);
             setId(data.data.artwork._id);
             queryClient.invalidateQueries({ queryKey: ['artworks'] });
+            onClose();
         },
         onError: (data: AxiosError<{ message?: string }>) => {
-            onResponse({
+            setResponseToasts(prev => [...prev, {
                 text: `${data.code} - ${data.response?.data?.message ?? data.message}`,
                 variant: 'danger'
-            });
+            }]);
         }
     });
 
@@ -184,10 +177,19 @@ const ArtworkForm: React.FC<IArtworkFormProps> = ({
                     padding: '20px',
                     flex: '1 1 auto'
                 }}>
-                    <ArtworkFormFields
-                        currentAttributes={currentAttributes}
-                        setCurrentAttributes={setCurrentAttributes}
-                    />
+                    {isPending ? (
+                        <Stack direction="vertical" gap={2} style={{ alignItems: 'center' }}>
+                            <Spinner variant="info" animation="border" className="text-center" />
+                            <h5>
+                                <Badge bg="info">{'Saving artwork'}</Badge>
+                            </h5>
+                        </Stack>
+                    ) : (
+                        <ArtworkFormFields
+                            currentAttributes={currentAttributes}
+                            setCurrentAttributes={setCurrentAttributes}
+                        />
+                    )}
                 </Modal.Body>
                 <Modal.Footer style={{ borderTop: '1px solid #dee2e6' }}>
                     {id && (
