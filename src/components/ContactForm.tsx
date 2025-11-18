@@ -55,7 +55,7 @@ const ContactForm = () => {
                                 <Toast
 
                                     className={'position-absolute top-50 start-50 translate-middle'}
-                                    onClose={() => navigateTo('/artworks?year=2022')}
+                                    onClose={() => navigateTo('/artworks')}
                                     bg='success'
                                 >
                                     <Toast.Header>
