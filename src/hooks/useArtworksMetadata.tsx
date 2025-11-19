@@ -12,7 +12,7 @@ interface IArtworkMetadata {
 const hiddenGroupings = ['digital_edits'];
 
 const useArtworksMetadata = () => useQuery<IArtworkMetadataResponse, Error, IArtworkMetadata>({
-    queryKey: ['artworks-meta-data'],
+    queryKey: ['artworks', 'meta-data'],
     queryFn: () => axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/artworks/meta-data`),
     select: (data) => ({
         groupings: data.data.groupings.filter((grouping) => !hiddenGroupings.includes(grouping)),

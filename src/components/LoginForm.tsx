@@ -3,7 +3,7 @@ import { useContext, useState } from "react";
 import { Form, Container, Button, Row, Col, Spinner } from 'react-bootstrap';
 import { useNavigate } from "react-router-dom";
 import { BackgroundColorContext, textColor } from "./providers/BackgroundColorProvider";
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios, { AxiosError } from 'axios';
 import { AuthenticationContext } from "./providers/AuthenticationProvider";
 
@@ -26,6 +26,7 @@ const LoginForm = () => {
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const navigateTo = useNavigate();
+    const queryClient = useQueryClient();
 
     const { isPending, mutate } = useMutation<ILoginFormResponse, AxiosError, ILoginFormData>({
         mutationFn: async (formData: ILoginFormData) => {
@@ -36,6 +37,9 @@ const LoginForm = () => {
         },
         onSuccess: (data, variables, context) => {
             sessionStorage.setItem('artsite-token', data.data.token);
+            queryClient.invalidateQueries({
+                queryKey: ['artworks']
+            });
             navigateTo('/artworks/current');
             variables.setIsLoggedIn(true);
         },
