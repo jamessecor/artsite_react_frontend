@@ -33,7 +33,7 @@ const Cv = () => {
             <Tabs
                 activeKey={activeTab}
                 onSelect={(k) => setActiveTab(k || "solo")}
-                className="mb-4 justify-content-center"
+                className="mb-4"
                 variant="pills"
             >
                 <Tab eventKey="solo" title="Solo Shows" className="py-3">
