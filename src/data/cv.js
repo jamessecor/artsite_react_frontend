@@ -1,5 +1,12 @@
 export const soloShows = [
     {
+        name: 'Chocolate Sprinkle Carrot Cake',
+        location: 'ARTE at 159 North Main',
+        url: 'https://studioplacearts.com',
+        address: '159 North Main St, Barre, VT',
+        dates: 'November 19 2025 - March 1 2026'
+    },
+    {
         name: 'Faulty Harbor',
         location: 'The Satellite Gallery',
         url: 'https://thesatellitegalleryvt.weebly.com/',
