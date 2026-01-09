@@ -1,4 +1,12 @@
-export const soloShows = [
+export interface ICVItem {
+    name: string;
+    location?: string;
+    url?: string;
+    address?: string;
+    dates?: string;
+}
+
+export const soloShows: Array<ICVItem> = [
     {
         name: 'Chocolate Sprinkle Carrot Cake',
         location: 'ARTE at 159 North Main',
@@ -37,7 +45,7 @@ export const soloShows = [
     {
         name: "Chirping in the Thickets",
         location: "the Front",
-        url: "https://thefrontvt.com",
+        url: "https://thefrontvt.com/shows/chirping-in-the-thickets",
         address: "6 Barre St, Montpelier, VT",
         dates: "Nov 2022"
     },
@@ -123,7 +131,7 @@ export const soloShows = [
     },
 ]
 
-export const groupShows = [
+export const groupShows: Array<ICVItem> = [
     {
         name: "Spaces & Places",
         location: "Vermont Supreme Court Gallery",
@@ -261,7 +269,7 @@ export const groupShows = [
     }
 ]
 
-export const residencies = [
+export const residencies: Array<ICVItem> = [
     {
         name: "VT Artists Week",
         location: "Vermont Studio Center",
@@ -271,7 +279,7 @@ export const residencies = [
     }
 ]
 
-export const education = [
+export const education: Array<ICVItem> = [
     {
         name: "Hobart College (HWS)",
         address: "Geneva, NY",
@@ -280,7 +288,12 @@ export const education = [
     }
 ]
 
-export const press = [
+export const press: Array<ICVItem> = [
+    {
+        name: 'Seven Days',
+        location: 'Standout Vermont Artists to Keep an Eye On in 2026',
+        url: '/articles/keep-an-eye-out-in-2026.pdf'
+    },
     {
         name: 'Seven Days',
         location: '\'Spaces & Places\': A Group Show at the Supreme Court Gallery by Alice Dodge',
@@ -323,17 +336,20 @@ export const press = [
     }
 ]
 
-export const links = [
+export const links: Array<ICVItem> = [
     {
+        name: 'Off the Wallabies Kids Book',
         location: "Off the Wallabies & Other Creature Habits",
         url: "https://peppertreepublishing.com/off-the-wallabies-other-creature-habits/"
     },
     {
+        name: 'Vermont Art Guide',
         location: "Vermont Art Guide #3",
         url: "https://shop.kasinihouseartshop.com/product/vermont-art-guide-3"
     },
     {
+        name: 'Illustrations in Memoir',
         location: "Suspended Sentence by Janice Morgan",
-        url: "https://janicemorganauthor.com/suspended-sentence/portraits/"
+        url: "https://www.simonandschuster.com/books/Suspended-Sentence/Janice-Morgan/9781631526442"
     },
 ]
