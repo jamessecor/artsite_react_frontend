@@ -2,15 +2,18 @@ import * as React from "react"
 import { Dispatch, SetStateAction, useContext, useEffect, useMemo, useState } from "react"
 import MovingColorImage from "./MovingColorImage";
 import PriceFormatter from "./PriceFormatter";
-import { Button, Col, Form, Modal, Spinner, Stack, Toast, ToastContainer } from 'react-bootstrap';
+import { Badge, Button, Col, Form, Modal, Spinner, Stack, Toast, ToastContainer } from 'react-bootstrap';
 import { BackgroundColorContext, isTooLightForDarkTheme } from "./providers/BackgroundColorProvider";
 import { BsHeart as BsHeartIcon, BsHeartFill as BsHeartFillIcon } from "react-icons/bs";
+import { GiElephant as GiElephantIcon } from "react-icons/gi";
 const BsHeart = BsHeartIcon as React.ComponentType<any>;
 const BsHeartFill = BsHeartFillIcon as React.ComponentType<any>;
+const GiElephant = GiElephantIcon as React.ComponentType<any>;
 import { getImageSrc, IArtwork, ILike } from "../models/Artwork";
 import axios, { AxiosError } from "axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { SettingsContext } from "./providers/SettingsProvider";
+import { AuthenticationContext } from "./providers/AuthenticationProvider";
 
 interface ArtworkParams {
     attributes: IArtwork;
@@ -46,6 +49,7 @@ const likesHeartColor = '#bb9999';
 const Artwork: React.FC<ArtworkParams> = ({ attributes, onClick }: ArtworkParams) => {
     const { color } = useContext(BackgroundColorContext);
     const { isShowingInfo } = useContext(SettingsContext);
+    const { isLoggedIn } = useContext(AuthenticationContext);
     const likes: Array<IArtwork> = useMemo(() => JSON.parse(sessionStorage.getItem(likesSessionName) ?? '[]') ?? [], []);
     const [isLiked, setIsLiked] = useState(likes.filter((like) => like._id === attributes._id).length > 0);
     const [totalLikes, setTotalLikes] = useState(attributes.totalLikes ?? 0);
@@ -147,7 +151,26 @@ const Artwork: React.FC<ArtworkParams> = ({ attributes, onClick }: ArtworkParams
                 </Modal.Body>
             </Modal>
             {onClick
-                ? <img onClick={onClick} src={imageSrc} title={attributes.title} className={'w-100'} />
+                ? (
+                    <div className="position-relative">
+                        {isLoggedIn ?
+                            <div className="position-absolute top-0 end-0 p-1">
+                                <Stack direction="horizontal" gap={1}>
+                                    {attributes.images?.map((image, index) => {
+                                        return (
+                                            <Button key={image.size} variant={'dark'} onClick={() => open(image.url)}>
+                                                {index === 0
+                                                    ? <GiElephant />
+                                                    : image.size}
+                                            </Button>
+                                        );
+                                    })}
+                                </Stack>
+                            </div>
+                            : null}
+                        <img onClick={onClick} src={imageSrc} title={attributes.title} className={'w-100'} />
+                    </div>
+                )
                 : <MovingColorImage src={imageSrc} title={attributes.title} />
             }
             <Stack direction={'horizontal'} className={'mt-2'} style={{ justifyContent: 'space-between' }}>
