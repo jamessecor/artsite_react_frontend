@@ -294,9 +294,9 @@ const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
                         {'Launch'}
                     </Button>
                 ) : null}
-            <Modal 
-                show={isShowingModal} 
-                onHide={() => setIsShowingModal(false)} 
+            <Modal
+                show={isShowingModal}
+                onHide={() => setIsShowingModal(false)}
                 fullscreen={true}
                 id="canvas-modal"
             >
@@ -334,41 +334,17 @@ const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
                         touchAction: 'pinch-zoom'
                     }}
                 />
-                <Stack
-                    direction={'horizontal'}
-                    className={'position-fixed w-100'}
+                <Button
+                    onClick={() => setShowDrawingUtilities(!showDrawingUtilities)}
+                    variant={'outline'}
+                    className={'position-fixed text-light'}
                     style={{
                         zIndex: 1000
                     }}
+
                 >
-                    <Button
-                        onClick={() => setShowDrawingUtilities(!showDrawingUtilities)}
-                        variant={'outline'}
-                        className={'text-light'}
-                    >
-                        <RiSettings5Fill />
-                    </Button>
-                    {isMobile
-                        ? (
-                            <div className={'ms-auto'}>
-                                <Button
-                                    onClick={() => undo()}
-                                    variant={'outline'}
-                                    className={'text-light'}
-                                >
-                                    <BiUndo />
-                                </Button>
-                                <Button
-                                    onClick={() => redo()}
-                                    variant={'outline'}
-                                    className={'text-light'}
-                                >
-                                    <BiRedo />
-                                </Button>
-                            </div>
-                        )
-                        : null}
-                </Stack>
+                    <RiSettings5Fill />
+                </Button>
                 <Navbar.Offcanvas
                     onHide={() => setShowDrawingUtilities(!showDrawingUtilities)}
                     show={showDrawingUtilities}
