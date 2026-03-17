@@ -134,6 +134,7 @@ const SoldArtworks = () => {
                 <table className={`table ${textColorClass}`}>
                     <thead>
                         <tr>
+                            <th>Date</th>
                             <th>Artwork</th>
                             <th className="text-end">Price</th>
                             <th className="text-end">Tax (VT State 6%)</th>
@@ -146,7 +147,7 @@ const SoldArtworks = () => {
                     <tbody>
                         {isLoadingArtworks ? (
                             <tr>
-                                <td colSpan={5} className="text-center">
+                                <td colSpan={8} className="text-center">
                                     <Spinner variant={'info'} animation={'border'} />
                                 </td>
                             </tr>
@@ -159,6 +160,7 @@ const SoldArtworks = () => {
                                         key={artwork._id}
                                         className={artwork.taxStatus === 'paid' ? '' : 'table-secondary'}
                                     >
+                                        <td>{artwork.saleDate ? new Date(artwork.saleDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : ''}</td>
                                         <td>{artwork.title}</td>
                                         <td className="text-end">${basePrice.toFixed(2)}</td>
                                         <td className="text-end">${stateTax.toFixed(2)}</td>
@@ -184,33 +186,75 @@ const SoldArtworks = () => {
                         )}
                         {soldArtworks && soldArtworks.length > 0 && (() => {
                             // Calculate all totals in a single reduce pass
-                            const { subtotal, stateTaxTotal, localTaxTotal, totalTaxTotal, grandTotal } = soldArtworks.reduce(
+                            const totals = soldArtworks.reduce(
                                 (acc, artwork) => {
                                     const { basePrice, stateTax, localTax, totalTax, totalWithTax } = getTaxCalculations(artwork.salePrice ?? artwork.price);
 
-                                    if (artwork.taxStatus !== 'paid') {
-                                        acc.subtotal += basePrice;
-                                        acc.stateTaxTotal += stateTax;
-                                        acc.localTaxTotal += localTax;
-                                        acc.totalTaxTotal += totalTax;
+                                    if (artwork.taxStatus === 'paid') {
+                                        acc.paid.subtotal += basePrice;
+                                        acc.paid.stateTaxTotal += stateTax;
+                                        acc.paid.localTaxTotal += localTax;
+                                        acc.paid.totalTaxTotal += totalTax;
+                                        acc.paid.grandTotal += totalWithTax;
+                                    } else {
+                                        acc.unpaid.subtotal += basePrice;
+                                        acc.unpaid.stateTaxTotal += stateTax;
+                                        acc.unpaid.localTaxTotal += localTax;
+                                        acc.unpaid.totalTaxTotal += totalTax;
+                                        acc.unpaid.grandTotal += totalWithTax;
                                     }
-                                    acc.grandTotal += totalWithTax;
+
+                                    acc.total.subtotal += basePrice;
+                                    acc.total.stateTaxTotal += stateTax;
+                                    acc.total.localTaxTotal += localTax;
+                                    acc.total.totalTaxTotal += totalTax;
+                                    acc.total.grandTotal += totalWithTax;
 
                                     return acc;
                                 },
-                                { subtotal: 0, stateTaxTotal: 0, localTaxTotal: 0, totalTaxTotal: 0, grandTotal: 0 }
+                                {
+                                    total: { subtotal: 0, stateTaxTotal: 0, localTaxTotal: 0, totalTaxTotal: 0, grandTotal: 0 },
+                                    paid: { subtotal: 0, stateTaxTotal: 0, localTaxTotal: 0, totalTaxTotal: 0, grandTotal: 0 },
+                                    unpaid: { subtotal: 0, stateTaxTotal: 0, localTaxTotal: 0, totalTaxTotal: 0, grandTotal: 0 }
+                                }
                             );
 
                             return (
-                                <tr className="table-primary fw-bold">
-                                    <td className="text-end">Subtotal:</td>
-                                    <td className="text-end">${subtotal.toFixed(2)}</td>
-                                    <td className="text-end">${stateTaxTotal.toFixed(2)}</td>
-                                    <td className="text-end">${localTaxTotal.toFixed(2)}</td>
-                                    <td className="text-end">${totalTaxTotal.toFixed(2)}</td>
-                                    <td className="text-end">${grandTotal.toFixed(2)}</td>
-                                    <td></td>
-                                </tr>
+                                <>
+                                    <tr className="table-primary fw-bold">
+                                        <td></td>
+                                        <td className="text-end">Total:</td>
+                                        <td className="text-end">${totals.total.subtotal.toFixed(2)}</td>
+                                        <td className="text-end">${totals.total.stateTaxTotal.toFixed(2)}</td>
+                                        <td className="text-end">${totals.total.localTaxTotal.toFixed(2)}</td>
+                                        <td className="text-end">${totals.total.totalTaxTotal.toFixed(2)}</td>
+                                        <td className="text-end">${totals.total.grandTotal.toFixed(2)}</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr className="table-success fw-bold">
+                                        <td></td>
+                                        <td className="text-end">Paid:</td>
+                                        <td className="text-end">${totals.paid.subtotal.toFixed(2)}</td>
+                                        <td className="text-end">${totals.paid.stateTaxTotal.toFixed(2)}</td>
+                                        <td className="text-end">${totals.paid.localTaxTotal.toFixed(2)}</td>
+                                        <td className="text-end">${totals.paid.totalTaxTotal.toFixed(2)}</td>
+                                        <td className="text-end">${totals.paid.grandTotal.toFixed(2)}</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr className="table-secondary fw-bold">
+                                        <td></td>
+                                        <td className="text-end">Unpaid:</td>
+                                        <td className="text-end">${totals.unpaid.subtotal.toFixed(2)}</td>
+                                        <td className="text-end">${totals.unpaid.stateTaxTotal.toFixed(2)}</td>
+                                        <td className="text-end">${totals.unpaid.localTaxTotal.toFixed(2)}</td>
+                                        <td className="text-end">${totals.unpaid.totalTaxTotal.toFixed(2)}</td>
+                                        <td className="text-end">${totals.unpaid.grandTotal.toFixed(2)}</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </>
                             );
                         })()}
                     </tbody>
