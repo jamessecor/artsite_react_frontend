@@ -55,7 +55,7 @@ const App = () => {
                                     <Routes>
                                         <Route element={<Banner />}>
                                             <Route element={<Navigation />}>
-                                                <Route path={'/'} element={<Artworks current={true} />} />
+                                                <Route path={'/'} element={<HomePage />} />
                                                 <Route path={'/artworks/current'} element={<Artworks current={true} />} />
                                                 <Route path={'/artworks/sold'} element={<SoldArtworks />} />
                                                 <Route path={'/artworks/inventory'} element={<ArtworkInventory />} />
