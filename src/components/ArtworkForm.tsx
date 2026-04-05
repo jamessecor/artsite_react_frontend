@@ -25,6 +25,13 @@ interface IArtworkDeleteFormResponse {
     }
 }
 
+interface IArtworkCopyResponse {
+    data: {
+        message: string;
+        artwork: IArtwork;
+    }
+}
+
 interface IArtworkFormProps {
     artwork: IArtwork | null;
     show: boolean;
@@ -93,6 +100,27 @@ const ArtworkForm: React.FC<IArtworkFormProps> = ({ artwork: initialArtwork, sho
         }
     });
 
+    const copyMutation = useMutation<IArtworkCopyResponse, AxiosError>({
+        mutationFn: async () => {
+            axios.defaults.headers.post['Authorization'] = sessionStorage.getItem('artsite-token');
+            return axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/artworks/${id}/copy`);
+        },
+        onSuccess: (data) => {
+            setResponseToasts(prev => [...prev, {
+                text: data.data.message,
+                variant: 'success'
+            }]);
+            queryClient.invalidateQueries({ queryKey: ['artworks'] });
+            onClose();
+        },
+        onError: (data: AxiosError<{ message?: string }>) => {
+            setResponseToasts(prev => [...prev, {
+                text: `${data.code} - ${data.response?.data?.message ?? data.message}`,
+                variant: 'danger'
+            }]);
+        }
+    });
+
     const { reset, isSuccess, isPending, mutate } = useMutation<IArtworkFormResponse, AxiosError, IArtworkFormData>({
         mutationFn: async (formData: IArtworkFormData) => {
             axios.defaults.headers.put['Authorization'] = sessionStorage.getItem('artsite-token');
@@ -129,6 +157,13 @@ const ArtworkForm: React.FC<IArtworkFormProps> = ({ artwork: initialArtwork, sho
             deleteMutation.mutate();
         }
     }, [id, deleteMutation]);
+
+    const handleCopy = useCallback((e: React.MouseEvent) => {
+        e.preventDefault();
+        if (id && window.confirm('Create a new artwork based on this one? The image will not be copied.')) {
+            copyMutation.mutate();
+        }
+    }, [id, copyMutation]);
 
     const handleSubmit = useCallback((e: React.FormEvent) => {
         e.preventDefault();
@@ -192,19 +227,6 @@ const ArtworkForm: React.FC<IArtworkFormProps> = ({ artwork: initialArtwork, sho
                     )}
                 </Modal.Body>
                 <Modal.Footer style={{ borderTop: '1px solid #dee2e6' }}>
-                    {id && (
-                        <Button
-                            variant="outline-danger"
-                            onClick={handleDelete}
-                            disabled={deleteMutation.isPending}
-                            className="me-auto"
-                        >
-                            {deleteMutation.isPending ? (
-                                <Spinner variant="light" size="sm" className="me-2" />
-                            ) : null}
-                            Delete Artwork
-                        </Button>
-                    )}
                     <Button
                         variant="secondary"
                         onClick={onClose}
@@ -212,17 +234,45 @@ const ArtworkForm: React.FC<IArtworkFormProps> = ({ artwork: initialArtwork, sho
                     >
                         Cancel
                     </Button>
-                    <Button
-                        variant="primary"
-                        type="submit"
-                        form="artwork-form"
-                        disabled={isPending}
-                    >
-                        {isPending ? (
-                            <Spinner variant="light" size="sm" className="me-2" />
-                        ) : null}
-                        {id ? 'Save Changes' : 'Add Artwork'}
-                    </Button>
+                    <div className="ms-auto">
+                        {id && (
+                            <>
+                                <Button
+                                    variant="outline-danger"
+                                    onClick={handleDelete}
+                                    disabled={deleteMutation.isPending}
+                                    className="me-2"
+                                >
+                                    {deleteMutation.isPending ? (
+                                        <Spinner variant="light" size="sm" className="me-2" />
+                                    ) : null}
+                                    Delete
+                                </Button>
+                                <Button
+                                    variant="outline-primary"
+                                    onClick={handleCopy}
+                                    disabled={copyMutation.isPending}
+                                    className="me-2"
+                                >
+                                    {copyMutation.isPending ? (
+                                        <Spinner variant="light" size="sm" className="me-2" />
+                                    ) : null}
+                                    Copy
+                                </Button>
+                            </>
+                        )}
+                        <Button
+                            variant="primary"
+                            type="submit"
+                            form="artwork-form"
+                            disabled={isPending}
+                        >
+                            {isPending ? (
+                                <Spinner variant="light" size="sm" className="me-2" />
+                            ) : null}
+                            {id ? 'Save Changes' : 'Add'}
+                        </Button>
+                    </div>
                 </Modal.Footer>
             </Modal>
         </Form>
