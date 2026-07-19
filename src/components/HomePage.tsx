@@ -6,6 +6,8 @@ const HomePage = () => {
     const navigateTo = useNavigate();
     const [flashingStates, setFlashingStates] = useState<boolean[]>(Array(16).fill(false));
     const [enterButtonIndex] = useState(Math.floor(Math.random() * 16));
+    const [potentialDrawButtonIndex] = useState(Math.floor(Math.random() * 16));
+    const [drawButtonIndex] = useState((enterButtonIndex === potentialDrawButtonIndex) ? potentialDrawButtonIndex : potentialDrawButtonIndex + 1);
 
     // Harmonious color palette for 4x4 grid
     const colors = [
@@ -33,14 +35,24 @@ const HomePage = () => {
         navigateTo('/artworks/current');
     }
 
+    const goToDraw = () => {
+        navigateTo('/nomophobia/canvas/draw')
+    }
+
+    const onClick = (index: number) => {
+        if (index === enterButtonIndex) return enterSite();
+        if (index === drawButtonIndex) return goToDraw();
+        return undefined;
+    }
+
     return (
-        <div 
-            style={{ 
+        <div
+            style={{
                 position: 'fixed',
                 top: 0,
                 left: 0,
-                width: '100vw', 
-                height: '100vh', 
+                width: '100vw',
+                height: '100vh',
                 backgroundColor: '#1a1a1a',
                 margin: 0,
                 padding: 0,
@@ -53,7 +65,7 @@ const HomePage = () => {
                     {colors.map((color, index) => (
                         <div
                             key={index}
-                            onClick={index === enterButtonIndex ? enterSite : undefined}
+                            onClick={() => onClick(index)}
                             style={{
                                 width: '60px',
                                 height: '60px',
@@ -66,12 +78,13 @@ const HomePage = () => {
                                 display: 'flex',
                                 alignItems: 'center',
                                 justifyContent: 'center',
-                                color: index === enterButtonIndex ? '#1a1a1a' : 'transparent',
+                                color: index === enterButtonIndex || index === drawButtonIndex ? '#1a1a1a' : 'transparent',
                                 fontWeight: 'bold',
                                 fontSize: '10px'
                             }}
                         >
                             {index === enterButtonIndex && 'enter'}
+                            {index === drawButtonIndex && 'draw'}
                         </div>
                     ))}
                 </div>

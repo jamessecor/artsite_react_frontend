@@ -6,7 +6,7 @@ import './Canvas.css';
 import DrawingUtilities from '../Drawing/DrawingUtilities';
 import useScreenSize from '../../hooks/useScreenSize';
 import { RiSettings5Fill } from 'react-icons/ri';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import useKeyPress from '../../hooks/useKeyPress';
 import { RGBColor } from 'react-color';
 
@@ -17,6 +17,7 @@ interface ICoords {
 
 interface CanvasParams {
     isLoading?: boolean;
+    isDrawing?: boolean;
 }
 
 interface ILine {
@@ -33,7 +34,7 @@ interface IHistory {
     current: number;
 }
 
-const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
+const Canvas: React.FC<CanvasParams> = ({ isLoading, isDrawing }) => {
     const DEFAULT_STEPS = 10;
     const [lineOrder, setLineOrder] = useState(0);
     const [history, setHistory] = useState<IHistory>({ actions: [], current: 0 });
@@ -41,7 +42,7 @@ const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
     const [color, setColor] = useState<RGBColor>({ r: 0, g: 0, b: 250, a: 1 });
     const getColorString = (rgba: RGBColor) => `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`;
     const [showDrawingUtilities, setShowDrawingUtilities] = useState(false);
-    const [isShowingModal, setIsShowingModal] = useState(false);
+    const [isShowingModal, setIsShowingModal] = useState(isDrawing);
     const [imageFile, setImageFile] = useState<File | null>(null);
     const [isErasing, setIsErasing] = useState(false);
     const navigateTo = useNavigate();
@@ -337,7 +338,7 @@ const Canvas: React.FC<CanvasParams> = ({ isLoading }) => {
                 <Button
                     onClick={() => setShowDrawingUtilities(!showDrawingUtilities)}
                     variant={'outline'}
-                    className={'position-fixed text-light'}
+                    className={'position-fixed text-light btn-lg'}
                     style={{
                         zIndex: 1000
                     }}
