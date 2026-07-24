@@ -13,8 +13,10 @@
     }
 
     50% {
+        transform: scale(.7);
         filter: hue-rotate(180deg);
-        transform: scale(.25);
+        border-radius: 50%;
+        translate: 10px 10px;
     }
 
     100% {
