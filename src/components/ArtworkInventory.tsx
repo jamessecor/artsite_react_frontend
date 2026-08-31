@@ -43,7 +43,7 @@ const ArtworkInventory: React.FC = () => {
   });
 
   // Fetch all artworks
-  const { data: artworks = [], isLoading, error } = useQuery({
+  const { data: artworks = [], isLoading, error } = useQuery<Array<IArtwork>>({
     queryKey: ['artworks', 'inventory'],
     queryFn: async () => {
       const { data } = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/artworks`);
@@ -277,7 +277,12 @@ const ArtworkInventory: React.FC = () => {
             {filteredArtworks.length > 0 ? (
               filteredArtworks.map(artwork => (
                 <tr key={artwork._id}>
-                  <td>{artwork.title}</td>
+                  <td>
+                    <Stack direction={'horizontal'} gap={1}>
+                      <img src={artwork.images[0].url} alt="" style={{ width: '25px', maxHeight: '25px', objectFit: 'contain' }} />
+                      {artwork.title}
+                    </Stack>
+                  </td>
                   <td>{artwork.year}</td>
                   <td>{artwork.media}</td>
                   <td>{artwork.width} x {artwork.height}</td>
