@@ -279,7 +279,7 @@ const ArtworkInventory: React.FC = () => {
                 <tr key={artwork._id}>
                   <td>
                     <Stack direction={'horizontal'} gap={1}>
-                      <img src={artwork.images[0].url} alt="" style={{ width: '25px', maxHeight: '25px', objectFit: 'contain' }} />
+                      <img src={artwork.images[0].url} alt="" style={{ width: '50px', maxHeight: '50px', objectFit: 'contain' }} />
                       {artwork.title}
                     </Stack>
                   </td>
