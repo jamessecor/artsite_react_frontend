@@ -8,6 +8,13 @@ export interface ICVItem {
 
 export const soloShows: Array<ICVItem> = [
     {
+        name: 'New Coffee 2026: Subtle Changes',
+        location: 'Village Wine and Coffee',
+        url: 'https://www.villagewineandcoffee.com/',
+        address: '5288 Shelburne Rd #1, Shelburne, VT',
+        dates: 'September 2026'
+    },
+    {
         name: 'Chocolate Sprinkle Carrot Cake',
         location: 'ARTE at 159 North Main',
         url: 'https://studioplacearts.com',
@@ -26,7 +33,7 @@ export const soloShows: Array<ICVItem> = [
         location: 'J. Langdon',
         url: "https://www.jlangdonvermont.com/artwalk",
         address: "7 Langdon St, Montpelier, VT",
-        dates: "Oct, 2024"
+        dates: "October 2024"
     },
     {
         name: 'Eclosion',

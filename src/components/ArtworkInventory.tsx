@@ -18,6 +18,7 @@ import { IArtwork, Groupings, GroupingsLabels } from '../models/Artwork';
 import { AuthenticationContext } from './providers/AuthenticationProvider';
 import ArtworkForm from './ArtworkForm';
 import { BackgroundColorContext, isTooLightForDarkTheme } from './providers/BackgroundColorProvider';
+import { Link } from 'react-router-dom';
 
 interface IFilters {
   search: string;
@@ -31,6 +32,7 @@ const ArtworkInventory: React.FC = () => {
   const { isLoggedIn } = useContext(AuthenticationContext);
   const { color } = useContext(BackgroundColorContext);
   const queryClient = useQueryClient();
+
   const [showArtworkForm, setShowArtworkForm] = useState(false);
   const [selectedArtwork, setSelectedArtwork] = useState<IArtwork | null>(null);
 
@@ -46,6 +48,7 @@ const ArtworkInventory: React.FC = () => {
   const { data: artworks = [], isLoading, error } = useQuery<Array<IArtwork>>({
     queryKey: ['artworks', 'inventory'],
     queryFn: async () => {
+      axios.defaults.headers.get['Authorization'] = sessionStorage.getItem('artsite-token');
       const { data } = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/artworks`);
       return data;
     },
@@ -106,6 +109,12 @@ const ArtworkInventory: React.FC = () => {
     });
   }, [artworks, filters]);
 
+  const ids = useMemo(() => {
+    const params = new URLSearchParams();
+    filteredArtworks.forEach((a) => params.append('ids[]', a._id ?? ''));
+    return params.toString();
+  }, [filteredArtworks])
+
   const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFilters(prev => ({
@@ -158,6 +167,9 @@ const ArtworkInventory: React.FC = () => {
     <Container className={textColor + ' mt-4'}>
       <div className="d-flex justify-content-between align-items-center mb-4">
         <h2>Artwork Inventory</h2>
+        <Link to={`/inventory?${ids}`} target={"_blank"}>
+          Create Inventory
+        </Link>
       </div>
 
       {/* Filters */}

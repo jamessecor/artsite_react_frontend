@@ -32,6 +32,7 @@ import SettingsProvider from './providers/SettingsProvider';
 import Video from './nomophobia/Video';
 import ArtworkInventory from './ArtworkInventory';
 import ToastsProvider from './providers/ToastsProvider';
+import Inventory from './Inventory';
 
 const fourHoursInMs = 1000 * 60 * 60 * 4;
 
@@ -83,6 +84,7 @@ const App = () => {
                                                 <Route path={'/login'} element={<LoginForm />} />
                                             </Route>
                                         </Route>
+                                        <Route path={'/inventory'} element={<Inventory />} />
                                         <Route path={'*'} element={<HomePage />} />
                                     </Routes>
                                 </BrowserRouter>

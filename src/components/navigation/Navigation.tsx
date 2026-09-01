@@ -19,7 +19,11 @@ const Navigation = () => {
     const [showSettings, setShowSettings] = useState(false);
 
     return (
-        <React.Fragment>
+        <div style={{
+            marginTop: '3.5rem',
+            paddingTop: '2rem',
+            paddingBottom: '2rem'
+        }}>
             <Navbar fixed='top' variant={'dark'} collapseOnSelect={true} expand={!isMobile}>
                 <Container fluid>
                     {isMobile ? (
@@ -85,8 +89,7 @@ const Navigation = () => {
                 </Container>
             </Navbar>
             <Outlet />
-        </React.Fragment>
-
+        </div>
     );
 };
 
