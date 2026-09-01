@@ -264,8 +264,8 @@ const ArtworkInventory: React.FC = () => {
             <tr>
               <th>Title</th>
               <th>Year</th>
-              <th>Media</th>
               <th>Dimensions</th>
+              <th>Media</th>
               <th>Price</th>
               <th>Status</th>
               <th>Location</th>
@@ -280,12 +280,18 @@ const ArtworkInventory: React.FC = () => {
                   <td>
                     <Stack direction={'horizontal'} gap={1}>
                       <img src={artwork.images[0].url} alt="" style={{ width: '50px', maxHeight: '50px', objectFit: 'contain' }} />
-                      {artwork.title}
+                      <Button
+                        variant={'outline-secondary'}
+                        size={'sm'}
+                        onClick={() => handleEditClick(artwork)}
+                      >
+                        {artwork.title}
+                      </Button>
                     </Stack>
                   </td>
                   <td>{artwork.year}</td>
-                  <td>{artwork.media}</td>
                   <td>{artwork.width} x {artwork.height}</td>
+                  <td>{artwork.media}</td>
                   <td>${artwork.price}</td>
                   <td>{getStatusBadge(artwork)}</td>
                   <td>{artwork.location || 'N/A'}</td>
