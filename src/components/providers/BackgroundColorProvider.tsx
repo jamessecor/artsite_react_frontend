@@ -28,10 +28,7 @@ const BackgroundColorProvider = ({ children }) => {
     return (
         <BackgroundColorContext.Provider value={{ color: color, setColor: setColor }}>
             <div style={{
-                backgroundColor: `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
-                marginTop: '3.5rem',
-                paddingTop: '2rem',
-                paddingBottom: '2rem'
+                backgroundColor: `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`
             }}>
                 {children}
             </div>
