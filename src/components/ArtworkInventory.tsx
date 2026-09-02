@@ -20,13 +20,46 @@ import ArtworkForm from './ArtworkForm';
 import { BackgroundColorContext, isTooLightForDarkTheme } from './providers/BackgroundColorProvider';
 import { Link } from 'react-router-dom';
 
+interface ISortBy {
+  column: keyof IArtwork;
+  direction: 'asc' | 'desc';
+}
+
 interface IFilters {
   search: string;
   status: 'all' | 'available' | 'sold';
   location: string;
   buyer: string;
   grouping: string;
+  sortBy?: ISortBy;
 }
+
+const sortArtworks = (artworks: Array<IArtwork>, sortBy: ISortBy): Array<IArtwork> => {
+  const { column, direction } = sortBy;
+  switch (column) {
+    case 'title':
+      if (direction === 'asc') {
+        return artworks.sort((a, b) => a.title.localeCompare(b.title));
+      } else {
+        return artworks.sort((a, b) => b.title.localeCompare(a.title));
+      }
+    case 'year':
+      if (direction === 'asc') {
+        return artworks.sort((a, b) => Number(a.year) - Number(b.year));
+      } else {
+        return artworks.sort((a, b) => Number(b.year) - Number(a.year));
+      }
+    case 'price':
+      if (direction === 'asc') {
+        return artworks.sort((a, b) => Number(a.price) - Number(b.price));
+      } else {
+        return artworks.sort((a, b) => Number(b.price) - Number(a.price));
+      }
+    default:
+      return artworks;
+  }
+};
+
 
 const ArtworkInventory: React.FC = () => {
   const { isLoggedIn } = useContext(AuthenticationContext);
@@ -80,7 +113,7 @@ const ArtworkInventory: React.FC = () => {
 
   // Filter artworks based on current filters
   const filteredArtworks = useMemo(() => {
-    return artworks.filter(artwork => {
+    const preSortedArtworks = artworks.filter(artwork => {
       // Filter by status
       if (filters.status === 'sold' && !artwork.saleDate) return false;
       if (filters.status === 'available' && artwork.saleDate) return false;
@@ -107,6 +140,7 @@ const ArtworkInventory: React.FC = () => {
 
       return true;
     });
+    return filters.sortBy ? sortArtworks(preSortedArtworks, filters.sortBy) : preSortedArtworks;
   }, [artworks, filters]);
 
   const ids = useMemo(() => {
@@ -274,11 +308,53 @@ const ArtworkInventory: React.FC = () => {
         <Table striped bordered hover variant="dark">
           <thead>
             <tr>
-              <th>Title</th>
-              <th>Year</th>
+              <th>
+                <Button
+                  onClick={() => setFilters((prev) => ({
+                    ...prev,
+                    sortBy: {
+                      column: 'title',
+                      direction: prev.sortBy?.direction === 'asc' ? 'desc' : 'asc'
+                    }
+                  }))}>
+                  Title
+                  {filters.sortBy?.column === 'title'
+                    && (filters.sortBy?.direction === 'asc' && <span>&#x2191;</span>
+                      || filters.sortBy?.direction === 'desc' && <span>&#x2193;</span>)}
+                </Button>
+              </th>
+              <th>
+                <Button
+                  onClick={() => setFilters((prev) => ({
+                    ...prev,
+                    sortBy: {
+                      column: 'year',
+                      direction: prev.sortBy?.direction === 'asc' ? 'desc' : 'asc'
+                    }
+                  }))}>
+                  Year
+                  {filters.sortBy?.column === 'year'
+                    && (filters.sortBy?.direction === 'asc' && <span>&#x2191;</span>
+                      || filters.sortBy?.direction === 'desc' && <span>&#x2193;</span>)}
+                </Button>
+              </th>
               <th>Dimensions</th>
               <th>Media</th>
-              <th>Price</th>
+              <th>
+                <Button
+                  onClick={() => setFilters((prev) => ({
+                    ...prev,
+                    sortBy: {
+                      column: 'price',
+                      direction: prev.sortBy?.direction === 'asc' ? 'desc' : 'asc'
+                    }
+                  }))}>
+                  Price
+                  {filters.sortBy?.column === 'price'
+                    && (filters.sortBy?.direction === 'asc' && <span>&#x2191;</span>
+                      || filters.sortBy?.direction === 'desc' && <span>&#x2193;</span>)}
+                </Button>
+              </th>
               <th>Status</th>
               <th>Location</th>
               <th>Buyer</th>
