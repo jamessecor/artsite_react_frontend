@@ -14,7 +14,7 @@ import {
 } from 'react-bootstrap';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
-import { IArtwork, Groupings, GroupingsLabels } from '../models/Artwork';
+import { IArtwork, Groupings, GroupingsLabels, getImageSrc } from '../models/Artwork';
 import { AuthenticationContext } from './providers/AuthenticationProvider';
 import ArtworkForm from './ArtworkForm';
 import { BackgroundColorContext, isTooLightForDarkTheme } from './providers/BackgroundColorProvider';
@@ -375,7 +375,7 @@ const ArtworkInventory: React.FC = () => {
                 <tr key={artwork._id}>
                   <td>
                     <Stack direction={'horizontal'} gap={1}>
-                      <img src={artwork.images[0].url} alt="" style={{ width: '50px', maxHeight: '50px', objectFit: 'contain' }} />
+                      <img src={getImageSrc(artwork.images)} alt="" style={{ width: '50px', maxHeight: '50px', objectFit: 'contain' }} />
                       <Button
                         variant={'outline-secondary'}
                         size={'sm'}
