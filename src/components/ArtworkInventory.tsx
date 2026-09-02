@@ -60,6 +60,18 @@ const sortArtworks = (artworks: Array<IArtwork>, sortBy: ISortBy): Array<IArtwor
   }
 };
 
+const SortDirectionArrow: React.FC<{ headerColumn: keyof IArtwork, sortBy?: ISortBy }> = ({ headerColumn, sortBy }) => {
+  if (!sortBy) return <React.Fragment />;
+  const { column, direction } = sortBy;
+  return (
+    <React.Fragment>
+      {column === headerColumn
+        && (direction === 'asc' && <span>&#x2191;</span>
+          || direction === 'desc' && <span>&#x2193;</span>)
+      }
+    </React.Fragment>
+  );
+};
 
 const ArtworkInventory: React.FC = () => {
   const { isLoggedIn } = useContext(AuthenticationContext);
@@ -145,9 +157,11 @@ const ArtworkInventory: React.FC = () => {
 
   const ids = useMemo(() => {
     const params = new URLSearchParams();
-    filteredArtworks.forEach((a) => params.append('ids[]', a._id ?? ''));
+    filteredArtworks.forEach((a) => params.append('ids', a._id ?? ''));
     return params.toString();
-  }, [filteredArtworks])
+  }, [filteredArtworks]);
+
+  const inventoryLink = useMemo(() => `/inventory?${ids}`, [ids]);
 
   const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -201,7 +215,7 @@ const ArtworkInventory: React.FC = () => {
     <Container className={textColor + ' mt-4'}>
       <div className="d-flex justify-content-between align-items-center mb-4">
         <h2>Artwork Inventory</h2>
-        <Link to={`/inventory?${ids}`} target={"_blank"}>
+        <Link to={inventoryLink} target={"_blank"}>
           Create Inventory
         </Link>
       </div>
@@ -318,9 +332,7 @@ const ArtworkInventory: React.FC = () => {
                     }
                   }))}>
                   Title
-                  {filters.sortBy?.column === 'title'
-                    && (filters.sortBy?.direction === 'asc' && <span>&#x2191;</span>
-                      || filters.sortBy?.direction === 'desc' && <span>&#x2193;</span>)}
+                  <SortDirectionArrow headerColumn={'title'} sortBy={filters?.sortBy} />
                 </Button>
               </th>
               <th>
@@ -333,9 +345,7 @@ const ArtworkInventory: React.FC = () => {
                     }
                   }))}>
                   Year
-                  {filters.sortBy?.column === 'year'
-                    && (filters.sortBy?.direction === 'asc' && <span>&#x2191;</span>
-                      || filters.sortBy?.direction === 'desc' && <span>&#x2193;</span>)}
+                  <SortDirectionArrow headerColumn={'year'} sortBy={filters?.sortBy} />
                 </Button>
               </th>
               <th>Dimensions</th>
@@ -350,9 +360,7 @@ const ArtworkInventory: React.FC = () => {
                     }
                   }))}>
                   Price
-                  {filters.sortBy?.column === 'price'
-                    && (filters.sortBy?.direction === 'asc' && <span>&#x2191;</span>
-                      || filters.sortBy?.direction === 'desc' && <span>&#x2193;</span>)}
+                  <SortDirectionArrow headerColumn={'price'} sortBy={filters?.sortBy} />
                 </Button>
               </th>
               <th>Status</th>

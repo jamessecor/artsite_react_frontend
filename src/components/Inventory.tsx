@@ -1,14 +1,14 @@
 import { Button, Stack, Table } from 'react-bootstrap';
 import { IArtwork } from '../models/Artwork';
 import './Inventory.css';
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 
 const Inventory: React.FC = () => {
     const [searchParams, setSearchParams] = useSearchParams();
-    const ids = searchParams.getAll('ids[]');
+    const ids = searchParams.getAll('ids');
 
     const { data: artworks = [], isLoading, error } = useQuery<Array<IArtwork>>({
         queryKey: ['artworks', 'inventory'],
@@ -18,7 +18,13 @@ const Inventory: React.FC = () => {
         }
     });
 
-    const filteredArtworks = useMemo(() => artworks.filter((artwork) => ids.find((id) => id === artwork._id)), [artworks]);
+    const filteredArtworks = useMemo(() => ids.map((id) => {
+        const a = artworks.find((artwork) => artwork._id === id);
+        if (a) {
+            return a;
+        }
+    }).filter((a) => a), [artworks]);
+
     return (
         <Stack
             direction={'vertical'}
