@@ -19,6 +19,7 @@ import { AuthenticationContext } from './providers/AuthenticationProvider';
 import ArtworkForm from './ArtworkForm';
 import { BackgroundColorContext, isTooLightForDarkTheme } from './providers/BackgroundColorProvider';
 import { Link } from 'react-router-dom';
+import ImageModal from './ImageModal';
 
 interface ISortBy {
   column: keyof IArtwork;
@@ -213,6 +214,7 @@ const ArtworkInventory: React.FC = () => {
 
   return (
     <Container className={textColor + ' mt-4'}>
+      <ImageModal selectedArtwork={selectedArtwork} setSelectedArtwork={setSelectedArtwork} />
       <div className="d-flex justify-content-between align-items-center mb-4">
         <h2>Artwork Inventory</h2>
         <Link to={inventoryLink} target={"_blank"}>
@@ -375,7 +377,12 @@ const ArtworkInventory: React.FC = () => {
                 <tr key={artwork._id}>
                   <td>
                     <Stack direction={'horizontal'} gap={1}>
-                      <img src={getImageSrc(artwork.images)} alt="" style={{ width: '50px', maxHeight: '50px', objectFit: 'contain' }} />
+                      <Button
+                        onClick={() => setSelectedArtwork(artwork)}
+                        variant={'link'}
+                      >
+                        <img src={getImageSrc(artwork.images)} alt="" style={{ width: '50px', maxHeight: '50px', objectFit: 'contain' }} />
+                      </Button>
                       <Button
                         variant={'outline-secondary'}
                         size={'sm'}
