@@ -15,6 +15,13 @@ export const soloShows: Array<ICVItem> = [
         dates: 'September 2026'
     },
     {
+        name: 'Human Pictures',
+        location: 'Skinny Pancake',
+        url: 'https://skinnypancake.com/locations/montpelier/',
+        address: '89 Main St, Montpelier, VT 05602',
+        dates: 'April 2026 - ongoing!'
+    },
+    {
         name: 'Chocolate Sprinkle Carrot Cake',
         location: 'ARTE at 159 North Main',
         url: 'https://studioplacearts.com',
