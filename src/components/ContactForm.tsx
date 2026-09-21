@@ -4,28 +4,37 @@ import { Container, Button, Row, Col, Toast, Spinner } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 import { useNavigate } from "react-router-dom";
 import { BackgroundColorContext, textColor } from "./providers/BackgroundColorProvider";
+import './ContactForm.css';
 
 const ContactForm = () => {
     const { color } = useContext(BackgroundColorContext);
     const [firstname, setFirstname] = useState('');
     const [lastname, setLastname] = useState('');
     const [email, setEmail] = useState('');
+    const [hometown, setHometown] = useState('');
     const [message, setMessage] = useState('');
+    const [disableForm, setDisableForm] = useState(false);
     const formRef = useRef<HTMLFormElement>(null);
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [isSuccessful, setIsSuccessful] = useState(false);
     const navigateTo = useNavigate();
 
-    const handleChange = (e) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         if (e.target.id === "firstname") setFirstname(e.target.value);
         if (e.target.id === "lastname") setLastname(e.target.value);
         if (e.target.id === "email") setEmail(e.target.value);
         if (e.target.id === "message") setMessage(e.target.value);
+        if (e.target.id === "hometown") setHometown(e.target.value);
     };
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e: React.ChangeEvent<HTMLFormElement>) => {
         e.preventDefault();
         setIsSubmitted(true);
+
+        if (disableForm) {
+            setIsSuccessful(true);
+            return;
+        }
 
         const emailResponse = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/email`, {
             method: 'POST',
@@ -69,7 +78,7 @@ const ContactForm = () => {
                                 </Toast>
                             )
                             : (
-                                <Form ref={formRef} noValidate validated={isSubmitted} className={'bg-dark rounded p-5 col-lg-6 offset-lg-3'} onSubmit={handleSubmit}>
+                                <Form ref={formRef} validated={isSubmitted} className={'bg-dark rounded p-5 col-lg-6 offset-lg-3'} onSubmit={handleSubmit}>
                                     <h5 className="pb-4 d-flex justify-content-center">join email list / leave a message</h5>
                                     <Form.Group className="mb-3" controlId="firstname">
                                         <Form.Label>First Name</Form.Label>
@@ -82,6 +91,13 @@ const ContactForm = () => {
                                     <Form.Group className="mb-3" controlId="email">
                                         <Form.Label>Email</Form.Label>
                                         <Form.Control disabled={isSubmitted} required name='email' type="email" value={email} onChange={handleChange} />
+                                    </Form.Group>
+                                    <Form.Group className="hometown mb-3" controlId="hometown">
+                                        <Form.Label>Hometown</Form.Label>
+                                        <Form.Control disabled={isSubmitted} name='hometown' type="text" className='hometown' value={hometown} onChange={(e) => {
+                                            handleChange(e);
+                                            setDisableForm(true);
+                                        }} />
                                     </Form.Group>
                                     <Form.Group className="mb-3" controlId="message">
                                         <Form.Label>Message</Form.Label>
