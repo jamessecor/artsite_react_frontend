@@ -94,10 +94,17 @@ const ContactForm = () => {
                                     </Form.Group>
                                     <Form.Group className="hometown mb-3" controlId="hometown">
                                         <Form.Label>Hometown</Form.Label>
-                                        <Form.Control disabled={isSubmitted} name='hometown' type="text" className='hometown' value={hometown} onChange={(e) => {
-                                            handleChange(e);
-                                            setDisableForm(true);
-                                        }} />
+                                        <Form.Control tabIndex={-1}
+                                            autoComplete="off"
+                                            disabled={isSubmitted}
+                                            name='hometown'
+                                            type="text"
+                                            className='hometown'
+                                            value={hometown}
+                                            onChange={(e) => {
+                                                handleChange(e);
+                                                setDisableForm(true);
+                                            }} />
                                     </Form.Group>
                                     <Form.Group className="mb-3" controlId="message">
                                         <Form.Label>Message</Form.Label>
