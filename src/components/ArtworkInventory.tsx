@@ -20,6 +20,9 @@ import ArtworkForm from './ArtworkForm';
 import { BackgroundColorContext, isTooLightForDarkTheme } from './providers/BackgroundColorProvider';
 import { Link } from 'react-router-dom';
 import ImageModal from './ImageModal';
+import BulkEditArtworksForm from './BulkEditArtworksForm';
+import { set } from 'react-hook-form';
+import { BiEdit } from 'react-icons/bi';
 
 interface ISortBy {
   column: keyof IArtwork;
@@ -81,6 +84,9 @@ const ArtworkInventory: React.FC = () => {
 
   const [showArtworkForm, setShowArtworkForm] = useState(false);
   const [selectedArtwork, setSelectedArtwork] = useState<IArtwork | null>(null);
+
+  const [bulkEditing, setBulkEditing] = useState(false);
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
 
   const [filters, setFilters] = useState<IFilters>({
     search: '',
@@ -215,6 +221,24 @@ const ArtworkInventory: React.FC = () => {
   return (
     <Container className={textColor + ' mt-4'}>
       <ImageModal selectedArtwork={selectedArtwork} setSelectedArtwork={setSelectedArtwork} />
+      <Modal
+        show={bulkEditing}
+        onHide={() => setBulkEditing(false)}
+      >
+        <Modal.Header closeButton >
+          {'Bulk Edit'}
+        </Modal.Header>
+        <Modal.Body>
+          <BulkEditArtworksForm
+            ids={Array.from(selectedIds)}
+            onSuccess={() => {
+              setSelectedIds(new Set());
+              setBulkEditing(false);
+            }}
+            onClose={() => setBulkEditing(false)}
+          />
+        </Modal.Body>
+      </Modal>
       <div className="d-flex justify-content-between align-items-center mb-4">
         <h2>Artwork Inventory</h2>
         <Link to={inventoryLink} target={"_blank"}>
@@ -326,6 +350,12 @@ const ArtworkInventory: React.FC = () => {
             <tr>
               <th>
                 <Button
+                  onClick={() => setBulkEditing(true)}>
+                  <BiEdit />
+                </Button>
+              </th>
+              <th>
+                <Button
                   onClick={() => setFilters((prev) => ({
                     ...prev,
                     sortBy: {
@@ -375,6 +405,25 @@ const ArtworkInventory: React.FC = () => {
             {filteredArtworks.length > 0 ? (
               filteredArtworks.map(artwork => (
                 <tr key={artwork._id}>
+                  <td>
+                    <Form.Check // prettier-ignore
+                      type={'checkbox'}
+                      id={artwork._id}
+                      checked={selectedIds.has(artwork._id ?? '')}
+                      onChange={(e) => {
+                        const id = artwork._id ?? '';
+                        setSelectedIds((prev) => {
+                          const next = new Set(prev);
+                          if (e.target.checked) {
+                            next.add(id);
+                          } else {
+                            next.delete(id);
+                          }
+                          return next;
+                        });
+                      }}
+                    />
+                  </td>
                   <td>
                     <Stack direction={'horizontal'} gap={1}>
                       <Button
