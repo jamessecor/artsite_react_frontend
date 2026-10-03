@@ -22,7 +22,6 @@ import { Link } from 'react-router-dom';
 import ImageModal from './ImageModal';
 import BulkEditArtworksForm from './BulkEditArtworksForm';
 import { set } from 'react-hook-form';
-import { BiEdit } from 'react-icons/bi';
 
 interface ISortBy {
   column: keyof IArtwork;
@@ -176,6 +175,7 @@ const ArtworkInventory: React.FC = () => {
       ...prev,
       [name]: value
     }));
+    setSelectedIds(new Set());
   };
 
   const handleEditClick = (artwork: IArtwork) => {
@@ -191,6 +191,17 @@ const ArtworkInventory: React.FC = () => {
   };
 
   const textColor = useMemo(() => isTooLightForDarkTheme(color.r, color.g, color.b) ? 'dark-text' : 'light-text', [color]);
+
+  const allFilteredSelected = filteredArtworks.length > 0 &&
+    filteredArtworks.every((a) => selectedIds.has(a._id ?? ''));
+
+  const toggleSelectAll = () => {
+    if (allFilteredSelected) {
+      setSelectedIds(new Set());
+    } else {
+      setSelectedIds(new Set(filteredArtworks.map((a) => a._id ?? '')));
+    }
+  };
 
   if (!isLoggedIn) {
     return (
@@ -241,9 +252,18 @@ const ArtworkInventory: React.FC = () => {
       </Modal>
       <div className="d-flex justify-content-between align-items-center mb-4">
         <h2>Artwork Inventory</h2>
-        <Link to={inventoryLink} target={"_blank"}>
-          Create Inventory
-        </Link>
+        <Stack direction={'horizontal'} gap={3}>
+          <Button
+            size="sm"
+            disabled={selectedIds.size === 0}
+            onClick={() => setBulkEditing(true)}
+          >
+            Bulk Edit{selectedIds.size > 0 ? ` (${selectedIds.size})` : ''}
+          </Button>
+          <Link to={inventoryLink} target={"_blank"}>
+            Create Inventory
+          </Link>
+        </Stack>
       </div>
 
       {/* Filters */}
@@ -329,13 +349,16 @@ const ArtworkInventory: React.FC = () => {
           <Button
             variant="outline-secondary"
             size="sm"
-            onClick={() => setFilters({
-              search: '',
-              status: 'all',
-              location: '',
-              buyer: '',
-              grouping: ''
-            })}
+            onClick={() => {
+              setFilters({
+                search: '',
+                status: 'all',
+                location: '',
+                buyer: '',
+                grouping: ''
+              });
+              setSelectedIds(new Set());
+            }}
           >
             Clear Filters
           </Button>
@@ -349,10 +372,13 @@ const ArtworkInventory: React.FC = () => {
           <thead>
             <tr>
               <th>
-                <Button
-                  onClick={() => setBulkEditing(true)}>
-                  <BiEdit />
-                </Button>
+                <Form.Check
+                  type={'checkbox'}
+                  id={'select-all'}
+                  checked={allFilteredSelected}
+                  onChange={toggleSelectAll}
+                  title={allFilteredSelected ? 'Deselect all' : 'Select all'}
+                />
               </th>
               <th>
                 <Button
