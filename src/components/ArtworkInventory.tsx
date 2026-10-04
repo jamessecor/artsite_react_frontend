@@ -58,6 +58,12 @@ const sortArtworks = (artworks: Array<IArtwork>, sortBy: ISortBy): Array<IArtwor
       } else {
         return artworks.sort((a, b) => Number(b.price) - Number(a.price));
       }
+    case 'location':
+      if (direction === 'asc') {
+        return artworks.sort((a, b) => (a.location ?? '').localeCompare(b.location ?? ''));
+      } else {
+        return artworks.sort((a, b) => (b.location ?? '').localeCompare(a.location ?? ''));
+      }
     default:
       return artworks;
   }
@@ -422,7 +428,18 @@ const ArtworkInventory: React.FC = () => {
                 </Button>
               </th>
               <th>Status</th>
-              <th>Location</th>
+              <th><Button
+                onClick={() => setFilters((prev) => ({
+                  ...prev,
+                  sortBy: {
+                    column: 'location',
+                    direction: prev.sortBy?.direction === 'asc' ? 'desc' : 'asc'
+                  }
+                }))}>
+                Location
+                <SortDirectionArrow headerColumn={'location'} sortBy={filters?.sortBy} />
+              </Button>
+              </th>
               <th>Buyer</th>
               <th>Actions</th>
             </tr>
