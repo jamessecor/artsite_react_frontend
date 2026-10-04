@@ -10,11 +10,13 @@ import {
   Spinner,
   Modal,
   Badge,
-  Stack
+  Stack,
+  Tooltip,
+  OverlayTrigger
 } from 'react-bootstrap';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
-import { IArtwork, Groupings, GroupingsLabels, getImageSrc } from '../models/Artwork';
+import { IArtwork, Groupings, GroupingsLabels, getImageSrc, ILocationHistory } from '../models/Artwork';
 import { AuthenticationContext } from './providers/AuthenticationProvider';
 import ArtworkForm from './ArtworkForm';
 import { BackgroundColorContext, isTooLightForDarkTheme } from './providers/BackgroundColorProvider';
@@ -67,6 +69,20 @@ const sortArtworks = (artworks: Array<IArtwork>, sortBy: ISortBy): Array<IArtwor
     default:
       return artworks;
   }
+};
+
+const formatLocationHistory = (history?: ILocationHistory[]) => {
+  if (!history || history.length === 0) return 'No location history';
+
+  return history
+    .slice()
+    .reverse()
+    .map((entry) => {
+      const start = new Date(entry.startDate).toLocaleDateString();
+      const end = entry.endDate ? new Date(entry.endDate).toLocaleDateString() : 'Present';
+      return `${entry.location}: ${start} – ${end}`;
+    })
+    .join('\n');
 };
 
 const SortDirectionArrow: React.FC<{ headerColumn: keyof IArtwork, sortBy?: ISortBy }> = ({ headerColumn, sortBy }) => {
@@ -489,7 +505,18 @@ const ArtworkInventory: React.FC = () => {
                   <td>{artwork.media}</td>
                   <td>${artwork.price}</td>
                   <td>{getStatusBadge(artwork)}</td>
-                  <td>{artwork.location || 'N/A'}</td>
+                  <td>
+                    <OverlayTrigger
+                      placement="top"
+                      overlay={
+                        <Tooltip id={`location-history-${artwork._id}`} style={{ whiteSpace: 'pre-line' }}>
+                          {formatLocationHistory(artwork.locationHistory)}
+                        </Tooltip>
+                      }
+                    >
+                      <span>{artwork.location || 'N/A'}</span>
+                    </OverlayTrigger>
+                  </td>
                   <td>{artwork.buyerName || 'N/A'}</td>
                   <td>
                     <Button

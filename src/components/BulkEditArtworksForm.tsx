@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import axios from 'axios';
 import { useMutation, useQueries, useQueryClient } from '@tanstack/react-query';
 import { Form, Button, Alert, Spinner, Stack } from 'react-bootstrap';
+import { ToastsContext } from './providers/ToastsProvider';
 
 interface BulkEditArtworksFormProps {
     ids: string[];
@@ -30,15 +31,20 @@ export default function BulkEditArtworksForm({ ids, onSuccess, onClose }: BulkEd
     const [height, setHeight] = useState('');
     const [location, setLocation] = useState('');
     const [price, setPrice] = useState('');
+    const { setResponseToasts } = useContext(ToastsContext);
 
     const queryClient = useQueryClient();
 
     const mutation = useMutation({
         mutationFn: bulkEditArtworks,
-        onSuccess: () => {
+        onSuccess: (data) => {
             queryClient.invalidateQueries({
                 queryKey: ['artworks']
             });
+            setResponseToasts(prev => [...prev, {
+                text: data.message,
+                variant: 'success'
+            }]);
             onSuccess?.();
         },
     });

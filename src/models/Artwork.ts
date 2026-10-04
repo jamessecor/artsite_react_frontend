@@ -34,6 +34,13 @@ export interface IImage {
     size: number;
     url: string;
 }
+
+export interface ILocationHistory {
+    startDate: Date;
+    endDate?: Date;
+    location: string;
+}
+
 export interface IArtwork {
     _id?: string;
     title: string;
@@ -58,6 +65,7 @@ export interface IArtwork {
     likes?: Array<ILike>;
     totalLikes?: number;
     location?: string;
+    locationHistory?: Array<ILocationHistory>;
 };
 
 export const ArtworkAttributes = {
