@@ -15,8 +15,14 @@ interface BulkEditPayload {
     width: string | null;
     height: string | null;
     location: string | null;
+    locationStartDate: Date | null;
     price: string | null;
 }
+
+const toNoonUTC = (dateStr: string) => {
+    if (!dateStr) return null;
+    return new Date(`${dateStr}T12:00:00.000Z`);
+};
 
 const bulkEditArtworks = async (payload: BulkEditPayload) => {
     axios.defaults.headers.post['Authorization'] = sessionStorage.getItem('artsite-token');
@@ -30,6 +36,7 @@ export default function BulkEditArtworksForm({ ids, onSuccess, onClose }: BulkEd
     const [width, setWidth] = useState('');
     const [height, setHeight] = useState('');
     const [location, setLocation] = useState('');
+    const [locationStartDate, setLocationStartDate] = useState('');
     const [price, setPrice] = useState('');
     const { setResponseToasts } = useContext(ToastsContext);
 
@@ -57,7 +64,8 @@ export default function BulkEditArtworksForm({ ids, onSuccess, onClose }: BulkEd
             width: width.trim() !== '' ? width : null,
             height: height.trim() !== '' ? height : null,
             location: location.trim() !== '' ? location : null,
-            price: price.trim() !== '' ? price : null,
+            locationStartDate: location.trim() !== '' ? toNoonUTC(locationStartDate) : null,
+            price: price.trim() !== '' ? price : null
         });
     };
 
@@ -110,6 +118,18 @@ export default function BulkEditArtworksForm({ ids, onSuccess, onClose }: BulkEd
                         className="location"
                         value={location}
                         onChange={(e) => setLocation(e.target.value)}
+                        disabled={mutation.isPending}
+                    />
+                </Form.Group>
+
+                <Form.Group className="locationStartDate mb-3" controlId="locationStartDate">
+                    <Form.Label>Location Start Date</Form.Label>
+                    <Form.Control
+                        name="locationStartDate"
+                        type="date"
+                        className="locationStartDate"
+                        value={locationStartDate}
+                        onChange={(e) => setLocationStartDate(e.target.value)}
                         disabled={mutation.isPending}
                     />
                 </Form.Group>
