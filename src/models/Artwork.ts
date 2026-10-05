@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import { IArtworkFormData } from "../components/ArtworkForm";
 
 export type Groupings = string | "nomophobia" | "digital_edits" | "storage" | "mug_dish_glass" | "merica" | "wallabies";
