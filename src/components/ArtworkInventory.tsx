@@ -16,7 +16,7 @@ import {
 } from 'react-bootstrap';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
-import { IArtwork, Groupings, GroupingsLabels, getImageSrc, ILocationHistory } from '../models/Artwork';
+import { IArtwork, Groupings, GroupingsLabels, getImageSrc, ILocationHistory, KnownGroupings } from '../models/Artwork';
 import { AuthenticationContext } from './providers/AuthenticationProvider';
 import ArtworkForm from './ArtworkForm';
 import { BackgroundColorContext, isTooLightForDarkTheme } from './providers/BackgroundColorProvider';
@@ -156,7 +156,7 @@ const ArtworkInventory: React.FC = () => {
       locations: Array.from(locs).sort(),
       buyers: Array.from(buys).sort(),
       groupings: Array.from(groups).sort((a, b) =>
-        (GroupingsLabels[a as Groupings] || '').localeCompare(GroupingsLabels[b as Groupings] || '')
+        (a in GroupingsLabels ? GroupingsLabels[a as KnownGroupings] : '').localeCompare(b in GroupingsLabels ? GroupingsLabels[b as KnownGroupings] : '')
       ),
       years: Array.from(yrs).sort().reverse()
     };
@@ -373,7 +373,7 @@ const ArtworkInventory: React.FC = () => {
                 <option value="">All Groupings</option>
                 {groupings.map(grouping => (
                   <option key={grouping} value={grouping}>
-                    {GroupingsLabels[grouping as Groupings] || grouping}
+                    {grouping in GroupingsLabels ? GroupingsLabels[grouping as KnownGroupings] : grouping}
                   </option>
                 ))}
               </Form.Select>

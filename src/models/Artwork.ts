@@ -1,6 +1,8 @@
 import { IArtworkFormData } from "../components/ArtworkForm";
 
-export type Groupings = string | "nomophobia" | "digital_edits" | "storage" | "mug_dish_glass" | "merica" | "wallabies";
+export type Groupings = string | KnownGroupings;
+
+export type KnownGroupings = "nomophobia" | "digital_edits" | "storage" | "mug_dish_glass" | "merica" | "wallabies";
 
 export type GroupingsToHide = Partial<Groupings>;
 

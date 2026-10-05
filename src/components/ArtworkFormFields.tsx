@@ -61,7 +61,7 @@ const ArtworkFormFields: React.FC<IArtworkFormFieldsProps> = ({ currentAttribute
                             type="text"
                         />
                     </Form.Group>
-                                        <Form.Group className="mb-3" controlId="grouping">
+                    <Form.Group className="mb-3" controlId="grouping">
                         <Form.Label className="text-break">
                             {isLoadingArtworksMetaData
                                 ? 'Tags'
@@ -75,7 +75,7 @@ const ArtworkFormFields: React.FC<IArtworkFormFieldsProps> = ({ currentAttribute
                             value={currentAttributes.grouping}
                             type="text"
                             placeholder="Enter tags separated by commas"
-                            />
+                        />
                     </Form.Group>
                 </div>
 
@@ -135,7 +135,7 @@ const ArtworkFormFields: React.FC<IArtworkFormFieldsProps> = ({ currentAttribute
                             })}
                             value={currentAttributes.arrangement}
                             type="number"
-                            />
+                        />
                     </Form.Group>
                 </div>
             </div>
