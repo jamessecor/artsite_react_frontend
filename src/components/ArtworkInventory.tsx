@@ -36,6 +36,7 @@ interface IFilters {
   location: string;
   buyer: string;
   grouping: string;
+  year: string;
   sortBy?: ISortBy;
 }
 
@@ -114,7 +115,8 @@ const ArtworkInventory: React.FC = () => {
     status: 'all',
     location: '',
     buyer: '',
-    grouping: ''
+    grouping: '',
+    year: ''
   });
 
   // Fetch all artworks
@@ -129,10 +131,11 @@ const ArtworkInventory: React.FC = () => {
   });
 
   // Get unique values for filters
-  const { locations, buyers, groupings } = useMemo(() => {
+  const { locations, buyers, groupings, years } = useMemo(() => {
     const locs = new Set<string>();
     const buys = new Set<string>();
     const groups = new Set<string>();
+    const yrs = new Set<string>();
 
     artworks.forEach(artwork => {
       if (artwork.location) locs.add(artwork.location);
@@ -140,6 +143,7 @@ const ArtworkInventory: React.FC = () => {
       if (artwork.grouping) {
         artwork.grouping.forEach(g => groups.add(g));
       }
+      if (artwork.year) yrs.add(artwork.year)
     });
 
     return {
@@ -147,7 +151,8 @@ const ArtworkInventory: React.FC = () => {
       buyers: Array.from(buys).sort(),
       groupings: Array.from(groups).sort((a, b) =>
         (GroupingsLabels[a as Groupings] || '').localeCompare(GroupingsLabels[b as Groupings] || '')
-      )
+      ),
+      years: Array.from(yrs).sort().reverse()
     };
   }, [artworks]);
 
@@ -177,6 +182,8 @@ const ArtworkInventory: React.FC = () => {
         (!artwork.grouping || !artwork.grouping.includes(filters.grouping as Groupings))) {
         return false;
       }
+
+      if (filters.year && artwork.year !== filters.year) return false;
 
       return true;
     });
@@ -304,7 +311,7 @@ const ArtworkInventory: React.FC = () => {
               />
             </Form.Group>
           </Col>
-          <Col md={2} className="mb-3">
+          <Col md={1} className="mb-3">
             <Form.Group>
               <Form.Label>Status</Form.Label>
               <Form.Select
@@ -366,6 +373,21 @@ const ArtworkInventory: React.FC = () => {
               </Form.Select>
             </Form.Group>
           </Col>
+          <Col md={2} className="mb-3">
+            <Form.Group>
+              <Form.Label>year</Form.Label>
+              <Form.Select
+                name="year"
+                value={filters.year}
+                onChange={handleFilterChange}
+              >
+                <option value="">All years</option>
+                {years.map(year => (
+                  <option key={year} value={year}>{year}</option>
+                ))}
+              </Form.Select>
+            </Form.Group>
+          </Col>
         </Row>
         <Stack direction={'horizontal'} gap={2} className={'align-items-center'}>
           <Button
@@ -377,7 +399,8 @@ const ArtworkInventory: React.FC = () => {
                 status: 'all',
                 location: '',
                 buyer: '',
-                grouping: ''
+                grouping: '',
+                year: ''
               });
               setSelectedIds(new Set());
             }}
