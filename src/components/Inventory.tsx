@@ -18,12 +18,13 @@ const Inventory: React.FC = () => {
         }
     });
 
-    const filteredArtworks = useMemo(() => ids.map((id) => {
+    const filteredArtworks: IArtwork[] = useMemo(() => ids.map((id) => {
         const a = artworks.find((artwork) => artwork._id === id);
         if (a) {
             return a;
         }
-    }).filter((a) => a), [artworks]);
+        return null;
+    }).filter((a) => a !== null), [artworks]);
 
     return (
         <Stack

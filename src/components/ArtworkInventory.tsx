@@ -55,6 +55,12 @@ const sortArtworks = (artworks: Array<IArtwork>, sortBy: ISortBy): Array<IArtwor
       } else {
         return artworks.sort((a, b) => Number(b.year) - Number(a.year));
       }
+    case 'arrangement':
+      if (direction === 'asc') {
+        return artworks.sort((a, b) => Number(a.arrangement) - Number(b.arrangement));
+      } else {
+        return artworks.sort((a, b) => Number(b.arrangement) - Number(a.arrangement));
+      }
     case 'price':
       if (direction === 'asc') {
         return artworks.sort((a, b) => Number(a.price) - Number(b.price));
@@ -451,6 +457,19 @@ const ArtworkInventory: React.FC = () => {
                   <SortDirectionArrow headerColumn={'year'} sortBy={filters?.sortBy} />
                 </Button>
               </th>
+              <th>
+                <Button
+                  onClick={() => setFilters((prev) => ({
+                    ...prev,
+                    sortBy: {
+                      column: 'arrangement',
+                      direction: prev.sortBy?.direction === 'asc' ? 'desc' : 'asc'
+                    }
+                  }))}>
+                  Arr
+                  <SortDirectionArrow headerColumn={'arrangement'} sortBy={filters?.sortBy} />
+                </Button>
+              </th>
               <th>Dimensions</th>
               <th>Media</th>
               <th>
@@ -524,6 +543,7 @@ const ArtworkInventory: React.FC = () => {
                     </Stack>
                   </td>
                   <td>{artwork.year}</td>
+                  <td>{artwork.arrangement}</td>
                   <td>{artwork.width} x {artwork.height}</td>
                   <td>{artwork.media}</td>
                   <td>${artwork.price}</td>
