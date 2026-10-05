@@ -46,7 +46,7 @@ const Inventory: React.FC = () => {
                 <tbody>
                     {filteredArtworks.map((artwork) => (
                         <tr>
-                            <td><img src={artwork.images[0].url} alt="" style={{ width: '50px', maxHeight: '50px', objectFit: 'contain' }} /></td>
+                            <td><img src={artwork.images[0]?.url} alt="" style={{ width: '50px', maxHeight: '50px', objectFit: 'contain' }} /></td>
                             <td>{artwork.title}</td>
                             <td>{artwork.year}</td>
                             <td>{artwork.media}</td>
