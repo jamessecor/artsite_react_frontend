@@ -99,3 +99,8 @@ export const getImageSrc = (images: Array<IImage>) => {
     }
     return images.sort((a, b) => Number(a.size) - Number(b.size))[1].url;
 }
+
+export const getCaptionText = (artwork: IArtwork): string => {
+    const measurements = artwork.width && artwork.height ? `, ${artwork.width}"x${artwork.height}"` : '';
+    return `${artwork.title}, ${artwork.year}${measurements}`;
+}
