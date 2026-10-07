@@ -4,11 +4,18 @@ import './MovingColorImage.css';
 import { AlphaPicker } from 'react-color';
 import { SettingsContext } from './providers/SettingsProvider';
 
-const MovingColorImage = ({ src, title, isFullHeightAndWidth = false, startsWithRotating = false }) => {
+interface IMovingColorImage {
+    src?: string;
+    title: string;
+    isFullHeightAndWidth?: boolean;
+    startsWithRotating?: boolean;
+    showSlider?: boolean;
+}
+const MovingColorImage: React.FC<IMovingColorImage> = ({ src, title, isFullHeightAndWidth = false, startsWithRotating = false, showSlider = false }) => {
     const { isRotating } = useContext(SettingsContext);
     const widthOrHeightClass = isFullHeightAndWidth ? 'vh-100 w-100' : 'w-100';
 
-    const [isShowingSlider, setIsShowingSlider] = useState(false);
+    const [isShowingSlider, setIsShowingSlider] = useState(showSlider);
     const [hueRotateAmount, setHueRotateAmount] = useState(0.0);
 
     return (
