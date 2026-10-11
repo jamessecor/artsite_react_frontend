@@ -2,16 +2,15 @@ import * as React from 'react';
 import { useContext, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import Artwork from "./Artwork";
-import { getCaptionText, getImageSrc, Groupings, IArtwork } from "../models/Artwork";
-import { Badge, Button, Carousel, Col, Container, Modal, Row, Spinner, Stack, Toast, ToastContainer } from 'react-bootstrap';
+import { Groupings, IArtwork } from "../models/Artwork";
+import { Badge, Button, Col, Container, Row, Spinner, Stack, Toast } from 'react-bootstrap';
 import useArtworks from '../hooks/useArtworks';
 import { useNavigate } from "react-router-dom";
 import { AuthenticationContext } from './providers/AuthenticationProvider';
 import ArtworkForm from './ArtworkForm';
 import { SettingsContext } from './providers/SettingsProvider';
 import { Variant } from 'react-bootstrap/esm/types';
-import MovingColorImage from './MovingColorImage';
-import PriceFormatter from './PriceFormatter';
+import ArtworksCarousel from './ArtworksCarousel';
 
 interface IArtworkProps {
     current?: boolean;
@@ -37,7 +36,6 @@ const Artworks = ({ current = false }: IArtworkProps) => {
     });
     const [showArtworkForm, setShowArtworkForm] = useState(false);
     const [selectedArtwork, setSelectedArtwork] = useState<IArtwork | null>(null);
-    const [showArtworkModal, setShowArtworkModal] = useState(false);
 
     const navigateTo = useNavigate();
 
@@ -53,39 +51,16 @@ const Artworks = ({ current = false }: IArtworkProps) => {
                     setSelectedArtwork(null);
                 }}
             />
-            {artworks && selectedArtwork
-                ? (
-                    <Modal
-                        show={showArtworkModal}
-                        onHide={() => {
-                            setShowArtworkModal(false);
-                            setSelectedArtwork(null);
-                        }}>
-                        <Modal.Header closeButton>
-                            Artwork Detail
-                        </Modal.Header>
-                        <Modal.Body>
-                            <Carousel
-                                activeIndex={artworks.findIndex((a) => a._id === selectedArtwork._id)}
-                                fade
-                                variant={'dark'}
-                                onSelect={(selectedIndex) => {
-                                    setSelectedArtwork(artworks[selectedIndex]);
-                                }}
-                            >
-                                {artworks.map((artwork) => (
-                                    <Carousel.Item key={artwork._id}>
-                                        <MovingColorImage showSlider src={getImageSrc(selectedArtwork.images)} title={'here'} />
-                                    </Carousel.Item>
-                                ))}
-                            </Carousel>
-                        </Modal.Body>
-                        <Modal.Footer>
-                            {getCaptionText(selectedArtwork)},
-                            <PriceFormatter price={selectedArtwork.price} isSold={Boolean(selectedArtwork.saleDate ?? selectedArtwork.isNFS)} />
-                        </Modal.Footer>
-                    </Modal>
-                ) : null}
+            <ArtworksCarousel
+                selectedArtwork={selectedArtwork}
+                show={Boolean(selectedArtwork) && !showArtworkForm}
+                onHide={() => setSelectedArtwork(null)}
+                onSelect={artworks
+                    ? (selectedIndex) => {
+                        setSelectedArtwork(artworks[selectedIndex]);
+                    }
+                    : undefined}
+            />
             {isLoggedIn
                 ? (
                     <Button onClick={() => {
@@ -115,10 +90,7 @@ const Artworks = ({ current = false }: IArtworkProps) => {
                                             setSelectedArtwork(artwork);
                                             setShowArtworkForm(true);
                                         }} />
-                                        : <Artwork attributes={artwork} onClick={() => {
-                                            setSelectedArtwork(artwork);
-                                            setShowArtworkModal(true);
-                                        }} />
+                                        : <Artwork attributes={artwork} onClick={() => setSelectedArtwork(artwork)} />
                                     }
                                 </Col>
                             )))

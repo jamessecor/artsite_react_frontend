@@ -22,7 +22,7 @@ export const BackgroundColorContext = createContext({
 export const isTooLightForDarkTheme = (r: number, g: number, b: number) => (r + g + b) > 450;
 export const textColor = (r: number, g: number, b: number) => isTooLightForDarkTheme(r, g, b) ? 'dark-text' : 'light-text';
 
-const BackgroundColorProvider = ({ children }) => {
+const BackgroundColorProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [color, setColor] = useState<RGBColor>(initialColor);
 
     return (
