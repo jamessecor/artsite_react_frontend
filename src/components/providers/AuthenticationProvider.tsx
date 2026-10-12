@@ -10,10 +10,10 @@ interface IAuthentication {
 
 export const AuthenticationContext = createContext({
     isLoggedIn: false,
-    setIsLoggedIn: () => {}
+    setIsLoggedIn: () => { }
 } as IAuthentication);
 
-const AuthenticationProvider = ({ children }) => {
+const AuthenticationProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [isLoggedIn, setIsLoggedIn] = useState(Boolean(sessionStorage.getItem('artsite-token')));
 
     const logout = () => {

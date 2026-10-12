@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { createContext, useState } from 'react';
+import useScreenSize from '../../hooks/useScreenSize';
 
 interface ISettings {
     isShowingInfo: boolean;
@@ -19,8 +20,9 @@ export const SettingsContext = createContext({
     setIsRotating: () => { }
 } as ISettings);
 
-const SettingsProvider = ({ children }) => {
-    const [isShowingInfo, setIsShowingInfo] = useState(true);
+const SettingsProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+    const { isMobile } = useScreenSize();
+    const [isShowingInfo, setIsShowingInfo] = useState(isMobile);
     const [isShowingSold, setIsShowingSold] = useState(true);
     const [isRotating, setIsRotating] = useState(false);
 

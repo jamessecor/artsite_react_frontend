@@ -3,13 +3,14 @@ import { useContext, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import Artwork from "./Artwork";
 import { Groupings, IArtwork } from "../models/Artwork";
-import { Badge, Button, Col, Container, Row, Spinner, Stack, Toast, ToastContainer } from 'react-bootstrap';
+import { Badge, Button, Col, Container, Row, Spinner, Stack, Toast } from 'react-bootstrap';
 import useArtworks from '../hooks/useArtworks';
 import { useNavigate } from "react-router-dom";
 import { AuthenticationContext } from './providers/AuthenticationProvider';
 import ArtworkForm from './ArtworkForm';
 import { SettingsContext } from './providers/SettingsProvider';
 import { Variant } from 'react-bootstrap/esm/types';
+import ArtworksCarousel from './ArtworksCarousel';
 
 interface IArtworkProps {
     current?: boolean;
@@ -50,6 +51,16 @@ const Artworks = ({ current = false }: IArtworkProps) => {
                     setSelectedArtwork(null);
                 }}
             />
+            <ArtworksCarousel
+                selectedArtwork={selectedArtwork}
+                show={Boolean(selectedArtwork) && !showArtworkForm}
+                onHide={() => setSelectedArtwork(null)}
+                onSelect={artworks
+                    ? (selectedIndex) => {
+                        setSelectedArtwork(artworks[selectedIndex]);
+                    }
+                    : undefined}
+            />
             {isLoggedIn
                 ? (
                     <Button onClick={() => {
@@ -79,7 +90,7 @@ const Artworks = ({ current = false }: IArtworkProps) => {
                                             setSelectedArtwork(artwork);
                                             setShowArtworkForm(true);
                                         }} />
-                                        : <Artwork attributes={artwork} />
+                                        : <Artwork attributes={artwork} onClick={() => setSelectedArtwork(artwork)} />
                                     }
                                 </Col>
                             )))
