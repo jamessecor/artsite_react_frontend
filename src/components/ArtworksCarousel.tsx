@@ -28,6 +28,7 @@ const ArtworksCarousel: React.FC<IArtworksCarousel> = ({ selectedArtwork, show, 
             {artworks && selectedArtwork
                 ? (
                     <Modal
+                        fullscreen={'md-down'}
                         show={show}
                         onHide={onHide}
                     >
@@ -36,8 +37,7 @@ const ArtworksCarousel: React.FC<IArtworksCarousel> = ({ selectedArtwork, show, 
                         </Modal.Header>
                         <Modal.Body
                             style={{
-                                height: '78vh',
-                                overflow: "hidden",
+                                minHeight: '78vh',
                                 alignContent: 'center'
                             }}
                         >
